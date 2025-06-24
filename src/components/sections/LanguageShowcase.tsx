@@ -54,8 +54,7 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
           <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
             {t.languagesSectionTitle}
           </h2>
-          <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
-               style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+          <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black shadow-2xl">
             <p className="text-lg text-gray-900 font-bold">
               {t.languagesSectionSubtitle}
             </p>
@@ -68,8 +67,8 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
               key={language.code}
               className={`relative p-9 cursor-pointer transform transition-all duration-500 border-4 border-black shadow-xl ${
                 activeLanguage === index 
-                  ? 'scale-110 rotate-3 shadow-2xl' 
-                  : 'hover:scale-105 hover:-rotate-1 hover:shadow-2xl'
+                  ? 'scale-110 shadow-2xl' 
+                  : 'hover:scale-105 hover:shadow-2xl'
               } ${language.bgColor} backdrop-blur-md`}
               style={{ 
                 clipPath: activeLanguage === index 

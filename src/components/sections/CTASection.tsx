@@ -18,8 +18,7 @@ function CTASection({ t }: CTASectionProps) {
         <h2 className="text-3xl md:text-5xl font-black text-white mb-9 tracking-tight">
           {t.ctaTitle}
         </h2>
-        <div className="bg-white/25 backdrop-blur-md p-7 max-w-4xl mx-auto mb-10 border-4 border-black transform rotate-1 shadow-2xl"
-             style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+        <div className="bg-white/25 backdrop-blur-md p-7 max-w-4xl mx-auto mb-10 border-4 border-black shadow-2xl">
           <p className="text-lg text-white font-bold">
             {t.ctaDescription}
           </p>

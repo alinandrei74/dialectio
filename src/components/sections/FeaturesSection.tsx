@@ -49,22 +49,19 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
           <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
             {t.methodTitle}
           </h2>
-          <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
-               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+          <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black shadow-2xl">
             <p className="text-lg text-gray-900 font-bold">
               {t.methodSubtitle}
             </p>
           </div>
         </div>
 
-        {/* Características en disposición horizontal responsive */}
+        {/* Características en disposición horizontal responsive - sin rotación */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {features.map((feature, index) => (
-            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black hover:scale-105`}
                  style={{ 
-                   clipPath: index % 2 === 0 
-                     ? 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)'
-                     : 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)'
+                   clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)'
                  }}>
               <div className="text-center">
                 <div className={`bg-gradient-to-r ${feature.color} p-4 border-3 border-black transform rotate-45 shadow-xl mx-auto mb-5 w-16 h-16 flex items-center justify-center`}>

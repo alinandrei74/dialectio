@@ -39,8 +39,7 @@ function HeroSection({ t }: HeroSectionProps) {
               {t.heroSubtitle}
             </span>
           </h1>
-          <div className="bg-white/95 backdrop-blur-md p-9 max-w-5xl mx-auto mb-10 border-4 border-black transform rotate-1 shadow-2xl"
-               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
+          <div className="bg-white/95 backdrop-blur-md p-9 max-w-5xl mx-auto mb-10 border-4 border-black shadow-2xl">
             <p className="text-lg md:text-xl text-gray-900 font-bold leading-relaxed">
               {t.heroDescription}
             </p>
