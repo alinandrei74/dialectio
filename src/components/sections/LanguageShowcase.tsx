@@ -1,5 +1,5 @@
 import React from 'react';
-import { Translation } from '../../translations';
+import { Translation } from '../../types/translations';
 
 interface LanguageShowcaseProps {
   t: Translation;

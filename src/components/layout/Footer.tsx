@@ -1,6 +1,6 @@
 import React from 'react';
 import { Globe, BookOpen, Users, Languages } from 'lucide-react';
-import { Translation } from '../../translations';
+import { Translation } from '../../types/translations';
 
 interface FooterProps {
   t: Translation;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen, Target, Eye, Heart } from 'lucide-react';
-import { Translation } from '../../translations';
+import { Translation } from '../../types/translations';
 
 interface AboutSectionProps {
   t: Translation;

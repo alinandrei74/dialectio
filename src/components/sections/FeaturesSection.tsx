@@ -1,6 +1,6 @@
 import React from 'react';
 import { Zap, Target, Users, Award } from 'lucide-react';
-import { Translation } from '../../translations';
+import { Translation } from '../../types/translations';
 
 interface FeaturesSectionProps {
   t: Translation;

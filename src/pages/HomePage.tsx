@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { translations, Translation } from '../translations';
+import { translations } from '../translations';
+import { Translation } from '../types/translations';
 import Navigation from '../components/layout/Navigation';
 import HeroSection from '../components/sections/HeroSection';
 import LanguageShowcase from '../components/sections/LanguageShowcase';

@@ -1,7 +1,5 @@
 import { Translation } from './types/translations';
 
-export { Translation } from './types/translations';
-
 export const translations: Record<string, Translation> = {
   es: {
     // Navigation

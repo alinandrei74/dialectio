@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, X, Languages } from 'lucide-react';
-import { Translation } from '../../translations';
+import { Translation } from '../../types/translations';
 import LanguageSelector from '../ui/LanguageSelector';
 
 interface NavigationProps {
