@@ -241,11 +241,13 @@ function App() {
         
         {/* Suprematist geometric overlays */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-32 h-4 bg-white transform rotate-45 opacity-30"></div>
-          <div className="absolute top-40 right-20 w-4 h-32 bg-blue-300 transform -rotate-30 opacity-40"></div>
-          <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-white transform rotate-45 opacity-25"></div>
-          <div className="absolute bottom-20 right-1/3 w-8 h-8 bg-blue-200 transform -rotate-45 opacity-35"></div>
-          <div className="absolute top-1/2 left-1/2 w-2 h-48 bg-white transform rotate-12 opacity-20"></div>
+          <div className="absolute top-20 left-10 w-32 h-4 bg-white transform rotate-45 opacity-30 animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-4 h-32 bg-blue-300 transform -rotate-30 opacity-40 animate-pulse delay-1000"></div>
+          <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-white transform rotate-45 opacity-25 animate-pulse delay-500"></div>
+          <div className="absolute bottom-20 right-1/3 w-8 h-8 bg-blue-200 transform -rotate-45 opacity-35 animate-pulse delay-700"></div>
+          <div className="absolute top-1/2 left-1/2 w-2 h-48 bg-white transform rotate-12 opacity-20 animate-pulse delay-300"></div>
+          <div className="absolute top-1/3 right-1/4 w-24 h-2 bg-blue-100 transform rotate-60 opacity-30 animate-pulse delay-900"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-6 h-6 bg-white transform -rotate-30 opacity-40 animate-pulse delay-1200"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
