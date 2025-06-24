@@ -21,7 +21,7 @@ function StatsSection({ t }: StatsSectionProps) {
               80%
             </div>
             <p className="text-lg font-black text-gray-900 mb-2">{t.fasterStat}</p>
-            <p className="text-gray-700 font-bold text-sm leading-relaxed">{t.fasterDescription}</p>
+            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.fasterDescription}</p>
           </div>
           
           <div className="flex-1 max-w-sm bg-gray-100/95 backdrop-blur-md p-8 border-4 border-black transform -rotate-2 shadow-2xl"
@@ -30,7 +30,7 @@ function StatsSection({ t }: StatsSectionProps) {
               4
             </div>
             <p className="text-lg font-black text-gray-900 mb-2">{t.languagesStat}</p>
-            <p className="text-gray-700 font-bold text-sm leading-relaxed">{t.languagesDescription}</p>
+            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.languagesDescription}</p>
           </div>
           
           <div className="flex-1 max-w-sm bg-green-50/95 backdrop-blur-md p-8 border-4 border-black transform rotate-2 shadow-2xl"
@@ -39,7 +39,7 @@ function StatsSection({ t }: StatsSectionProps) {
               10k+
             </div>
             <p className="text-lg font-black text-gray-900 mb-2">{t.studentsStat}</p>
-            <p className="text-gray-700 font-bold text-sm leading-relaxed">{t.studentsDescription}</p>
+            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.studentsDescription}</p>
           </div>
         </div>
       </div>
