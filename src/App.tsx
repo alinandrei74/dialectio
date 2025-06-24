@@ -137,17 +137,17 @@ function App() {
               <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center transform rotate-45 border-3 border-black shadow-xl">
                 <Languages className="w-6 h-6 text-white transform -rotate-45" />
               </div>
-              <span className="text-2xl font-black text-gray-900 transform skew-x-12 tracking-tight">
+              <span className="text-2xl font-black text-gray-900 tracking-tight">
                 dialectio.xyz
               </span>
             </div>
 
             {/* Desktop Navigation with enhanced Language Selector */}
             <div className="hidden md:flex items-center space-x-7">
-              <a href="#idiomas" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base transform hover:skew-x-12 hover:scale-105">{t.languages}</a>
-              <a href="#nosotros" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base transform hover:skew-x-12 hover:scale-105">{t.about}</a>
-              <a href="#metodo" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base transform hover:skew-x-12 hover:scale-105">{t.method}</a>
-              <a href="#comunidad" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base transform hover:skew-x-12 hover:scale-105">{t.community}</a>
+              <a href="#idiomas" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.languages}</a>
+              <a href="#nosotros" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.about}</a>
+              <a href="#metodo" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.method}</a>
+              <a href="#comunidad" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.community}</a>
               
               {/* Enhanced Language Selector */}
               <div className="flex items-center space-x-2 border-l-2 border-blue-300 pl-7">
@@ -169,7 +169,7 @@ function App() {
                 ))}
               </div>
               
-              <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-3 hover:from-blue-700 hover:to-blue-900 transform hover:skew-x-12 transition-all duration-300 font-black text-base border-3 border-black shadow-xl hover:shadow-2xl hover:scale-105"
+              <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-3 hover:from-blue-700 hover:to-blue-900 transition-all duration-300 font-black text-base border-3 border-black shadow-xl hover:shadow-2xl hover:scale-105"
                       style={{ clipPath: 'polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%)' }}>
                 {t.start}
               </button>
@@ -252,9 +252,9 @@ function App() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-9 transform skew-y-3 drop-shadow-2xl tracking-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-9 drop-shadow-2xl tracking-tight">
               {t.heroTitle}
-              <span className="text-blue-200 block transform -skew-y-3 drop-shadow-2xl">
+              <span className="text-blue-200 block drop-shadow-2xl">
                 {t.heroSubtitle}
               </span>
             </h1>
@@ -265,12 +265,12 @@ function App() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-7 justify-center items-center">
-              <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-10 py-5 hover:from-blue-700 hover:to-blue-900 transform hover:skew-x-12 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black shadow-2xl hover:shadow-3xl hover:scale-105"
+              <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-10 py-5 hover:from-blue-700 hover:to-blue-900 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black shadow-2xl hover:shadow-3xl hover:scale-105"
                       style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
                 <span>{t.startJourney}</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="border-4 border-white text-white px-10 py-5 hover:bg-white/30 transition-all duration-300 text-lg font-black bg-white/20 backdrop-blur-md transform hover:skew-x-12 shadow-2xl hover:shadow-3xl hover:scale-105"
+              <button className="border-4 border-white text-white px-10 py-5 hover:bg-white/30 transition-all duration-300 text-lg font-black bg-white/20 backdrop-blur-md shadow-2xl hover:shadow-3xl hover:scale-105"
                       style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%)' }}>
                 {t.viewDemo}
               </button>
@@ -294,7 +294,7 @@ function App() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-18">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 transform skew-x-6 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
               {t.languagesSectionTitle}
             </h2>
             <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
@@ -325,7 +325,7 @@ function App() {
                   <div className={`w-21 h-21 bg-gradient-to-br ${language.color} flex items-center justify-center mb-7 mx-auto border-3 border-black transform rotate-45 shadow-xl`}>
                     <span className="text-white font-black text-xl transform -rotate-45">{language.code}</span>
                   </div>
-                  <h3 className="text-xl font-black text-gray-900 mb-5 text-center transform skew-x-3">{language.name}</h3>
+                  <h3 className="text-xl font-black text-gray-900 mb-5 text-center">{language.name}</h3>
                   <p className="text-gray-800 text-center leading-relaxed font-bold text-sm">
                     {t[language.description as keyof Translation] as string}
                   </p>
@@ -344,7 +344,7 @@ function App() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-18">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 transform -skew-x-3 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
               {t.aboutTitle}
             </h2>
             <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform rotate-1 shadow-2xl"
@@ -384,7 +384,7 @@ function App() {
                     <Heart className="w-9 h-9 text-white transform -rotate-45" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-gray-900 transform skew-x-3">Pasión por las lenguas</h3>
+                    <h3 className="text-xl font-black text-gray-900">Pasión por las lenguas</h3>
                     <p className="text-gray-700 font-bold text-sm">Conectando culturas a través del idioma</p>
                   </div>
                 </div>
@@ -408,7 +408,7 @@ function App() {
               <div className="w-21 h-21 bg-gradient-to-br from-green-700 to-green-900 flex items-center justify-center mx-auto mb-7 border-3 border-black transform rotate-45 shadow-xl">
                 <BookOpen className="w-10 h-10 text-white transform -rotate-45" />
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-5 transform skew-x-3">{t.ourStoryTitle}</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-5">{t.ourStoryTitle}</h3>
               <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourStoryDescription}</p>
             </div>
 
@@ -417,7 +417,7 @@ function App() {
               <div className="w-21 h-21 bg-black flex items-center justify-center mx-auto mb-7 border-3 border-black transform rotate-45 shadow-xl">
                 <Target className="w-10 h-10 text-white transform -rotate-45" />
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-5 transform -skew-x-3">{t.ourMissionTitle}</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-5">{t.ourMissionTitle}</h3>
               <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourMissionDescription}</p>
             </div>
 
@@ -426,7 +426,7 @@ function App() {
               <div className="w-21 h-21 bg-gradient-to-br from-green-800 to-black flex items-center justify-center mx-auto mb-7 border-3 border-black transform rotate-45 shadow-xl">
                 <Eye className="w-10 h-10 text-white transform -rotate-45" />
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-5 transform skew-x-3">{t.ourVisionTitle}</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-5">{t.ourVisionTitle}</h3>
               <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourVisionDescription}</p>
             </div>
           </div>
@@ -441,7 +441,7 @@ function App() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-18">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 transform skew-y-2 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
               {t.methodTitle}
             </h2>
             <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
@@ -465,7 +465,7 @@ function App() {
                     <feature.icon className={`w-9 h-9 text-white transform ${index % 2 === 0 ? '-rotate-45' : 'rotate-45'}`} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-gray-900 mb-5 transform skew-x-3">
+                    <h3 className="text-xl font-black text-gray-900 mb-5">
                       {t[feature.title as keyof Translation] as string}
                     </h3>
                     <p className="text-gray-900 leading-relaxed font-bold text-sm">
@@ -489,7 +489,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-9 text-center">
             <div className="bg-green-50/95 backdrop-blur-md p-9 border-4 border-black transform rotate-2 shadow-2xl"
                  style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}>
-              <div className="text-4xl md:text-6xl font-black text-green-700 mb-5 transform skew-x-12">
+              <div className="text-4xl md:text-6xl font-black text-green-700 mb-5">
                 80%
               </div>
               <p className="text-lg font-black text-gray-900 mb-2">{t.fasterStat}</p>
@@ -497,7 +497,7 @@ function App() {
             </div>
             <div className="bg-gray-100/95 backdrop-blur-md p-9 border-4 border-black transform -rotate-2 shadow-2xl"
                  style={{ clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 8% 100%)' }}>
-              <div className="text-4xl md:text-6xl font-black text-gray-900 mb-5 transform -skew-x-12">
+              <div className="text-4xl md:text-6xl font-black text-gray-900 mb-5">
                 4
               </div>
               <p className="text-lg font-black text-gray-900 mb-2">{t.languagesStat}</p>
@@ -505,7 +505,7 @@ function App() {
             </div>
             <div className="bg-green-50/95 backdrop-blur-md p-9 border-4 border-black transform rotate-2 shadow-2xl"
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <div className="text-4xl md:text-6xl font-black text-green-800 mb-5 transform skew-x-12">
+              <div className="text-4xl md:text-6xl font-black text-green-800 mb-5">
                 10k+
               </div>
               <p className="text-lg font-black text-gray-900 mb-2">{t.studentsStat}</p>
@@ -523,7 +523,7 @@ function App() {
           <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-black/30 transform rotate-45 opacity-30 shadow-xl"></div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-9 transform -skew-y-2 tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-9 tracking-tight">
             {t.ctaTitle}
           </h2>
           <div className="bg-white/25 backdrop-blur-md p-7 max-w-4xl mx-auto mb-10 border-4 border-black transform rotate-1 shadow-2xl"
@@ -533,12 +533,12 @@ function App() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-7 justify-center items-center">
-            <button className="bg-white text-green-800 px-10 py-5 hover:bg-gray-100 transform hover:skew-x-12 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black shadow-2xl hover:shadow-3xl hover:scale-105"
+            <button className="bg-white text-green-800 px-10 py-5 hover:bg-gray-100 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black shadow-2xl hover:shadow-3xl hover:scale-105"
                     style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
               <span>{t.createAccount}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="border-4 border-white text-white px-10 py-5 hover:bg-white hover:text-green-800 transition-all duration-300 text-lg font-black transform hover:skew-x-12 shadow-2xl hover:shadow-3xl hover:scale-105"
+            <button className="border-4 border-white text-white px-10 py-5 hover:bg-white hover:text-green-800 transition-all duration-300 text-lg font-black shadow-2xl hover:shadow-3xl hover:scale-105"
                     style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%)' }}>
               {t.learnMore}
             </button>
@@ -559,7 +559,7 @@ function App() {
                 <div className="w-14 h-14 bg-gradient-to-br from-green-700 to-green-900 flex items-center justify-center transform rotate-45 border-3 border-white shadow-xl">
                   <Languages className="w-7 h-7 text-white transform -rotate-45" />
                 </div>
-                <span className="text-2xl font-black transform skew-x-12">dialectio.xyz</span>
+                <span className="text-2xl font-black">dialectio.xyz</span>
               </div>
               <div className="bg-gray-900/90 backdrop-blur-md p-7 mb-7 border-3 border-gray-700 transform rotate-1 shadow-xl"
                    style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
@@ -581,22 +581,22 @@ function App() {
             </div>
             
             <div>
-              <h3 className="text-lg font-black mb-5 transform skew-x-3">{t.languages}</h3>
+              <h3 className="text-lg font-black mb-5">{t.languages}</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">Español</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">Français</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">Português</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">Italiano</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Español</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Français</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Português</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="text-lg font-black mb-5 transform -skew-x-3">{t.resources}</h3>
+              <h3 className="text-lg font-black mb-5">{t.resources}</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">{t.blog}</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">{t.help}</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">{t.community}</a></li>
-                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold hover:skew-x-12 transform inline-block text-sm">{t.contact}</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a></li>
+                <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a></li>
               </ul>
             </div>
           </div>
