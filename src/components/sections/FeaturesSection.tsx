@@ -51,7 +51,7 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
           </h2>
           <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-            <p className="text-lg text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-lg text-gray-900 font-bold">
               {t.methodSubtitle}
             </p>
           </div>
@@ -73,7 +73,7 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
                 <h3 className="text-lg font-black text-gray-900 mb-4">
                   {t[feature.title as keyof Translation] as string}
                 </h3>
-                <p className="text-gray-900 font-bold text-sm whitespace-nowrap overflow-x-auto">
+                <p className="text-gray-900 leading-relaxed font-bold text-sm">
                   {t[feature.description as keyof Translation] as string}
                 </p>
               </div>

@@ -25,7 +25,7 @@ function Footer({ t }: FooterProps) {
             </div>
             <div className="bg-gray-900/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 transform rotate-1 shadow-xl"
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <p className="text-gray-300 font-bold text-sm whitespace-nowrap overflow-x-auto">
+              <p className="text-gray-300 font-bold text-sm leading-relaxed">
                 {t.footerDescription}
               </p>
             </div>
@@ -46,20 +46,20 @@ function Footer({ t }: FooterProps) {
           <div className="flex flex-col">
             <h3 className="text-lg font-black mb-5">{t.languages}</h3>
             <div className="space-y-3 text-gray-400">
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">Español</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">Français</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">Português</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">Italiano</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Español</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Français</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Português</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a>
             </div>
           </div>
           
           <div className="flex flex-col">
             <h3 className="text-lg font-black mb-5">{t.resources}</h3>
             <div className="space-y-3 text-gray-400">
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.blog}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.help}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.community}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.contact}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@ function Footer({ t }: FooterProps) {
         <div className="border-t-4 border-gray-700 mt-10 pt-9 text-center">
           <div className="bg-gray-900/90 backdrop-blur-md p-5 border-3 border-gray-700 inline-block transform -rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <p className="text-gray-400 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.copyright}</p>
+            <p className="text-gray-400 font-bold text-sm">{t.copyright}</p>
           </div>
         </div>
       </div>

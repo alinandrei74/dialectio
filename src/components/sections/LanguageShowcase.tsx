@@ -56,7 +56,7 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
           </h2>
           <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <p className="text-lg text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-lg text-gray-900 font-bold">
               {t.languagesSectionSubtitle}
             </p>
           </div>
@@ -83,7 +83,7 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
                   <span className="text-white font-black text-xl transform -rotate-45">{language.code}</span>
                 </div>
                 <h3 className="text-xl font-black text-gray-900 mb-5 text-center">{language.name}</h3>
-                <p className="text-gray-800 text-center font-bold text-sm whitespace-nowrap overflow-x-auto">
+                <p className="text-gray-800 text-center leading-relaxed font-bold text-sm">
                   {t[language.description as keyof Translation] as string}
                 </p>
               </div>

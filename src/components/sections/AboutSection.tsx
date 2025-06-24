@@ -20,7 +20,7 @@ function AboutSection({ t }: AboutSectionProps) {
           </h2>
           <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform rotate-1 shadow-2xl"
                style={{ clipPath: 'polygon(0% 0%, 97% 0%, 100% 100%, 3% 100%)' }}>
-            <p className="text-lg text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-lg text-gray-900 font-bold">
               {t.aboutSubtitle}
             </p>
           </div>
@@ -30,19 +30,19 @@ function AboutSection({ t }: AboutSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8 mb-21">
           <div className="bg-white/90 backdrop-blur-md p-6 border-4 border-black transform rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-            <p className="text-sm text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-sm text-gray-900 leading-relaxed font-bold">
               {t.aboutDescription1}
             </p>
           </div>
           <div className="bg-green-50/90 backdrop-blur-md p-6 border-4 border-black transform -rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)' }}>
-            <p className="text-sm text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-sm text-gray-900 leading-relaxed font-bold">
               {t.aboutDescription2}
             </p>
           </div>
           <div className="bg-white/90 backdrop-blur-md p-6 border-4 border-black transform rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <p className="text-sm text-gray-900 font-bold whitespace-nowrap overflow-x-auto">
+            <p className="text-sm text-gray-900 leading-relaxed font-bold">
               {t.aboutDescription3}
             </p>
           </div>
@@ -58,17 +58,17 @@ function AboutSection({ t }: AboutSectionProps) {
               </div>
               <div>
                 <h3 className="text-xl font-black text-gray-900">Pasión por las lenguas</h3>
-                <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">Conectando culturas a través del idioma</p>
+                <p className="text-gray-700 font-bold text-sm">Conectando culturas a través del idioma</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-5">
               <div className="text-center p-5 bg-green-50/90 border-3 border-black transform rotate-1 shadow-lg">
                 <div className="text-2xl font-black text-green-700">500M+</div>
-                <div className="text-xs text-gray-700 font-bold whitespace-nowrap overflow-x-auto">Hablantes conectados</div>
+                <div className="text-xs text-gray-700 font-bold">Hablantes conectados</div>
               </div>
               <div className="text-center p-5 bg-gray-50/90 border-3 border-black transform -rotate-1 shadow-lg">
                 <div className="text-2xl font-black text-gray-900">4</div>
-                <div className="text-xs text-gray-700 font-bold whitespace-nowrap overflow-x-auto">Lenguas hermanas</div>
+                <div className="text-xs text-gray-700 font-bold">Lenguas hermanas</div>
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ function AboutSection({ t }: AboutSectionProps) {
               <BookOpen className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 mb-4">{t.ourStoryTitle}</h3>
-            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.ourStoryDescription}</p>
+            <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourStoryDescription}</p>
           </div>
 
           <div className="bg-green-50/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black transform -rotate-1"
@@ -91,7 +91,7 @@ function AboutSection({ t }: AboutSectionProps) {
               <Target className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 mb-4">{t.ourMissionTitle}</h3>
-            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.ourMissionDescription}</p>
+            <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourMissionDescription}</p>
           </div>
 
           <div className="bg-white/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black transform rotate-1"
@@ -100,7 +100,7 @@ function AboutSection({ t }: AboutSectionProps) {
               <Eye className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 mb-4">{t.ourVisionTitle}</h3>
-            <p className="text-gray-700 font-bold text-sm whitespace-nowrap overflow-x-auto">{t.ourVisionDescription}</p>
+            <p className="text-gray-700 leading-relaxed font-bold text-sm">{t.ourVisionDescription}</p>
           </div>
         </div>
       </div>
