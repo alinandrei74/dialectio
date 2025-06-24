@@ -1,7 +1,6 @@
 import React from 'react';
 import { Globe, BookOpen, Users, Languages } from 'lucide-react';
 import { Translation } from '../../types/translations';
-import '../../styles/components/Footer.css';
 
 interface FooterProps {
   t: Translation;
@@ -9,62 +8,66 @@ interface FooterProps {
 
 function Footer({ t }: FooterProps) {
   return (
-    <footer className="footer">
-      <div className="footer__background">
-        <div className="footer__bg-element-1"></div>
-        <div className="footer__bg-element-2"></div>
+    <footer className="bg-black text-white py-14 relative">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-5 left-1/4 w-8 h-8 bg-gradient-to-br from-green-700 to-green-900 transform rotate-45 opacity-35 shadow-lg"></div>
+        <div className="absolute bottom-5 right-1/4 w-4 h-16 bg-gradient-to-b from-green-800 to-black transform -rotate-30 opacity-35 shadow-md"></div>
       </div>
-      <div className="footer__container">
-        <div className="footer__content">
-          <div className="footer__brand-section">
-            <div className="footer__brand">
-              <div className="footer__logo">
-                <Languages className="footer__logo-icon" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Contenido principal del footer en disposición horizontal */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 xl:gap-10">
+          <div className="lg:col-span-2">
+            <div className="flex items-center space-x-3 mb-7">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-700 to-green-900 flex items-center justify-center transform rotate-45 border-3 border-white shadow-xl">
+                <Languages className="w-7 h-7 text-white transform -rotate-45" />
               </div>
-              <span className="footer__brand-text">dialectio.xyz</span>
+              <span className="text-2xl font-black">dialectio.xyz</span>
             </div>
-            <div className="footer__description-container">
-              <p className="footer__description">
+            <div className="bg-gray-900/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 transform rotate-1 shadow-xl"
+                 style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
+              <p className="text-gray-300 font-bold text-sm leading-relaxed">
                 {t.footerDescription}
               </p>
             </div>
-            <div className="footer__social">
-              <div className="footer__social-icon">
-                <Globe className="footer__social-icon-inner" />
+            <div className="flex space-x-4">
+              <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
+                <Globe className="w-6 h-6" />
               </div>
-              <div className="footer__social-icon">
-                <BookOpen className="footer__social-icon-inner" />
+              <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
+                <BookOpen className="w-6 h-6" />
               </div>
-              <div className="footer__social-icon">
-                <Users className="footer__social-icon-inner" />
+              <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
+                <Users className="w-6 h-6" />
               </div>
             </div>
           </div>
           
-          <div className="footer__links-section">
-            <h3 className="footer__links-title">{t.languages}</h3>
-            <div className="footer__links">
-              <a href="#" className="footer__link">Español</a>
-              <a href="#" className="footer__link">Français</a>
-              <a href="#" className="footer__link">Português</a>
-              <a href="#" className="footer__link">Italiano</a>
+          {/* Enlaces en disposición horizontal */}
+          <div className="flex flex-col">
+            <h3 className="text-lg font-black mb-5">{t.languages}</h3>
+            <div className="space-y-3 text-gray-400">
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Español</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Français</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Português</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a>
             </div>
           </div>
           
-          <div className="footer__links-section">
-            <h3 className="footer__links-title">{t.resources}</h3>
-            <div className="footer__links">
-              <a href="#" className="footer__link">{t.blog}</a>
-              <a href="#" className="footer__link">{t.help}</a>
-              <a href="#" className="footer__link">{t.community}</a>
-              <a href="#" className="footer__link">{t.contact}</a>
+          <div className="flex flex-col">
+            <h3 className="text-lg font-black mb-5">{t.resources}</h3>
+            <div className="space-y-3 text-gray-400">
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
             </div>
           </div>
         </div>
         
-        <div className="footer__bottom">
-          <div className="footer__copyright-container">
-            <p className="footer__copyright">{t.copyright}</p>
+        <div className="border-t-4 border-gray-700 mt-10 pt-9 text-center">
+          <div className="bg-gray-900/90 backdrop-blur-md p-5 border-3 border-gray-700 inline-block transform -rotate-1 shadow-xl"
+               style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+            <p className="text-gray-400 font-bold text-sm">{t.copyright}</p>
           </div>
         </div>
       </div>
