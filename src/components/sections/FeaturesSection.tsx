@@ -57,26 +57,25 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
+        {/* Características en disposición horizontal responsive */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {features.map((feature, index) => (
-            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-9 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
                  style={{ 
                    clipPath: index % 2 === 0 
                      ? 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)'
                      : 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)'
                  }}>
-              <div className="flex items-start space-x-7">
-                <div className={`bg-gradient-to-r ${feature.color} p-4 border-3 border-black transform ${index % 2 === 0 ? 'rotate-45' : '-rotate-45'} shadow-xl`}>
-                  <feature.icon className={`w-9 h-9 text-white transform ${index % 2 === 0 ? '-rotate-45' : 'rotate-45'}`} />
+              <div className="text-center">
+                <div className={`bg-gradient-to-r ${feature.color} p-4 border-3 border-black transform rotate-45 shadow-xl mx-auto mb-5 w-16 h-16 flex items-center justify-center`}>
+                  <feature.icon className="w-8 h-8 text-white transform -rotate-45" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-black text-gray-900 mb-5">
-                    {t[feature.title as keyof Translation] as string}
-                  </h3>
-                  <p className="text-gray-900 leading-relaxed font-bold text-sm">
-                    {t[feature.description as keyof Translation] as string}
-                  </p>
-                </div>
+                <h3 className="text-lg font-black text-gray-900 mb-4">
+                  {t[feature.title as keyof Translation] as string}
+                </h3>
+                <p className="text-gray-900 leading-relaxed font-bold text-sm">
+                  {t[feature.description as keyof Translation] as string}
+                </p>
               </div>
             </div>
           ))}

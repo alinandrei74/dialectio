@@ -14,21 +14,22 @@ function Footer({ t }: FooterProps) {
         <div className="absolute bottom-5 right-1/4 w-4 h-16 bg-gradient-to-b from-green-800 to-black transform -rotate-30 opacity-35 shadow-md"></div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-9">
-          <div className="col-span-1 md:col-span-2">
+        {/* Contenido principal del footer en disposición horizontal */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 xl:gap-10">
+          <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-7">
               <div className="w-14 h-14 bg-gradient-to-br from-green-700 to-green-900 flex items-center justify-center transform rotate-45 border-3 border-white shadow-xl">
                 <Languages className="w-7 h-7 text-white transform -rotate-45" />
               </div>
               <span className="text-2xl font-black">dialectio.xyz</span>
             </div>
-            <div className="bg-gray-900/90 backdrop-blur-md p-7 mb-7 border-3 border-gray-700 transform rotate-1 shadow-xl"
+            <div className="bg-gray-900/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 transform rotate-1 shadow-xl"
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <p className="text-gray-300 font-bold text-sm">
+              <p className="text-gray-300 font-bold text-sm leading-relaxed">
                 {t.footerDescription}
               </p>
             </div>
-            <div className="flex space-x-5">
+            <div className="flex space-x-4">
               <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
                 <Globe className="w-6 h-6" />
               </div>
@@ -41,24 +42,25 @@ function Footer({ t }: FooterProps) {
             </div>
           </div>
           
-          <div>
+          {/* Enlaces en disposición horizontal */}
+          <div className="flex flex-col">
             <h3 className="text-lg font-black mb-5">{t.languages}</h3>
-            <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Español</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Français</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Português</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a></li>
-            </ul>
+            <div className="space-y-3 text-gray-400">
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Español</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Français</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Português</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a>
+            </div>
           </div>
           
-          <div>
+          <div className="flex flex-col">
             <h3 className="text-lg font-black mb-5">{t.resources}</h3>
-            <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a></li>
-              <li><a href="#" className="hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a></li>
-            </ul>
+            <div className="space-y-3 text-gray-400">
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a>
+              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
+            </div>
           </div>
         </div>
         
