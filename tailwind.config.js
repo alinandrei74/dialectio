@@ -13,6 +13,9 @@ export default {
       rotate: {
         '30': '30deg',
         '-30': '-30deg',
+      },
+      borderWidth: {
+        '3': '3px',
       }
     },
   },
