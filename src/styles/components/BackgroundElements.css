@@ -7,7 +7,7 @@
 }
 
 .background-elements__purple-element {
-  @apply absolute top-10 left-1/4 w-32 h-8 bg-gradient-to-r from-purple-600 to-purple-800 transform rotate-12 opacity-25 shadow-xl;
+  @apply absolute top-10 left-1/4 w-32 h-8 bg-gradient-to-r from-purple-600 to-purple-800 transform rotate-30 opacity-25 shadow-xl;
 }
 
 .background-elements__gray-element-1 {
@@ -19,7 +19,7 @@
 }
 
 .background-elements__green-element-1 {
-  @apply absolute bottom-40 left-1/3 w-48 h-8 bg-gradient-to-r from-green-700 to-green-900 transform rotate-12 opacity-30 shadow-xl;
+  @apply absolute bottom-40 left-1/3 w-48 h-8 bg-gradient-to-r from-green-700 to-green-900 transform rotate-15 opacity-30 shadow-xl;
 }
 
 .background-elements__green-element-2 {
@@ -35,7 +35,7 @@
 }
 
 .background-elements__black-element-3 {
-  @apply absolute top-80 right-1/3 w-4 h-32 bg-black transform rotate-[-30deg] opacity-45 shadow-lg;
+  @apply absolute top-80 right-1/3 w-4 h-32 bg-black transform -rotate-30 opacity-45 shadow-lg;
 }
 
 .background-elements__black-element-4 {
