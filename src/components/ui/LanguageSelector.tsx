@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/components/LanguageSelector.css';
 
 interface LanguageSelectorProps {
   currentLang: string;
@@ -17,21 +18,18 @@ function LanguageSelector({ currentLang, setCurrentLang, isMobile }: LanguageSel
 
   if (isMobile) {
     return (
-      <div className="border-t-2 border-blue-300 pt-5">
-        <p className="text-gray-700 font-bold mb-3 text-base">Idioma:</p>
-        <div className="flex flex-wrap gap-2">
+      <div className="language-selector__mobile">
+        <p className="language-selector__mobile-label">Idioma:</p>
+        <div className="language-selector__mobile-buttons">
           {languageOptions.map((lang) => (
             <button
               key={lang.code}
               onClick={() => setCurrentLang(lang.code)}
-              className={`px-3 py-2 transition-all duration-300 font-black border-2 text-xs shadow-md ${
+              className={`language-selector__mobile-button ${
                 currentLang === lang.code
-                  ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white border-black shadow-lg'
-                  : 'hover:bg-blue-200 text-gray-900 border-blue-400 hover:shadow-lg'
+                  ? 'language-selector__mobile-button--active'
+                  : 'language-selector__mobile-button--inactive'
               }`}
-              style={{
-                clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)'
-              }}
             >
               {lang.name}
             </button>
@@ -42,19 +40,16 @@ function LanguageSelector({ currentLang, setCurrentLang, isMobile }: LanguageSel
   }
 
   return (
-    <div className="flex items-center space-x-2 border-l-2 border-blue-300 pl-7">
+    <div className="language-selector__desktop">
       {languageOptions.map((lang) => (
         <button
           key={lang.code}
           onClick={() => setCurrentLang(lang.code)}
-          className={`px-3 py-2 transition-all duration-300 transform font-black border-2 text-xs shadow-lg ${
+          className={`language-selector__desktop-button ${
             currentLang === lang.code
-              ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white border-black scale-110 shadow-xl'
-              : 'hover:bg-blue-200 text-gray-900 border-blue-400 hover:border-black hover:scale-105 hover:shadow-md'
+              ? 'language-selector__desktop-button--active'
+              : 'language-selector__desktop-button--inactive'
           }`}
-          style={{
-            clipPath: 'polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%)'
-          }}
         >
           {lang.name}
         </button>

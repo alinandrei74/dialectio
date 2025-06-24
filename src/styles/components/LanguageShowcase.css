@@ -1,0 +1,107 @@
+.language-showcase {
+  @apply py-21 bg-gray-100/90 backdrop-blur-md relative;
+}
+
+.language-showcase__background {
+  @apply absolute inset-0 overflow-hidden;
+}
+
+.language-showcase__bg-element-1 {
+  @apply absolute top-10 left-1/4 w-32 h-2 bg-gradient-to-r from-gray-600 to-gray-800 transform rotate-45 opacity-35 shadow-lg;
+}
+
+.language-showcase__bg-element-2 {
+  @apply absolute bottom-10 right-1/4 w-2 h-32 bg-black transform -rotate-12 opacity-35 shadow-md;
+}
+
+.language-showcase__container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10;
+}
+
+.language-showcase__header {
+  @apply text-center mb-18;
+}
+
+.language-showcase__title {
+  @apply text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight;
+}
+
+.language-showcase__subtitle-container {
+  @apply bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform -rotate-1 shadow-2xl;
+  clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+}
+
+.language-showcase__subtitle {
+  @apply text-lg text-gray-900 font-bold;
+}
+
+.language-showcase__grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-9;
+}
+
+.language-showcase__card {
+  @apply relative p-9 cursor-pointer transform transition-all duration-500 border-4 border-black shadow-xl backdrop-blur-md;
+}
+
+.language-showcase__card--active {
+  @apply scale-110 rotate-3 shadow-2xl;
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+.language-showcase__card--inactive {
+  @apply hover:scale-105 hover:-rotate-1 hover:shadow-2xl;
+  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+}
+
+.language-showcase__card-content {
+  @apply relative z-10;
+}
+
+.language-showcase__card-icon {
+  @apply w-21 h-21 flex items-center justify-center mb-7 mx-auto border-3 border-black transform rotate-45 shadow-xl;
+}
+
+.language-showcase__card-icon-text {
+  @apply text-white font-black text-xl transform -rotate-45;
+}
+
+.language-showcase__card-title {
+  @apply text-xl font-black text-gray-900 mb-5 text-center;
+}
+
+.language-showcase__card-description {
+  @apply text-gray-800 text-center leading-relaxed font-bold text-sm;
+}
+
+/* Language-specific colors */
+.language-showcase__card--spanish {
+  @apply bg-blue-50/90;
+}
+
+.language-showcase__card--spanish .language-showcase__card-icon {
+  @apply bg-gradient-to-br from-blue-600 to-blue-800;
+}
+
+.language-showcase__card--french {
+  @apply bg-purple-50/90;
+}
+
+.language-showcase__card--french .language-showcase__card-icon {
+  @apply bg-gradient-to-br from-purple-600 to-blue-700;
+}
+
+.language-showcase__card--portuguese {
+  @apply bg-green-50/90;
+}
+
+.language-showcase__card--portuguese .language-showcase__card-icon {
+  @apply bg-gradient-to-br from-green-700 to-green-900;
+}
+
+.language-showcase__card--italian {
+  @apply bg-green-50/90;
+}
+
+.language-showcase__card--italian .language-showcase__card-icon {
+  @apply bg-gradient-to-br from-green-800 to-black;
+}
