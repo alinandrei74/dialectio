@@ -8,14 +8,14 @@ interface CTASectionProps {
 
 function CTASection({ t }: CTASectionProps) {
   return (
-    <section className="py-21 bg-gradient-to-br from-green-800 to-green-900 relative overflow-hidden">
+    <section className="py-21 bg-white/10 backdrop-blur-md relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-10 w-32 h-4 bg-black/40 transform rotate-45 opacity-40 shadow-lg"></div>
         <div className="absolute bottom-10 right-10 w-4 h-32 bg-black/40 transform -rotate-30 opacity-40 shadow-md"></div>
         <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-black/30 transform rotate-45 opacity-30 shadow-xl"></div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h2 className="text-3xl md:text-5xl font-black text-white mb-9 tracking-tight">
+        <h2 className="text-3xl md:text-5xl font-black text-white mb-9 tracking-tight drop-shadow-2xl">
           {t.ctaTitle}
         </h2>
         <div className="bg-white/25 backdrop-blur-md p-7 max-w-4xl mx-auto mb-10 border-4 border-black transform rotate-1 shadow-2xl"
