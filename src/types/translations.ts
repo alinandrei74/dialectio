@@ -9,6 +9,7 @@ export interface Translation {
   // Hero Section
   heroTitle: string;
   heroSubtitle: string;
+  heroTitle2: string;
   heroDescription: string;
   startJourney: string;
   viewDemo: string;
