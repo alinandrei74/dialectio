@@ -14,19 +14,12 @@ function DarkModeToggle({ isDarkMode, toggleDarkMode, isMobile = false }: DarkMo
         <p className="text-gray-700 dark:text-gray-300 font-bold mb-3 text-base">Tema:</p>
         <button
           onClick={toggleDarkMode}
-          className="flex items-center space-x-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 font-bold border-2 border-gray-400 dark:border-gray-500 text-sm shadow-md hover:shadow-lg"
-          style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
+          className="w-12 h-12 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 font-bold border-2 border-gray-400 dark:border-gray-500 shadow-md hover:shadow-lg flex items-center justify-center transform rotate-45"
         >
           {isDarkMode ? (
-            <>
-              <Sun className="w-4 h-4 text-yellow-500" />
-              <span className="text-gray-900 dark:text-gray-100">Claro</span>
-            </>
+            <Sun className="w-5 h-5 text-yellow-500 transform -rotate-45" />
           ) : (
-            <>
-              <Moon className="w-4 h-4 text-blue-600" />
-              <span className="text-gray-900 dark:text-gray-100">Oscuro</span>
-            </>
+            <Moon className="w-5 h-5 text-blue-600 transform -rotate-45" />
           )}
         </button>
       </div>
@@ -36,19 +29,12 @@ function DarkModeToggle({ isDarkMode, toggleDarkMode, isMobile = false }: DarkMo
   return (
     <button
       onClick={toggleDarkMode}
-      className="flex items-center space-x-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform font-bold border-2 border-gray-400 dark:border-gray-500 text-sm shadow-lg hover:scale-105 hover:shadow-xl"
-      style={{ clipPath: 'polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%)' }}
+      className="w-12 h-12 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform font-bold border-2 border-gray-400 dark:border-gray-500 shadow-lg hover:scale-105 hover:shadow-xl flex items-center justify-center rotate-45"
     >
       {isDarkMode ? (
-        <>
-          <Sun className="w-4 h-4 text-yellow-500" />
-          <span className="text-gray-900 dark:text-gray-100">Claro</span>
-        </>
+        <Sun className="w-5 h-5 text-yellow-500 transform -rotate-45" />
       ) : (
-        <>
-          <Moon className="w-4 h-4 text-blue-600" />
-          <span className="text-gray-900 dark:text-gray-100">Oscuro</span>
-        </>
+        <Moon className="w-5 h-5 text-blue-600 transform -rotate-45" />
       )}
     </button>
   );
