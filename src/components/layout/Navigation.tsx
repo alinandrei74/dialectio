@@ -108,14 +108,14 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - Más opaco */}
         {isMenuOpen && (
-          <div className={`md:hidden absolute top-18 left-0 right-0 ${navBackground} backdrop-blur-md shadow-2xl border-4 border-black dark:border-gray-600 border-t-0 transition-all duration-300`}>
+          <div className="md:hidden absolute top-18 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-2xl border-4 border-black dark:border-gray-600 border-t-0 transition-all duration-300">
             <div className="px-5 py-5 space-y-5">
-              <a href="#idiomas" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.languages}</a>
-              <a href="#nosotros" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.about}</a>
-              <a href="#metodo" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.method}</a>
-              <a href="#faq" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.faq}</a>
+              <a href="#idiomas" className="block text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300">{t.languages}</a>
+              <a href="#nosotros" className="block text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300">{t.about}</a>
+              <a href="#metodo" className="block text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300">{t.method}</a>
+              <a href="#faq" className="block text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300">{t.faq}</a>
               
               <LanguageSelector 
                 currentLang={currentLang}
