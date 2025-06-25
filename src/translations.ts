@@ -38,7 +38,7 @@ export const translations: Record<string, Translation> = {
     ourMissionTitle: 'Nuestra misión',
     ourMissionDescription: 'Acelerar el aprendizaje de idiomas haciendo que sea más rápido, natural y accesible para todos. Creemos que poder entender múltiples lenguas de la misma familia de las que ya conoces debería ser la norma, no la excepción. Queremos hacer que esto sea una posibilidad para cualquier persona con curiosidad y determinación.',
     ourVisionTitle: 'Nuestra visión',
-    ourVisionDescription: 'Imaginamos un mundo donde las barreras lingüísticas se desvanecen gradualmente, donde cada persona puede comunicarse fluidamente en múltiples idiomas, y donde la diversidad cultural se celebra a través del entendimiento mutuo que solo el multilingüismo puede ofrecer.',
+    ourVisionDescription: 'Imaginamos un mundo donde entender tus lenguas cercanas sea más sencillo y satisfactorio que usar el traductor, donde cada persona pueda comunicarse fluidamente en múltiples idiomas, y donde la diversidad cultural se celebra a través del entendimiento mutuo que sólo el multilingüismo puede ofrecer.',
     
     // Features Section
     methodTitle: 'Nuestro método único',
@@ -114,7 +114,7 @@ export const translations: Record<string, Translation> = {
     ourMissionTitle: 'Notre mission',
     ourMissionDescription: 'Accélérer l\'apprentissage des langues en le rendant plus rapide, naturel et accessible à tous. Nous croyons que pouvoir comprendre plusieurs langues de la même famille que celles que vous connaissez déjà devrait être la norme, pas l\'exception. Nous voulons faire de cela une possibilité pour toute personne avec de la curiosité et de la détermination.',
     ourVisionTitle: 'Notre vision',
-    ourVisionDescription: 'Nous imaginons un monde où les barrières linguistiques s\'estompent progressivement, où chaque personne peut communiquer couramment dans plusieurs langues, et où la diversité culturelle est célébrée à travers la compréhension mutuelle que seul le multilinguisme peut offrir.',
+    ourVisionDescription: 'Nous imaginons un monde où comprendre vos langues proches soit plus simple et satisfaisant qu\'utiliser le traducteur, où chaque personne peut communiquer couramment dans plusieurs langues, et où la diversité culturelle est célébrée à travers la compréhension mutuelle que seul le multilinguisme peut offrir.',
     
     // Features Section
     methodTitle: 'Notre méthode unique',
@@ -190,7 +190,7 @@ export const translations: Record<string, Translation> = {
     ourMissionTitle: 'Nossa missão',
     ourMissionDescription: 'Acelerar o aprendizado de idiomas tornando-o mais rápido, natural e acessível para todos. Acreditamos que poder entender múltiplas línguas da mesma família das que você já conhece deveria ser a norma, não a exceção. Queremos fazer disso uma possibilidade para qualquer pessoa com curiosidade e determinação.',
     ourVisionTitle: 'Nossa visão',
-    ourVisionDescription: 'Imaginamos um mundo onde as barreiras linguísticas se desvanecem gradualmente, onde cada pessoa pode se comunicar fluentemente em múltiplos idiomas, e onde a diversidade cultural é celebrada através do entendimento mútuo que apenas o multilinguismo pode oferecer.',
+    ourVisionDescription: 'Imaginamos um mundo onde entender suas línguas próximas seja mais simples e satisfatório que usar o tradutor, onde cada pessoa pode se comunicar fluentemente em múltiplos idiomas, e onde a diversidade cultural é celebrada através do entendimento mútuo que apenas o multilinguismo pode oferecer.',
     
     // Features Section
     methodTitle: 'Nosso método único',
@@ -266,7 +266,7 @@ export const translations: Record<string, Translation> = {
     ourMissionTitle: 'La nostra missione',
     ourMissionDescription: 'Accelerare l\'apprendimento delle lingue rendendolo più veloce, naturale e accessibile a tutti. Crediamo che poter comprendere più lingue della stessa famiglia di quelle che già conosci dovrebbe essere la norma, non l\'eccezione. Vogliamo rendere questo una possibilità per chiunque abbia curiosità e determinazione.',
     ourVisionTitle: 'La nostra visione',
-    ourVisionDescription: 'Immaginiamo un mondo dove le barriere linguistiche svaniscono gradualmente, dove ogni persona può comunicare fluentemente in più lingue, e dove la diversità culturale è celebrata attraverso la comprensione reciproca che solo il multilinguismo può offrire.',
+    ourVisionDescription: 'Immaginiamo un mondo dove capire le tue lingue vicine sia più semplice e soddisfacente che usare il traduttore, dove ogni persona può comunicare fluentemente in più lingue, e dove la diversità culturale è celebrata attraverso la comprensione reciproca che solo il multilinguismo può offrire.',
     
     // Features Section
     methodTitle: 'Il nostro metodo unico',
@@ -342,7 +342,7 @@ export const translations: Record<string, Translation> = {
     ourMissionTitle: 'Our mission',
     ourMissionDescription: 'To accelerate language learning by making it faster, more natural, and accessible to everyone. We believe that being able to understand multiple languages from the same family as those you already know should be the norm, not the exception. We want to make this a possibility for anyone with curiosity and determination.',
     ourVisionTitle: 'Our vision',
-    ourVisionDescription: 'We envision a world where linguistic barriers gradually fade away, where every person can communicate fluently in multiple languages, and where cultural diversity is celebrated through the mutual understanding that only multilingualism can offer.',
+    ourVisionDescription: 'We envision a world where understanding your nearby languages is simpler and more satisfying than using a translator, where every person can communicate fluently in multiple languages, and where cultural diversity is celebrated through the mutual understanding that only multilingualism can offer.',
     
     // Features Section
     methodTitle: 'Our unique method',
