@@ -15,7 +15,7 @@ interface NavigationProps {
 }
 
 function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t, isDarkMode, toggleDarkMode }: NavigationProps) {
-  const [navBackground, setNavBackground] = useState('bg-blue-50/95 dark:bg-gray-900/95');
+  const [navBackground, setNavBackground] = useState('bg-blue-50/70 dark:bg-gray-900/95');
   const [textColor, setTextColor] = useState('text-gray-900 dark:text-gray-100');
 
   useEffect(() => {
@@ -27,26 +27,26 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
       // Calcular el progreso del scroll (0 a 1)
       const scrollProgress = scrollY / (documentHeight - windowHeight);
       
-      // Definir los puntos de cambio basados en las secciones
+      // Definir los puntos de cambio basados en las secciones con tonos más claros
       if (scrollProgress < 0.15) {
-        // Hero section - azul suave
-        setNavBackground('bg-blue-100/80 dark:bg-gray-900/90');
+        // Hero section - azul muy suave
+        setNavBackground('bg-blue-50/70 dark:bg-gray-900/90');
         setTextColor('text-gray-900 dark:text-gray-100');
       } else if (scrollProgress < 0.35) {
-        // Language showcase - azul más claro
-        setNavBackground('bg-blue-50/80 dark:bg-gray-800/90');
+        // Language showcase - blanco casi transparente
+        setNavBackground('bg-white/70 dark:bg-gray-800/90');
         setTextColor('text-gray-900 dark:text-gray-100');
       } else if (scrollProgress < 0.55) {
-        // About section - gris neutro
-        setNavBackground('bg-gray-100/80 dark:bg-gray-700/90');
+        // About section - gris muy claro
+        setNavBackground('bg-gray-50/70 dark:bg-gray-700/90');
         setTextColor('text-gray-900 dark:text-gray-100');
       } else if (scrollProgress < 0.75) {
-        // Features section - verde suave
-        setNavBackground('bg-green-50/80 dark:bg-gray-600/90');
+        // Features section - verde muy suave
+        setNavBackground('bg-green-50/70 dark:bg-gray-600/90');
         setTextColor('text-gray-900 dark:text-gray-100');
       } else if (scrollProgress < 0.9) {
-        // FAQ section - verde más intenso
-        setNavBackground('bg-green-100/80 dark:bg-gray-500/90');
+        // FAQ section - verde claro
+        setNavBackground('bg-green-100/70 dark:bg-gray-500/90');
         setTextColor('text-gray-900 dark:text-gray-100');
       } else {
         // CTA y Footer - verde oscuro
