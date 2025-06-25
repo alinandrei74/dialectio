@@ -82,7 +82,10 @@ function AboutSection({ t }: AboutSectionProps) {
               <BookOpen className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-4">{t.ourStoryTitle}</h3>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourStoryDescription}</p>
+            <div className="bg-green-50/90 dark:bg-gray-700/90 p-4 border-3 border-gray-300 dark:border-gray-500 transform -rotate-1 shadow-md"
+                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourStoryDescription}</p>
+            </div>
           </div>
 
           <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300 transform -rotate-1"
@@ -91,7 +94,10 @@ function AboutSection({ t }: AboutSectionProps) {
               <Target className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-4">{t.ourMissionTitle}</h3>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourMissionDescription}</p>
+            <div className="bg-white/90 dark:bg-gray-800/90 p-4 border-3 border-gray-300 dark:border-gray-500 transform rotate-1 shadow-md"
+                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourMissionDescription}</p>
+            </div>
           </div>
 
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300 transform rotate-1"
@@ -100,7 +106,10 @@ function AboutSection({ t }: AboutSectionProps) {
               <Eye className="w-10 h-10 text-white transform -rotate-45" />
             </div>
             <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-4">{t.ourVisionTitle}</h3>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourVisionDescription}</p>
+            <div className="bg-green-50/90 dark:bg-gray-700/90 p-4 border-3 border-gray-300 dark:border-gray-500 transform -rotate-1 shadow-md"
+                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourVisionDescription}</p>
+            </div>
           </div>
         </div>
       </div>
