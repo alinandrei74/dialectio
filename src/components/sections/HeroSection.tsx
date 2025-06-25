@@ -9,7 +9,7 @@ interface HeroSectionProps {
 function HeroSection({ t }: HeroSectionProps) {
   return (
     <section 
-      className="relative overflow-hidden py-18 lg:py-28 min-h-screen flex items-center"
+      className="relative overflow-hidden py-18 lg:py-28 min-h-screen flex items-center pt-24"
       style={{
         backgroundImage: 'url(https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop)',
         backgroundSize: 'cover',
