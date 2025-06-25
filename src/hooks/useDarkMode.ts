@@ -7,8 +7,8 @@ export function useDarkMode() {
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Si no hay preferencia guardada, usar tema claro por defecto
-    return false;
+    // Si no hay preferencia guardada, usar la preferencia del sistema
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   useEffect(() => {
