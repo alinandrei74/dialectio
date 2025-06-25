@@ -6,6 +6,7 @@ import HeroSection from '../components/sections/HeroSection';
 import LanguageShowcase from '../components/sections/LanguageShowcase';
 import AboutSection from '../components/sections/AboutSection';
 import FeaturesSection from '../components/sections/FeaturesSection';
+import StatsSection from '../components/sections/StatsSection';
 import FAQSection from '../components/sections/FAQSection';
 import CTASection from '../components/sections/CTASection';
 import Footer from '../components/layout/Footer';
@@ -48,6 +49,8 @@ function HomePage() {
       <AboutSection t={t} />
       
       <FeaturesSection t={t} />
+      
+      <StatsSection t={t} />
       
       <FAQSection t={t} />
       
