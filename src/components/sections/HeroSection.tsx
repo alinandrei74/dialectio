@@ -9,8 +9,17 @@ interface HeroSectionProps {
 function HeroSection({ t }: HeroSectionProps) {
   return (
     <section 
-      className="relative overflow-hidden py-18 lg:py-28 min-h-screen flex items-center bg-white/10 backdrop-blur-md"
+      className="relative overflow-hidden py-18 lg:py-28 min-h-screen flex items-center"
+      style={{
+        backgroundImage: 'url(https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
     >
+      {/* Enhanced overlay with premium gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-blue-800/40 to-blue-700/60"></div>
+      
       {/* Enhanced Suprematist geometric overlays */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-4 bg-white/40 transform rotate-45 opacity-40 animate-pulse shadow-lg"></div>

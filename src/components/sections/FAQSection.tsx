@@ -49,14 +49,14 @@ function FAQSection({ t }: FAQSectionProps) {
   };
 
   return (
-    <section id="faq" className="py-21 bg-white/10 backdrop-blur-md relative">
+    <section id="faq" className="py-21 bg-gradient-to-b from-green-200/90 to-gray-800/90 backdrop-blur-md relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-1/3 w-12 h-12 bg-gradient-to-br from-green-800 to-black transform rotate-45 opacity-25 shadow-xl"></div>
         <div className="absolute bottom-10 right-1/3 w-8 h-8 bg-black transform -rotate-45 opacity-35 shadow-lg"></div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-18">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-7 tracking-tight drop-shadow-2xl">
+          <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-7 tracking-tight">
             {t.faqTitle}
           </h2>
           <div className="bg-white/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black transform rotate-1 shadow-2xl"
