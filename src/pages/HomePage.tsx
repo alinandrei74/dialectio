@@ -26,7 +26,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400 via-blue-300 via-gray-200 via-green-200 to-black relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-gradient-to-b from-purple-400 via-blue-300 via-gray-200 via-green-200 to-black relative overflow-hidden font-sans">
       <BackgroundElements />
       
       <Navigation 
