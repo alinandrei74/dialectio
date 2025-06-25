@@ -3,6 +3,7 @@ export interface Translation {
   languages: string;
   method: string;
   about: string;
+  faq: string;
   start: string;
   
   // Hero Section

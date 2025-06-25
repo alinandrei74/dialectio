@@ -6,6 +6,7 @@ export const translations: Record<string, Translation> = {
     languages: 'Idiomas',
     method: 'Método',
     about: 'Nosotros',
+    faq: 'FAQ',
     start: 'Comenzar',
     
     // Hero Section
@@ -103,6 +104,7 @@ export const translations: Record<string, Translation> = {
     languages: 'Langues',
     method: 'Méthode',
     about: 'À propos',
+    faq: 'FAQ',
     start: 'Commencer',
     
     // Hero Section
@@ -200,6 +202,7 @@ export const translations: Record<string, Translation> = {
     languages: 'Idiomas',
     method: 'Método',
     about: 'Sobre nós',
+    faq: 'FAQ',
     start: 'Começar',
     
     // Hero Section
@@ -297,6 +300,7 @@ export const translations: Record<string, Translation> = {
     languages: 'Lingue',
     method: 'Metodo',
     about: 'Chi siamo',
+    faq: 'FAQ',
     start: 'Iniziare',
     
     // Hero Section
@@ -394,6 +398,7 @@ export const translations: Record<string, Translation> = {
     languages: 'Languages',
     method: 'Method',
     about: 'About',
+    faq: 'FAQ',
     start: 'Start',
     
     // Hero Section
