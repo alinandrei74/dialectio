@@ -20,28 +20,6 @@ function HeroSection({ t }: HeroSectionProps) {
       {/* Enhanced overlay with premium gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-blue-800/40 to-blue-700/60 dark:from-gray-900/70 dark:via-gray-800/60 dark:to-gray-700/80"></div>
       
-      {/* Luces en la distancia - solo en modo oscuro */}
-      <div className="absolute inset-0 overflow-hidden dark:block hidden">
-        {/* Luces principales en el horizonte derecho */}
-        <div className="absolute top-1/3 right-16 w-2 h-2 bg-yellow-300/80 rounded-full shadow-lg animate-pulse"></div>
-        <div className="absolute top-1/3 right-20 w-1.5 h-1.5 bg-orange-300/70 rounded-full shadow-md animate-pulse delay-500"></div>
-        <div className="absolute top-1/3 right-24 w-1 h-1 bg-yellow-200/60 rounded-full shadow-sm animate-pulse delay-1000"></div>
-        
-        {/* Luces más distantes */}
-        <div className="absolute top-1/4 right-32 w-1 h-1 bg-white/50 rounded-full shadow-sm animate-pulse delay-700"></div>
-        <div className="absolute top-1/4 right-36 w-0.5 h-0.5 bg-blue-200/40 rounded-full animate-pulse delay-1200"></div>
-        <div className="absolute top-1/4 right-40 w-0.5 h-0.5 bg-yellow-100/30 rounded-full animate-pulse delay-300"></div>
-        
-        {/* Luces de barcos o estructuras */}
-        <div className="absolute top-2/5 right-28 w-1.5 h-1.5 bg-red-300/60 rounded-full shadow-md animate-pulse delay-800"></div>
-        <div className="absolute top-2/5 right-44 w-1 h-1 bg-green-300/50 rounded-full shadow-sm animate-pulse delay-1500"></div>
-        
-        {/* Reflejo sutil de las luces en el agua */}
-        <div className="absolute top-1/2 right-16 w-1 h-8 bg-gradient-to-b from-yellow-300/20 to-transparent opacity-60 animate-pulse"></div>
-        <div className="absolute top-1/2 right-20 w-0.5 h-6 bg-gradient-to-b from-orange-300/15 to-transparent opacity-50 animate-pulse delay-500"></div>
-        <div className="absolute top-1/2 right-28 w-0.5 h-4 bg-gradient-to-b from-red-300/10 to-transparent opacity-40 animate-pulse delay-800"></div>
-      </div>
-      
       {/* Enhanced Suprematist geometric overlays */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-4 bg-white/40 dark:bg-gray-300/30 transform rotate-45 opacity-40 animate-pulse shadow-lg"></div>
