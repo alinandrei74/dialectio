@@ -98,7 +98,9 @@ function FAQSection({ t }: FAQSectionProps) {
               
               {openQuestion === index && (
                 <div className="px-6 pb-6">
-                  <div className="bg-green-50/90 dark:bg-gray-700/90 p-5 border-3 border-gray-300 dark:border-gray-500 transform rotate-1 shadow-md"
+                  <div className={`bg-green-50/90 dark:bg-gray-700/90 p-5 border-3 border-gray-300 dark:border-gray-500 shadow-md ${
+                    index % 2 === 0 ? 'transform -rotate-1' : 'transform rotate-1'
+                  }`}
                        style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
                     <p className="text-gray-800 dark:text-gray-200 leading-relaxed font-bold text-sm">
                       {t[faq.answer as keyof Translation] as string}
