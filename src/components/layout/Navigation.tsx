@@ -30,7 +30,6 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t 
             <a href="#idiomas" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.languages}</a>
             <a href="#nosotros" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.about}</a>
             <a href="#metodo" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.method}</a>
-            <a href="#faq" className="text-gray-900 hover:text-blue-700 transition-all duration-300 font-bold text-base hover:scale-105">{t.faq}</a>
             
             <LanguageSelector 
               currentLang={currentLang}
@@ -60,7 +59,6 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t 
               <a href="#idiomas" className="block text-gray-900 hover:text-blue-700 py-2 font-bold text-base transition-all duration-300">{t.languages}</a>
               <a href="#nosotros" className="block text-gray-900 hover:text-blue-700 py-2 font-bold text-base transition-all duration-300">{t.about}</a>
               <a href="#metodo" className="block text-gray-900 hover:text-blue-700 py-2 font-bold text-base transition-all duration-300">{t.method}</a>
-              <a href="#faq" className="block text-gray-900 hover:text-blue-700 py-2 font-bold text-base transition-all duration-300">{t.faq}</a>
               
               <LanguageSelector 
                 currentLang={currentLang}
