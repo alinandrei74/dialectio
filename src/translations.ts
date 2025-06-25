@@ -29,7 +29,7 @@ export const translations: Record<string, Translation> = {
     
     // About Section
     aboutTitle: 'Nuestra historia comienza contigo',
-    aboutSubtitle: 'Creemos que cada idioma que conoces es una puerta que se abre a otros mundos',
+    aboutSubtitle: 'Cada idioma que conoces es una puerta que te abre a nuevos mundos',
     aboutDescription1: 'En dialectio.xyz, entendemos que aprender un nuevo idioma no significa empezar desde cero. Tu mente ya posee un tesoro lingüístico que puede ser la clave para desbloquear nuevas lenguas de manera natural y eficiente.',
     aboutDescription2: 'Nacimos de la convicción de que las lenguas romances están profundamente conectadas, como ramas de un mismo árbol que comparten raíces latinas. Cuando hablas español, ya tienes las bases para comprender francés. Si conoces italiano, el portugués te resultará familiar.',
     aboutDescription3: 'No somos solo una plataforma de aprendizaje; somos una comunidad de exploradores lingüísticos que celebran cada similitud descubierta, cada conexión revelada, cada momento "¡ajá!" que surge al reconocer patrones familiares en nuevos territorios idiomáticos.',
@@ -105,7 +105,7 @@ export const translations: Record<string, Translation> = {
     
     // About Section
     aboutTitle: 'Notre histoire commence avec vous',
-    aboutSubtitle: 'Nous croyons que chaque langue que vous connaissez est une porte qui s\'ouvre sur d\'autres mondes',
+    aboutSubtitle: 'Chaque langue que vous connaissez est une porte qui vous ouvre de nouveaux mondes',
     aboutDescription1: 'Chez dialectio.xyz, nous comprenons qu\'apprendre une nouvelle langue ne signifie pas repartir de zéro. Votre esprit possède déjà un trésor linguistique qui peut être la clé pour débloquer de nouvelles langues de manière naturelle et efficace.',
     aboutDescription2: 'Nous sommes nés de la conviction que les langues romanes sont profondément connectées, comme les branches d\'un même arbre qui partagent des racines latines. Quand vous parlez espagnol, vous avez déjà les bases pour comprendre le français. Si vous connaissez l\'italien, le portugais vous semblera familier.',
     aboutDescription3: 'Nous ne sommes pas seulement une plateforme d\'apprentissage ; nous sommes une communauté d\'explorateurs linguistiques qui célèbrent chaque similitude découverte, chaque connexion révélée, chaque moment "eurêka !" qui surgit en reconnaissant des motifs familiers dans de nouveaux territoires idiomatiques.',
@@ -181,7 +181,7 @@ export const translations: Record<string, Translation> = {
     
     // About Section
     aboutTitle: 'Nossa história começa com você',
-    aboutSubtitle: 'Acreditamos que cada idioma que você conhece é uma porta que se abre para outros mundos',
+    aboutSubtitle: 'Cada idioma que você conhece é uma porta que te abre novos mundos',
     aboutDescription1: 'Na dialectio.xyz, entendemos que aprender um novo idioma não significa começar do zero. Sua mente já possui um tesouro linguístico que pode ser a chave para desbloquear novas línguas de forma natural e eficiente.',
     aboutDescription2: 'Nascemos da convicção de que as línguas românicas estão profundamente conectadas, como galhos de uma mesma árvore que compartilham raízes latinas. Quando você fala espanhol, já tem as bases para entender francês. Se conhece italiano, o português lhe parecerá familiar.',
     aboutDescription3: 'Não somos apenas uma plataforma de aprendizado; somos uma comunidade de exploradores linguísticos que celebram cada semelhança descoberta, cada conexão revelada, cada momento "eureka!" que surge ao reconhecer padrões familiares em novos territórios idiomáticos.',
@@ -257,7 +257,7 @@ export const translations: Record<string, Translation> = {
     
     // About Section
     aboutTitle: 'La nostra storia inizia con te',
-    aboutSubtitle: 'Crediamo che ogni lingua che conosci sia una porta che si apre su altri mondi',
+    aboutSubtitle: 'Ogni lingua che conosci è una porta che ti apre nuovi mondi',
     aboutDescription1: 'In dialectio.xyz, capiamo che imparare una nuova lingua non significa ricominciare da zero. La tua mente possiede già un tesoro linguistico che può essere la chiave per sbloccare nuove lingue in modo naturale ed efficiente.',
     aboutDescription2: 'Siamo nati dalla convinzione che le lingue romanze sono profondamente connesse, come rami dello stesso albero che condividono radici latine. Quando parli spagnolo, hai già le basi per capire il francese. Se conosci l\'italiano, il portoghese ti sembrerà familiare.',
     aboutDescription3: 'Non siamo solo una piattaforma di apprendimento; siamo una comunità di esploratori linguistici che celebrano ogni somiglianza scoperta, ogni connessione rivelata, ogni momento "eureka!" che emerge riconoscendo schemi familiari in nuovi territori idiomatici.',
@@ -333,7 +333,7 @@ export const translations: Record<string, Translation> = {
     
     // About Section
     aboutTitle: 'Our story begins with you',
-    aboutSubtitle: 'We believe that every language you know is a door that opens to other worlds',
+    aboutSubtitle: 'Every language you know is a door that opens new worlds to you',
     aboutDescription1: 'At dialectio.xyz, we understand that learning a new language doesn\'t mean starting from scratch. Your mind already possesses a linguistic treasure that can be the key to unlocking new languages naturally and efficiently.',
     aboutDescription2: 'We were born from the conviction that Romance languages are deeply connected, like branches of the same tree that share Latin roots. When you speak Spanish, you already have the foundation to understand French. If you know Italian, Portuguese will feel familiar.',
     aboutDescription3: 'We\'re not just a learning platform; we\'re a community of linguistic explorers who celebrate every similarity discovered, every connection revealed, every "aha!" moment that emerges when recognizing familiar patterns in new linguistic territories.',
