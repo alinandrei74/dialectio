@@ -36,7 +36,7 @@ export const translations: Record<string, Translation> = {
     ourStoryTitle: 'Nuestra historia',
     ourStoryDescription: 'Todo comenzó con una observación sencilla: aprender italiano resulta mucho más rápido para quienes ya hablan otras lenguas romances. Esta constatación dio paso a una investigación profunda sobre las conexiones entre las lenguas romances, y con el tiempo, a la creación de un método que aprovecha sus similitudes naturales para facilitar el aprendizaje.',
     ourMissionTitle: 'Nuestra misión',
-    ourMissionDescription: 'Democratizar el aprendizaje de idiomas haciendo que sea más rápido, natural y accesible para todos. Creemos que dominar múltiples lenguas romances no debería ser un privilegio de unos pocos, sino una posibilidad real para cualquier persona con curiosidad y determinación.',
+    ourMissionDescription: 'Acelerar el aprendizaje de idiomas haciendo que sea más rápido, natural y accesible para todos. Creemos que poder entender múltiples lenguas de la misma familia de las que ya conoces debería ser la norma, no la excepción. Queremos hacer que esto sea una posibilidad para cualquier persona con curiosidad y determinación.',
     ourVisionTitle: 'Nuestra visión',
     ourVisionDescription: 'Imaginamos un mundo donde las barreras lingüísticas se desvanecen gradualmente, donde cada persona puede comunicarse fluidamente en múltiples idiomas, y donde la diversidad cultural se celebra a través del entendimiento mutuo que solo el multilingüismo puede ofrecer.',
     
@@ -112,7 +112,7 @@ export const translations: Record<string, Translation> = {
     ourStoryTitle: 'Notre histoire',
     ourStoryDescription: 'Tout a commencé par une observation simple : apprendre l\'italien est beaucoup plus rapide pour ceux qui parlent déjà d\'autres langues romanes. Cette constatation a donné lieu à une recherche approfondie sur les connexions entre les langues romanes, et avec le temps, à la création d\'une méthode qui tire parti de leurs similitudes naturelles pour faciliter l\'apprentissage.',
     ourMissionTitle: 'Notre mission',
-    ourMissionDescription: 'Démocratiser l\'apprentissage des langues en le rendant plus rapide, naturel et accessible à tous. Nous croyons que maîtriser plusieurs langues romanes ne devrait pas être un privilège de quelques-uns, mais une possibilité réelle pour toute personne avec de la curiosité et de la détermination.',
+    ourMissionDescription: 'Accélérer l\'apprentissage des langues en le rendant plus rapide, naturel et accessible à tous. Nous croyons que pouvoir comprendre plusieurs langues de la même famille que celles que vous connaissez déjà devrait être la norme, pas l\'exception. Nous voulons faire de cela une possibilité pour toute personne avec de la curiosité et de la détermination.',
     ourVisionTitle: 'Notre vision',
     ourVisionDescription: 'Nous imaginons un monde où les barrières linguistiques s\'estompent progressivement, où chaque personne peut communiquer couramment dans plusieurs langues, et où la diversité culturelle est célébrée à travers la compréhension mutuelle que seul le multilinguisme peut offrir.',
     
@@ -188,7 +188,7 @@ export const translations: Record<string, Translation> = {
     ourStoryTitle: 'Nossa história',
     ourStoryDescription: 'Tudo começou com uma observação simples: aprender italiano é muito mais rápido para quem já fala outras línguas românicas. Esta constatação deu lugar a uma pesquisa profunda sobre as conexões entre as línguas românicas, e com o tempo, à criação de um método que aproveita suas semelhanças naturais para facilitar o aprendizado.',
     ourMissionTitle: 'Nossa missão',
-    ourMissionDescription: 'Democratizar o aprendizado de idiomas tornando-o mais rápido, natural e acessível para todos. Acreditamos que dominar múltiplas línguas românicas não deveria ser privilégio de poucos, mas uma possibilidade real para qualquer pessoa com curiosidade e determinação.',
+    ourMissionDescription: 'Acelerar o aprendizado de idiomas tornando-o mais rápido, natural e acessível para todos. Acreditamos que poder entender múltiplas línguas da mesma família das que você já conhece deveria ser a norma, não a exceção. Queremos fazer disso uma possibilidade para qualquer pessoa com curiosidade e determinação.',
     ourVisionTitle: 'Nossa visão',
     ourVisionDescription: 'Imaginamos um mundo onde as barreiras linguísticas se desvanecem gradualmente, onde cada pessoa pode se comunicar fluentemente em múltiplos idiomas, e onde a diversidade cultural é celebrada através do entendimento mútuo que apenas o multilinguismo pode oferecer.',
     
@@ -264,7 +264,7 @@ export const translations: Record<string, Translation> = {
     ourStoryTitle: 'La nostra storia',
     ourStoryDescription: 'Tutto è iniziato con un\'osservazione semplice: imparare l\'italiano è molto più veloce per chi già parla altre lingue romanze. Questa constatazione ha portato a una ricerca approfondita sulle connessioni tra le lingue romanze, e nel tempo, alla creazione di un metodo che sfrutta le loro somiglianze naturali per facilitare l\'apprendimento.',
     ourMissionTitle: 'La nostra missione',
-    ourMissionDescription: 'Democratizzare l\'apprendimento delle lingue rendendolo più veloce, naturale e accessibile a tutti. Crediamo che padroneggiare più lingue romanze non dovrebbe essere un privilegio di pochi, ma una possibilità reale per chiunque abbia curiosità e determinazione.',
+    ourMissionDescription: 'Accelerare l\'apprendimento delle lingue rendendolo più veloce, naturale e accessibile a tutti. Crediamo che poter comprendere più lingue della stessa famiglia di quelle che già conosci dovrebbe essere la norma, non l\'eccezione. Vogliamo rendere questo una possibilità per chiunque abbia curiosità e determinazione.',
     ourVisionTitle: 'La nostra visione',
     ourVisionDescription: 'Immaginiamo un mondo dove le barriere linguistiche svaniscono gradualmente, dove ogni persona può comunicare fluentemente in più lingue, e dove la diversità culturale è celebrata attraverso la comprensione reciproca che solo il multilinguismo può offrire.',
     
@@ -340,7 +340,7 @@ export const translations: Record<string, Translation> = {
     ourStoryTitle: 'Our story',
     ourStoryDescription: 'It all began with a simple observation: learning Italian is much faster for those who already speak other Romance languages. This finding led to deep research on the connections between Romance languages, and over time, to the creation of a method that leverages their natural similarities to facilitate learning.',
     ourMissionTitle: 'Our mission',
-    ourMissionDescription: 'To democratize language learning by making it faster, more natural, and accessible to everyone. We believe that mastering multiple Romance languages shouldn\'t be a privilege of the few, but a real possibility for anyone with curiosity and determination.',
+    ourMissionDescription: 'To accelerate language learning by making it faster, more natural, and accessible to everyone. We believe that being able to understand multiple languages from the same family as those you already know should be the norm, not the exception. We want to make this a possibility for anyone with curiosity and determination.',
     ourVisionTitle: 'Our vision',
     ourVisionDescription: 'We envision a world where linguistic barriers gradually fade away, where every person can communicate fluently in multiple languages, and where cultural diversity is celebrated through the mutual understanding that only multilingualism can offer.',
     
