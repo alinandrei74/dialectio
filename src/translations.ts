@@ -5,7 +5,6 @@ export const translations: Record<string, Translation> = {
     // Navigation
     languages: 'Idiomas',
     method: 'Método',
-    community: 'Comunidad',
     about: 'Nosotros',
     start: 'Comenzar',
     
@@ -49,18 +48,12 @@ export const translations: Record<string, Translation> = {
     acceleratedLearningDescription: 'Utiliza tus conocimientos previos para aprender más rápido. Las lenguas romances comparten raíces latinas.',
     contrastiveMethodTitle: 'Método Contrastivo',
     contrastiveMethodDescription: 'Compara y contrasta similitudes entre idiomas para una comprensión más profunda y duradera.',
-    activeCommunityTitle: 'Comunidad Activa',
-    activeCommunityDescription: 'Conéctate con otros estudiantes que comparten tu pasión por las lenguas romances.',
-    certificationTitle: 'Certificación',
-    certificationDescription: 'Obtén certificaciones reconocidas que validen tu progreso en cada idioma.',
     
     // Stats Section
     fasterStat: 'Más rápido',
     fasterDescription: 'Aprendizaje acelerado aprovechando conocimientos previos',
     languagesStat: 'Idiomas',
     languagesDescription: 'Lenguas romances principales en una sola plataforma',
-    studentsStat: 'Estudiantes',
-    studentsDescription: 'Comunidad activa de aprendices multilingües',
     
     // CTA Section
     ctaTitle: '¿Listo para continuar tu viaje lingüístico?',
@@ -81,7 +74,6 @@ export const translations: Record<string, Translation> = {
     // Navigation
     languages: 'Langues',
     method: 'Méthode',
-    community: 'Communauté',
     about: 'À propos',
     start: 'Commencer',
     
@@ -125,18 +117,12 @@ export const translations: Record<string, Translation> = {
     acceleratedLearningDescription: 'Utilisez vos connaissances antérieures pour apprendre plus rapidement. Les langues romanes partagent des racines latines.',
     contrastiveMethodTitle: 'Méthode Contrastive',
     contrastiveMethodDescription: 'Comparez et contrastez les similitudes entre les langues pour une compréhension plus profonde et durable.',
-    activeCommunityTitle: 'Communauté Active',
-    activeCommunityDescription: 'Connectez-vous avec d\'autres étudiants qui partagent votre passion pour les langues romanes.',
-    certificationTitle: 'Certification',
-    certificationDescription: 'Obtenez des certifications reconnues qui valident vos progrès dans chaque langue.',
     
     // Stats Section
     fasterStat: 'Plus rapide',
     fasterDescription: 'Apprentissage accéléré en tirant parti des connaissances antérieures',
     languagesStat: 'Langues',
     languagesDescription: 'Principales langues romanes sur une seule plateforme',
-    studentsStat: 'Étudiants',
-    studentsDescription: 'Communauté active d\'apprenants multilingues',
     
     // CTA Section
     ctaTitle: 'Prêt à continuer votre voyage linguistique ?',
@@ -157,7 +143,6 @@ export const translations: Record<string, Translation> = {
     // Navigation
     languages: 'Idiomas',
     method: 'Método',
-    community: 'Comunidade',
     about: 'Sobre nós',
     start: 'Começar',
     
@@ -201,18 +186,12 @@ export const translations: Record<string, Translation> = {
     acceleratedLearningDescription: 'Use seus conhecimentos anteriores para aprender mais rápido. As línguas românicas compartilham raízes latinas.',
     contrastiveMethodTitle: 'Método Contrastivo',
     contrastiveMethodDescription: 'Compare e contraste semelhanças entre idiomas para uma compreensão mais profunda e duradoura.',
-    activeCommunityTitle: 'Comunidade Ativa',
-    activeCommunityDescription: 'Conecte-se com outros estudantes que compartilham sua paixão pelas línguas românicas.',
-    certificationTitle: 'Certificação',
-    certificationDescription: 'Obtenha certificações reconhecidas que validem seu progresso em cada idioma.',
     
     // Stats Section
     fasterStat: 'Mais rápido',
     fasterDescription: 'Aprendizado acelerado aproveitando conhecimentos anteriores',
     languagesStat: 'Idiomas',
     languagesDescription: 'Principais línguas românicas em uma única plataforma',
-    studentsStat: 'Estudantes',
-    studentsDescription: 'Comunidade ativa de aprendizes multilíngues',
     
     // CTA Section
     ctaTitle: 'Pronto para continuar sua jornada linguística?',
@@ -233,7 +212,6 @@ export const translations: Record<string, Translation> = {
     // Navigation
     languages: 'Lingue',
     method: 'Metodo',
-    community: 'Comunità',
     about: 'Chi siamo',
     start: 'Iniziare',
     
@@ -277,18 +255,12 @@ export const translations: Record<string, Translation> = {
     acceleratedLearningDescription: 'Usa le tue conoscenze precedenti per imparare più velocemente. Le lingue romanze condividono radici latine.',
     contrastiveMethodTitle: 'Metodo Contrastivo',
     contrastiveMethodDescription: 'Confronta e contrasta le somiglianze tra le lingue per una comprensione più profonda e duratura.',
-    activeCommunityTitle: 'Comunità Attiva',
-    activeCommunityDescription: 'Connettiti con altri studenti che condividono la tua passione per le lingue romanze.',
-    certificationTitle: 'Certificazione',
-    certificationDescription: 'Ottieni certificazioni riconosciute che convalidano i tuoi progressi in ogni lingua.',
     
     // Stats Section
     fasterStat: 'Più veloce',
     fasterDescription: 'Apprendimento accelerato sfruttando le conoscenze precedenti',
     languagesStat: 'Lingue',
     languagesDescription: 'Principali lingue romanze su un\'unica piattaforma',
-    studentsStat: 'Studenti',
-    studentsDescription: 'Comunità attiva di apprendisti multilingue',
     
     // CTA Section
     ctaTitle: 'Pronto a continuare il tuo viaggio linguistico?',
@@ -309,7 +281,6 @@ export const translations: Record<string, Translation> = {
     // Navigation
     languages: 'Languages',
     method: 'Method',
-    community: 'Community',
     about: 'About',
     start: 'Start',
     
@@ -353,18 +324,12 @@ export const translations: Record<string, Translation> = {
     acceleratedLearningDescription: 'Use your previous knowledge to learn faster. Romance languages share Latin roots.',
     contrastiveMethodTitle: 'Contrastive Method',
     contrastiveMethodDescription: 'Compare and contrast similarities between languages for deeper and lasting understanding.',
-    activeCommunityTitle: 'Active Community',
-    activeCommunityDescription: 'Connect with other students who share your passion for Romance languages.',
-    certificationTitle: 'Certification',
-    certificationDescription: 'Earn recognized certifications that validate your progress in each language.',
     
     // Stats Section
     fasterStat: 'Faster',
     fasterDescription: 'Accelerated learning leveraging previous knowledge',
     languagesStat: 'Languages',
     languagesDescription: 'Main Romance languages on a single platform',
-    studentsStat: 'Students',
-    studentsDescription: 'Active community of multilingual learners',
     
     // CTA Section
     ctaTitle: 'Ready to continue your linguistic journey?',

@@ -3,7 +3,6 @@
 ## Navegación (Navigation)
 - **Idiomas** - Enlace del menú
 - **Método** - Enlace del menú  
-- **Comunidad** - Enlace del menú
 - **Nosotros** - Enlace del menú
 - **Comenzar** - Botón principal del menú
 
@@ -57,21 +56,12 @@
 - **Método Contrastivo** - Título de característica
 - **Compara y contrasta similitudes entre idiomas para una comprensión más profunda y duradera.** - Descripción
 
-- **Comunidad Activa** - Título de característica
-- **Conéctate con otros estudiantes que comparten tu pasión por las lenguas romances.** - Descripción
-
-- **Certificación** - Título de característica
-- **Obtén certificaciones reconocidas que validen tu progreso en cada idioma.** - Descripción
-
 ## Sección Estadísticas
 - **Más rápido** - Estadística principal
 - **Aprendizaje acelerado aprovechando conocimientos previos** - Descripción de estadística
 
 - **Idiomas** - Estadística principal
 - **Lenguas romances principales en una sola plataforma** - Descripción de estadística
-
-- **Estudiantes** - Estadística principal
-- **Comunidad activa de aprendices multilingües** - Descripción de estadística
 
 ## Sección Call-to-Action
 - **¿Listo para continuar tu viaje lingüístico?** - Título principal

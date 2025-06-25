@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe, BookOpen, Users, Languages } from 'lucide-react';
+import { Globe, BookOpen, Languages } from 'lucide-react';
 import { Translation } from '../../types/translations';
 
 interface FooterProps {
@@ -36,9 +36,6 @@ function Footer({ t }: FooterProps) {
               <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
                 <BookOpen className="w-6 h-6" />
               </div>
-              <div className="w-12 h-12 bg-gray-800 flex items-center justify-center hover:bg-green-700 transition-all duration-300 cursor-pointer border-2 border-gray-600 transform hover:rotate-45 shadow-lg hover:shadow-xl">
-                <Users className="w-6 h-6" />
-              </div>
             </div>
           </div>
           
@@ -58,7 +55,6 @@ function Footer({ t }: FooterProps) {
             <div className="space-y-3 text-gray-400">
               <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
               <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.community}</a>
               <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
             </div>
           </div>

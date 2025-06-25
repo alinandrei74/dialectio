@@ -2,7 +2,6 @@ export interface Translation {
   // Navigation
   languages: string;
   method: string;
-  community: string;
   about: string;
   start: string;
   
@@ -46,18 +45,12 @@ export interface Translation {
   acceleratedLearningDescription: string;
   contrastiveMethodTitle: string;
   contrastiveMethodDescription: string;
-  activeCommunityTitle: string;
-  activeCommunityDescription: string;
-  certificationTitle: string;
-  certificationDescription: string;
   
   // Stats Section
   fasterStat: string;
   fasterDescription: string;
   languagesStat: string;
   languagesDescription: string;
-  studentsStat: string;
-  studentsDescription: string;
   
   // CTA Section
   ctaTitle: string;

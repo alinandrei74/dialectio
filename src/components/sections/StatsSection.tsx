@@ -14,7 +14,7 @@ function StatsSection({ t }: StatsSectionProps) {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Estadísticas en disposición horizontal con espaciado uniforme */}
-        <div className="flex flex-col md:flex-row gap-6 lg:gap-8 xl:gap-10 text-center justify-center items-stretch">
+        <div className="flex flex-col md:flex-row gap-8 lg:gap-12 xl:gap-16 text-center justify-center items-stretch max-w-5xl mx-auto">
           <div className="flex-1 max-w-sm bg-green-50/95 backdrop-blur-md p-8 border-4 border-black transform rotate-2 shadow-2xl"
                style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}>
             <div className="text-4xl md:text-5xl lg:text-6xl font-black text-green-700 mb-4">
@@ -31,15 +31,6 @@ function StatsSection({ t }: StatsSectionProps) {
             </div>
             <p className="text-lg font-black text-gray-900 mb-2">{t.languagesStat}</p>
             <p className="text-gray-700 font-bold text-sm leading-relaxed">{t.languagesDescription}</p>
-          </div>
-          
-          <div className="flex-1 max-w-sm bg-green-50/95 backdrop-blur-md p-8 border-4 border-black transform rotate-2 shadow-2xl"
-               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-            <div className="text-4xl md:text-5xl lg:text-6xl font-black text-green-800 mb-4">
-              10k+
-            </div>
-            <p className="text-lg font-black text-gray-900 mb-2">{t.studentsStat}</p>
-            <p className="text-gray-700 font-bold text-sm leading-relaxed">{t.studentsDescription}</p>
           </div>
         </div>
       </div>

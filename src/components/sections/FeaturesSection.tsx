@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Target, Users, Award } from 'lucide-react';
+import { Zap, Target } from 'lucide-react';
 import { Translation } from '../../types/translations';
 
 interface FeaturesSectionProps {
@@ -20,20 +20,6 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
       title: 'contrastiveMethodTitle',
       description: 'contrastiveMethodDescription',
       color: 'from-gray-800 to-black',
-      bgColor: 'bg-gray-50/90'
-    },
-    {
-      icon: Users,
-      title: 'activeCommunityTitle',
-      description: 'activeCommunityDescription',
-      color: 'from-green-800 to-black',
-      bgColor: 'bg-green-50/90'
-    },
-    {
-      icon: Award,
-      title: 'certificationTitle',
-      description: 'certificationDescription',
-      color: 'from-gray-900 to-black',
       bgColor: 'bg-gray-50/90'
     }
   ];
@@ -58,22 +44,22 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
         </div>
 
         {/* Características en disposición horizontal responsive */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
           {features.map((feature, index) => (
-            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
                  style={{ 
                    clipPath: index % 2 === 0 
                      ? 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)'
                      : 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)'
                  }}>
               <div className="text-center">
-                <div className={`bg-gradient-to-r ${feature.color} p-4 border-3 border-black transform rotate-45 shadow-xl mx-auto mb-5 w-16 h-16 flex items-center justify-center`}>
-                  <feature.icon className="w-8 h-8 text-white transform -rotate-45" />
+                <div className={`bg-gradient-to-r ${feature.color} p-5 border-3 border-black transform rotate-45 shadow-xl mx-auto mb-6 w-20 h-20 flex items-center justify-center`}>
+                  <feature.icon className="w-10 h-10 text-white transform -rotate-45" />
                 </div>
-                <h3 className="text-lg font-black text-gray-900 mb-4">
+                <h3 className="text-xl font-black text-gray-900 mb-5">
                   {t[feature.title as keyof Translation] as string}
                 </h3>
-                <p className="text-gray-900 leading-relaxed font-bold text-sm">
+                <p className="text-gray-900 leading-relaxed font-bold text-base">
                   {t[feature.description as keyof Translation] as string}
                 </p>
               </div>
