@@ -28,19 +28,19 @@ function AboutSection({ t }: AboutSectionProps) {
 
         {/* Contenedores de texto en disposición horizontal */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8 mb-21">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform rotate-1 shadow-xl"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription1}
             </p>
           </div>
-          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform -rotate-1 shadow-xl"
+          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
                style={{ clipPath: 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription2}
             </p>
           </div>
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform rotate-1 shadow-xl"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription3}
@@ -76,7 +76,7 @@ function AboutSection({ t }: AboutSectionProps) {
 
         {/* Tarjetas de información en disposición horizontal */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300 transform rotate-1"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300"
                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
             <div className="w-20 h-20 bg-gradient-to-br from-green-700 to-green-900 dark:from-green-600 dark:to-green-800 flex items-center justify-center mx-auto mb-6 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl">
               <BookOpen className="w-10 h-10 text-white transform -rotate-45" />
@@ -85,7 +85,7 @@ function AboutSection({ t }: AboutSectionProps) {
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourStoryDescription}</p>
           </div>
 
-          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300 transform -rotate-1"
+          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300"
                style={{ clipPath: 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)' }}>
             <div className="w-20 h-20 bg-black dark:bg-gray-600 flex items-center justify-center mx-auto mb-6 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl">
               <Target className="w-10 h-10 text-white transform -rotate-45" />
@@ -94,7 +94,7 @@ function AboutSection({ t }: AboutSectionProps) {
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-bold text-sm">{t.ourMissionDescription}</p>
           </div>
 
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300 transform rotate-1"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 shadow-xl text-center border-4 border-black dark:border-gray-300"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <div className="w-20 h-20 bg-gradient-to-br from-green-800 to-black dark:from-green-700 dark:to-gray-900 flex items-center justify-center mx-auto mb-6 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl">
               <Eye className="w-10 h-10 text-white transform -rotate-45" />
