@@ -11,8 +11,8 @@ export const translations: Record<string, Translation> = {
     
     // Hero Section
     heroTitle: 'Las lenguas',
-    heroSubtitle: 'no se acaban, se continúan',
-    heroTitle: ', se continúa',
+    heroSubtitle: 'no se acaban',
+    heroTitle: ', se continúan',
     heroDescription: 'Descubre cómo tus conocimientos en una lengua romance pueden acelerar tu aprendizaje de español, francés, portugués e italiano.',
     startJourney: 'Empezar mi viaje',
     viewDemo: 'Ver demo',
