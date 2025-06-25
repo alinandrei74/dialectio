@@ -8,7 +8,7 @@ interface CTASectionProps {
 
 function CTASection({ t }: CTASectionProps) {
   return (
-    <section className="py-21 bg-gradient-to-br from-green-800 to-green-900 relative overflow-hidden">
+    <section className="py-21 bg-white/10 backdrop-blur-md relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-10 w-32 h-4 bg-black/40 transform rotate-45 opacity-40 shadow-lg"></div>
         <div className="absolute bottom-10 right-10 w-4 h-32 bg-black/40 transform -rotate-30 opacity-40 shadow-md"></div>

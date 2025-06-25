@@ -49,7 +49,7 @@ function FAQSection({ t }: FAQSectionProps) {
   };
 
   return (
-    <section id="faq" className="py-21 bg-gradient-to-b from-green-200/90 to-gray-800/90 backdrop-blur-md relative">
+    <section id="faq" className="py-21 bg-white/10 backdrop-blur-md relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-1/3 w-12 h-12 bg-gradient-to-br from-green-800 to-black transform rotate-45 opacity-25 shadow-xl"></div>
         <div className="absolute bottom-10 right-1/3 w-8 h-8 bg-black transform -rotate-45 opacity-35 shadow-lg"></div>

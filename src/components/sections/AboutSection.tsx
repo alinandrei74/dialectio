@@ -8,7 +8,7 @@ interface AboutSectionProps {
 
 function AboutSection({ t }: AboutSectionProps) {
   return (
-    <section id="nosotros" className="py-21 bg-gradient-to-b from-gray-200/90 to-green-100/90 backdrop-blur-md relative">
+    <section id="nosotros" className="py-21 bg-white/10 backdrop-blur-md relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-10 w-16 h-16 bg-gradient-to-br from-green-700 to-green-900 transform rotate-45 opacity-25 shadow-xl"></div>
         <div className="absolute bottom-20 left-10 w-4 h-48 bg-black transform -rotate-30 opacity-25 shadow-lg"></div>

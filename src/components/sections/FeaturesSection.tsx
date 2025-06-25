@@ -25,7 +25,7 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
   ];
 
   return (
-    <section id="metodo" className="py-21 bg-green-100/90 backdrop-blur-md relative">
+    <section id="metodo" className="py-21 bg-white/10 backdrop-blur-md relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-10 w-24 h-2 bg-gradient-to-r from-green-800 to-black transform rotate-30 opacity-35 shadow-lg"></div>
         <div className="absolute bottom-1/4 right-10 w-2 h-24 bg-black transform -rotate-45 opacity-35 shadow-md"></div>

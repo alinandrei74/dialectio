@@ -44,7 +44,7 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
   ];
 
   return (
-    <section id="idiomas" className="py-21 bg-gray-100/90 backdrop-blur-md relative">
+    <section id="idiomas" className="py-21 bg-white/10 backdrop-blur-md relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-1/4 w-32 h-2 bg-gradient-to-r from-gray-600 to-gray-800 transform rotate-45 opacity-35 shadow-lg"></div>
         <div className="absolute bottom-10 right-1/4 w-2 h-32 bg-black transform -rotate-12 opacity-35 shadow-md"></div>
