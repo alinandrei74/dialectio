@@ -63,6 +63,36 @@
 - **Idiomas** - Estadística principal
 - **Lenguas romances principales en una sola plataforma** - Descripción de estadística
 
+## Sección FAQ (Preguntas Frecuentes)
+- **Preguntas frecuentes** - Título de sección
+- **Resolvemos las dudas más comunes sobre dialectio.xyz** - Subtítulo
+
+### Preguntas y respuestas:
+
+1. **¿Qué es Dialectio.xyz y cómo funciona?**
+   **Dialectio.xyz es una plataforma en línea concebida para acelerar el aprendizaje desde lenguas similares. Parte de un principio sencillo: si ya dominas una lengua como el español, el italiano, el francés o el portugués, posees una gran parte del camino recorrido hacia las demás. El sistema identifica esas correspondencias —léxicas, gramaticales y fonéticas— y las convierte en atajos prácticos y prioridades. El aprendizaje se articula en dos frentes complementarios. Por un lado, conversaciones guiadas con tutores virtuales que simulan situaciones reales y con los que hablarás; por otro, ejercicios tradicionales previos a la fase de conversación, donde aprenderás los rudimentos básicos para desenvolverte en una situación real. La combinación de uso inmediato y reflexión consciente permite avanzar con rapidez y retener de forma duradera.**
+
+2. **¿Qué idiomas puedo aprender en Dialectio.xyz?**
+   **En la versión actual se ofrecen español, francés, italiano y portugués. El catálogo crecerá gradualmente, primero con otras lenguas de la misma familia —catalán, gallego, rumano— y después con otras lenguas, guardando siempre este enfoque en la familiaridad entre lenguas.**
+
+3. **¿Necesito tener conocimientos previos de alguna de las lenguas actuales para usar Dialectio.xyz?**
+   **No es imprescindible. El sistema admite el inglés como lengua de apoyo para explicaciones y pistas básicas. Sin embargo, su diseño saca el máximo rendimiento cuando el usuario ya domina, aunque sea de manera parcial, al menos una lengua romance: cada similitud reconocida se convierte entonces en un impulso de comprensión y en un ahorro de esfuerzo.**
+
+4. **¿Cuál es la diferencia entre Dialectio.xyz y otras plataformas de aprendizaje de idiomas?**
+   **La mayoría de los programas enseñan cada lengua en aislamiento, como si empezaras desde cero. Dialectio.xyz parte de lo que ya sabes. Explora raíces comunes, patrones morfológicos compartidos y falsos amigos característicos entre lenguas emparentadas. De ese modo evita redundancias y centra la atención en los verdaderos puntos de divergencia. Además, la práctica no se reduce a gimnasia gramatical: las conversaciones, los relatos y las tareas funcionales generan exposición auténtica y refuerzan la confianza comunicativa.**
+
+5. **¿Cómo se estructura el aprendizaje en Dialectio.xyz?**
+   **Cada sesión se organiza en torno a un micro-objetivo comunicativo: saludar a un vecino, pedir café, describir un itinerario, responder en una entrevista y en conjunto construyen una historia en el país de la lengua, tu historia. El primer paso son ejercicios tradicionales que te dan los rudimento básicos para desenvolverte, el segundo te lanza a situaciones reales en las que practicar la lengua en su contexto cultural.**
+
+6. **¿Quién está detrás de Dialectio.xyz?**
+   **Un equipo mixto de desarrolladores, lingüistas y apasionados del autoaprendizaje. Comparten la convicción de que las fronteras entre lenguas romances son más porosas de lo que sugiere la enseñanza tradicional y que la tecnología conversacional puede dinamizar esa cercanía lingüística para cualquier público.**
+
+7. **¿Qué necesito para empezar?**
+   **Solo crear una cuenta y disponer de conexión a internet. Todo sucede en el navegador: no hay descargas ni instalaciones. Desde el primer acceso obtendrás un diagnóstico de tu nivel y una ruta de aprendizaje personalizada que puedes seguir en ordenador, tableta o móvil.**
+
+8. **¿Qué papel juega la motivación para el aprendizaje en Dialectio.xyz?**
+   **En Dialectio.xyz la motivación quizá no acompañe al usuario desde el minuto cero, pero se considera esencial para que el proceso continúe. Por ello el diseño didáctico está orientado a generarla en lugar de presuponerla. Cada actividad coloca al aprendiz en un contexto significativo donde los resultados aparecen pronto y son tangibles: entender un guiño cultural en una canción, cerrar una reserva de alojamiento, o responder con aplomo en una llamada. Esa utilidad provoca curiosidad, alimenta el deseo de seguir y transforma la motivación en una consecuencia natural, nunca en una barrera inicial.**
+
 ## Sección Call-to-Action
 - **¿Listo para continuar tu viaje lingüístico?** - Título principal
 - **Únete a miles de estudiantes que ya están aprovechando sus conocimientos para dominar múltiples lenguas romances.** - Descripción
