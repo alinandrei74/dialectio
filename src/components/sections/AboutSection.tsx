@@ -28,19 +28,19 @@ function AboutSection({ t }: AboutSectionProps) {
 
         {/* Contenedores de texto en disposición horizontal */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8 mb-21">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription1}
             </p>
           </div>
-          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
+          <div className="bg-green-50/90 dark:bg-gray-700/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform -rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription2}
             </p>
           </div>
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl"
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 transform rotate-1 shadow-xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed font-bold">
               {t.aboutDescription3}
