@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, Languages } from 'lucide-react';
+import { Menu, Languages } from 'lucide-react';
 import { Translation } from '../../types/translations';
 import LanguageSelector from '../ui/LanguageSelector';
 import DarkModeToggle from '../ui/DarkModeToggle';
@@ -99,33 +99,46 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-3 hover:bg-blue-200 dark:hover:bg-gray-600 border-2 border-black dark:border-gray-300 transform rotate-45 shadow-lg transition-all duration-300"
-          >
-            {isMenuOpen ? <X className={`w-5 h-5 transform -rotate-45 ${textColor}`} /> : <Menu className={`w-5 h-5 transform -rotate-45 ${textColor}`} />}
-          </button>
+          {/* Mobile buttons container */}
+          <div className="md:hidden flex items-center space-x-3">
+            {/* Mobile menu button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-3 hover:bg-blue-200 dark:hover:bg-gray-600 border-2 border-black dark:border-gray-300 transform rotate-45 shadow-lg transition-all duration-300"
+            >
+              <Menu className={`w-5 h-5 transform -rotate-45 ${textColor}`} />
+            </button>
+
+            {/* Dark mode toggle button in mobile */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 border-2 border-black dark:border-gray-300 transform rotate-45 shadow-lg"
+            >
+              {isDarkMode ? (
+                <svg className={`w-5 h-5 text-yellow-500 transform -rotate-45`} fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className={`w-5 h-5 text-blue-600 transform -rotate-45`} fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - Menú más opaco */}
         {isMenuOpen && (
-          <div className={`md:hidden absolute top-18 left-0 right-0 ${navBackground} backdrop-blur-md shadow-2xl border-4 border-black dark:border-gray-600 border-t-0 transition-all duration-300`}>
+          <div className="md:hidden absolute top-18 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-2xl border-4 border-black dark:border-gray-600 border-t-0 transition-all duration-300">
             <div className="px-5 py-5 space-y-5">
-              <a href="#idiomas" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.languages}</a>
-              <a href="#nosotros" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.about}</a>
-              <a href="#metodo" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.method}</a>
-              <a href="#faq" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`}>{t.faq}</a>
+              <a href="#idiomas" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`} onClick={() => setIsMenuOpen(false)}>{t.languages}</a>
+              <a href="#nosotros" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`} onClick={() => setIsMenuOpen(false)}>{t.about}</a>
+              <a href="#metodo" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`} onClick={() => setIsMenuOpen(false)}>{t.method}</a>
+              <a href="#faq" className={`block hover:text-blue-700 dark:hover:text-blue-400 py-2 font-bold text-base transition-all duration-300 ${textColor}`} onClick={() => setIsMenuOpen(false)}>{t.faq}</a>
               
               <LanguageSelector 
                 currentLang={currentLang}
                 setCurrentLang={setCurrentLang}
-                isMobile={true}
-              />
-              
-              <DarkModeToggle 
-                isDarkMode={isDarkMode}
-                toggleDarkMode={toggleDarkMode}
                 isMobile={true}
               />
               
