@@ -3,6 +3,7 @@ export interface Translation {
   languages: string;
   method: string;
   about: string;
+  faq: string;
   start: string;
   
   // Hero Section
@@ -51,6 +52,26 @@ export interface Translation {
   fasterDescription: string;
   languagesStat: string;
   languagesDescription: string;
+  
+  // FAQ Section
+  faqTitle: string;
+  faqSubtitle: string;
+  faqQuestion1: string;
+  faqAnswer1: string;
+  faqQuestion2: string;
+  faqAnswer2: string;
+  faqQuestion3: string;
+  faqAnswer3: string;
+  faqQuestion4: string;
+  faqAnswer4: string;
+  faqQuestion5: string;
+  faqAnswer5: string;
+  faqQuestion6: string;
+  faqAnswer6: string;
+  faqQuestion7: string;
+  faqAnswer7: string;
+  faqQuestion8: string;
+  faqAnswer8: string;
   
   // CTA Section
   ctaTitle: string;
