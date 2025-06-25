@@ -35,9 +35,6 @@ function HeroSection({ t }: HeroSectionProps) {
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-9 drop-shadow-2xl tracking-tight">
             {t.heroTitle}
-            <span className="text-yellow-300 block drop-shadow-2xl animate-pulse">
-              {t.heroHighlight}
-            </span>
             <span className="text-blue-200 block drop-shadow-2xl">
               {t.heroSubtitle}
             </span>

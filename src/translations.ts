@@ -10,9 +10,8 @@ export const translations: Record<string, Translation> = {
     start: 'Comenzar',
     
     // Hero Section
-    heroTitle: 'Las lenguas',
-    heroHighlight: 'no se acaban',
-    heroSubtitle: 'continúan',
+    heroTitle: 'Las lenguas no se',
+    heroSubtitle: 'acaban, se continúan',
     heroDescription: 'Descubre cómo tus conocimientos en una lengua romance pueden acelerar tu aprendizaje de español, francés, portugués e italiano.',
     startJourney: 'Empezar mi viaje',
     viewDemo: 'Ver demo',
@@ -86,9 +85,8 @@ export const translations: Record<string, Translation> = {
     start: 'Commencer',
     
     // Hero Section
-    heroTitle: 'Les langues',
-    heroHighlight: 'ne se terminent pas',
-    heroSubtitle: 'elles continuent',
+    heroTitle: 'Les langues ne se',
+    heroSubtitle: 'terminent pas, elles continuent',
     heroDescription: 'Découvrez comment vos connaissances d\'une langue romane peuvent accélérer votre apprentissage de l\'espagnol, du français, du portugais et de l\'italien.',
     startJourney: 'Commencer mon voyage',
     viewDemo: 'Voir la démo',
@@ -162,9 +160,8 @@ export const translations: Record<string, Translation> = {
     start: 'Começar',
     
     // Hero Section
-    heroTitle: 'As línguas',
-    heroHighlight: 'não se acabam',
-    heroSubtitle: 'continuam',
+    heroTitle: 'As línguas não se',
+    heroSubtitle: 'acabam, continuam',
     heroDescription: 'Descubra como seus conhecimentos em uma língua românica podem acelerar seu aprendizado de espanhol, francês, português e italiano.',
     startJourney: 'Começar minha jornada',
     viewDemo: 'Ver demo',
@@ -238,9 +235,8 @@ export const translations: Record<string, Translation> = {
     start: 'Iniziare',
     
     // Hero Section
-    heroTitle: 'Le lingue',
-    heroHighlight: 'non si finiscono',
-    heroSubtitle: 'continuano',
+    heroTitle: 'Le lingue non si',
+    heroSubtitle: 'finiscono, continuano',
     heroDescription: 'Scopri come le tue conoscenze di una lingua romanza possono accelerare il tuo apprendimento di spagnolo, francese, portoghese e italiano.',
     startJourney: 'Iniziare il mio viaggio',
     viewDemo: 'Vedi demo',
@@ -314,9 +310,8 @@ export const translations: Record<string, Translation> = {
     start: 'Start',
     
     // Hero Section
-    heroTitle: 'Languages',
-    heroHighlight: 'don\'t end',
-    heroSubtitle: 'they continue',
+    heroTitle: 'Languages don\'t',
+    heroSubtitle: 'end, they continue',
     heroDescription: 'Discover how your knowledge of one Romance language can accelerate your learning of Spanish, French, Portuguese, and Italian.',
     startJourney: 'Start my journey',
     viewDemo: 'View demo',
