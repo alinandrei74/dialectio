@@ -187,4 +187,29 @@ export interface Translation {
   acceptTerms: string;
   acceptTermsDescription: string;
   mustAcceptTerms: string;
+
+  // Demo Page
+  demoTitle: string;
+  demoSubtitle: string;
+  demoVideoTitle: string;
+  demoVideoPlaceholder: string;
+  demoVideoDescription: string;
+  comingSoon: string;
+  demoNotifyTitle: string;
+  demoNotifyDescription: string;
+  demoNotifyBenefits: string;
+  demoNotifyPlaceholder: string;
+  demoNotifyButton: string;
+  demoNotifyProcessing: string;
+  demoNotifySuccess: string;
+  demoNotifyError: string;
+  demoNotifyPrivacy: string;
+  demoFeaturesTitle: string;
+  demoFeaturesDescription: string;
+  demoFeature1Title: string;
+  demoFeature1Description: string;
+  demoFeature2Title: string;
+  demoFeature2Description: string;
+  demoFeature3Title: string;
+  demoFeature3Description: string;
 }

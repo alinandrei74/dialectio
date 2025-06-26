@@ -5,6 +5,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import ContactPage from './pages/ContactPage';
+import DemoPage from './pages/DemoPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/demo" element={<DemoPage />} />
       </Routes>
     </Router>
   );

@@ -16,6 +16,7 @@ function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLanguage, setActiveLanguage] = useState(0);
   const [currentLang, setCurrentLang] = useState<string>('es');
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const t: Translation = translations[currentLang];
@@ -27,10 +28,8 @@ function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Función dummy para manejar clicks de "comenzar" desde otras secciones
   const handleStartClick = () => {
-    // Esta función se puede usar desde otras secciones si es necesario
-    console.log('Start clicked from section');
+    setIsAuthModalOpen(true);
   };
 
   return (
@@ -45,6 +44,8 @@ function HomePage() {
         t={t}
         isDarkMode={isDarkMode}
         toggleDarkMode={toggleDarkMode}
+        isAuthModalOpen={isAuthModalOpen}
+        setIsAuthModalOpen={setIsAuthModalOpen}
       />
       
       <HeroSection t={t} onStartClick={handleStartClick} />

@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Translation } from '../../types/translations';
 import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 interface HeroSectionProps {
   t: Translation;
@@ -10,6 +11,7 @@ interface HeroSectionProps {
 
 function HeroSection({ t, onStartClick }: HeroSectionProps) {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleStartClick = () => {
     if (user) {
@@ -19,6 +21,10 @@ function HeroSection({ t, onStartClick }: HeroSectionProps) {
       // Usuario no logueado - abrir modal de auth
       onStartClick();
     }
+  };
+
+  const handleViewDemoClick = () => {
+    navigate('/demo');
   };
 
   return (
@@ -73,8 +79,11 @@ function HeroSection({ t, onStartClick }: HeroSectionProps) {
                 <ArrowRight className="w-5 h-5" />
               </button>
             )}
-            <button className="border-4 border-white dark:border-gray-300 text-white px-10 py-5 hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 text-lg font-black bg-white/20 dark:bg-gray-800/30 backdrop-blur-md shadow-2xl hover:shadow-3xl hover:scale-105"
-                    style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%)' }}>
+            <button 
+              onClick={handleViewDemoClick}
+              className="border-4 border-white dark:border-gray-300 text-white px-10 py-5 hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 text-lg font-black bg-white/20 dark:bg-gray-800/30 backdrop-blur-md shadow-2xl hover:shadow-3xl hover:scale-105"
+              style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%)' }}
+            >
               {t.viewDemo}
             </button>
           </div>

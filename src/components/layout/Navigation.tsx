@@ -15,12 +15,23 @@ interface NavigationProps {
   t: Translation;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+  isAuthModalOpen: boolean;
+  setIsAuthModalOpen: (isOpen: boolean) => void;
 }
 
-function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t, isDarkMode, toggleDarkMode }: NavigationProps) {
+function Navigation({ 
+  isMenuOpen, 
+  setIsMenuOpen, 
+  currentLang, 
+  setCurrentLang, 
+  t, 
+  isDarkMode, 
+  toggleDarkMode,
+  isAuthModalOpen,
+  setIsAuthModalOpen
+}: NavigationProps) {
   const [navBackground, setNavBackground] = useState('bg-white/40 dark:bg-gray-900/95');
   const [textColor, setTextColor] = useState('text-gray-900 dark:text-gray-100');
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   
   const { user, loading } = useAuth();
 
