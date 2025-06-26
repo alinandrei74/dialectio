@@ -162,7 +162,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
               {/* Email or Username Field */}
               <div>
                 <label className={`block text-xs font-bold ${textColor} mb-1`}>
-                  {t.emailOrUsername}
+                  email / user
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
@@ -174,7 +174,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
                     onChange={(e) => setEmailOrUsername(e.target.value)}
                     className="w-full pl-8 pr-3 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                    placeholder="tu@email.com o usuario"
+                    placeholder="email / user"
                     required
                   />
                 </div>
@@ -283,7 +283,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
             {/* Email or Username Field */}
             <div>
               <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                {t.emailOrUsername}
+                email / user
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -295,7 +295,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
                   onChange={(e) => setEmailOrUsername(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                  placeholder="tu@email.com o usuario"
+                  placeholder="email / user"
                   required
                 />
               </div>
