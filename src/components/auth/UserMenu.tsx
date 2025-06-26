@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, LogOut, Settings, BookOpen } from 'lucide-react';
+import { User, LogOut, Settings, BookOpen, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -13,10 +13,21 @@ function UserMenu() {
   const handleSignOut = async () => {
     await signOut();
     setIsOpen(false);
+    navigate('/');
   };
 
   const handleSettingsClick = () => {
     navigate('/settings');
+    setIsOpen(false);
+  };
+
+  const handleLearningClick = () => {
+    navigate('/learning');
+    setIsOpen(false);
+  };
+
+  const handleHomeClick = () => {
+    navigate('/');
     setIsOpen(false);
   };
 
@@ -45,7 +56,18 @@ function UserMenu() {
 
           {/* Menu Items */}
           <div className="p-2">
-            <button className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100">
+            <button 
+              onClick={handleHomeClick}
+              className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100"
+            >
+              <Home className="w-4 h-4" />
+              <span>Inicio</span>
+            </button>
+
+            <button 
+              onClick={handleLearningClick}
+              className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100"
+            >
               <BookOpen className="w-4 h-4" />
               <span>Aprendizaje</span>
             </button>

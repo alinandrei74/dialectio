@@ -8,6 +8,8 @@ import ContactPage from './pages/ContactPage';
 import DemoPage from './pages/DemoPage';
 import SettingsPage from './pages/SettingsPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import LearningDashboard from './pages/LearningDashboard';
+import CoursePage from './pages/CoursePage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/learning" element={<LearningDashboard />} />
+        <Route path="/learning/course/:courseId" element={<CoursePage />} />
       </Routes>
     </Router>
   );
