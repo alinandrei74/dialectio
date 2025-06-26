@@ -212,4 +212,34 @@ export interface Translation {
   demoFeature2Description: string;
   demoFeature3Title: string;
   demoFeature3Description: string;
+
+  // Settings Page
+  settingsTitle: string;
+  settingsSubtitle: string;
+  settingsNavigation: string;
+  settingsProfileSection: string;
+  settingsPasswordSection: string;
+  settingsEmailSection: string;
+  settingsPreferencesSection: string;
+  settingsCurrentInfo: string;
+  settingsCurrentPassword: string;
+  settingsNewPassword: string;
+  settingsCurrentEmail: string;
+  settingsNewEmail: string;
+  settingsConfirmPassword: string;
+  settingsChangePassword: string;
+  settingsChangeEmail: string;
+  settingsSaveChanges: string;
+  settingsSaving: string;
+  settingsLanguagePreference: string;
+  settingsLanguageDescription: string;
+  settingsThemePreference: string;
+  settingsThemeDescription: string;
+  settingsMorePreferences: string;
+  settingsProfileSuccess: string;
+  settingsProfileError: string;
+  settingsPasswordSuccess: string;
+  settingsPasswordError: string;
+  settingsEmailSuccess: string;
+  settingsEmailError: string;
 }

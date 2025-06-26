@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { User, LogOut, Settings, BookOpen } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
   const handleSignOut = async () => {
     await signOut();
+    setIsOpen(false);
+  };
+
+  const handleSettingsClick = () => {
+    navigate('/settings');
     setIsOpen(false);
   };
 
@@ -43,7 +50,10 @@ function UserMenu() {
               <span>Aprendizaje</span>
             </button>
             
-            <button className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100">
+            <button 
+              onClick={handleSettingsClick}
+              className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100"
+            >
               <Settings className="w-4 h-4" />
               <span>Configuración</span>
             </button>

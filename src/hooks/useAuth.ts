@@ -91,6 +91,73 @@ export function useAuth() {
     return { error };
   };
 
+  const updateProfile = async (fullName: string, initialLanguage: string) => {
+    if (!user) throw new Error('No user logged in');
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        full_name: fullName,
+        initial_language: initialLanguage,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', user.id);
+
+    if (error) throw error;
+    return { error: null };
+  };
+
+  const updatePassword = async (currentPassword: string, newPassword: string) => {
+    if (!user) throw new Error('No user logged in');
+
+    // First verify current password by attempting to sign in
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email: user.email!,
+      password: currentPassword,
+    });
+
+    if (verifyError) throw new Error('Contraseña actual incorrecta');
+
+    // Update password
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) throw error;
+    return { error: null };
+  };
+
+  const updateEmail = async (newEmail: string, password: string) => {
+    if (!user) throw new Error('No user logged in');
+
+    // First verify password by attempting to sign in
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email: user.email!,
+      password: password,
+    });
+
+    if (verifyError) throw new Error('Contraseña incorrecta');
+
+    // Update email
+    const { error } = await supabase.auth.updateUser({
+      email: newEmail
+    });
+
+    if (error) throw error;
+
+    // Also update email in profiles table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        email: newEmail,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', user.id);
+
+    if (profileError) throw profileError;
+    return { error: null };
+  };
+
   return {
     user,
     session,
@@ -98,5 +165,8 @@ export function useAuth() {
     signUp,
     signIn,
     signOut,
+    updateProfile,
+    updatePassword,
+    updateEmail,
   };
 }
