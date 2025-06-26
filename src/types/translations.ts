@@ -155,4 +155,12 @@ export interface Translation {
   invalidCredentials: string;
   registrationError: string;
   connectionError: string;
+
+  // Legal Pages
+  privacyPolicy: string;
+  privacyPolicySubtitle: string;
+  privacyPolicyPlaceholder: string;
+  termsAndConditions: string;
+  termsAndConditionsSubtitle: string;
+  termsAndConditionsPlaceholder: string;
 }

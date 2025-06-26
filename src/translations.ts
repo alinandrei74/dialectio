@@ -165,7 +165,15 @@ export const translations: Record<string, Translation> = {
     // Error Messages
     invalidCredentials: 'Credenciales incorrectas',
     registrationError: 'Error al crear la cuenta',
-    connectionError: 'Error de conexión'
+    connectionError: 'Error de conexión',
+
+    // Legal Pages
+    privacyPolicy: 'Política de Privacidad',
+    privacyPolicySubtitle: 'Información sobre cómo recopilamos, usamos y protegemos tus datos',
+    privacyPolicyPlaceholder: 'El contenido de la política de privacidad se añadirá próximamente. Esta página está preparada para recibir el texto cuando esté disponible.',
+    termsAndConditions: 'Términos y Condiciones',
+    termsAndConditionsSubtitle: 'Términos de uso y condiciones del servicio de dialectio.xyz',
+    termsAndConditionsPlaceholder: 'El contenido de los términos y condiciones se añadirá próximamente. Esta página está preparada para recibir el texto cuando esté disponible.'
   },
   
   // Aquí irían las traducciones para otros idiomas (fr, pt, it, en)
@@ -294,7 +302,13 @@ export const translations: Record<string, Translation> = {
     welcomeBack: 'Bon retour !',
     invalidCredentials: 'Identifiants incorrects',
     registrationError: 'Erreur lors de la création du compte',
-    connectionError: 'Erreur de connexion'
+    connectionError: 'Erreur de connexion',
+    privacyPolicy: 'Politique de Confidentialité',
+    privacyPolicySubtitle: 'Informations sur la façon dont nous collectons, utilisons et protégeons vos données',
+    privacyPolicyPlaceholder: 'Le contenu de la politique de confidentialité sera ajouté prochainement. Cette page est prête à recevoir le texte quand il sera disponible.',
+    termsAndConditions: 'Conditions Générales',
+    termsAndConditionsSubtitle: 'Conditions d\'utilisation et conditions de service de dialectio.xyz',
+    termsAndConditionsPlaceholder: 'Le contenu des conditions générales sera ajouté prochainement. Cette page est prête à recevoir le texte quand il sera disponible.'
   },
   
   // Simplificando las otras traducciones por brevedad
@@ -356,7 +370,13 @@ export const translations: Record<string, Translation> = {
     usernameInvalidChars: 'Apenas letras, números e sublinhados são permitidos',
     usernameAlreadyExists: 'Este nome de usuário já está em uso', emailAlreadyExists: 'Este e-mail já está registrado',
     registrationSuccess: 'Conta criada com sucesso! Bem-vindo ao dialectio.xyz', welcomeBack: 'Bem-vindo de volta!',
-    invalidCredentials: 'Credenciais incorretas', registrationError: 'Erro ao criar conta', connectionError: 'Erro de conexão'
+    invalidCredentials: 'Credenciais incorretas', registrationError: 'Erro ao criar conta', connectionError: 'Erro de conexão',
+    privacyPolicy: 'Política de Privacidade',
+    privacyPolicySubtitle: 'Informações sobre como coletamos, usamos e protegemos seus dados',
+    privacyPolicyPlaceholder: 'O conteúdo da política de privacidade será adicionado em breve. Esta página está preparada para receber o texto quando estiver disponível.',
+    termsAndConditions: 'Termos e Condições',
+    termsAndConditionsSubtitle: 'Termos de uso e condições de serviço do dialectio.xyz',
+    termsAndConditionsPlaceholder: 'O conteúdo dos termos e condições será adicionado em breve. Esta página está preparada para receber o texto quando estiver disponível.'
   },
   
   it: {
@@ -417,7 +437,13 @@ export const translations: Record<string, Translation> = {
     usernameInvalidChars: 'Solo lettere, numeri e trattini bassi sono permessi',
     usernameAlreadyExists: 'Questo nome utente è già in uso', emailAlreadyExists: 'Questa email è già registrata',
     registrationSuccess: 'Account creato con successo! Benvenuto su dialectio.xyz', welcomeBack: 'Bentornato!',
-    invalidCredentials: 'Credenziali non corrette', registrationError: 'Errore nella creazione dell\'account', connectionError: 'Errore di connessione'
+    invalidCredentials: 'Credenziali non corrette', registrationError: 'Errore nella creazione dell\'account', connectionError: 'Errore di connessione',
+    privacyPolicy: 'Informativa sulla Privacy',
+    privacyPolicySubtitle: 'Informazioni su come raccogliamo, utilizziamo e proteggiamo i tuoi dati',
+    privacyPolicyPlaceholder: 'Il contenuto dell\'informativa sulla privacy sarà aggiunto a breve. Questa pagina è pronta per ricevere il testo quando sarà disponibile.',
+    termsAndConditions: 'Termini e Condizioni',
+    termsAndConditionsSubtitle: 'Termini di utilizzo e condizioni di servizio di dialectio.xyz',
+    termsAndConditionsPlaceholder: 'Il contenuto dei termini e condizioni sarà aggiunto a breve. Questa pagina è pronta per ricevere il testo quando sarà disponibile.'
   },
   
   en: {
@@ -478,6 +504,12 @@ export const translations: Record<string, Translation> = {
     usernameInvalidChars: 'Only letters, numbers and underscores are allowed',
     usernameAlreadyExists: 'This username is already taken', emailAlreadyExists: 'This email is already registered',
     registrationSuccess: 'Account created successfully! Welcome to dialectio.xyz', welcomeBack: 'Welcome back!',
-    invalidCredentials: 'Invalid credentials', registrationError: 'Error creating account', connectionError: 'Connection error'
+    invalidCredentials: 'Invalid credentials', registrationError: 'Error creating account', connectionError: 'Connection error',
+    privacyPolicy: 'Privacy Policy',
+    privacyPolicySubtitle: 'Information about how we collect, use and protect your data',
+    privacyPolicyPlaceholder: 'The privacy policy content will be added soon. This page is ready to receive the text when it becomes available.',
+    termsAndConditions: 'Terms and Conditions',
+    termsAndConditionsSubtitle: 'Terms of use and service conditions for dialectio.xyz',
+    termsAndConditionsPlaceholder: 'The terms and conditions content will be added soon. This page is ready to receive the text when it becomes available.'
   }
 };
