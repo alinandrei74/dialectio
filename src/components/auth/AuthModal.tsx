@@ -34,7 +34,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
         // Calcular el progreso del scroll (0 a 1)
         const scrollProgress = scrollY / (documentHeight - windowHeight);
         
-        // Definir los puntos de cambio con tonos aún más claros
+        // Definir los puntos de cambio exactamente igual que el navbar
         if (scrollProgress < 0.15) {
           // Hero section - blanco muy transparente
           setModalBackground('bg-white/95 dark:bg-gray-900/95');
@@ -161,7 +161,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
             <form onSubmit={handleSubmit} className="space-y-3">
               {/* Email or Username Field */}
               <div>
-                <label className={`block text-xs font-bold ${textColor} mb-1`}>
+                <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
                   email / user
                 </label>
                 <div className="relative">
@@ -182,7 +182,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
 
               {/* Password Field */}
               <div>
-                <label className={`block text-xs font-bold ${textColor} mb-1`}>
+                <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
                   {t.password}
                 </label>
                 <div className="relative">
@@ -225,7 +225,7 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
 
             {/* Register Link */}
             <div className="mt-3 text-center">
-              <p className={`${textColor} font-bold text-xs`}>
+              <p className={`${textColor} font-bold text-xs transition-colors duration-500`}>
                 {t.dontHaveAccount}
               </p>
               <button
