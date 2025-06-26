@@ -15,7 +15,6 @@ function RegistrationPage() {
   
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [formData, setFormData] = useState({
-    fullName: '',
     username: '',
     email: '',
     password: '',
@@ -41,11 +40,6 @@ function RegistrationPage() {
 
   const validateField = (name: string, value: string): string | null => {
     switch (name) {
-      case 'fullName':
-        if (!value.trim()) return t.fieldRequired;
-        if (value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres';
-        return null;
-      
       case 'username':
         if (!value.trim()) return t.fieldRequired;
         if (value.length < 3) return t.usernameTooShort;
@@ -109,11 +103,12 @@ function RegistrationPage() {
     }
 
     try {
+      // Usar el username como fullName también
       const { data, error } = await signUp(
         formData.email,
         formData.password,
         formData.username,
-        formData.fullName,
+        formData.username, // Usar username como fullName
         formData.initialLanguage
       );
 
@@ -228,7 +223,7 @@ function RegistrationPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Personal Information Section */}
+              {/* Account Information Section */}
               <div>
                 <div className="mb-6">
                   <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-2">
@@ -239,69 +234,39 @@ function RegistrationPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Full Name */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      {t.fullNameLabel}
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        value={formData.fullName}
-                        onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        className={`w-full pl-10 pr-4 py-3 border-3 ${
-                          errors.fullName ? 'border-red-500' : 'border-black dark:border-gray-300'
-                        } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                        style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                        placeholder={t.fullNamePlaceholder}
-                        required
-                      />
+                {/* Username */}
+                <div className="mb-6">
+                  <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    {t.usernameLabel}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <User className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    {errors.fullName && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
-                        {errors.fullName}
-                      </p>
-                    )}
+                    <input
+                      type="text"
+                      value={formData.username}
+                      onChange={(e) => handleInputChange('username', e.target.value.toLowerCase())}
+                      className={`w-full pl-10 pr-4 py-3 border-3 ${
+                        errors.username ? 'border-red-500' : 'border-black dark:border-gray-300'
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                      placeholder={t.usernamePlaceholder}
+                      required
+                    />
                   </div>
-
-                  {/* Username */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      {t.usernameLabel}
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        value={formData.username}
-                        onChange={(e) => handleInputChange('username', e.target.value.toLowerCase())}
-                        className={`w-full pl-10 pr-4 py-3 border-3 ${
-                          errors.username ? 'border-red-500' : 'border-black dark:border-gray-300'
-                        } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                        style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
-                        placeholder={t.usernamePlaceholder}
-                        required
-                      />
-                    </div>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 font-bold">
-                      {t.usernameDescription}
+                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 font-bold">
+                    {t.usernameDescription}
+                  </p>
+                  {errors.username && (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
+                      {errors.username}
                     </p>
-                    {errors.username && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
-                        {errors.username}
-                      </p>
-                    )}
-                  </div>
+                  )}
                 </div>
 
                 {/* Email */}
-                <div className="mt-6">
+                <div className="mb-6">
                   <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
                     {t.emailLabel}
                   </label>
@@ -316,7 +281,7 @@ function RegistrationPage() {
                       className={`w-full pl-10 pr-4 py-3 border-3 ${
                         errors.email ? 'border-red-500' : 'border-black dark:border-gray-300'
                       } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                      style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}
+                      style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
                       placeholder={t.emailPlaceholder}
                       required
                     />
@@ -329,7 +294,7 @@ function RegistrationPage() {
                 </div>
 
                 {/* Password Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Password */}
                   <div>
                     <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">

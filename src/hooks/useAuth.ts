@@ -34,13 +34,13 @@ export function useAuth() {
     });
 
     // If signup is successful and we have user data, create profile
-    if (!error && data.user && username && fullName && initialLanguage) {
+    if (!error && data.user && username && initialLanguage) {
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
           id: data.user.id,
           username,
-          full_name: fullName,
+          full_name: username, // Usar username como full_name
           initial_language: initialLanguage,
           email: email
         });
