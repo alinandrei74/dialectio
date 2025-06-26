@@ -50,7 +50,7 @@ function AboutSection({ t }: AboutSectionProps) {
 
         {/* Sección de estadísticas mejorada */}
         <div className="mb-21">
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md p-9 shadow-2xl border-4 border-black dark:border-gray-300 transform -rotate-1 max-w-4xl mx-auto"
+          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md p-9 shadow-2xl border-4 border-black dark:border-gray-300 max-w-4xl mx-auto"
                style={{ clipPath: 'polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)' }}>
             <div className="flex items-center space-x-5 mb-7">
               <div className="w-18 h-18 bg-gradient-to-br from-green-700 to-green-900 dark:from-green-600 dark:to-green-800 flex items-center justify-center border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl">
