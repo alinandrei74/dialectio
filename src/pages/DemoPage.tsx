@@ -13,6 +13,7 @@ function DemoPage() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [email, setEmail] = useState('');
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -38,6 +39,12 @@ function DemoPage() {
       return;
     }
 
+    if (!acceptPrivacy) {
+      setError('Debes aceptar el consentimiento para el tratamiento de datos');
+      setLoading(false);
+      return;
+    }
+
     try {
       // Aquí se implementará la lógica de suscripción cuando esté lista
       // Por ahora simulamos el envío
@@ -45,6 +52,7 @@ function DemoPage() {
       
       setSuccess(t.demoNotifySuccess);
       setEmail('');
+      setAcceptPrivacy(false);
     } catch (err) {
       setError(t.demoNotifyError);
     }
@@ -234,6 +242,31 @@ function DemoPage() {
                   </div>
                 </div>
 
+                {/* Privacy Consent */}
+                <div className="bg-gray-50/90 dark:bg-gray-700/90 p-4 border-2 border-gray-300 dark:border-gray-500 shadow-md"
+                     style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
+                  <div className="flex items-start space-x-3">
+                    <input
+                      type="checkbox"
+                      id="acceptPrivacy"
+                      checked={acceptPrivacy}
+                      onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-blue-600 border-2 border-gray-300 dark:border-gray-500 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <div>
+                      <label htmlFor="acceptPrivacy" className="text-xs font-bold text-gray-900 dark:text-gray-100 cursor-pointer">
+                        Acepto que mi email sea utilizado para notificarme sobre el lanzamiento de la plataforma
+                      </label>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-bold mt-1">
+                        Al proporcionar tu email, aceptas que lo usemos únicamente para notificarte cuando dialectio.xyz esté disponible. Consulta nuestra{' '}
+                        <a href="/privacy-policy" target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline">
+                          política de privacidad
+                        </a>.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   disabled={loading}
@@ -244,13 +277,6 @@ function DemoPage() {
                   <span>{loading ? t.demoNotifyProcessing : t.demoNotifyButton}</span>
                 </button>
               </form>
-
-              {/* Additional Info */}
-              <div className="mt-6 text-center">
-                <p className="text-gray-600 dark:text-gray-400 font-bold text-xs">
-                  {t.demoNotifyPrivacy}
-                </p>
-              </div>
             </div>
           </div>
         </div>
