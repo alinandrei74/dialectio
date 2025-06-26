@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { X, Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Translation } from '../../types/translations';
@@ -15,14 +15,16 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
   const navigate = useNavigate();
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [modalBackground, setModalBackground] = useState('bg-white/95 dark:bg-gray-800/95');
   const [textColor, setTextColor] = useState('text-gray-900 dark:text-gray-100');
+  const [showResetForm, setShowResetForm] = useState(false);
 
-  const { signIn } = useAuth();
+  const { signIn, resetPassword } = useAuth();
 
   useEffect(() => {
     if (isDropdown) {
@@ -101,12 +103,50 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
     setLoading(false);
   };
 
+  const handleResetSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    if (!resetEmail.trim()) {
+      setError(t.fieldRequired);
+      setLoading(false);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resetEmail)) {
+      setError(t.emailInvalid);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await resetPassword(resetEmail);
+      if (error) {
+        setError(t.resetPasswordError);
+      } else {
+        setSuccess(t.resetPasswordSuccess);
+        setTimeout(() => {
+          setShowResetForm(false);
+          setResetEmail('');
+        }, 3000);
+      }
+    } catch (err) {
+      setError(t.connectionError);
+    }
+
+    setLoading(false);
+  };
+
   const resetForm = () => {
     setEmailOrUsername('');
     setPassword('');
+    setResetEmail('');
     setError('');
     setSuccess('');
     setShowPassword(false);
+    setShowResetForm(false);
   };
 
   const handleClose = () => {
@@ -130,9 +170,19 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
           <div className="p-4 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-1 mt-1"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-black">
-                {t.login}
-              </h2>
+              <div className="flex items-center space-x-2">
+                {showResetForm && (
+                  <button
+                    onClick={() => setShowResetForm(false)}
+                    className="w-6 h-6 bg-white/20 hover:bg-white/30 transition-all duration-300 border border-white transform rotate-45 flex items-center justify-center"
+                  >
+                    <ArrowLeft className="w-3 h-3 transform -rotate-45" />
+                  </button>
+                )}
+                <h2 className="text-lg font-black">
+                  {showResetForm ? t.resetPassword : t.login}
+                </h2>
+              </div>
               <button
                 onClick={handleClose}
                 className="w-8 h-8 bg-white/20 hover:bg-white/30 transition-all duration-300 border-2 border-white transform rotate-45 flex items-center justify-center"
@@ -158,83 +208,137 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-3">
-              {/* Email or Username Field */}
-              <div>
-                <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
-                  email / user
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <Mail className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            {showResetForm ? (
+              // Reset Password Form
+              <form onSubmit={handleResetSubmit} className="space-y-3">
+                <div>
+                  <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
+                    {t.emailLabel}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                      <Mail className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </div>
+                    <input
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                      placeholder={t.emailPlaceholder}
+                      required
+                    />
                   </div>
-                  <input
-                    type="text"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                    style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                    placeholder="email / user"
-                    required
-                  />
                 </div>
-              </div>
 
-              {/* Password Field */}
-              <div>
-                <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
-                  {t.password}
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <Lock className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white py-2 font-black text-sm border-2 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg"
+                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                >
+                  {loading ? 'Enviando...' : t.sendResetEmail}
+                </button>
+
+                <div className="text-center">
+                  <p className={`${textColor} font-bold text-xs transition-colors duration-500`}>
+                    {t.resetPasswordDescription}
+                  </p>
+                </div>
+              </form>
+            ) : (
+              // Login Form
+              <form onSubmit={handleSubmit} className="space-y-3">
+                {/* Email or Username Field */}
+                <div>
+                  <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
+                    email / user
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                      <Mail className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      value={emailOrUsername}
+                      onChange={(e) => setEmailOrUsername(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                      placeholder="email / user"
+                      required
+                    />
                   </div>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-8 pr-10 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                    style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
-                    placeholder="••••••••"
-                    required
-                  />
+                </div>
+
+                {/* Password Field */}
+                <div>
+                  <label className={`block text-xs font-bold ${textColor} mb-1 transition-colors duration-500`}>
+                    {t.password}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                      <Lock className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </div>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full pl-8 pr-10 py-2 border-2 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
+                      placeholder="••••••••"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-2 flex items-center"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      ) : (
+                        <Eye className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Forgot Password Link */}
+                <div className="text-center">
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center"
+                    onClick={() => setShowResetForm(true)}
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-xs underline transition-colors duration-300"
                   >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    ) : (
-                      <Eye className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    )}
+                    {t.forgotPassword}
                   </button>
                 </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-2 font-black text-sm border-2 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg"
+                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                >
+                  {loading ? 'Procesando...' : t.loginButton}
+                </button>
+              </form>
+            )}
+
+            {/* Register Link - Only show in login form */}
+            {!showResetForm && (
+              <div className="mt-3 text-center">
+                <p className={`${textColor} font-bold text-xs transition-colors duration-500`}>
+                  {t.dontHaveAccount}
+                </p>
+                <button
+                  onClick={handleRegisterClick}
+                  className="mt-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-xs underline transition-colors duration-300"
+                >
+                  {t.createNewAccount}
+                </button>
               </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-2 font-black text-sm border-2 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg"
-                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-              >
-                {loading ? 'Procesando...' : t.loginButton}
-              </button>
-            </form>
-
-            {/* Register Link */}
-            <div className="mt-3 text-center">
-              <p className={`${textColor} font-bold text-xs transition-colors duration-500`}>
-                {t.dontHaveAccount}
-              </p>
-              <button
-                onClick={handleRegisterClick}
-                className="mt-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-xs underline transition-colors duration-300"
-              >
-                {t.createNewAccount}
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -251,9 +355,19 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
         <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black">
-              {t.login}
-            </h2>
+            <div className="flex items-center space-x-3">
+              {showResetForm && (
+                <button
+                  onClick={() => setShowResetForm(false)}
+                  className="w-8 h-8 bg-white/20 hover:bg-white/30 transition-all duration-300 border-2 border-white transform rotate-45 flex items-center justify-center"
+                >
+                  <ArrowLeft className="w-4 h-4 transform -rotate-45" />
+                </button>
+              )}
+              <h2 className="text-2xl font-black">
+                {showResetForm ? t.resetPassword : t.login}
+              </h2>
+            </div>
             <button
               onClick={handleClose}
               className="w-10 h-10 bg-white/20 hover:bg-white/30 transition-all duration-300 border-2 border-white transform rotate-45 flex items-center justify-center"
@@ -279,83 +393,138 @@ function AuthModal({ isOpen, onClose, t, isDropdown = false }: AuthModalProps) {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email or Username Field */}
-            <div>
-              <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                email / user
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          {showResetForm ? (
+            // Reset Password Form
+            <form onSubmit={handleResetSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  {t.emailLabel}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <input
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                    placeholder={t.emailPlaceholder}
+                    required
+                  />
                 </div>
-                <input
-                  type="text"
-                  value={emailOrUsername}
-                  onChange={(e) => setEmailOrUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                  placeholder="email / user"
-                  required
-                />
               </div>
-            </div>
 
-            {/* Password Field */}
-            <div>
-              <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                {t.password}
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              <div className="bg-blue-50/90 dark:bg-gray-700/90 p-4 border-2 border-blue-300 dark:border-blue-500 shadow-md"
+                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                <p className="text-blue-800 dark:text-blue-200 font-bold text-sm">
+                  {t.resetPasswordDescription}
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl"
+                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+              >
+                {loading ? 'Enviando...' : t.sendResetEmail}
+              </button>
+            </form>
+          ) : (
+            // Login Form
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email or Username Field */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  email / user
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    value={emailOrUsername}
+                    onChange={(e) => setEmailOrUsername(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                    placeholder="email / user"
+                    required
+                  />
                 </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
-                  placeholder="••••••••"
-                  required
-                />
+              </div>
+
+              {/* Password Field */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  {t.password}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Lock className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-12 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
+                    placeholder="••••••••"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    ) : (
+                      <Eye className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Forgot Password Link */}
+              <div className="text-center">
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowResetForm(true)}
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-sm underline transition-colors duration-300"
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  ) : (
-                    <Eye className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  )}
+                  {t.forgotPassword}
                 </button>
               </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl"
+                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+              >
+                {loading ? 'Procesando...' : t.loginButton}
+              </button>
+            </form>
+          )}
+
+          {/* Register Link - Only show in login form */}
+          {!showResetForm && (
+            <div className="mt-6 text-center">
+              <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                {t.dontHaveAccount}
+              </p>
+              <button
+                onClick={handleRegisterClick}
+                className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-sm underline transition-colors duration-300"
+              >
+                {t.createNewAccount}
+              </button>
             </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl"
-              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-            >
-              {loading ? 'Procesando...' : t.loginButton}
-            </button>
-          </form>
-
-          {/* Register Link */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
-              {t.dontHaveAccount}
-            </p>
-            <button
-              onClick={handleRegisterClick}
-              className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-sm underline transition-colors duration-300"
-            >
-              {t.createNewAccount}
-            </button>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -231,6 +231,7 @@ export interface Translation {
   settingsChangeEmail: string;
   settingsSaveChanges: string;
   settingsSaving: string;
+  settingsSending: string;
   settingsLanguagePreference: string;
   settingsLanguageDescription: string;
   settingsThemePreference: string;
@@ -242,4 +243,16 @@ export interface Translation {
   settingsPasswordError: string;
   settingsEmailSuccess: string;
   settingsEmailError: string;
+  settingsRegistrationDate: string;
+  settingsPasswordResetTitle: string;
+  settingsPasswordResetDescription: string;
+  settingsPasswordResetEmailNote: string;
+
+  // Password Reset
+  forgotPassword: string;
+  resetPassword: string;
+  resetPasswordDescription: string;
+  sendResetEmail: string;
+  resetPasswordSuccess: string;
+  resetPasswordError: string;
 }

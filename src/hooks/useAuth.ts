@@ -91,37 +91,37 @@ export function useAuth() {
     return { error };
   };
 
-  const updateProfile = async (fullName: string, initialLanguage: string) => {
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    return { error };
+  };
+
+  const updatePassword = async (newPassword: string) => {
     if (!user) throw new Error('No user logged in');
 
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        full_name: fullName,
-        initial_language: initialLanguage,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', user.id);
+    // Update password directly (user is already authenticated)
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
 
     if (error) throw error;
     return { error: null };
   };
 
-  const updatePassword = async (currentPassword: string, newPassword: string) => {
+  const updateProfile = async (username: string, initialLanguage: string) => {
     if (!user) throw new Error('No user logged in');
 
-    // First verify current password by attempting to sign in
-    const { error: verifyError } = await supabase.auth.signInWithPassword({
-      email: user.email!,
-      password: currentPassword,
-    });
-
-    if (verifyError) throw new Error('Contraseña actual incorrecta');
-
-    // Update password
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
-    });
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        username: username,
+        full_name: username, // Usar username como full_name
+        initial_language: initialLanguage,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', user.id);
 
     if (error) throw error;
     return { error: null };
@@ -165,6 +165,7 @@ export function useAuth() {
     signUp,
     signIn,
     signOut,
+    resetPassword,
     updateProfile,
     updatePassword,
     updateEmail,
