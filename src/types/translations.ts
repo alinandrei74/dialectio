@@ -86,4 +86,73 @@ export interface Translation {
   help: string;
   contact: string;
   copyright: string;
+
+  // Auth
+  login: string;
+  register: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  username: string;
+  fullName: string;
+  initialLanguage: string;
+  selectInitialLanguage: string;
+  emailOrUsername: string;
+  loginButton: string;
+  registerButton: string;
+  alreadyHaveAccount: string;
+  dontHaveAccount: string;
+  createNewAccount: string;
+  backToLogin: string;
+  
+  // Registration Page
+  registrationTitle: string;
+  registrationSubtitle: string;
+  personalInfoTitle: string;
+  personalInfoDescription: string;
+  languageInfoTitle: string;
+  languageInfoDescription: string;
+  fullNameLabel: string;
+  fullNamePlaceholder: string;
+  usernameLabel: string;
+  usernamePlaceholder: string;
+  usernameDescription: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  passwordLabel: string;
+  passwordPlaceholder: string;
+  confirmPasswordLabel: string;
+  confirmPasswordPlaceholder: string;
+  initialLanguageLabel: string;
+  initialLanguageDescription: string;
+  completeRegistration: string;
+  backToHome: string;
+  
+  // Language Options
+  spanish: string;
+  french: string;
+  portuguese: string;
+  italian: string;
+  english: string;
+  
+  // Validation Messages
+  fieldRequired: string;
+  emailInvalid: string;
+  passwordTooShort: string;
+  passwordMustContainLetter: string;
+  passwordMustContainNumberOrSpecial: string;
+  passwordsDoNotMatch: string;
+  usernameTooShort: string;
+  usernameInvalidChars: string;
+  usernameAlreadyExists: string;
+  emailAlreadyExists: string;
+  
+  // Success Messages
+  registrationSuccess: string;
+  welcomeBack: string;
+  
+  // Error Messages
+  invalidCredentials: string;
+  registrationError: string;
+  connectionError: string;
 }
