@@ -40,7 +40,7 @@ function UserMenu() {
           <div className="p-2">
             <button className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100">
               <BookOpen className="w-4 h-4" />
-              <span>Mis cursos</span>
+              <span>Aprendizaje</span>
             </button>
             
             <button className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 font-bold text-sm text-gray-900 dark:text-gray-100">

@@ -45,7 +45,7 @@ function CTASection({ t, onStartClick }: CTASectionProps) {
               className="bg-white dark:bg-gray-200 text-green-800 dark:text-gray-900 px-10 py-5 hover:bg-gray-100 dark:hover:bg-gray-300 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black dark:border-gray-600 shadow-2xl hover:shadow-3xl hover:scale-105"
               style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
             >
-              <span>{user ? 'Ir a mis cursos' : t.createAccount}</span>
+              <span>{user ? 'Ir a aprendizaje' : t.createAccount}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
           )}
