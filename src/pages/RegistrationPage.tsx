@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Globe, Languages } from 'lucide-react';
+import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Globe, Languages, CheckCircle, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { translations } from '../translations';
@@ -10,7 +10,7 @@ import DarkModeToggle from '../components/ui/DarkModeToggle';
 
 function RegistrationPage() {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { signUp, checkUsernameAvailability, checkEmailAvailability } = useAuth();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -28,6 +28,10 @@ function RegistrationPage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState('');
+  const [validationStatus, setValidationStatus] = useState<Record<string, 'checking' | 'available' | 'taken' | null>>({
+    username: null,
+    email: null
+  });
 
   const t: Translation = translations[currentLang];
 
@@ -77,12 +81,58 @@ function RegistrationPage() {
     }
   };
 
+  const checkAvailability = async (field: 'username' | 'email', value: string) => {
+    if (!value.trim()) return;
+
+    const fieldError = validateField(field, value);
+    if (fieldError) return;
+
+    setValidationStatus(prev => ({ ...prev, [field]: 'checking' }));
+
+    try {
+      let result;
+      if (field === 'username') {
+        result = await checkUsernameAvailability(value);
+      } else {
+        result = await checkEmailAvailability(value);
+      }
+
+      setValidationStatus(prev => ({ 
+        ...prev, 
+        [field]: result.available ? 'available' : 'taken' 
+      }));
+
+      if (!result.available) {
+        setErrors(prev => ({ 
+          ...prev, 
+          [field]: field === 'username' ? t.usernameAlreadyExists : t.emailAlreadyExists 
+        }));
+      } else {
+        setErrors(prev => ({ ...prev, [field]: '' }));
+      }
+    } catch (err) {
+      setValidationStatus(prev => ({ ...prev, [field]: null }));
+    }
+  };
+
   const handleInputChange = (name: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [name]: value }));
     
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+
+    // Clear validation status when user types
+    if ((name === 'username' || name === 'email') && typeof value === 'string') {
+      setValidationStatus(prev => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const handleBlur = (field: 'username' | 'email') => {
+    const value = formData[field];
+    if (value.trim()) {
+      checkAvailability(field, value);
     }
   };
 
@@ -100,6 +150,14 @@ function RegistrationPage() {
         newErrors[key] = error;
       }
     });
+
+    // Check if username or email are marked as taken
+    if (validationStatus.username === 'taken') {
+      newErrors.username = t.usernameAlreadyExists;
+    }
+    if (validationStatus.email === 'taken') {
+      newErrors.email = t.emailAlreadyExists;
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -172,6 +230,20 @@ function RegistrationPage() {
     }
 
     setLoading(false);
+  };
+
+  const getValidationIcon = (field: 'username' | 'email') => {
+    const status = validationStatus[field];
+    if (status === 'checking') {
+      return <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>;
+    }
+    if (status === 'available') {
+      return <CheckCircle className="w-5 h-5 text-green-500" />;
+    }
+    if (status === 'taken') {
+      return <X className="w-5 h-5 text-red-500" />;
+    }
+    return null;
   };
 
   return (
@@ -288,13 +360,20 @@ function RegistrationPage() {
                       type="text"
                       value={formData.username}
                       onChange={(e) => handleInputChange('username', e.target.value.toLowerCase())}
-                      className={`w-full pl-10 pr-4 py-3 border-3 ${
-                        errors.username ? 'border-red-500' : 'border-black dark:border-gray-300'
+                      onBlur={() => handleBlur('username')}
+                      className={`w-full pl-10 pr-12 py-3 border-3 ${
+                        errors.username ? 'border-red-500' : 
+                        validationStatus.username === 'available' ? 'border-green-500' :
+                        validationStatus.username === 'taken' ? 'border-red-500' :
+                        'border-black dark:border-gray-300'
                       } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
                       style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                       placeholder={t.usernamePlaceholder}
                       required
                     />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                      {getValidationIcon('username')}
+                    </div>
                   </div>
                   <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 font-bold">
                     {t.usernameDescription}
@@ -302,6 +381,11 @@ function RegistrationPage() {
                   {errors.username && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
                       {errors.username}
+                    </p>
+                  )}
+                  {validationStatus.username === 'available' && !errors.username && (
+                    <p className="mt-1 text-xs text-green-600 dark:text-green-400 font-bold">
+                      ✓ Username disponible
                     </p>
                   )}
                 </div>
@@ -319,17 +403,29 @@ function RegistrationPage() {
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className={`w-full pl-10 pr-4 py-3 border-3 ${
-                        errors.email ? 'border-red-500' : 'border-black dark:border-gray-300'
+                      onBlur={() => handleBlur('email')}
+                      className={`w-full pl-10 pr-12 py-3 border-3 ${
+                        errors.email ? 'border-red-500' : 
+                        validationStatus.email === 'available' ? 'border-green-500' :
+                        validationStatus.email === 'taken' ? 'border-red-500' :
+                        'border-black dark:border-gray-300'
                       } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
                       style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
                       placeholder={t.emailPlaceholder}
                       required
                     />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                      {getValidationIcon('email')}
+                    </div>
                   </div>
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
                       {errors.email}
+                    </p>
+                  )}
+                  {validationStatus.email === 'available' && !errors.email && (
+                    <p className="mt-1 text-xs text-green-600 dark:text-green-400 font-bold">
+                      ✓ Email disponible
                     </p>
                   )}
                 </div>
@@ -503,7 +599,7 @@ function RegistrationPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || validationStatus.username === 'taken' || validationStatus.email === 'taken'}
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl"
                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}
               >

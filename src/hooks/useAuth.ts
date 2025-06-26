@@ -27,7 +27,74 @@ export function useAuth() {
     return () => subscription.unsubscribe();
   }, []);
 
+  const checkUsernameAvailability = async (username: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('username', username.toLowerCase())
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      // No rows returned, username is available
+      return { available: true, error: null };
+    }
+
+    if (data) {
+      // Username exists
+      return { available: false, error: 'Username already exists' };
+    }
+
+    // Other error occurred
+    return { available: false, error: error?.message || 'Error checking username' };
+  };
+
+  const checkEmailAvailability = async (email: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('email')
+      .eq('email', email.toLowerCase())
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      // No rows returned, email is available
+      return { available: true, error: null };
+    }
+
+    if (data) {
+      // Email exists
+      return { available: false, error: 'Email already exists' };
+    }
+
+    // Other error occurred
+    return { available: false, error: error?.message || 'Error checking email' };
+  };
+
   const signUp = async (email: string, password: string, username?: string, fullName?: string, initialLanguage?: string) => {
+    // Pre-check for duplicates before attempting signup
+    if (username) {
+      const usernameCheck = await checkUsernameAvailability(username);
+      if (!usernameCheck.available) {
+        return { 
+          data: null, 
+          error: { 
+            message: 'duplicate key value violates unique constraint "profiles_username_key"',
+            code: '23505'
+          } 
+        };
+      }
+    }
+
+    const emailCheck = await checkEmailAvailability(email);
+    if (!emailCheck.available) {
+      return { 
+        data: null, 
+        error: { 
+          message: 'duplicate key value violates unique constraint "profiles_email_key"',
+          code: '23505'
+        } 
+      };
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -39,10 +106,10 @@ export function useAuth() {
         .from('profiles')
         .insert({
           id: data.user.id,
-          username,
+          username: username.toLowerCase(),
           full_name: username, // Usar username como full_name
           initial_language: initialLanguage,
-          email: email
+          email: email.toLowerCase()
         });
 
       if (profileError) {
@@ -70,7 +137,7 @@ export function useAuth() {
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('email')
-        .eq('username', emailOrUsername)
+        .eq('username', emailOrUsername.toLowerCase())
         .single();
 
       if (profileError || !profileData) {
@@ -113,10 +180,22 @@ export function useAuth() {
   const updateProfile = async (username: string, initialLanguage: string) => {
     if (!user) throw new Error('No user logged in');
 
+    // Check if username is available (excluding current user)
+    const { data: existingProfile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('username', username.toLowerCase())
+      .neq('id', user.id)
+      .single();
+
+    if (existingProfile) {
+      throw new Error('Username already exists');
+    }
+
     const { error } = await supabase
       .from('profiles')
       .update({
-        username: username,
+        username: username.toLowerCase(),
         full_name: username, // Usar username como full_name
         initial_language: initialLanguage,
         updated_at: new Date().toISOString()
@@ -129,6 +208,12 @@ export function useAuth() {
 
   const updateEmail = async (newEmail: string, password: string) => {
     if (!user) throw new Error('No user logged in');
+
+    // Check if email is available
+    const emailCheck = await checkEmailAvailability(newEmail);
+    if (!emailCheck.available) {
+      throw new Error('Email already exists');
+    }
 
     // First verify password by attempting to sign in
     const { error: verifyError } = await supabase.auth.signInWithPassword({
@@ -149,7 +234,7 @@ export function useAuth() {
     const { error: profileError } = await supabase
       .from('profiles')
       .update({
-        email: newEmail,
+        email: newEmail.toLowerCase(),
         updated_at: new Date().toISOString()
       })
       .eq('id', user.id);
@@ -169,5 +254,7 @@ export function useAuth() {
     updateProfile,
     updatePassword,
     updateEmail,
+    checkUsernameAvailability,
+    checkEmailAvailability,
   };
 }
