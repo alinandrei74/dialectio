@@ -173,7 +173,31 @@ export const translations: Record<string, Translation> = {
     privacyPolicyPlaceholder: 'El contenido de la política de privacidad se añadirá próximamente. Esta página está preparada para recibir el texto cuando esté disponible.',
     termsAndConditions: 'Términos y Condiciones',
     termsAndConditionsSubtitle: 'Términos de uso y condiciones del servicio de dialectio.xyz',
-    termsAndConditionsPlaceholder: 'El contenido de los términos y condiciones se añadirá próximamente. Esta página está preparada para recibir el texto cuando esté disponible.'
+    termsAndConditionsPlaceholder: 'El contenido de los términos y condiciones se añadirá próximamente. Esta página está preparada para recibir el texto cuando esté disponible.',
+
+    // Contact Page
+    contactTitle: 'Contacto',
+    contactSubtitle: 'Ponte en contacto con nosotros. Estamos aquí para ayudarte',
+    contactInfoTitle: 'Información de contacto',
+    contactFormTitle: 'Envíanos un mensaje',
+    contactPlaceholder: 'La información de contacto se añadirá próximamente. Esta página está preparada para recibir los datos cuando estén disponibles.',
+    nameLabel: 'Nombre',
+    namePlaceholder: 'Tu nombre completo',
+    subjectLabel: 'Asunto',
+    subjectPlaceholder: 'Asunto del mensaje (opcional)',
+    messageLabel: 'Mensaje',
+    messagePlaceholder: 'Escribe tu mensaje aquí...',
+    phoneLabel: 'Teléfono',
+    addressLabel: 'Dirección',
+    sendMessage: 'Enviar mensaje',
+    sendingMessage: 'Enviando...',
+    contactSuccess: '¡Mensaje enviado exitosamente! Te responderemos pronto.',
+    contactError: 'Error al enviar el mensaje. Inténtalo de nuevo.',
+
+    // Terms Acceptance
+    acceptTerms: 'Acepto los términos y condiciones',
+    acceptTermsDescription: 'Al crear una cuenta, aceptas nuestros términos y condiciones y política de privacidad',
+    mustAcceptTerms: 'Debes aceptar los términos y condiciones para continuar'
   },
   
   // Aquí irían las traducciones para otros idiomas (fr, pt, it, en)
@@ -308,7 +332,27 @@ export const translations: Record<string, Translation> = {
     privacyPolicyPlaceholder: 'Le contenu de la politique de confidentialité sera ajouté prochainement. Cette page est prête à recevoir le texte quand il sera disponible.',
     termsAndConditions: 'Conditions Générales',
     termsAndConditionsSubtitle: 'Conditions d\'utilisation et conditions de service de dialectio.xyz',
-    termsAndConditionsPlaceholder: 'Le contenu des conditions générales sera ajouté prochainement. Cette page est prête à recevoir le texte quand il sera disponible.'
+    termsAndConditionsPlaceholder: 'Le contenu des conditions générales sera ajouté prochainement. Cette page est prête à recevoir le texte quand il sera disponible.',
+    contactTitle: 'Contact',
+    contactSubtitle: 'Contactez-nous. Nous sommes là pour vous aider',
+    contactInfoTitle: 'Informations de contact',
+    contactFormTitle: 'Envoyez-nous un message',
+    contactPlaceholder: 'Les informations de contact seront ajoutées prochainement. Cette page est prête à recevoir les données quand elles seront disponibles.',
+    nameLabel: 'Nom',
+    namePlaceholder: 'Votre nom complet',
+    subjectLabel: 'Sujet',
+    subjectPlaceholder: 'Sujet du message (optionnel)',
+    messageLabel: 'Message',
+    messagePlaceholder: 'Écrivez votre message ici...',
+    phoneLabel: 'Téléphone',
+    addressLabel: 'Adresse',
+    sendMessage: 'Envoyer le message',
+    sendingMessage: 'Envoi en cours...',
+    contactSuccess: 'Message envoyé avec succès ! Nous vous répondrons bientôt.',
+    contactError: 'Erreur lors de l\'envoi du message. Veuillez réessayer.',
+    acceptTerms: 'J\'accepte les conditions générales',
+    acceptTermsDescription: 'En créant un compte, vous acceptez nos conditions générales et notre politique de confidentialité',
+    mustAcceptTerms: 'Vous devez accepter les conditions générales pour continuer'
   },
   
   // Simplificando las otras traducciones por brevedad
@@ -376,7 +420,27 @@ export const translations: Record<string, Translation> = {
     privacyPolicyPlaceholder: 'O conteúdo da política de privacidade será adicionado em breve. Esta página está preparada para receber o texto quando estiver disponível.',
     termsAndConditions: 'Termos e Condições',
     termsAndConditionsSubtitle: 'Termos de uso e condições de serviço do dialectio.xyz',
-    termsAndConditionsPlaceholder: 'O conteúdo dos termos e condições será adicionado em breve. Esta página está preparada para receber o texto quando estiver disponível.'
+    termsAndConditionsPlaceholder: 'O conteúdo dos termos e condições será adicionado em breve. Esta página está preparada para receber o texto quando estiver disponível.',
+    contactTitle: 'Contato',
+    contactSubtitle: 'Entre em contato conosco. Estamos aqui para ajudar',
+    contactInfoTitle: 'Informações de contato',
+    contactFormTitle: 'Envie-nos uma mensagem',
+    contactPlaceholder: 'As informações de contato serão adicionadas em breve. Esta página está preparada para receber os dados quando estiverem disponíveis.',
+    nameLabel: 'Nome',
+    namePlaceholder: 'Seu nome completo',
+    subjectLabel: 'Assunto',
+    subjectPlaceholder: 'Assunto da mensagem (opcional)',
+    messageLabel: 'Mensagem',
+    messagePlaceholder: 'Escreva sua mensagem aqui...',
+    phoneLabel: 'Telefone',
+    addressLabel: 'Endereço',
+    sendMessage: 'Enviar mensagem',
+    sendingMessage: 'Enviando...',
+    contactSuccess: 'Mensagem enviada com sucesso! Responderemos em breve.',
+    contactError: 'Erro ao enviar mensagem. Tente novamente.',
+    acceptTerms: 'Aceito os termos e condições',
+    acceptTermsDescription: 'Ao criar uma conta, você aceita nossos termos e condições e política de privacidade',
+    mustAcceptTerms: 'Você deve aceitar os termos e condições para continuar'
   },
   
   it: {
@@ -443,7 +507,27 @@ export const translations: Record<string, Translation> = {
     privacyPolicyPlaceholder: 'Il contenuto dell\'informativa sulla privacy sarà aggiunto a breve. Questa pagina è pronta per ricevere il testo quando sarà disponibile.',
     termsAndConditions: 'Termini e Condizioni',
     termsAndConditionsSubtitle: 'Termini di utilizzo e condizioni di servizio di dialectio.xyz',
-    termsAndConditionsPlaceholder: 'Il contenuto dei termini e condizioni sarà aggiunto a breve. Questa pagina è pronta per ricevere il testo quando sarà disponibile.'
+    termsAndConditionsPlaceholder: 'Il contenuto dei termini e condizioni sarà aggiunto a breve. Questa pagina è pronta per ricevere il testo quando sarà disponibile.',
+    contactTitle: 'Contatto',
+    contactSubtitle: 'Contattaci. Siamo qui per aiutarti',
+    contactInfoTitle: 'Informazioni di contatto',
+    contactFormTitle: 'Inviaci un messaggio',
+    contactPlaceholder: 'Le informazioni di contatto saranno aggiunte a breve. Questa pagina è pronta per ricevere i dati quando saranno disponibili.',
+    nameLabel: 'Nome',
+    namePlaceholder: 'Il tuo nome completo',
+    subjectLabel: 'Oggetto',
+    subjectPlaceholder: 'Oggetto del messaggio (opzionale)',
+    messageLabel: 'Messaggio',
+    messagePlaceholder: 'Scrivi il tuo messaggio qui...',
+    phoneLabel: 'Telefono',
+    addressLabel: 'Indirizzo',
+    sendMessage: 'Invia messaggio',
+    sendingMessage: 'Invio in corso...',
+    contactSuccess: 'Messaggio inviato con successo! Ti risponderemo presto.',
+    contactError: 'Errore nell\'invio del messaggio. Riprova.',
+    acceptTerms: 'Accetto i termini e le condizioni',
+    acceptTermsDescription: 'Creando un account, accetti i nostri termini e condizioni e l\'informativa sulla privacy',
+    mustAcceptTerms: 'Devi accettare i termini e le condizioni per continuare'
   },
   
   en: {
@@ -510,6 +594,26 @@ export const translations: Record<string, Translation> = {
     privacyPolicyPlaceholder: 'The privacy policy content will be added soon. This page is ready to receive the text when it becomes available.',
     termsAndConditions: 'Terms and Conditions',
     termsAndConditionsSubtitle: 'Terms of use and service conditions for dialectio.xyz',
-    termsAndConditionsPlaceholder: 'The terms and conditions content will be added soon. This page is ready to receive the text when it becomes available.'
+    termsAndConditionsPlaceholder: 'The terms and conditions content will be added soon. This page is ready to receive the text when it becomes available.',
+    contactTitle: 'Contact',
+    contactSubtitle: 'Get in touch with us. We\'re here to help',
+    contactInfoTitle: 'Contact Information',
+    contactFormTitle: 'Send us a message',
+    contactPlaceholder: 'Contact information will be added soon. This page is ready to receive the data when it becomes available.',
+    nameLabel: 'Name',
+    namePlaceholder: 'Your full name',
+    subjectLabel: 'Subject',
+    subjectPlaceholder: 'Message subject (optional)',
+    messageLabel: 'Message',
+    messagePlaceholder: 'Write your message here...',
+    phoneLabel: 'Phone',
+    addressLabel: 'Address',
+    sendMessage: 'Send message',
+    sendingMessage: 'Sending...',
+    contactSuccess: 'Message sent successfully! We\'ll respond soon.',
+    contactError: 'Error sending message. Please try again.',
+    acceptTerms: 'I accept the terms and conditions',
+    acceptTermsDescription: 'By creating an account, you accept our terms and conditions and privacy policy',
+    mustAcceptTerms: 'You must accept the terms and conditions to continue'
   }
 };

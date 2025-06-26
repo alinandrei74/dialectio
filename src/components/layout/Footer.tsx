@@ -55,7 +55,7 @@ function Footer({ t }: FooterProps) {
             <div className="space-y-3 text-gray-400 dark:text-gray-300">
               <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
               <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
+              <a href="/contact" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
               <a href="/privacy-policy" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.privacyPolicy}</a>
               <a href="/terms-and-conditions" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.termsAndConditions}</a>
             </div>

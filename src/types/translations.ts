@@ -163,4 +163,28 @@ export interface Translation {
   termsAndConditions: string;
   termsAndConditionsSubtitle: string;
   termsAndConditionsPlaceholder: string;
+
+  // Contact Page
+  contactTitle: string;
+  contactSubtitle: string;
+  contactInfoTitle: string;
+  contactFormTitle: string;
+  contactPlaceholder: string;
+  nameLabel: string;
+  namePlaceholder: string;
+  subjectLabel: string;
+  subjectPlaceholder: string;
+  messageLabel: string;
+  messagePlaceholder: string;
+  phoneLabel: string;
+  addressLabel: string;
+  sendMessage: string;
+  sendingMessage: string;
+  contactSuccess: string;
+  contactError: string;
+
+  // Terms Acceptance
+  acceptTerms: string;
+  acceptTermsDescription: string;
+  mustAcceptTerms: string;
 }

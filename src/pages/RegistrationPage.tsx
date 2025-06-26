@@ -19,7 +19,8 @@ function RegistrationPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    initialLanguage: ''
+    initialLanguage: '',
+    acceptTerms: false
   });
   
   const [showPassword, setShowPassword] = useState(false);
@@ -38,33 +39,37 @@ function RegistrationPage() {
     { code: 'en', name: t.english, flag: '🇺🇸' }
   ];
 
-  const validateField = (name: string, value: string): string | null => {
+  const validateField = (name: string, value: string | boolean): string | null => {
     switch (name) {
       case 'username':
-        if (!value.trim()) return t.fieldRequired;
+        if (!value || typeof value !== 'string' || !value.trim()) return t.fieldRequired;
         if (value.length < 3) return t.usernameTooShort;
         if (!/^[a-zA-Z0-9_]+$/.test(value)) return t.usernameInvalidChars;
         return null;
       
       case 'email':
-        if (!value.trim()) return t.fieldRequired;
+        if (!value || typeof value !== 'string' || !value.trim()) return t.fieldRequired;
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return t.emailInvalid;
         return null;
       
       case 'password':
-        if (!value) return t.fieldRequired;
+        if (!value || typeof value !== 'string') return t.fieldRequired;
         if (value.length < 6) return t.passwordTooShort;
         if (!/[a-zA-Z]/.test(value)) return t.passwordMustContainLetter;
         if (!/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) return t.passwordMustContainNumberOrSpecial;
         return null;
       
       case 'confirmPassword':
-        if (!value) return t.fieldRequired;
+        if (!value || typeof value !== 'string') return t.fieldRequired;
         if (value !== formData.password) return t.passwordsDoNotMatch;
         return null;
       
       case 'initialLanguage':
-        if (!value) return t.fieldRequired;
+        if (!value || typeof value !== 'string') return t.fieldRequired;
+        return null;
+      
+      case 'acceptTerms':
+        if (!value) return t.mustAcceptTerms;
         return null;
       
       default:
@@ -72,7 +77,7 @@ function RegistrationPage() {
     }
   };
 
-  const handleInputChange = (name: string, value: string) => {
+  const handleInputChange = (name: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [name]: value }));
     
     // Clear error for this field when user starts typing
@@ -418,6 +423,42 @@ function RegistrationPage() {
                   {errors.initialLanguage && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
                       {errors.initialLanguage}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Terms and Conditions Acceptance */}
+              <div>
+                <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-3 border-gray-300 dark:border-gray-500 shadow-md"
+                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                  <div className="flex items-start space-x-3">
+                    <input
+                      type="checkbox"
+                      id="acceptTerms"
+                      checked={formData.acceptTerms}
+                      onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                      className="mt-1 w-5 h-5 text-blue-600 border-2 border-gray-300 dark:border-gray-500 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <div>
+                      <label htmlFor="acceptTerms" className="text-sm font-bold text-gray-900 dark:text-gray-100 cursor-pointer">
+                        {t.acceptTerms}
+                      </label>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-bold mt-1">
+                        {t.acceptTermsDescription}{' '}
+                        <a href="/terms-and-conditions" target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline">
+                          {t.termsAndConditions.toLowerCase()}
+                        </a>{' '}
+                        y{' '}
+                        <a href="/privacy-policy" target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline">
+                          {t.privacyPolicy.toLowerCase()}
+                        </a>.
+                      </p>
+                    </div>
+                  </div>
+                  {errors.acceptTerms && (
+                    <p className="mt-2 text-xs text-red-600 dark:text-red-400 font-bold">
+                      {errors.acceptTerms}
                     </p>
                   )}
                 </div>
