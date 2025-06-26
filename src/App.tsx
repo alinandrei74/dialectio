@@ -7,6 +7,7 @@ import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import ContactPage from './pages/ContactPage';
 import DemoPage from './pages/DemoPage';
 import SettingsPage from './pages/SettingsPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </Router>
   );
