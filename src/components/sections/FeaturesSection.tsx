@@ -46,7 +46,7 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
         {/* Características en disposición horizontal responsive */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
           {features.map((feature, index) => (
-            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black dark:border-gray-300 transform hover:scale-105 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
+            <div key={index} className={`${feature.bgColor} backdrop-blur-md p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-black dark:border-gray-300 hover:scale-105`}
                  style={{ 
                    clipPath: index % 2 === 0 
                      ? 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)'
