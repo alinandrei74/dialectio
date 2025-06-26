@@ -118,7 +118,30 @@ function RegistrationPage() {
       );
 
       if (error) {
-        if (error.message.includes('already registered')) {
+        console.error('Registration error:', error);
+        
+        // Check for specific database constraint violations
+        if (error.message.includes('duplicate key value violates unique constraint')) {
+          if (error.message.includes('profiles_username_key')) {
+            setErrors({ username: t.usernameAlreadyExists });
+          } else if (error.message.includes('profiles_email') || error.message.includes('email')) {
+            setErrors({ email: t.emailAlreadyExists });
+          } else {
+            setErrors({ general: t.registrationError });
+          }
+        }
+        // Check for PostgreSQL error code 23505 (unique constraint violation)
+        else if (error.code === '23505' || (error.details && error.details.includes('23505'))) {
+          if (error.message.includes('username') || error.message.includes('profiles_username_key')) {
+            setErrors({ username: t.usernameAlreadyExists });
+          } else if (error.message.includes('email')) {
+            setErrors({ email: t.emailAlreadyExists });
+          } else {
+            setErrors({ general: t.registrationError });
+          }
+        }
+        // Legacy error message checks
+        else if (error.message.includes('already registered') || error.message.includes('email')) {
           setErrors({ email: t.emailAlreadyExists });
         } else if (error.message.includes('username')) {
           setErrors({ username: t.usernameAlreadyExists });
@@ -131,8 +154,21 @@ function RegistrationPage() {
           navigate('/');
         }, 2000);
       }
-    } catch (err) {
-      setErrors({ general: t.connectionError });
+    } catch (err: any) {
+      console.error('Unexpected error during registration:', err);
+      
+      // Handle network or other unexpected errors
+      if (err.message && err.message.includes('duplicate key value violates unique constraint')) {
+        if (err.message.includes('profiles_username_key')) {
+          setErrors({ username: t.usernameAlreadyExists });
+        } else if (err.message.includes('email')) {
+          setErrors({ email: t.emailAlreadyExists });
+        } else {
+          setErrors({ general: t.registrationError });
+        }
+      } else {
+        setErrors({ general: t.connectionError });
+      }
     }
 
     setLoading(false);
