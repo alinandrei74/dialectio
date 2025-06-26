@@ -24,6 +24,28 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
 
   if (!isOpen) return null;
 
+  const validatePassword = (password: string): string | null => {
+    if (password.length < 6) {
+      return 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    // Verificar que contenga al menos una letra (mayúscula o minúscula)
+    const hasLetter = /[a-zA-Z]/.test(password);
+    
+    // Verificar que contenga al menos un número o carácter especial
+    const hasNumberOrSpecial = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+    if (!hasLetter) {
+      return 'La contraseña debe contener al menos una letra';
+    }
+
+    if (!hasNumberOrSpecial) {
+      return 'La contraseña debe contener al menos un número o carácter especial';
+    }
+
+    return null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -36,10 +58,21 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
       return;
     }
 
-    if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
-      setLoading(false);
-      return;
+    // Validar contraseña solo para registro
+    if (!isLogin) {
+      const passwordError = validatePassword(password);
+      if (passwordError) {
+        setError(passwordError);
+        setLoading(false);
+        return;
+      }
+    } else {
+      // Para login, solo verificar longitud mínima
+      if (password.length < 6) {
+        setError('La contraseña debe tener al menos 6 caracteres');
+        setLoading(false);
+        return;
+      }
     }
 
     try {
@@ -87,6 +120,10 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
     onClose();
     resetForm();
   };
+
+  // Verificar si la contraseña cumple con los requisitos en tiempo real
+  const passwordValidation = !isLogin ? validatePassword(password) : null;
+  const isPasswordValid = !isLogin ? passwordValidation === null && password.length > 0 : true;
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -160,7 +197,11 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform -rotate-1"
+                  className={`w-full pl-10 pr-12 py-3 border-3 ${
+                    !isLogin && password.length > 0 && !isPasswordValid 
+                      ? 'border-red-500' 
+                      : 'border-black dark:border-gray-300'
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform -rotate-1`}
                   style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
                   placeholder="••••••••"
                   required
@@ -177,6 +218,36 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                   )}
                 </button>
               </div>
+              
+              {/* Password Requirements (only show for signup) */}
+              {!isLogin && (
+                <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-300 dark:border-gray-600 transform rotate-1"
+                     style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
+                  <p className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">
+                    La contraseña debe contener:
+                  </p>
+                  <ul className="text-xs space-y-1">
+                    <li className={`flex items-center space-x-2 ${
+                      password.length >= 6 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      <span className="w-1 h-1 bg-current rounded-full"></span>
+                      <span>Al menos 6 caracteres</span>
+                    </li>
+                    <li className={`flex items-center space-x-2 ${
+                      /[a-zA-Z]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      <span className="w-1 h-1 bg-current rounded-full"></span>
+                      <span>Al menos una letra</span>
+                    </li>
+                    <li className={`flex items-center space-x-2 ${
+                      /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      <span className="w-1 h-1 bg-current rounded-full"></span>
+                      <span>Al menos un número o carácter especial</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Confirm Password Field (only for signup) */}
@@ -193,7 +264,11 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform rotate-1"
+                    className={`w-full pl-10 pr-12 py-3 border-3 ${
+                      confirmPassword.length > 0 && password !== confirmPassword 
+                        ? 'border-red-500' 
+                        : 'border-black dark:border-gray-300'
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform rotate-1`}
                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                     placeholder="••••••••"
                     required
@@ -210,13 +285,18 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                     )}
                   </button>
                 </div>
+                {confirmPassword.length > 0 && password !== confirmPassword && (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-bold">
+                    Las contraseñas no coinciden
+                  </p>
+                )}
               </div>
             )}
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || (!isLogin && (!isPasswordValid || password !== confirmPassword))}
               className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl"
               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
             >
@@ -234,6 +314,8 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                 setIsLogin(!isLogin);
                 setError('');
                 setSuccess('');
+                setPassword('');
+                setConfirmPassword('');
               }}
               className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-sm underline transition-colors duration-300"
             >
