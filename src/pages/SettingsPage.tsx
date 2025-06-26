@@ -307,7 +307,7 @@ function SettingsPage() {
                       {/* Editable Fields */}
                       <div>
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                          {t.fullNameLabel}
+                          {t.usernameLabel}
                         </label>
                         <input
                           type="text"
@@ -315,7 +315,7 @@ function SettingsPage() {
                           onChange={(e) => setProfileData(prev => ({ ...prev, fullName: e.target.value }))}
                           className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                           style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                          placeholder={t.fullNamePlaceholder}
+                          placeholder={t.usernamePlaceholder}
                         />
                       </div>
 
