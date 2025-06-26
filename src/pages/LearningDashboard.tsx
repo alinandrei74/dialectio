@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Lock, Star, Users, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -14,7 +14,7 @@ import { Course } from '../types/learning';
 
 function LearningDashboard() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { courses, userProgress, learningStats, enrollInCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -23,8 +23,40 @@ function LearningDashboard() {
 
   const t: Translation = translations[currentLang];
 
+  // Debug logs
+  useEffect(() => {
+    console.log('LearningDashboard mounted');
+    console.log('User:', user);
+    console.log('Auth loading:', authLoading);
+  }, [user, authLoading]);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      console.log('User not authenticated, redirecting to home');
+      navigate('/');
+    }
+  }, [user, authLoading, navigate]);
+
+  // Don't render anything while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans flex items-center justify-center">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-md w-full mx-4"
+             style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Cargando...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated (after loading is complete)
   if (!user) {
-    navigate('/');
     return null;
   }
 
@@ -85,6 +117,9 @@ function LearningDashboard() {
       default: return level;
     }
   };
+
+  const completedLessons = learningStats?.completed_lessons || 0;
+  const totalLessons = learningStats?.total_lessons || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">

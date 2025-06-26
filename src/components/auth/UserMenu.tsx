@@ -22,6 +22,7 @@ function UserMenu() {
   };
 
   const handleLearningClick = () => {
+    console.log('Navigating to learning dashboard...'); // Debug log
     navigate('/learning');
     setIsOpen(false);
   };
