@@ -1,12 +1,26 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Translation } from '../../types/translations';
+import { useAuth } from '../../hooks/useAuth';
 
 interface HeroSectionProps {
   t: Translation;
+  onStartClick: () => void;
 }
 
-function HeroSection({ t }: HeroSectionProps) {
+function HeroSection({ t, onStartClick }: HeroSectionProps) {
+  const { user, loading } = useAuth();
+
+  const handleStartClick = () => {
+    if (user) {
+      // Usuario logueado - ir a dashboard
+      console.log('Ir a dashboard');
+    } else {
+      // Usuario no logueado - abrir modal de auth
+      onStartClick();
+    }
+  };
+
   return (
     <section 
       className="relative overflow-hidden py-18 lg:py-28 min-h-screen flex items-center pt-24"
@@ -49,11 +63,16 @@ function HeroSection({ t }: HeroSectionProps) {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-7 justify-center items-center">
-            <button className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-10 py-5 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black dark:border-gray-300 shadow-2xl hover:shadow-3xl hover:scale-105"
-                    style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
-              <span>{t.startJourney}</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            {!loading && (
+              <button 
+                onClick={handleStartClick}
+                className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-10 py-5 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 flex items-center space-x-3 text-lg font-black border-4 border-black dark:border-gray-300 shadow-2xl hover:shadow-3xl hover:scale-105"
+                style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
+              >
+                <span>{user ? 'Ir a mis cursos' : t.startJourney}</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
             <button className="border-4 border-white dark:border-gray-300 text-white px-10 py-5 hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 text-lg font-black bg-white/20 dark:bg-gray-800/30 backdrop-blur-md shadow-2xl hover:shadow-3xl hover:scale-105"
                     style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%)' }}>
               {t.viewDemo}

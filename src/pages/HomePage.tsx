@@ -11,11 +11,13 @@ import FAQSection from '../components/sections/FAQSection';
 import CTASection from '../components/sections/CTASection';
 import Footer from '../components/layout/Footer';
 import BackgroundElements from '../components/ui/BackgroundElements';
+import AuthModal from '../components/auth/AuthModal';
 
 function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLanguage, setActiveLanguage] = useState(0);
   const [currentLang, setCurrentLang] = useState<string>('es');
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const t: Translation = translations[currentLang];
@@ -26,6 +28,10 @@ function HomePage() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleStartClick = () => {
+    setIsAuthModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
@@ -41,7 +47,7 @@ function HomePage() {
         toggleDarkMode={toggleDarkMode}
       />
       
-      <HeroSection t={t} />
+      <HeroSection t={t} onStartClick={handleStartClick} />
       
       <LanguageShowcase 
         t={t}
@@ -55,9 +61,15 @@ function HomePage() {
       
       <FAQSection t={t} />
       
-      <CTASection t={t} />
+      <CTASection t={t} onStartClick={handleStartClick} />
       
       <Footer t={t} />
+
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        t={t}
+      />
     </div>
   );
 }
