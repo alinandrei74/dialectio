@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Check - dialectio.xyz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 25%, #9ca3af 50%, #10b981 75%, #000000 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .email-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 4px solid #000000;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            clip-path: polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #ea580c, #c2410c);
+            color: white;
+            padding: 32px 24px;
+            border-bottom: 3px solid #000000;
+            margin: 8px 8px 0 8px;
+            clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            border: 3px solid #000000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-icon {
+            transform: rotate(-45deg);
+            font-size: 24px;
+            font-weight: 900;
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.025em;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 32px 24px;
+        }
+        
+        .main-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .description {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, #ea580c, #c2410c);
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 18px;
+            border: 3px solid #000000;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .security-alert {
+            background: rgba(234, 88, 12, 0.1);
+            border: 2px solid #ea580c;
+            padding: 20px;
+            margin: 24px 0;
+            clip-path: polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%);
+        }
+        
+        .alert-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #c2410c;
+            margin: 0;
+        }
+        
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            padding: 20px;
+            margin: 24px 0;
+            clip-path: polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%);
+        }
+        
+        .info-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e40af;
+            margin: 0;
+        }
+        
+        .reasons-list {
+            background: rgba(156, 163, 175, 0.1);
+            border: 2px solid #9ca3af;
+            padding: 20px;
+            margin: 24px 0;
+            clip-path: polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%);
+        }
+        
+        .reasons-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #374151;
+            margin: 0 0 12px 0;
+        }
+        
+        .reason-item {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .reason-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: 900;
+        }
+        
+        .footer {
+            background: rgba(17, 24, 39, 0.9);
+            color: #9ca3af;
+            padding: 24px;
+            text-align: center;
+            margin: 8px 8px 8px 8px;
+            clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        .link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header {
+                padding: 24px 16px;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .header-title {
+                font-size: 24px;
+            }
+            
+            .main-text {
+                font-size: 16px;
+            }
+            
+            .cta-button {
+                padding: 14px 24px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-card">
+            <div class="header">
+                <div class="logo-container">
+                    <div class="logo">
+                        <div class="logo-icon">🔐</div>
+                    </div>
+                    <div class="brand-name">dialectio.xyz</div>
+                </div>
+                <h1 class="header-title">Security Check</h1>
+            </div>
+            
+            <div class="content">
+                <p class="main-text">
+                    We need to verify it's really you.
+                </p>
+                
+                <p class="description">
+                    For your security, we need you to confirm your identity before proceeding with this action.
+                </p>
+                
+                <div class="security-alert">
+                    <p class="alert-text">
+                        🔒 This is a security measure to protect your account from unauthorized access.
+                    </p>
+                </div>
+                
+                <a href="{{ .ConfirmationURL }}" class="cta-button">
+                    Verify Identity
+                </a>
+                
+                <div class="reasons-list">
+                    <p class="reasons-title">Why am I seeing this?</p>
+                    <div class="reason-item">You're performing a sensitive account action</div>
+                    <div class="reason-item">It's been a while since your last login</div>
+                    <div class="reason-item">We detected unusual activity patterns</div>
+                    <div class="reason-item">You're accessing from a new device or location</div>
+                </div>
+                
+                <div class="info-box">
+                    <p class="info-text">
+                        ℹ️ This verification link expires in 15 minutes for security reasons. If you didn't request this action, please contact support immediately.
+                    </p>
+                </div>
+                
+                <p class="description">
+                    Having trouble? Contact our <a href="https://dialectio.xyz/contact" class="link">security team</a> for immediate assistance.
+                </p>
+            </div>
+            
+            <div class="footer">
+                <p class="footer-text">
+                    © 2025 dialectio.xyz • Languages don't end, they continue
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

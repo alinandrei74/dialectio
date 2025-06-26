@@ -29,6 +29,11 @@ These email templates are designed for use with Supabase Auth and follow the vis
 - **Trigger**: When an existing user invites someone new
 - **Variables**: `{{ .ConfirmationURL }}`
 
+### 6. `reauthentication.html`
+- **Purpose**: Security verification for sensitive actions
+- **Trigger**: When Supabase requires user reauthentication
+- **Variables**: `{{ .ConfirmationURL }}`
+
 ## Design Features
 
 - **Responsive**: Works perfectly on mobile and desktop
@@ -54,11 +59,22 @@ Supabase automatically replaces these variables:
 - `{{ .Email }}` - The user's email address (where applicable)
 - `{{ .Token }}` - The confirmation token (if needed)
 
+## Template Color Schemes
+
+Each template uses a distinct color scheme for easy recognition:
+
+- **Confirm Signup**: Blue gradient (welcome/positive)
+- **Reset Password**: Red gradient (security/caution)
+- **Magic Link**: Purple gradient (magic/special)
+- **Email Change**: Green gradient (change/update)
+- **Invite**: Amber gradient (celebration/invitation)
+- **Reauthentication**: Orange gradient (security/verification)
+
 ## Customization
 
 Each template uses inline CSS for maximum email client compatibility. The design system includes:
 
-- **Colors**: Blue, green, red, purple, and amber gradients
+- **Colors**: Blue, green, red, purple, amber, and orange gradients
 - **Typography**: Inter font family with bold weights
 - **Shapes**: Geometric clip-path designs
 - **Icons**: Emoji icons for universal compatibility
