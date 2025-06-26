@@ -32,11 +32,11 @@ export function useAuth() {
       .from('profiles')
       .select('username')
       .eq('username', username.toLowerCase())
-      .single();
+      .maybeSingle();
 
-    if (error && error.code === 'PGRST116') {
-      // No rows returned, username is available
-      return { available: true, error: null };
+    if (error) {
+      // Other error occurred
+      return { available: false, error: error?.message || 'Error checking username' };
     }
 
     if (data) {
@@ -44,8 +44,8 @@ export function useAuth() {
       return { available: false, error: 'Username already exists' };
     }
 
-    // Other error occurred
-    return { available: false, error: error?.message || 'Error checking username' };
+    // No rows returned, username is available
+    return { available: true, error: null };
   };
 
   const checkEmailAvailability = async (email: string) => {
@@ -53,11 +53,11 @@ export function useAuth() {
       .from('profiles')
       .select('email')
       .eq('email', email.toLowerCase())
-      .single();
+      .maybeSingle();
 
-    if (error && error.code === 'PGRST116') {
-      // No rows returned, email is available
-      return { available: true, error: null };
+    if (error) {
+      // Other error occurred
+      return { available: false, error: error?.message || 'Error checking email' };
     }
 
     if (data) {
@@ -65,8 +65,8 @@ export function useAuth() {
       return { available: false, error: 'Email already exists' };
     }
 
-    // Other error occurred
-    return { available: false, error: error?.message || 'Error checking email' };
+    // No rows returned, email is available
+    return { available: true, error: null };
   };
 
   const signUp = async (email: string, password: string, username?: string, fullName?: string, initialLanguage?: string) => {
@@ -138,9 +138,13 @@ export function useAuth() {
         .from('profiles')
         .select('email')
         .eq('username', emailOrUsername.toLowerCase())
-        .single();
+        .maybeSingle();
 
-      if (profileError || !profileData) {
+      if (profileError) {
+        return { data: null, error: { message: 'Error finding user' } };
+      }
+
+      if (!profileData) {
         return { data: null, error: { message: 'Usuario no encontrado' } };
       }
 
@@ -186,7 +190,7 @@ export function useAuth() {
       .select('id')
       .eq('username', username.toLowerCase())
       .neq('id', user.id)
-      .single();
+      .maybeSingle();
 
     if (existingProfile) {
       throw new Error('Username already exists');
