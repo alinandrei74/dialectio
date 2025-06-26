@@ -127,11 +127,11 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md max-w-md w-full border-4 border-black dark:border-gray-300 shadow-2xl transform rotate-1"
+      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md max-w-md w-full border-4 border-black dark:border-gray-300 shadow-2xl"
            style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
         
         {/* Header */}
-        <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white transform -rotate-1 mx-2 mt-2"
+        <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black">
@@ -149,14 +149,14 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
         {/* Form */}
         <div className="p-6">
           {error && (
-            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border-2 border-red-500 text-red-700 dark:text-red-300 font-bold text-sm transform -rotate-1"
+            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border-2 border-red-500 text-red-700 dark:text-red-300 font-bold text-sm"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               {error}
             </div>
           )}
 
           {success && (
-            <div className="mb-4 p-3 bg-green-100 dark:bg-green-900/30 border-2 border-green-500 text-green-700 dark:text-green-300 font-bold text-sm transform rotate-1"
+            <div className="mb-4 p-3 bg-green-100 dark:bg-green-900/30 border-2 border-green-500 text-green-700 dark:text-green-300 font-bold text-sm"
                  style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}>
               {success}
             </div>
@@ -176,7 +176,7 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform rotate-1"
+                  className="w-full pl-10 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                   placeholder="tu@email.com"
                   required
@@ -201,7 +201,7 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                     !isLogin && password.length > 0 && !isPasswordValid 
                       ? 'border-red-500' 
                       : 'border-black dark:border-gray-300'
-                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform -rotate-1`}
+                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
                   placeholder="••••••••"
                   required
@@ -221,7 +221,7 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
               
               {/* Password Requirements (only show for signup) */}
               {!isLogin && (
-                <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-300 dark:border-gray-600 transform rotate-1"
+                <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-300 dark:border-gray-600"
                      style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
                   <p className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">
                     La contraseña debe contener:
@@ -268,7 +268,7 @@ function AuthModal({ isOpen, onClose, t }: AuthModalProps) {
                       confirmPassword.length > 0 && password !== confirmPassword 
                         ? 'border-red-500' 
                         : 'border-black dark:border-gray-300'
-                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 transform rotate-1`}
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                     placeholder="••••••••"
                     required

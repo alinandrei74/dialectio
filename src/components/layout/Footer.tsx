@@ -23,7 +23,7 @@ function Footer({ t }: FooterProps) {
               </div>
               <span className="text-2xl font-black">dialectio.xyz</span>
             </div>
-            <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 dark:border-gray-600 transform rotate-1 shadow-xl"
+            <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 dark:border-gray-600 shadow-xl"
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
               <p className="text-gray-300 dark:text-gray-200 font-bold text-sm leading-relaxed">
                 {t.footerDescription}
@@ -61,7 +61,7 @@ function Footer({ t }: FooterProps) {
         </div>
         
         <div className="border-t-4 border-gray-700 dark:border-gray-600 mt-10 pt-9 text-center">
-          <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-5 border-3 border-gray-700 dark:border-gray-600 inline-block transform -rotate-1 shadow-xl"
+          <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-5 border-3 border-gray-700 dark:border-gray-600 inline-block shadow-xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <p className="text-gray-400 dark:text-gray-300 font-bold text-sm">{t.copyright}</p>
           </div>

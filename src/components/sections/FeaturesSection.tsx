@@ -35,7 +35,7 @@ function FeaturesSection({ t }: FeaturesSectionProps) {
           <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-gray-100 mb-7 tracking-tight">
             {t.methodTitle}
           </h2>
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black dark:border-gray-300 transform -rotate-1 shadow-2xl"
+          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md p-7 max-w-4xl mx-auto border-4 border-black dark:border-gray-300 shadow-2xl"
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
             <p className="text-lg text-gray-900 dark:text-gray-100 font-bold">
               {t.methodSubtitle}
