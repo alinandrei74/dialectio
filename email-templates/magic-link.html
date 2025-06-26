@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Magic Link - dialectio.xyz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 25%, #9ca3af 50%, #10b981 75%, #000000 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .email-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 4px solid #000000;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            clip-path: polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #7c3aed, #6d28d9);
+            color: white;
+            padding: 32px 24px;
+            border-bottom: 3px solid #000000;
+            margin: 8px 8px 0 8px;
+            clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            border: 3px solid #000000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-icon {
+            transform: rotate(-45deg);
+            font-size: 24px;
+            font-weight: 900;
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.025em;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 32px 24px;
+        }
+        
+        .main-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .description {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, #7c3aed, #6d28d9);
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 18px;
+            border: 3px solid #000000;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .magic-box {
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid #7c3aed;
+            padding: 20px;
+            margin: 24px 0;
+            clip-path: polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%);
+        }
+        
+        .magic-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6d28d9;
+            margin: 0;
+        }
+        
+        .footer {
+            background: rgba(17, 24, 39, 0.9);
+            color: #9ca3af;
+            padding: 24px;
+            text-align: center;
+            margin: 8px 8px 8px 8px;
+            clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        .link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header {
+                padding: 24px 16px;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .header-title {
+                font-size: 24px;
+            }
+            
+            .main-text {
+                font-size: 16px;
+            }
+            
+            .cta-button {
+                padding: 14px 24px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-card">
+            <div class="header">
+                <div class="logo-container">
+                    <div class="logo">
+                        <div class="logo-icon">✨</div>
+                    </div>
+                    <div class="brand-name">dialectio.xyz</div>
+                </div>
+                <h1 class="header-title">Your Magic Link</h1>
+            </div>
+            
+            <div class="content">
+                <p class="main-text">
+                    Ready to sign in? Here's your magic link!
+                </p>
+                
+                <p class="description">
+                    Click the button below to instantly access your dialectio.xyz account. No password needed.
+                </p>
+                
+                <a href="{{ .ConfirmationURL }}" class="cta-button">
+                    Sign In Instantly
+                </a>
+                
+                <div class="magic-box">
+                    <p class="magic-text">
+                        ✨ This magic link expires in 1 hour and can only be used once for security.
+                    </p>
+                </div>
+                
+                <p class="description">
+                    Didn't request this? You can safely ignore this email or <a href="https://dialectio.xyz/contact" class="link">contact support</a>.
+                </p>
+            </div>
+            
+            <div class="footer">
+                <p class="footer-text">
+                    © 2025 dialectio.xyz • Languages don't end, they continue
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
