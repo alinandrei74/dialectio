@@ -11,13 +11,11 @@ import FAQSection from '../components/sections/FAQSection';
 import CTASection from '../components/sections/CTASection';
 import Footer from '../components/layout/Footer';
 import BackgroundElements from '../components/ui/BackgroundElements';
-import AuthModal from '../components/auth/AuthModal';
 
 function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLanguage, setActiveLanguage] = useState(0);
   const [currentLang, setCurrentLang] = useState<string>('es');
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const t: Translation = translations[currentLang];
@@ -29,8 +27,10 @@ function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Función dummy para manejar clicks de "comenzar" desde otras secciones
   const handleStartClick = () => {
-    setIsAuthModalOpen(true);
+    // Esta función se puede usar desde otras secciones si es necesario
+    console.log('Start clicked from section');
   };
 
   return (
@@ -64,12 +64,6 @@ function HomePage() {
       <CTASection t={t} onStartClick={handleStartClick} />
       
       <Footer t={t} />
-
-      <AuthModal 
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        t={t}
-      />
     </div>
   );
 }

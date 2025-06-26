@@ -72,7 +72,7 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
       // Usuario logueado - ir a dashboard o cursos
       console.log('Ir a dashboard');
     } else {
-      // Usuario no logueado - abrir modal de auth
+      // Usuario no logueado - abrir dropdown de auth
       setIsAuthModalOpen(true);
     }
   };
@@ -114,13 +114,23 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
                 user ? (
                   <UserMenu />
                 ) : (
-                  <button 
-                    onClick={handleStartClick}
-                    className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-8 py-3 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 font-black text-base border-3 border-black dark:border-gray-300 shadow-xl hover:shadow-2xl hover:scale-105"
-                    style={{ clipPath: 'polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%)' }}
-                  >
-                    {t.start}
-                  </button>
+                  <div className="relative">
+                    <button 
+                      onClick={handleStartClick}
+                      className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-8 py-3 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 font-black text-base border-3 border-black dark:border-gray-300 shadow-xl hover:shadow-2xl hover:scale-105"
+                      style={{ clipPath: 'polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%)' }}
+                    >
+                      {t.start}
+                    </button>
+                    
+                    {/* Auth Dropdown */}
+                    <AuthModal 
+                      isOpen={isAuthModalOpen}
+                      onClose={() => setIsAuthModalOpen(false)}
+                      t={t}
+                      isDropdown={true}
+                    />
+                  </div>
                 )
               )}
             </div>
@@ -175,13 +185,6 @@ function Navigation({ isMenuOpen, setIsMenuOpen, currentLang, setCurrentLang, t,
           )}
         </div>
       </nav>
-
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        t={t}
-      />
     </>
   );
 }
