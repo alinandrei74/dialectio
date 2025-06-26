@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, User, Lock, Mail, Globe, Palette, Save, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Languages, User, Lock, Mail, Globe, Palette, Eye, EyeOff, Save, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { translations } from '../translations';
@@ -11,7 +11,7 @@ import Footer from '../components/layout/Footer';
 
 function SettingsPage() {
   const navigate = useNavigate();
-  const { user, updateProfile, resetPassword, updateEmail } = useAuth();
+  const { user, updateProfile, updatePassword, updateEmail } = useAuth();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -19,12 +19,16 @@ function SettingsPage() {
   
   // Profile form state
   const [profileData, setProfileData] = useState({
-    username: '',
+    fullName: '',
     initialLanguage: ''
   });
   
-  // Password reset form state
-  const [passwordResetEmail, setPasswordResetEmail] = useState('');
+  // Password form state
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
   
   // Email form state
   const [emailData, setEmailData] = useState({
@@ -33,6 +37,9 @@ function SettingsPage() {
   });
   
   // UI state
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showEmailPassword, setShowEmailPassword] = useState(false);
   
   const [loading, setLoading] = useState<Record<string, boolean>>({});
@@ -55,10 +62,9 @@ function SettingsPage() {
       // Aquí cargaríamos los datos del perfil desde la base de datos
       // Por ahora usamos datos de ejemplo
       setProfileData({
-        username: user.email?.split('@')[0] || '',
+        fullName: user.email?.split('@')?.[0] || '',
         initialLanguage: 'es'
       });
-      setPasswordResetEmail(user.email || '');
     }
   }, [user]);
 
@@ -73,7 +79,7 @@ function SettingsPage() {
     clearMessages('profile');
 
     try {
-      await updateProfile(profileData.username, profileData.initialLanguage);
+      await updateProfile(profileData.fullName, profileData.initialLanguage);
       setSuccess(prev => ({ ...prev, profile: t.settingsProfileSuccess }));
     } catch (err) {
       setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
@@ -82,22 +88,29 @@ function SettingsPage() {
     setLoading(prev => ({ ...prev, profile: false }));
   };
 
-  const handlePasswordResetSubmit = async (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(prev => ({ ...prev, password: true }));
     clearMessages('password');
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(passwordResetEmail)) {
-      setErrors(prev => ({ ...prev, password: t.emailInvalid }));
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setErrors(prev => ({ ...prev, password: t.passwordsDoNotMatch }));
+      setLoading(prev => ({ ...prev, password: false }));
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      setErrors(prev => ({ ...prev, password: t.passwordTooShort }));
       setLoading(prev => ({ ...prev, password: false }));
       return;
     }
 
     try {
-      await resetPassword(passwordResetEmail);
-      setSuccess(prev => ({ ...prev, password: t.resetPasswordSuccess }));
+      await updatePassword(passwordData.currentPassword, passwordData.newPassword);
+      setSuccess(prev => ({ ...prev, password: t.settingsPasswordSuccess }));
+      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      setErrors(prev => ({ ...prev, password: t.resetPasswordError }));
+      setErrors(prev => ({ ...prev, password: t.settingsPasswordError }));
     }
 
     setLoading(prev => ({ ...prev, password: false }));
@@ -274,18 +287,18 @@ function SettingsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-                              {t.emailLabel}
+                              {t.usernameLabel}
                             </label>
                             <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
-                              {user.email || 'N/A'}
+                              {user.email?.split('@')?.[0] || 'N/A'}
                             </div>
                           </div>
                           <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-                              {t.settingsRegistrationDate}
+                              {t.emailLabel}
                             </label>
                             <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
-                              {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
+                              {user.email || 'N/A'}
                             </div>
                           </div>
                         </div>
@@ -294,15 +307,15 @@ function SettingsPage() {
                       {/* Editable Fields */}
                       <div>
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                          {t.usernameLabel}
+                          {t.fullNameLabel}
                         </label>
                         <input
                           type="text"
-                          value={profileData.username}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, username: e.target.value }))}
+                          value={profileData.fullName}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, fullName: e.target.value }))}
                           className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                           style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                          placeholder={t.usernamePlaceholder}
+                          placeholder={t.fullNamePlaceholder}
                         />
                       </div>
 
@@ -372,33 +385,89 @@ function SettingsPage() {
                       </div>
                     )}
 
-                    <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-2 border-blue-300 dark:border-blue-500 shadow-md mb-6"
-                         style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                      <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-2">
-                        {t.settingsPasswordResetTitle}
-                      </h3>
-                      <p className="text-blue-800 dark:text-blue-200 font-bold text-sm mb-4">
-                        {t.settingsPasswordResetDescription}
-                      </p>
-                    </div>
-
-                    <form onSubmit={handlePasswordResetSubmit} className="space-y-6">
+                    <form onSubmit={handlePasswordSubmit} className="space-y-6">
                       <div>
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                          {t.emailLabel}
+                          {t.settingsCurrentPassword}
                         </label>
-                        <input
-                          type="email"
-                          value={passwordResetEmail}
-                          onChange={(e) => setPasswordResetEmail(e.target.value)}
-                          className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                          placeholder={t.emailPlaceholder}
-                          required
-                        />
-                        <p className="mt-2 text-xs text-gray-600 dark:text-gray-400 font-bold">
-                          {t.settingsPasswordResetEmailNote}
-                        </p>
+                        <div className="relative">
+                          <input
+                            type={showCurrentPassword ? 'text' : 'password'}
+                            value={passwordData.currentPassword}
+                            onChange={(e) => setPasswordData(prev => ({ ...prev, currentPassword: e.target.value }))}
+                            className="w-full px-4 py-3 pr-12 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                            placeholder="••••••••"
+                            required
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          >
+                            {showCurrentPassword ? (
+                              <EyeOff className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <Eye className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                          {t.settingsNewPassword}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showNewPassword ? 'text' : 'password'}
+                            value={passwordData.newPassword}
+                            onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
+                            className="w-full px-4 py-3 pr-12 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
+                            placeholder="••••••••"
+                            required
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          >
+                            {showNewPassword ? (
+                              <EyeOff className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <Eye className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                          {t.confirmPasswordLabel}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            value={passwordData.confirmPassword}
+                            onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                            className="w-full px-4 py-3 pr-12 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}
+                            placeholder="••••••••"
+                            required
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          >
+                            {showConfirmPassword ? (
+                              <EyeOff className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <Eye className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </button>
+                        </div>
                       </div>
 
                       <button
@@ -407,8 +476,8 @@ function SettingsPage() {
                         className="w-full bg-gradient-to-r from-red-600 to-red-800 dark:from-red-500 dark:to-red-700 text-white py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-red-700 hover:to-red-900 dark:hover:from-red-600 dark:hover:to-red-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl flex items-center justify-center space-x-3"
                         style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}
                       >
-                        <Mail className="w-5 h-5" />
-                        <span>{loading.password ? t.settingsSending : t.sendResetEmail}</span>
+                        <Lock className="w-5 h-5" />
+                        <span>{loading.password ? t.settingsSaving : t.settingsChangePassword}</span>
                       </button>
                     </form>
                   </div>
