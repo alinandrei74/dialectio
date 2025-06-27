@@ -50,13 +50,37 @@ function ContactPage() {
     }
 
     try {
-      // Aquí se implementará la lógica de envío cuando esté lista
-      // Por ahora simulamos el envío
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      // Get Supabase URL from environment variables
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      if (!supabaseUrl) {
+        throw new Error('Supabase URL not configured');
+      }
+
+      // Call the Edge Function
+      const response = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim() || undefined,
+          message: formData.message.trim()
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Error sending email');
+      }
+
       setSuccess(t.contactSuccess);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
+      console.error('Error sending contact email:', err);
       setError(t.contactError);
     }
 
@@ -144,9 +168,9 @@ function ContactPage() {
                       <h3 className="text-lg font-black text-gray-900 dark:text-gray-100">
                         {t.emailLabel}
                       </h3>
-                      <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-2 mt-2">
-                        <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                          [Email pendiente]
+                      <div className="bg-white/80 dark:bg-gray-600/80 border border-gray-300 dark:border-gray-500 p-2 mt-2 rounded">
+                        <p className="text-gray-800 dark:text-gray-200 font-bold text-sm">
+                          contact@dialectio.xyz
                         </p>
                       </div>
                     </div>
@@ -165,7 +189,7 @@ function ContactPage() {
                       </h3>
                       <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-2 mt-2">
                         <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                          [Teléfono pendiente]
+                          [Disponible próximamente]
                         </p>
                       </div>
                     </div>
@@ -184,7 +208,7 @@ function ContactPage() {
                       </h3>
                       <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-2 mt-2">
                         <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                          [Dirección pendiente]
+                          España
                         </p>
                       </div>
                     </div>
@@ -193,11 +217,11 @@ function ContactPage() {
               </div>
             </div>
 
-            {/* Additional Info */}
-            <div className="bg-yellow-50/90 dark:bg-yellow-900/30 border-3 border-yellow-500 p-6 shadow-lg"
+            {/* Response Time Info */}
+            <div className="bg-blue-50/90 dark:bg-blue-900/30 border-3 border-blue-500 p-6 shadow-lg"
                  style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-              <p className="text-yellow-800 dark:text-yellow-200 font-bold text-center text-sm">
-                {t.contactPlaceholder}
+              <p className="text-blue-800 dark:text-blue-200 font-bold text-center text-sm">
+                📧 Respondemos a todos los mensajes en un plazo máximo de 24 horas
               </p>
             </div>
           </div>
