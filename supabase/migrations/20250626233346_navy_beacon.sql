@@ -1,22 +1,30 @@
 /*
-  # Insert Sample Learning Data
+  # Sample Learning Data Migration
 
-  1. Sample Data
-    - Insert sample courses for Spanish, French, Portuguese, and Italian
-    - Insert sample lessons for each course
-    - Insert sample exercises for lessons
-    - Update course lesson counts
+  1. Sample Courses
+    - Spanish for Beginners (free)
+    - French for Beginners (free) 
+    - Intermediate Portuguese (premium)
+    - Italian Conversation (premium)
 
-  2. Data Structure
-    - Courses with different levels and languages
-    - Lessons with various types (vocabulary, grammar, conversation, etc.)
-    - Exercises with multiple choice, fill blank, and translation types
+  2. Sample Lessons
+    - 8 lessons for Spanish course
+    - 3 lessons for French course
+    - 2 lessons for Portuguese course
+    - 2 lessons for Italian course
+
+  3. Sample Exercises
+    - Multiple choice, fill blank, and translation exercises
+    - Distributed across different lessons
+
+  4. Course Updates
+    - Update total lesson counts automatically
 */
 
 -- Insert sample courses
 INSERT INTO courses (id, title, description, target_language, source_language, level, total_lessons, estimated_hours, is_premium) VALUES
   (
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'Español para Principiantes',
     'Aprende los fundamentos del español desde cero. Perfecto para quienes nunca han estudiado español antes.',
     'es',
@@ -27,7 +35,7 @@ INSERT INTO courses (id, title, description, target_language, source_language, l
     false
   ),
   (
-    'b2c3d4e5-f6g7-8901-bcde-f23456789012',
+    'b2c3d4e5-f6a7-2345-bcde-f23456789012',
     'Français pour Débutants',
     'Découvrez les bases du français. Idéal pour les hispanophones qui veulent apprendre le français.',
     'fr',
@@ -38,7 +46,7 @@ INSERT INTO courses (id, title, description, target_language, source_language, l
     false
   ),
   (
-    'c3d4e5f6-g7h8-9012-cdef-345678901234',
+    'c3d4e5f6-a7b8-3456-cdef-345678901234',
     'Português Intermediário',
     'Aprofunde seus conhecimentos de português. Para quem já tem uma base e quer avançar.',
     'pt',
@@ -49,7 +57,7 @@ INSERT INTO courses (id, title, description, target_language, source_language, l
     true
   ),
   (
-    'd4e5f6g7-h8i9-0123-def0-456789012345',
+    'd4e5f6a7-b8c9-4567-def0-456789012345',
     'Conversazione Italiana',
     'Migliora la tua capacità di conversazione in italiano attraverso situazioni reali.',
     'it',
@@ -63,8 +71,8 @@ INSERT INTO courses (id, title, description, target_language, source_language, l
 -- Insert sample lessons for Spanish course
 INSERT INTO lessons (id, course_id, title, description, content, lesson_order, lesson_type, estimated_minutes) VALUES
   (
-    'e5f6g7h8-i9j0-1234-efg1-567890123456',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'e5f6a7b8-c9d0-5678-ef12-567890123456',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'Saludos y Presentaciones',
     'Aprende a saludar y presentarte en español',
     'En esta lección aprenderás las formas básicas de saludo en español: Hola, Buenos días, Buenas tardes, Buenas noches. También veremos cómo presentarse: Me llamo..., Soy..., Mucho gusto.',
@@ -73,8 +81,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     20
   ),
   (
-    'f6g7h8i9-j0k1-2345-fgh2-678901234567',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'f6a7b8c9-d0e1-6789-f234-678901234567',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'Los Números del 1 al 20',
     'Domina los números básicos en español',
     'Los números son fundamentales en cualquier idioma. En esta lección aprenderás los números del 1 al 20: uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez, once, doce, trece, catorce, quince, dieciséis, diecisiete, dieciocho, diecinueve, veinte.',
@@ -83,8 +91,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     15
   ),
   (
-    'g7h8i9j0-k1l2-3456-ghi3-789012345678',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'a7b8c9d0-e1f2-7890-a345-789012345678',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'El Verbo SER',
     'Aprende uno de los verbos más importantes del español',
     'El verbo SER es esencial en español. Se usa para describir características permanentes: Yo soy, Tú eres, Él/Ella es, Nosotros somos, Vosotros sois, Ellos son.',
@@ -93,8 +101,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     25
   ),
   (
-    'h8i9j0k1-l2m3-4567-hij4-890123456789',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'b8c9d0e1-f2a3-8901-b456-890123456789',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'La Familia',
     'Vocabulario sobre los miembros de la familia',
     'Aprende a hablar sobre tu familia: padre, madre, hermano, hermana, abuelo, abuela, tío, tía, primo, prima, hijo, hija.',
@@ -103,8 +111,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     20
   ),
   (
-    'i9j0k1l2-m3n4-5678-ijk5-901234567890',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'c9d0e1f2-a3b4-9012-c567-901234567890',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'Los Colores',
     'Aprende los colores básicos en español',
     'Los colores son muy útiles para describir objetos: rojo, azul, verde, amarillo, negro, blanco, rosa, morado, naranja, marrón.',
@@ -113,8 +121,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     15
   ),
   (
-    'j0k1l2m3-n4o5-6789-jkl6-012345678901',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'd0e1f2a3-b4c5-0123-d678-012345678901',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'El Verbo ESTAR',
     'Aprende las diferencias entre SER y ESTAR',
     'El verbo ESTAR se usa para estados temporales y ubicación: Yo estoy, Tú estás, Él/Ella está, Nosotros estamos, Vosotros estáis, Ellos están.',
@@ -123,8 +131,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     30
   ),
   (
-    'k1l2m3n4-o5p6-7890-klm7-123456789012',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'e1f2a3b4-c5d6-1234-e789-123456789012',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'En el Restaurante',
     'Vocabulario y frases para comer fuera',
     'Aprende a desenvolverte en un restaurante: la carta, pedir comida, la cuenta. Frases útiles: ¿Qué me recomienda? La cuenta, por favor.',
@@ -133,8 +141,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     25
   ),
   (
-    'l2m3n4o5-p6q7-8901-lmn8-234567890123',
-    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    'f2a3b4c5-d6e7-2345-f890-234567890123',
+    'a1b2c3d4-e5f6-1234-abcd-ef1234567890',
     'Cultura Hispana',
     'Introducción a la cultura de los países hispanohablantes',
     'Descubre aspectos culturales importantes: tradiciones, festividades, comida típica, música y costumbres de España y Latinoamérica.',
@@ -146,8 +154,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
 -- Insert sample lessons for French course
 INSERT INTO lessons (id, course_id, title, description, content, lesson_order, lesson_type, estimated_minutes) VALUES
   (
-    'm3n4o5p6-q7r8-9012-mno9-345678901234',
-    'b2c3d4e5-f6g7-8901-bcde-f23456789012',
+    'a3b4c5d6-e7f8-3456-a901-345678901234',
+    'b2c3d4e5-f6a7-2345-bcde-f23456789012',
     'Les Salutations',
     'Apprenez à saluer en français',
     'Les salutations de base en français: Bonjour, Bonsoir, Salut, Au revoir. Comment vous appelez-vous? Je m''appelle...',
@@ -156,8 +164,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     20
   ),
   (
-    'n4o5p6q7-r8s9-0123-nop0-456789012345',
-    'b2c3d4e5-f6g7-8901-bcde-f23456789012',
+    'b4c5d6e7-f8a9-4567-b012-456789012345',
+    'b2c3d4e5-f6a7-2345-bcde-f23456789012',
     'Les Articles',
     'Maîtrisez les articles français',
     'Les articles définis: le, la, les. Les articles indéfinis: un, une, des. Exemples et usage.',
@@ -166,8 +174,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     25
   ),
   (
-    'o5p6q7r8-s9t0-1234-opq1-567890123456',
-    'b2c3d4e5-f6g7-8901-bcde-f23456789012',
+    'c5d6e7f8-a9b0-5678-c123-567890123456',
+    'b2c3d4e5-f6a7-2345-bcde-f23456789012',
     'Les Nombres',
     'Apprenez les nombres en français',
     'Les nombres de 1 à 20: un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, treize, quatorze, quinze, seize, dix-sept, dix-huit, dix-neuf, vingt.',
@@ -179,8 +187,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
 -- Insert sample lessons for Portuguese course
 INSERT INTO lessons (id, course_id, title, description, content, lesson_order, lesson_type, estimated_minutes) VALUES
   (
-    'p6q7r8s9-t0u1-2345-pqr2-678901234567',
-    'c3d4e5f6-g7h8-9012-cdef-345678901234',
+    'd6e7f8a9-b0c1-6789-d234-678901234567',
+    'c3d4e5f6-a7b8-3456-cdef-345678901234',
     'Pronúncia Portuguesa',
     'Domine a pronúncia do português',
     'Diferenças na pronúncia entre português brasileiro e europeu. Sons únicos do português: nh, lh, ão, ões.',
@@ -189,8 +197,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     25
   ),
   (
-    'q7r8s9t0-u1v2-3456-qrs3-789012345678',
-    'c3d4e5f6-g7h8-9012-cdef-345678901234',
+    'e7f8a9b0-c1d2-7890-e345-789012345678',
+    'c3d4e5f6-a7b8-3456-cdef-345678901234',
     'Verbos Irregulares',
     'Aprenda os verbos irregulares mais comuns',
     'Verbos irregulares importantes: ser, estar, ter, fazer, ir, vir, dar, ver, poder, querer.',
@@ -202,8 +210,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
 -- Insert sample lessons for Italian course
 INSERT INTO lessons (id, course_id, title, description, content, lesson_order, lesson_type, estimated_minutes) VALUES
   (
-    'r8s9t0u1-v2w3-4567-rst4-890123456789',
-    'd4e5f6g7-h8i9-0123-def0-456789012345',
+    'f8a9b0c1-d2e3-8901-f456-890123456789',
+    'd4e5f6a7-b8c9-4567-def0-456789012345',
     'Conversazione al Bar',
     'Impara a ordinare al bar come un italiano',
     'Frasi essenziali per il bar: Un caffè, per favore. Quanto costa? Il conto, grazie. Differenze culturali nel bere il caffè.',
@@ -212,8 +220,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
     20
   ),
   (
-    's9t0u1v2-w3x4-5678-stu5-901234567890',
-    'd4e5f6g7-h8i9-0123-def0-456789012345',
+    'a9b0c1d2-e3f4-9012-a567-901234567890',
+    'd4e5f6a7-b8c9-4567-def0-456789012345',
     'Gestualità Italiana',
     'Comprendi i gesti italiani',
     'I gesti più comuni nella comunicazione italiana: cosa significano e quando usarli. La comunicazione non verbale in Italia.',
@@ -225,8 +233,8 @@ INSERT INTO lessons (id, course_id, title, description, content, lesson_order, l
 -- Insert sample exercises for Spanish lesson 1
 INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, content, points, exercise_order) VALUES
   (
-    't0u1v2w3-x4y5-6789-tuv6-012345678901',
-    'e5f6g7h8-i9j0-1234-efg1-567890123456',
+    'b0c1d2e3-f4a5-0123-b678-012345678901',
+    'e5f6a7b8-c9d0-5678-ef12-567890123456',
     'Elige el saludo correcto',
     'Selecciona el saludo apropiado para cada momento del día',
     'multiple_choice',
@@ -240,8 +248,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
     1
   ),
   (
-    'u1v2w3x4-y5z6-7890-uvw7-123456789012',
-    'e5f6g7h8-i9j0-1234-efg1-567890123456',
+    'c1d2e3f4-a5b6-1234-c789-123456789012',
+    'e5f6a7b8-c9d0-5678-ef12-567890123456',
     'Completa la presentación',
     'Completa la frase de presentación',
     'fill_blank',
@@ -254,8 +262,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
     2
   ),
   (
-    'v2w3x4y5-z6a7-8901-vwx8-234567890123',
-    'e5f6g7h8-i9j0-1234-efg1-567890123456',
+    'd2e3f4a5-b6c7-2345-d890-234567890123',
+    'e5f6a7b8-c9d0-5678-ef12-567890123456',
     'Traduce al español',
     'Traduce la siguiente frase al español',
     'translation',
@@ -271,8 +279,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
 -- Insert sample exercises for Spanish lesson 2
 INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, content, points, exercise_order) VALUES
   (
-    'w3x4y5z6-a7b8-9012-wxy9-345678901234',
-    'f6g7h8i9-j0k1-2345-fgh2-678901234567',
+    'e3f4a5b6-c7d8-3456-e901-345678901234',
+    'f6a7b8c9-d0e1-6789-f234-678901234567',
     'Cuenta del 1 al 10',
     'Selecciona el número correcto',
     'multiple_choice',
@@ -286,8 +294,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
     1
   ),
   (
-    'x4y5z6a7-b8c9-0123-xyz0-456789012345',
-    'f6g7h8i9-j0k1-2345-fgh2-678901234567',
+    'f4a5b6c7-d8e9-4567-f012-456789012345',
+    'f6a7b8c9-d0e1-6789-f234-678901234567',
     'Escribe el número',
     'Escribe el número en palabras',
     'fill_blank',
@@ -303,8 +311,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
 -- Insert sample exercises for French lesson 1
 INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, content, points, exercise_order) VALUES
   (
-    'y5z6a7b8-c9d0-1234-yza1-567890123456',
-    'm3n4o5p6-q7r8-9012-mno9-345678901234',
+    'a5b6c7d8-e9f0-5678-a123-567890123456',
+    'a3b4c5d6-e7f8-3456-a901-345678901234',
     'Choisissez la bonne salutation',
     'Sélectionnez la salutation appropriée',
     'multiple_choice',
@@ -321,8 +329,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
 -- Insert more exercises for variety
 INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, content, points, exercise_order) VALUES
   (
-    'z6a7b8c9-d0e1-2345-zab2-678901234567',
-    'g7h8i9j0-k1l2-3456-ghi3-789012345678',
+    'b6c7d8e9-f0a1-6789-b234-678901234567',
+    'a7b8c9d0-e1f2-7890-a345-789012345678',
     'Conjuga el verbo SER',
     'Completa con la forma correcta del verbo SER',
     'fill_blank',
@@ -335,8 +343,8 @@ INSERT INTO exercises (id, lesson_id, title, instructions, exercise_type, conten
     1
   ),
   (
-    'a7b8c9d0-e1f2-3456-abc3-789012345678',
-    'h8i9j0k1-l2m3-4567-hij4-890123456789',
+    'c7d8e9f0-a1b2-7890-c345-789012345678',
+    'b8c9d0e1-f2a3-8901-b456-890123456789',
     'Miembros de la familia',
     'Selecciona la palabra correcta',
     'multiple_choice',

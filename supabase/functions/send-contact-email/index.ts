@@ -69,15 +69,10 @@ serve(async (req: Request) => {
       );
     }
 
-    // Get Ionos SMTP credentials from environment
-    const smtpHost = Deno.env.get("IONOS_SMTP_HOST") || "smtp.ionos.es";
-    const smtpPort = Deno.env.get("IONOS_SMTP_PORT") || "587";
-    const smtpUser = Deno.env.get("IONOS_SMTP_USER");
-    const smtpPassword = Deno.env.get("IONOS_SMTP_PASSWORD");
-    const fromEmail = Deno.env.get("IONOS_FROM_EMAIL") || "noreply@dialectio.xyz";
-
-    if (!smtpUser || !smtpPassword) {
-      console.error("IONOS SMTP credentials not found in environment variables");
+    // Get Resend API key from environment
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    if (!resendApiKey) {
+      console.error("RESEND_API_KEY not found in environment variables");
       return new Response(
         JSON.stringify({ error: "Email service not configured" }),
         {
@@ -202,71 +197,31 @@ Este mensaje fue enviado desde el formulario de contacto de dialectio.xyz
 Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
     `;
 
-    // Create SMTP message
-    const boundary = `boundary_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const smtpMessage = [
-      `From: dialectio.xyz <${fromEmail}>`,
-      `To: team@dialectio.xyz`,
-      `Reply-To: ${email}`,
-      `Subject: ${emailSubject}`,
-      `MIME-Version: 1.0`,
-      `Content-Type: multipart/alternative; boundary="${boundary}"`,
-      ``,
-      `--${boundary}`,
-      `Content-Type: text/plain; charset=utf-8`,
-      `Content-Transfer-Encoding: 8bit`,
-      ``,
-      emailText,
-      ``,
-      `--${boundary}`,
-      `Content-Type: text/html; charset=utf-8`,
-      `Content-Transfer-Encoding: 8bit`,
-      ``,
-      emailHtml,
-      ``,
-      `--${boundary}--`,
-    ].join('\r\n');
-
-    // Send email using SMTP
-    try {
-      // Use a simple SMTP implementation
-      const smtpResponse = await sendSMTPEmail({
-        host: smtpHost,
-        port: parseInt(smtpPort),
-        username: smtpUser,
-        password: smtpPassword,
-        from: fromEmail,
-        to: "team@dialectio.xyz",
+    // Send email using Resend API
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "dialectio.xyz <noreply@dialectio.xyz>", // Replace with your verified sender domain
+        to: ["team@dialectio.xyz"], // Updated to team@dialectio.xyz
+        reply_to: email,
         subject: emailSubject,
         html: emailHtml,
         text: emailText,
-        replyTo: email
-      });
+      }),
+    });
 
-      console.log("Email sent successfully via Ionos SMTP");
-
-      // Return success response
-      return new Response(
-        JSON.stringify({ 
-          success: true, 
-          message: "Email sent successfully"
-        }),
-        {
-          status: 200,
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-    } catch (smtpError) {
-      console.error("SMTP error:", smtpError);
+    if (!resendResponse.ok) {
+      const errorData = await resendResponse.text();
+      console.error("Resend API error:", errorData);
       
       return new Response(
         JSON.stringify({ 
           error: "Failed to send email",
-          details: "SMTP service error"
+          details: resendResponse.status === 422 ? "Invalid email configuration" : "Email service error"
         }),
         {
           status: 500,
@@ -277,6 +232,25 @@ Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
         }
       );
     }
+
+    const resendData = await resendResponse.json();
+    console.log("Email sent successfully:", resendData);
+
+    // Return success response
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        message: "Email sent successfully",
+        id: resendData.id 
+      }),
+      {
+        status: 200,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
   } catch (error) {
     console.error("Error in send-contact-email function:", error);
@@ -296,42 +270,3 @@ Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
     );
   }
 });
-
-// Simple SMTP email sending function
-async function sendSMTPEmail(config: {
-  host: string;
-  port: number;
-  username: string;
-  password: string;
-  from: string;
-  to: string;
-  subject: string;
-  html: string;
-  text: string;
-  replyTo?: string;
-}) {
-  // For Deno environment, we'll use a fetch-based approach to a mail service
-  // Since direct SMTP connections are complex in Edge Functions
-  
-  // Alternative: Use Ionos API if available, or fall back to a mail service
-  // For now, we'll use a simple approach with nodemailer-like functionality
-  
-  const emailData = {
-    from: config.from,
-    to: config.to,
-    subject: config.subject,
-    html: config.html,
-    text: config.text,
-    replyTo: config.replyTo
-  };
-
-  // Since we can't easily do SMTP in Deno Edge Functions,
-  // we'll use a workaround with a mail API service
-  // You would need to configure this with your Ionos API credentials
-  
-  // For now, let's simulate success
-  // In production, you would implement the actual Ionos SMTP/API integration
-  console.log("Simulating email send via Ionos:", emailData);
-  
-  return { success: true };
-}
