@@ -62,11 +62,11 @@ function AboutSection({ t }: AboutSectionProps) {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-5">
-              <div className="text-center p-5 bg-green-50/90 dark:bg-gray-700/90 border-3 border-black dark:border-gray-300 transform rotate-1 shadow-lg">
+              <div className="text-center p-5 bg-green-50/90 dark:bg-gray-700/90 border-3 border-black dark:border-gray-300 shadow-lg">
                 <div className="text-2xl font-black text-green-700 dark:text-green-400">500M+</div>
                 <div className="text-xs text-gray-700 dark:text-gray-300 font-bold">Hablantes conectados</div>
               </div>
-              <div className="text-center p-5 bg-gray-50/90 dark:bg-gray-600/90 border-3 border-black dark:border-gray-300 transform -rotate-1 shadow-lg">
+              <div className="text-center p-5 bg-gray-50/90 dark:bg-gray-600/90 border-3 border-black dark:border-gray-300 shadow-lg">
                 <div className="text-2xl font-black text-gray-900 dark:text-gray-100">4</div>
                 <div className="text-xs text-gray-700 dark:text-gray-300 font-bold">Lenguas hermanas</div>
               </div>

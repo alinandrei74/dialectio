@@ -164,7 +164,7 @@ function DemoPage() {
 
                 {/* Coming Soon Badge */}
                 <div className="absolute top-4 right-4">
-                  <div className="bg-yellow-500 text-black px-4 py-2 font-black text-sm border-2 border-black shadow-lg transform rotate-3"
+                  <div className="bg-yellow-500 text-black px-4 py-2 font-black text-sm border-2 border-black shadow-lg"
                        style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
                     {t.comingSoon}
                   </div>
