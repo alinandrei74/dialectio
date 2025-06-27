@@ -9,8 +9,6 @@ function UserMenu() {
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  if (!user) return null;
-
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -27,6 +25,9 @@ function UserMenu() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
+
+  // Move the conditional return after all hooks
+  if (!user) return null;
 
   const handleSignOut = async () => {
     await signOut();
