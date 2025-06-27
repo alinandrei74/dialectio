@@ -28,132 +28,171 @@ export function useAuth() {
   }, []);
 
   const checkUsernameAvailability = async (username: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('username', username.toLowerCase())
-      .maybeSingle();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('username', username.toLowerCase())
+        .maybeSingle();
 
-    if (error) {
-      // Other error occurred
-      return { available: false, error: error?.message || 'Error checking username' };
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 is "not found" which is what we want
+        console.error('Error checking username availability:', error);
+        return { available: false, error: error.message || 'Error checking username' };
+      }
+
+      if (data) {
+        // Username exists
+        return { available: false, error: 'Username already exists' };
+      }
+
+      // No rows returned, username is available
+      return { available: true, error: null };
+    } catch (err) {
+      console.error('Unexpected error checking username:', err);
+      return { available: false, error: 'Error checking username availability' };
     }
-
-    if (data) {
-      // Username exists
-      return { available: false, error: 'Username already exists' };
-    }
-
-    // No rows returned, username is available
-    return { available: true, error: null };
   };
 
   const checkEmailAvailability = async (email: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('email')
-      .eq('email', email.toLowerCase())
-      .maybeSingle();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('email', email.toLowerCase())
+        .maybeSingle();
 
-    if (error) {
-      // Other error occurred
-      return { available: false, error: error?.message || 'Error checking email' };
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 is "not found" which is what we want
+        console.error('Error checking email availability:', error);
+        return { available: false, error: error.message || 'Error checking email' };
+      }
+
+      if (data) {
+        // Email exists
+        return { available: false, error: 'Email already exists' };
+      }
+
+      // No rows returned, email is available
+      return { available: true, error: null };
+    } catch (err) {
+      console.error('Unexpected error checking email:', err);
+      return { available: false, error: 'Error checking email availability' };
     }
-
-    if (data) {
-      // Email exists
-      return { available: false, error: 'Email already exists' };
-    }
-
-    // No rows returned, email is available
-    return { available: true, error: null };
   };
 
   const signUp = async (email: string, password: string, username?: string, fullName?: string, initialLanguage?: string) => {
-    // Pre-check for duplicates before attempting signup
-    if (username) {
-      const usernameCheck = await checkUsernameAvailability(username);
-      if (!usernameCheck.available) {
+    try {
+      // Pre-check for duplicates before attempting signup
+      if (username) {
+        const usernameCheck = await checkUsernameAvailability(username);
+        if (!usernameCheck.available) {
+          return { 
+            data: null, 
+            error: { 
+              message: 'Username already exists',
+              code: 'username_taken'
+            } 
+          };
+        }
+      }
+
+      const emailCheck = await checkEmailAvailability(email);
+      if (!emailCheck.available) {
         return { 
           data: null, 
           error: { 
-            message: 'duplicate key value violates unique constraint "profiles_username_key"',
-            code: '23505'
+            message: 'Email already exists',
+            code: 'email_taken'
           } 
         };
       }
-    }
 
-    const emailCheck = await checkEmailAvailability(email);
-    if (!emailCheck.available) {
-      return { 
-        data: null, 
-        error: { 
-          message: 'duplicate key value violates unique constraint "profiles_email_key"',
-          code: '23505'
-        } 
-      };
-    }
+      // Proceed with Supabase auth signup
+      const { data, error } = await supabase.auth.signUp({
+        email: email.toLowerCase(),
+        password,
+      });
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+      // If signup is successful and we have user data, create profile
+      if (!error && data.user && username && initialLanguage) {
+        try {
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .insert({
+              id: data.user.id,
+              username: username.toLowerCase(),
+              full_name: fullName || username, // Use fullName if provided, otherwise username
+              initial_language: initialLanguage,
+              email: email.toLowerCase()
+            });
 
-    // If signup is successful and we have user data, create profile
-    if (!error && data.user && username && initialLanguage) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          username: username.toLowerCase(),
-          full_name: username, // Usar username como full_name
-          initial_language: initialLanguage,
-          email: email.toLowerCase()
-        });
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError);
-        return { data, error: profileError };
+          if (profileError) {
+            console.error('Error creating profile:', profileError);
+            
+            // Handle specific database constraint violations
+            if (profileError.code === '23505') {
+              if (profileError.message.includes('profiles_username_key')) {
+                return { data, error: { message: 'Username already exists', code: 'username_taken' } };
+              } else if (profileError.message.includes('profiles_email_key')) {
+                return { data, error: { message: 'Email already exists', code: 'email_taken' } };
+              }
+            }
+            
+            return { data, error: profileError };
+          }
+        } catch (profileErr) {
+          console.error('Unexpected error creating profile:', profileErr);
+          return { data, error: { message: 'Error creating user profile', code: 'profile_creation_failed' } };
+        }
       }
-    }
 
-    return { data, error };
+      return { data, error };
+    } catch (err) {
+      console.error('Unexpected error during signup:', err);
+      return { data: null, error: { message: 'Unexpected error during registration', code: 'unexpected_error' } };
+    }
   };
 
   const signIn = async (emailOrUsername: string, password: string) => {
-    // Check if input is email or username
-    const isEmail = emailOrUsername.includes('@');
-    
-    if (isEmail) {
-      // Sign in with email
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: emailOrUsername,
-        password,
-      });
-      return { data, error };
-    } else {
-      // Sign in with username - first get email from profiles table
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('email')
-        .eq('username', emailOrUsername.toLowerCase())
-        .maybeSingle();
+    try {
+      // Check if input is email or username
+      const isEmail = emailOrUsername.includes('@');
+      
+      if (isEmail) {
+        // Sign in with email
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: emailOrUsername.toLowerCase(),
+          password,
+        });
+        return { data, error };
+      } else {
+        // Sign in with username - first get email from profiles table
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('username', emailOrUsername.toLowerCase())
+          .maybeSingle();
 
-      if (profileError) {
-        return { data: null, error: { message: 'Error finding user' } };
+        if (profileError) {
+          console.error('Error finding user by username:', profileError);
+          return { data: null, error: { message: 'Error finding user' } };
+        }
+
+        if (!profileData) {
+          return { data: null, error: { message: 'Usuario no encontrado' } };
+        }
+
+        // Now sign in with the email
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: profileData.email,
+          password,
+        });
+        return { data, error };
       }
-
-      if (!profileData) {
-        return { data: null, error: { message: 'Usuario no encontrado' } };
-      }
-
-      // Now sign in with the email
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: profileData.email,
-        password,
-      });
-      return { data, error };
+    } catch (err) {
+      console.error('Unexpected error during sign in:', err);
+      return { data: null, error: { message: 'Unexpected error during sign in' } };
     }
   };
 
@@ -163,7 +202,7 @@ export function useAuth() {
   };
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase(), {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     return { error };
@@ -172,79 +211,118 @@ export function useAuth() {
   const updatePassword = async (newPassword: string) => {
     if (!user) throw new Error('No user logged in');
 
-    // Update password directly (user is already authenticated)
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
-    });
+    try {
+      // Update password directly (user is already authenticated)
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
 
-    if (error) throw error;
-    return { error: null };
+      if (error) throw error;
+      return { error: null };
+    } catch (err) {
+      console.error('Error updating password:', err);
+      throw err;
+    }
   };
 
   const updateProfile = async (username: string, initialLanguage: string) => {
     if (!user) throw new Error('No user logged in');
 
-    // Check if username is available (excluding current user)
-    const { data: existingProfile } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('username', username.toLowerCase())
-      .neq('id', user.id)
-      .maybeSingle();
+    try {
+      // Check if username is available (excluding current user)
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', username.toLowerCase())
+        .neq('id', user.id)
+        .maybeSingle();
 
-    if (existingProfile) {
-      throw new Error('Username already exists');
+      if (existingProfile) {
+        throw new Error('Username already exists');
+      }
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          username: username.toLowerCase(),
+          full_name: username, // Use username as full_name
+          initial_language: initialLanguage,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        console.error('Error updating profile:', error);
+        
+        // Handle specific database constraint violations
+        if (error.code === '23505') {
+          if (error.message.includes('profiles_username_key')) {
+            throw new Error('Username already exists');
+          }
+        }
+        
+        throw error;
+      }
+      
+      return { error: null };
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      throw err;
     }
-
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        username: username.toLowerCase(),
-        full_name: username, // Usar username como full_name
-        initial_language: initialLanguage,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', user.id);
-
-    if (error) throw error;
-    return { error: null };
   };
 
   const updateEmail = async (newEmail: string, password: string) => {
     if (!user) throw new Error('No user logged in');
 
-    // Check if email is available
-    const emailCheck = await checkEmailAvailability(newEmail);
-    if (!emailCheck.available) {
-      throw new Error('Email already exists');
+    try {
+      // Check if email is available
+      const emailCheck = await checkEmailAvailability(newEmail);
+      if (!emailCheck.available) {
+        throw new Error('Email already exists');
+      }
+
+      // First verify password by attempting to sign in
+      const { error: verifyError } = await supabase.auth.signInWithPassword({
+        email: user.email!,
+        password: password,
+      });
+
+      if (verifyError) throw new Error('Contraseña incorrecta');
+
+      // Update email in Supabase Auth
+      const { error } = await supabase.auth.updateUser({
+        email: newEmail.toLowerCase()
+      });
+
+      if (error) throw error;
+
+      // Also update email in profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          email: newEmail.toLowerCase(),
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (profileError) {
+        console.error('Error updating email in profiles:', profileError);
+        
+        // Handle specific database constraint violations
+        if (profileError.code === '23505') {
+          if (profileError.message.includes('profiles_email_key')) {
+            throw new Error('Email already exists');
+          }
+        }
+        
+        throw profileError;
+      }
+      
+      return { error: null };
+    } catch (err) {
+      console.error('Error updating email:', err);
+      throw err;
     }
-
-    // First verify password by attempting to sign in
-    const { error: verifyError } = await supabase.auth.signInWithPassword({
-      email: user.email!,
-      password: password,
-    });
-
-    if (verifyError) throw new Error('Contraseña incorrecta');
-
-    // Update email
-    const { error } = await supabase.auth.updateUser({
-      email: newEmail
-    });
-
-    if (error) throw error;
-
-    // Also update email in profiles table
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({
-        email: newEmail.toLowerCase(),
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', user.id);
-
-    if (profileError) throw profileError;
-    return { error: null };
   };
 
   return {
