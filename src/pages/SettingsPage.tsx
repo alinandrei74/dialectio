@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Languages, User, Lock, Mail, Globe, Palette, Eye, EyeOff, Save, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useLearning } from '../hooks/useLearning';
 import { translations } from '../translations';
 import { Translation } from '../types/translations';
 import { useDarkMode } from '../hooks/useDarkMode';
 import LanguageSelector from '../components/ui/LanguageSelector';
 import DarkModeToggle from '../components/ui/DarkModeToggle';
 import Footer from '../components/layout/Footer';
+import { supabase } from '../lib/supabase';
 
 function SettingsPage() {
   const navigate = useNavigate();
   const { user, updateProfile, updatePassword, updateEmail } = useAuth();
+  const { refreshProgress } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -19,6 +22,7 @@ function SettingsPage() {
   
   // Profile form state
   const [profileData, setProfileData] = useState({
+    username: '',
     fullName: '',
     initialLanguage: ''
   });
@@ -58,14 +62,43 @@ function SettingsPage() {
 
   // Load user profile data on mount
   useEffect(() => {
-    if (user) {
-      // Aquí cargaríamos los datos del perfil desde la base de datos
-      // Por ahora usamos datos de ejemplo
-      setProfileData({
-        fullName: user.email?.split('@')?.[0] || '',
-        initialLanguage: 'es'
-      });
-    }
+    const loadUserProfile = async () => {
+      if (user) {
+        try {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('username, full_name, initial_language')
+            .eq('id', user.id)
+            .single();
+
+          if (error) {
+            console.error('Error loading profile:', error);
+            // Fallback to default values
+            setProfileData({
+              username: user.email?.split('@')?.[0] || '',
+              fullName: user.email?.split('@')?.[0] || '',
+              initialLanguage: 'es'
+            });
+          } else {
+            setProfileData({
+              username: profile.username || user.email?.split('@')?.[0] || '',
+              fullName: profile.full_name || profile.username || '',
+              initialLanguage: profile.initial_language || 'es'
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching profile:', err);
+          // Fallback to default values
+          setProfileData({
+            username: user.email?.split('@')?.[0] || '',
+            fullName: user.email?.split('@')?.[0] || '',
+            initialLanguage: 'es'
+          });
+        }
+      }
+    };
+
+    loadUserProfile();
   }, [user]);
 
   const clearMessages = (section: string) => {
@@ -79,9 +112,44 @@ function SettingsPage() {
     clearMessages('profile');
 
     try {
-      await updateProfile(profileData.fullName, profileData.initialLanguage);
-      setSuccess(prev => ({ ...prev, profile: t.settingsProfileSuccess }));
+      // Update profile in database
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          username: profileData.username.toLowerCase(),
+          full_name: profileData.fullName || profileData.username,
+          initial_language: profileData.initialLanguage,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user!.id);
+
+      if (error) {
+        console.error('Error updating profile:', error);
+        
+        if (error.code === '23505') {
+          if (error.message.includes('profiles_username_key')) {
+            setErrors(prev => ({ ...prev, profile: 'Username already exists' }));
+          } else {
+            setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
+          }
+        } else {
+          setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
+        }
+      } else {
+        setSuccess(prev => ({ ...prev, profile: t.settingsProfileSuccess }));
+        
+        // Refresh learning data to update available courses
+        if (refreshProgress) {
+          await refreshProgress();
+        }
+        
+        // Force a page refresh after a short delay to ensure all data is updated
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
     } catch (err) {
+      console.error('Error updating profile:', err);
       setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
     }
 
@@ -106,7 +174,7 @@ function SettingsPage() {
     }
 
     try {
-      await updatePassword(passwordData.currentPassword, passwordData.newPassword);
+      await updatePassword(passwordData.newPassword);
       setSuccess(prev => ({ ...prev, password: t.settingsPasswordSuccess }));
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
@@ -165,7 +233,7 @@ function SettingsPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/learning')}
               className="w-12 h-12 bg-white/20 dark:bg-gray-800/30 backdrop-blur-md hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center"
             >
               <ArrowLeft className="w-6 h-6 text-gray-900 dark:text-gray-100 transform -rotate-45" />
@@ -287,24 +355,38 @@ function SettingsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-                              {t.usernameLabel}
-                            </label>
-                            <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
-                              {user.email?.split('@')?.[0] || 'N/A'}
-                            </div>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
                               {t.emailLabel}
                             </label>
                             <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
                               {user.email || 'N/A'}
                             </div>
                           </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+                              Idioma actual
+                            </label>
+                            <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
+                              {languageOptions.find(lang => lang.code === profileData.initialLanguage)?.name || 'N/A'}
+                            </div>
+                          </div>
                         </div>
                       </div>
 
                       {/* Editable Fields */}
+                      <div>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
+                          {t.usernameLabel}
+                        </label>
+                        <input
+                          type="text"
+                          value={profileData.username}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, username: e.target.value }))}
+                          className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                          placeholder={t.usernamePlaceholder}
+                        />
+                      </div>
+
                       <div>
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
                           {t.fullNameLabel}
@@ -314,7 +396,7 @@ function SettingsPage() {
                           value={profileData.fullName}
                           onChange={(e) => setProfileData(prev => ({ ...prev, fullName: e.target.value }))}
                           className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                          style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
                           placeholder={t.fullNamePlaceholder}
                         />
                       </div>
@@ -323,6 +405,12 @@ function SettingsPage() {
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">
                           {t.initialLanguageLabel}
                         </label>
+                        <div className="bg-blue-50/90 dark:bg-gray-700/90 p-4 border-2 border-blue-300 dark:border-blue-500 shadow-md mb-4"
+                             style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
+                          <p className="text-blue-800 dark:text-blue-200 font-bold text-sm">
+                            ⚠️ Cambiar tu idioma base actualizará los cursos disponibles y puede afectar tu progreso actual.
+                          </p>
+                        </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {languageOptions.map((lang) => (
                             <button

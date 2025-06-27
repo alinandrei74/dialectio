@@ -11,6 +11,7 @@ import DarkModeToggle from '../components/ui/DarkModeToggle';
 import UserMenu from '../components/auth/UserMenu';
 import Footer from '../components/layout/Footer';
 import { Course } from '../types/learning';
+import { supabase } from '../lib/supabase';
 
 function LearningDashboard() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function LearningDashboard() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [enrolling, setEnrolling] = useState<string | null>(null);
+  const [userInitialLanguage, setUserInitialLanguage] = useState<string>('es');
 
   const t: Translation = translations[currentLang];
 
@@ -28,6 +30,33 @@ function LearningDashboard() {
     console.log('User:', user);
     console.log('Auth loading:', authLoading);
   }, [user, authLoading]);
+
+  // Load user's initial language from profile
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      if (user) {
+        try {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('initial_language')
+            .eq('id', user.id)
+            .single();
+
+          if (error) {
+            console.error('Error loading user profile:', error);
+            setUserInitialLanguage('es'); // fallback
+          } else {
+            setUserInitialLanguage(profile.initial_language || 'es');
+          }
+        } catch (err) {
+          console.error('Error fetching user profile:', err);
+          setUserInitialLanguage('es'); // fallback
+        }
+      }
+    };
+
+    loadUserProfile();
+  }, [user]);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -81,9 +110,6 @@ function LearningDashboard() {
     const progress = userProgress.find(p => p.course_id === courseId);
     return progress?.completion_percentage || 0;
   };
-
-  // Get user's initial language from profile or default to Spanish
-  const userInitialLanguage = 'es'; // This should come from user profile
 
   // Filter courses based on user's initial language
   const getAvailableCourses = () => {
