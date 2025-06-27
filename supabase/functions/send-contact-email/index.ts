@@ -206,7 +206,7 @@ Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
       },
       body: JSON.stringify({
         from: "dialectio.xyz <noreply@dialectio.xyz>", // Replace with your verified sender domain
-        to: ["contact@dialectio.xyz"], // Replace with your contact email
+        to: ["team@dialectio.xyz"], // Updated to team@dialectio.xyz
         reply_to: email,
         subject: emailSubject,
         html: emailHtml,
