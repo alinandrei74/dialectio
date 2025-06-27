@@ -170,7 +170,7 @@ function ContactPage() {
                       </h3>
                       <div className="bg-white/80 dark:bg-gray-600/80 border border-gray-300 dark:border-gray-500 p-2 mt-2 rounded">
                         <p className="text-gray-800 dark:text-gray-200 font-bold text-sm">
-                          contact@dialectio.xyz
+                          team@dialectio.xyz
                         </p>
                       </div>
                     </div>
