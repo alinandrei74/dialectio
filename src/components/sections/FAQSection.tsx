@@ -73,7 +73,7 @@ function FAQSection({ t }: FAQSectionProps) {
               key={index}
               className={`bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-xl transition-all duration-300 ${
                 openQuestion === index ? 'transform scale-105' : 'hover:shadow-2xl'
-              } ${index % 2 === 0 ? 'transform rotate-1' : 'transform -rotate-1'}`}
+              }`}
               style={{
                 clipPath: index % 2 === 0
                   ? 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)'
@@ -98,9 +98,7 @@ function FAQSection({ t }: FAQSectionProps) {
               
               {openQuestion === index && (
                 <div className="px-6 pb-6">
-                  <div className={`bg-green-50/90 dark:bg-gray-700/90 p-5 border-3 border-gray-300 dark:border-gray-500 shadow-md ${
-                    index % 2 === 0 ? 'transform -rotate-1' : 'transform rotate-1'
-                  }`}
+                  <div className={`bg-green-50/90 dark:bg-gray-700/90 p-5 border-3 border-gray-300 dark:border-gray-500 shadow-md`}
                        style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
                     <p className="text-gray-800 dark:text-gray-200 leading-relaxed font-bold text-sm">
                       {t[faq.answer as keyof Translation] as string}

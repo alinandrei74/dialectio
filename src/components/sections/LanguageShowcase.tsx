@@ -68,8 +68,8 @@ function LanguageShowcase({ t, activeLanguage, setActiveLanguage }: LanguageShow
               key={language.code}
               className={`relative p-9 cursor-pointer transform transition-all duration-500 border-4 border-black dark:border-gray-300 shadow-xl ${
                 activeLanguage === index 
-                  ? 'scale-110 rotate-3 shadow-2xl' 
-                  : 'hover:scale-105 hover:-rotate-1 hover:shadow-2xl'
+                  ? 'scale-110 shadow-2xl' 
+                  : 'hover:scale-105 hover:shadow-2xl'
               } ${language.bgColor} backdrop-blur-md`}
               style={{ 
                 clipPath: activeLanguage === index 
