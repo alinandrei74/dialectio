@@ -40,7 +40,7 @@ export interface Exercise {
   updated_at: string;
 }
 
-export interface ExerciseContent {
+interface ExerciseContent {
   question: string;
   options?: string[];
   correct_answer: string | number;
@@ -63,7 +63,7 @@ export interface UserProgress {
   updated_at: string;
 }
 
-export interface UserExerciseResult {
+interface UserExerciseResult {
   id: string;
   user_id: string;
   exercise_id: string;
