@@ -21,10 +21,8 @@ src/components/sections/LanguageShowcase.tsx
 src/components/ui/BackgroundElements.tsx
 src/components/ui/DarkModeToggle.tsx
 src/components/ui/LanguageSelector.tsx
-src/hooks/useAuth.ts
 src/hooks/useDarkMode.ts
 src/index.css
-src/lib/supabase.ts
 src/pages/ContactPage.tsx
 src/pages/DemoPage.tsx
 src/pages/HomePage.tsx
