@@ -50,33 +50,10 @@ function ContactPage() {
     }
 
     try {
-      // Get Supabase URL from environment variables
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      if (!supabaseUrl) {
-        throw new Error('Supabase URL not configured');
-      }
-
-      // Call the Edge Function
-      const response = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          subject: formData.subject.trim() || undefined,
-          message: formData.message.trim()
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Error sending email');
-      }
-
+      // Por ahora simulamos el envío exitoso
+      // Aquí se integrará el servicio de email que elijas
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       setSuccess(t.contactSuccess);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
@@ -316,6 +293,14 @@ function ContactPage() {
                     placeholder={t.messagePlaceholder}
                     required
                   />
+                </div>
+
+                {/* Info about email simulation */}
+                <div className="bg-yellow-50/90 dark:bg-yellow-900/30 border-2 border-yellow-500 p-4 shadow-md"
+                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                  <p className="text-yellow-800 dark:text-yellow-200 font-bold text-sm text-center">
+                    ℹ️ Por ahora el formulario simula el envío. Los mensajes se enviarán a team@dialectio.xyz cuando se configure el servicio de email.
+                  </p>
                 </div>
 
                 {/* Submit Button */}
