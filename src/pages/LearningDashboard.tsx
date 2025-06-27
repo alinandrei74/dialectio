@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Lock, Star, Users, Globe } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Lock, Star, Users, Globe, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -83,15 +83,34 @@ function LearningDashboard() {
     return progress?.completion_percentage || 0;
   };
 
-  const filteredCourses = courses.filter(course => {
-    if (selectedFilter === 'all') return true;
-    if (selectedFilter === 'enrolled') return isEnrolled(course.id);
-    if (selectedFilter === 'available') return !isEnrolled(course.id);
-    return course.target_language === selectedFilter;
-  });
+  // Get user's initial language from profile or default to Spanish
+  const userInitialLanguage = 'es'; // This should come from user profile
+
+  // Filter courses based on user's initial language and selected filter
+  const getAvailableCourses = () => {
+    let availableCourses = courses;
+
+    // Filter by user's source language (show courses they can take)
+    if (userInitialLanguage) {
+      availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
+    }
+
+    // Apply additional filters
+    if (selectedFilter === 'enrolled') {
+      availableCourses = availableCourses.filter(course => isEnrolled(course.id));
+    } else if (selectedFilter === 'available') {
+      availableCourses = availableCourses.filter(course => !isEnrolled(course.id));
+    } else if (selectedFilter !== 'all') {
+      availableCourses = availableCourses.filter(course => course.target_language === selectedFilter);
+    }
+
+    return availableCourses;
+  };
+
+  const filteredCourses = getAvailableCourses();
 
   const languageFilters = [
-    { code: 'all', name: 'Todos los cursos', flag: '🌍' },
+    { code: 'all', name: 'Todos los idiomas', flag: '🌍' },
     { code: 'enrolled', name: 'Mis cursos', flag: '📚' },
     { code: 'available', name: 'Disponibles', flag: '🆕' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
@@ -100,22 +119,19 @@ function LearningDashboard() {
     { code: 'it', name: 'Italiano', flag: '🇮🇹' }
   ];
 
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case 'beginner': return 'from-green-600 to-green-800';
-      case 'intermediate': return 'from-yellow-600 to-orange-600';
-      case 'advanced': return 'from-red-600 to-red-800';
-      default: return 'from-gray-600 to-gray-800';
-    }
+  const getLanguageInfo = (langCode: string) => {
+    const languageMap = {
+      'es': { name: 'Español', flag: '🇪🇸', color: 'from-red-600 to-red-800' },
+      'fr': { name: 'Français', flag: '🇫🇷', color: 'from-blue-600 to-blue-800' },
+      'pt': { name: 'Português', flag: '🇵🇹', color: 'from-green-600 to-green-800' },
+      'it': { name: 'Italiano', flag: '🇮🇹', color: 'from-green-700 to-green-900' },
+      'en': { name: 'English', flag: '🇺🇸', color: 'from-blue-700 to-blue-900' }
+    };
+    return languageMap[langCode as keyof typeof languageMap] || { name: langCode, flag: '🌐', color: 'from-gray-600 to-gray-800' };
   };
 
-  const getLevelText = (level: string) => {
-    switch (level) {
-      case 'beginner': return 'Principiante';
-      case 'intermediate': return 'Intermedio';
-      case 'advanced': return 'Avanzado';
-      default: return level;
-    }
+  const getUserSourceLanguageInfo = () => {
+    return getLanguageInfo(userInitialLanguage);
   };
 
   const completedLessons = learningStats?.completed_lessons || 0;
@@ -185,6 +201,26 @@ function LearningDashboard() {
           </div>
         </div>
 
+        {/* User Language Info */}
+        <div className="mb-12">
+          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-6"
+               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+            <div className="flex items-center justify-center space-x-4 mb-4">
+              <div className={`w-16 h-16 bg-gradient-to-r ${getUserSourceLanguageInfo().color} flex items-center justify-center border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl`}>
+                <span className="text-2xl transform -rotate-45">{getUserSourceLanguageInfo().flag}</span>
+              </div>
+              <div className="text-center">
+                <h2 className="text-2xl font-black text-gray-900 dark:text-gray-100">
+                  Aprendiendo desde {getUserSourceLanguageInfo().name}
+                </h2>
+                <p className="text-gray-700 dark:text-gray-300 font-bold">
+                  Aprovecha tu conocimiento previo para acelerar tu aprendizaje
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Learning Stats */}
         {learningStats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
@@ -197,7 +233,7 @@ function LearningDashboard() {
                 {learningStats.completed_courses}
               </h3>
               <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
-                Cursos Completados
+                Idiomas Dominados
               </p>
             </div>
 
@@ -247,7 +283,7 @@ function LearningDashboard() {
           <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-6"
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
             <h2 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-              Filtrar Cursos
+              Filtrar por Idioma
             </h2>
             <div className="flex flex-wrap gap-3">
               {languageFilters.map((filter) => (
@@ -295,7 +331,7 @@ function LearningDashboard() {
                   No hay cursos disponibles
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 font-bold">
-                  Pronto añadiremos más cursos para tu aprendizaje.
+                  Pronto añadiremos más cursos para tu idioma base.
                 </p>
               </div>
             </div>
@@ -303,6 +339,7 @@ function LearningDashboard() {
             filteredCourses.map((course) => {
               const enrolled = isEnrolled(course.id);
               const progress = getCourseProgress(course.id);
+              const targetLangInfo = getLanguageInfo(course.target_language);
               
               return (
                 <div key={course.id} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
@@ -322,10 +359,11 @@ function LearningDashboard() {
                       </div>
                     )}
                     
-                    {/* Level Badge */}
-                    <div className={`absolute top-4 right-4 bg-gradient-to-r ${getLevelColor(course.level)} text-white px-3 py-1 font-black text-xs border-2 border-black shadow-lg`}
+                    {/* Language Badge */}
+                    <div className={`absolute top-4 right-4 bg-gradient-to-r ${targetLangInfo.color} text-white px-3 py-1 font-black text-xs border-2 border-black shadow-lg flex items-center space-x-1`}
                          style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
-                      {getLevelText(course.level)}
+                      <span className="text-sm">{targetLangInfo.flag}</span>
+                      <span>{targetLangInfo.name}</span>
                     </div>
 
                     {/* Premium Badge */}
@@ -374,8 +412,8 @@ function LearningDashboard() {
                         <span>{course.estimated_hours}h</span>
                       </div>
                       <div className="flex items-center space-x-1">
-                        <Users className="w-4 h-4" />
-                        <span>1.2k estudiantes</span>
+                        <Flag className="w-4 h-4" />
+                        <span>{targetLangInfo.name}</span>
                       </div>
                     </div>
 
@@ -415,23 +453,23 @@ function LearningDashboard() {
           )}
         </div>
 
-        {/* Call to Action for More Courses */}
+        {/* Call to Action for More Languages */}
         {filteredCourses.length > 0 && (
           <div className="mt-16 text-center">
             <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-2xl mx-auto"
                  style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
               <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                ¿Buscas más contenido?
+                ¿Quieres aprender desde otro idioma?
               </h3>
               <p className="text-gray-700 dark:text-gray-300 font-bold mb-6">
-                Estamos constantemente añadiendo nuevos cursos y lecciones. ¡Mantente al día!
+                Cambia tu idioma base en configuración para acceder a más cursos y acelerar tu aprendizaje.
               </p>
               <button
-                onClick={() => navigate('/demo')}
+                onClick={() => navigate('/settings')}
                 className="bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-500 dark:to-purple-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-purple-700 hover:to-purple-900 dark:hover:from-purple-600 dark:hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
                 style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
               >
-                Ver Próximos Cursos
+                Ir a Configuración
               </button>
             </div>
           </div>
