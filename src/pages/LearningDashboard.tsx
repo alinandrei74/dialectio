@@ -18,7 +18,6 @@ function LearningDashboard() {
   const { courses, userProgress, learningStats, enrollInCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
-  const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [enrolling, setEnrolling] = useState<string | null>(null);
 
   const t: Translation = translations[currentLang];
@@ -86,7 +85,7 @@ function LearningDashboard() {
   // Get user's initial language from profile or default to Spanish
   const userInitialLanguage = 'es'; // This should come from user profile
 
-  // Filter courses based on user's initial language and selected filter
+  // Filter courses based on user's initial language
   const getAvailableCourses = () => {
     let availableCourses = courses;
 
@@ -95,29 +94,10 @@ function LearningDashboard() {
       availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
     }
 
-    // Apply additional filters
-    if (selectedFilter === 'enrolled') {
-      availableCourses = availableCourses.filter(course => isEnrolled(course.id));
-    } else if (selectedFilter === 'available') {
-      availableCourses = availableCourses.filter(course => !isEnrolled(course.id));
-    } else if (selectedFilter !== 'all') {
-      availableCourses = availableCourses.filter(course => course.target_language === selectedFilter);
-    }
-
     return availableCourses;
   };
 
   const filteredCourses = getAvailableCourses();
-
-  const languageFilters = [
-    { code: 'all', name: 'Todos los idiomas', flag: '🌍' },
-    { code: 'enrolled', name: 'Mis cursos', flag: '📚' },
-    { code: 'available', name: 'Disponibles', flag: '🆕' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'pt', name: 'Português', flag: '🇵🇹' },
-    { code: 'it', name: 'Italiano', flag: '🇮🇹' }
-  ];
 
   const getLanguageInfo = (langCode: string) => {
     const languageMap = {
@@ -277,35 +257,6 @@ function LearningDashboard() {
             </div>
           </div>
         )}
-
-        {/* Course Filters */}
-        <div className="mb-8">
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-6"
-               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-            <h2 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-              Filtrar por Idioma
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {languageFilters.map((filter) => (
-                <button
-                  key={filter.code}
-                  onClick={() => setSelectedFilter(filter.code)}
-                  className={`px-4 py-2 border-3 transition-all duration-300 font-bold text-sm ${
-                    selectedFilter === filter.code
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white border-black dark:border-gray-300 shadow-xl scale-105'
-                      : 'hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300 hover:shadow-lg bg-white dark:bg-gray-800'
-                  }`}
-                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                >
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg">{filter.flag}</span>
-                    <span>{filter.name}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
