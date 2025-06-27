@@ -1,0 +1,10 @@
+.vite/deps/_metadata.json
+.vite/deps/package.json
+email-templates/confirm-signup.html
+email-templates/email-change.html
+email-templates/invite.html
+email-templates/magic-link.html
+email-templates/README.md
+email-templates/reauthentication.html
+email-templates/reset-password.html
+eslint.config.js
