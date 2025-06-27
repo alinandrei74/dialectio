@@ -8,11 +8,35 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Get initial session with error handling for invalid refresh tokens
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Error getting session:', error);
+        
+        // If the error is related to refresh token, clear the session
+        if (error.message?.includes('Refresh Token Not Found') || 
+            error.message?.includes('Invalid Refresh Token')) {
+          console.log('Invalid refresh token detected, clearing session...');
+          supabase.auth.signOut().then(() => {
+            setSession(null);
+            setUser(null);
+            setLoading(false);
+          });
+          return;
+        }
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+    }).catch((err) => {
+      console.error('Unexpected error getting session:', err);
+      // Clear session on any unexpected error
+      supabase.auth.signOut().then(() => {
+        setSession(null);
+        setUser(null);
+        setLoading(false);
+      });
     });
 
     // Listen for auth changes
