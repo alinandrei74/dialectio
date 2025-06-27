@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Languages, User, Lock, Mail, Globe, Palette, Eye, EyeOff, Save, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useLearning } from '../hooks/useLearning';
+import { supabase } from '../lib/supabase';
 import { translations } from '../translations';
 import { Translation } from '../types/translations';
 import { useDarkMode } from '../hooks/useDarkMode';
 import LanguageSelector from '../components/ui/LanguageSelector';
 import DarkModeToggle from '../components/ui/DarkModeToggle';
 import Footer from '../components/layout/Footer';
-import { supabase } from '../lib/supabase';
 
 function SettingsPage() {
   const navigate = useNavigate();
-  const { user, updateProfile, updatePassword, updateEmail } = useAuth();
-  const { refreshProgress } = useLearning();
+  const { user, updatePassword, updateEmail } = useAuth();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -72,8 +70,8 @@ function SettingsPage() {
             .single();
 
           if (error) {
-            console.error('Error loading profile:', error);
-            // Fallback to default values
+            console.error('Error loading user profile:', error);
+            // Set fallback values
             setProfileData({
               username: user.email?.split('@')?.[0] || '',
               fullName: user.email?.split('@')?.[0] || '',
@@ -87,8 +85,8 @@ function SettingsPage() {
             });
           }
         } catch (err) {
-          console.error('Error fetching profile:', err);
-          // Fallback to default values
+          console.error('Error fetching user profile:', err);
+          // Set fallback values
           setProfileData({
             username: user.email?.split('@')?.[0] || '',
             fullName: user.email?.split('@')?.[0] || '',
@@ -112,7 +110,6 @@ function SettingsPage() {
     clearMessages('profile');
 
     try {
-      // Update profile in database
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -125,28 +122,14 @@ function SettingsPage() {
 
       if (error) {
         console.error('Error updating profile:', error);
-        
-        if (error.code === '23505') {
-          if (error.message.includes('profiles_username_key')) {
-            setErrors(prev => ({ ...prev, profile: 'Username already exists' }));
-          } else {
-            setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
-          }
-        } else {
-          setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
-        }
+        setErrors(prev => ({ ...prev, profile: t.settingsProfileError }));
       } else {
         setSuccess(prev => ({ ...prev, profile: t.settingsProfileSuccess }));
         
-        // Refresh learning data to update available courses
-        if (refreshProgress) {
-          await refreshProgress();
-        }
-        
-        // Force a page refresh after a short delay to ensure all data is updated
+        // If language changed, show warning and reload after delay
         setTimeout(() => {
           window.location.reload();
-        }, 1500);
+        }, 2000);
       }
     } catch (err) {
       console.error('Error updating profile:', err);
@@ -355,38 +338,24 @@ function SettingsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+                              {t.usernameLabel}
+                            </label>
+                            <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
+                              {profileData.username || 'N/A'}
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
                               {t.emailLabel}
                             </label>
                             <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
                               {user.email || 'N/A'}
                             </div>
                           </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
-                              Idioma actual
-                            </label>
-                            <div className="bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 p-3 font-bold text-sm">
-                              {languageOptions.find(lang => lang.code === profileData.initialLanguage)?.name || 'N/A'}
-                            </div>
-                          </div>
                         </div>
                       </div>
 
                       {/* Editable Fields */}
-                      <div>
-                        <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
-                          {t.usernameLabel}
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.username}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, username: e.target.value }))}
-                          className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                          placeholder={t.usernamePlaceholder}
-                        />
-                      </div>
-
                       <div>
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-2">
                           {t.fullNameLabel}
@@ -396,7 +365,7 @@ function SettingsPage() {
                           value={profileData.fullName}
                           onChange={(e) => setProfileData(prev => ({ ...prev, fullName: e.target.value }))}
                           className="w-full px-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}
+                          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                           placeholder={t.fullNamePlaceholder}
                         />
                       </div>
@@ -405,10 +374,10 @@ function SettingsPage() {
                         <label className="block text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">
                           {t.initialLanguageLabel}
                         </label>
-                        <div className="bg-blue-50/90 dark:bg-gray-700/90 p-4 border-2 border-blue-300 dark:border-blue-500 shadow-md mb-4"
-                             style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                          <p className="text-blue-800 dark:text-blue-200 font-bold text-sm">
-                            ⚠️ Cambiar tu idioma base actualizará los cursos disponibles y puede afectar tu progreso actual.
+                        <div className="bg-yellow-50/90 dark:bg-yellow-900/30 border-2 border-yellow-500 p-4 mb-4 shadow-md"
+                             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                          <p className="text-yellow-800 dark:text-yellow-200 font-bold text-sm">
+                            ⚠️ Cambiar tu idioma base afectará los cursos disponibles en tu dashboard de aprendizaje.
                           </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
