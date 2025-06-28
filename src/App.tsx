@@ -11,6 +11,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import LearningDashboard from './pages/LearningDashboard';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
+import CourseLearningPage from './pages/CourseLearningPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/learning" element={<LearningDashboard />} />
         <Route path="/learning/course/:courseId" element={<CoursePage />} />
         <Route path="/learning/lesson/:lessonId" element={<LessonPage />} />
+        <Route path="/learning/start/:courseId" element={<CourseLearningPage />} />
       </Routes>
     </Router>
   );
