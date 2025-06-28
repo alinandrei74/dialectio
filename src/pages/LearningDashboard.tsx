@@ -92,11 +92,18 @@ function LearningDashboard() {
     const hasStarted = isStarted(courseId);
     
     if (hasStarted) {
-      // User has started, navigate to course overview page
+      // User has started, navigate to course page
       navigate(`/learning/course/${courseId}`);
     } else {
-      // User hasn't started, navigate directly to learning page
-      navigate(`/learning/start/${courseId}`);
+      // User hasn't started, start the course and then navigate
+      setStartingCourse(courseId);
+      try {
+        await startCourse(courseId);
+        navigate(`/learning/course/${courseId}`);
+      } catch (error) {
+        console.error('Error starting course:', error);
+      }
+      setStartingCourse(null);
     }
   };
 
@@ -153,15 +160,15 @@ function LearningDashboard() {
       };
       return continueTexts[targetLang as keyof typeof continueTexts] || 'Continuar';
     } else {
-      // "Start Learning" in the target language
-      const startTexts = {
-        'es': 'Comenzar',
-        'fr': 'Commencer',
-        'pt': 'Começar', 
-        'it': 'Iniziare',
-        'en': 'Start Learning'
+      // "Discover/Explore [Country]" in the target language
+      const exploreTexts = {
+        'es': 'Descubre España',
+        'fr': 'Découvre la France',
+        'pt': 'Descobre Portugal', 
+        'it': 'Scopri l\'Italia',
+        'en': 'Discover America'
       };
-      return startTexts[targetLang as keyof typeof startTexts] || 'Comenzar';
+      return exploreTexts[targetLang as keyof typeof exploreTexts] || 'Explorar';
     }
   };
 
