@@ -101,6 +101,13 @@ function SettingsPage() {
     loadUserProfile();
   }, [user]);
 
+  // Handle user redirection - moved before conditional returns
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/');
+    }
+  }, [user, navigate, authLoading]);
+
   const clearMessages = (section: string) => {
     setErrors(prev => ({ ...prev, [section]: '' }));
     setSuccess(prev => ({ ...prev, [section]: '' }));
@@ -206,16 +213,9 @@ function SettingsPage() {
     setLoading(prev => ({ ...prev, email: false }));
   };
 
-if (authLoading) {
-   return null; 
- } 
- 
- // Una vez cargado: si no hay usuario, redirigimos 
- useEffect(() => { 
-   if (!user) { 
-     navigate('/'); 
-   } 
- }, [user, navigate]);
+  if (authLoading) {
+    return null; 
+  }
 
   const sections = [
     { id: 'profile', name: t.settingsProfileSection, icon: User },
