@@ -15,13 +15,14 @@ import { Course, Lesson } from '../types/learning';
 function CourseOverviewPage() {
   const navigate = useNavigate();
   const { courseId } = useParams<{ courseId: string }>();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { courses, userProgress, fetchLessons, startCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loadingLessons, setLoadingLessons] = useState(true);
   const [startingCourse, setStartingCourse] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const t: Translation = translations[currentLang];
 
@@ -29,31 +30,140 @@ function CourseOverviewPage() {
   const progress = userProgress.find(p => p.course_id === courseId);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return;
-    }
+    // Handle authentication and course loading
+    const initializePage = async () => {
+      if (authLoading) return; // Wait for auth to complete
 
-    if (!courseId) {
-      navigate('/learning');
-      return;
-    }
+      if (!user) {
+        navigate('/');
+        return;
+      }
 
-    // Fetch lessons for this course
-    const loadLessons = async () => {
-      if (courseId) {
+      if (!courseId) {
+        navigate('/learning');
+        return;
+      }
+
+      // Wait for courses to load if they haven't yet
+      if (loading) return;
+
+      // Check if course exists
+      if (courses.length > 0 && !course) {
+        // Courses have loaded but course not found
+        navigate('/learning');
+        return;
+      }
+
+      // If we have the course, load lessons
+      if (course) {
         setLoadingLessons(true);
-        const courseLessons = await fetchLessons(courseId);
-        setLessons(courseLessons);
+        try {
+          const courseLessons = await fetchLessons(courseId);
+          setLessons(courseLessons);
+        } catch (error) {
+          console.error('Error loading lessons:', error);
+        }
         setLoadingLessons(false);
       }
+
+      setPageLoading(false);
     };
 
-    loadLessons();
-  }, [courseId, user, navigate, fetchLessons]);
+    initializePage();
+  }, [courseId, user, navigate, fetchLessons, authLoading, loading, courses, course]);
 
-  if (!user || !course) {
-    return null;
+  // Show loading screen while initializing
+  if (authLoading || pageLoading || (loading && courses.length === 0)) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans flex items-center justify-center">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-md w-full mx-4"
+             style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Cargando curso...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if course not found
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 right-10 w-32 h-4 bg-white/40 dark:bg-gray-300/30 transform rotate-45 opacity-40 animate-pulse shadow-lg"></div>
+          <div className="absolute top-40 left-20 w-4 h-32 bg-blue-300/50 dark:bg-blue-400/40 transform -rotate-30 opacity-50 animate-pulse delay-1000 shadow-md"></div>
+          <div className="absolute bottom-40 right-1/4 w-16 h-16 bg-white/35 dark:bg-gray-300/25 transform rotate-45 opacity-35 animate-pulse delay-500 shadow-xl"></div>
+          <div className="absolute bottom-20 left-1/3 w-8 h-8 bg-blue-200/45 dark:bg-blue-300/35 transform -rotate-45 opacity-45 animate-pulse delay-700 shadow-lg"></div>
+        </div>
+
+        {/* Header */}
+        <header className="relative z-10 p-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => navigate('/learning')}
+                className="w-12 h-12 bg-white/20 dark:bg-gray-800/30 backdrop-blur-md hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center"
+              >
+                <ArrowLeft className="w-6 h-6 text-gray-900 dark:text-gray-100 transform -rotate-45" />
+              </button>
+              
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 flex items-center justify-center transform rotate-45 border-3 border-black dark:border-gray-300 shadow-xl">
+                  <Languages className="w-6 h-6 text-white transform -rotate-45" />
+                </div>
+                <span className="text-2xl font-black text-gray-900 dark:text-gray-100 tracking-tight">
+                  dialectio.xyz
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <LanguageSelector 
+                currentLang={currentLang}
+                setCurrentLang={setCurrentLang}
+                isMobile={false}
+              />
+              
+              <DarkModeToggle 
+                isDarkMode={isDarkMode}
+                toggleDarkMode={toggleDarkMode}
+                isMobile={false}
+              />
+
+              <UserMenu />
+            </div>
+          </div>
+        </header>
+
+        {/* Error Content */}
+        <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex items-center justify-center min-h-[60vh]">
+          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-md w-full text-center"
+               style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+            <Globe className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+            <h2 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-4">
+              Curso No Encontrado
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 font-bold mb-6">
+              El curso que buscas no existe o no está disponible.
+            </p>
+            <button
+              onClick={() => navigate('/learning')}
+              className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
+              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+            >
+              Volver a Cursos
+            </button>
+          </div>
+        </main>
+
+        <Footer t={t} />
+      </div>
+    );
   }
 
   const getLanguageInfo = (langCode: string) => {
