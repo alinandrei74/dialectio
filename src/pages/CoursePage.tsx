@@ -16,7 +16,7 @@ function CoursePage() {
   const navigate = useNavigate();
   const { courseId } = useParams<{ courseId: string }>();
   const { user } = useAuth();
-  const { courses, userProgress, fetchLessons, loading } = useLearning();
+  const { courses, userProgress, fetchLessons, startCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -38,11 +38,18 @@ function CoursePage() {
       return;
     }
 
-    // Check if user is enrolled in this course
-    if (course && !progress) {
-      navigate('/learning');
-      return;
-    }
+    // Auto-start course if user hasn't started it yet
+    const initializeCourse = async () => {
+      if (course && !progress) {
+        try {
+          await startCourse(courseId);
+        } catch (error) {
+          console.error('Error starting course:', error);
+        }
+      }
+    };
+
+    initializeCourse();
 
     // Fetch lessons for this course
     const loadLessons = async () => {
@@ -55,14 +62,14 @@ function CoursePage() {
     };
 
     loadLessons();
-  }, [courseId, course, progress, user, navigate, fetchLessons]);
+  }, [courseId, course, progress, user, navigate, fetchLessons, startCourse]);
 
-  if (!user || !course || !progress) {
+  if (!user || !course) {
     return null;
   }
 
   const isLessonCompleted = (lessonId: string) => {
-    return progress.completed_lessons?.includes(lessonId) || false;
+    return progress?.completed_lessons?.includes(lessonId) || false;
   };
 
   const isLessonUnlocked = (lessonIndex: number) => {
@@ -107,7 +114,7 @@ function CoursePage() {
     }
   };
 
-  const completedLessons = progress.completed_lessons?.length || 0;
+  const completedLessons = progress?.completed_lessons?.length || 0;
   const totalLessons = lessons.length;
   const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
@@ -249,7 +256,7 @@ function CoursePage() {
                      style={{ clipPath: 'polygon(0% 0%, 97% 0%, 100% 100%, 3% 100%)' }}>
                   <Award className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
                   <div className="text-lg font-black text-gray-900 dark:text-gray-100">
-                    {progress.total_points}
+                    {progress?.total_points || 0}
                   </div>
                   <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
                     Puntos Ganados

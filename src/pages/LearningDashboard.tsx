@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Lock, Star, Users, Globe, Flag } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Star, Globe, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -16,10 +16,10 @@ import { supabase } from '../lib/supabase';
 function LearningDashboard() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { courses, userProgress, learningStats, enrollInCourse, loading } = useLearning();
+  const { courses, userProgress, learningStats, startCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
-  const [enrolling, setEnrolling] = useState<string | null>(null);
+  const [startingCourse, setStartingCourse] = useState<string | null>(null);
   const [userInitialLanguage, setUserInitialLanguage] = useState<string>('es');
 
   const t: Translation = translations[currentLang];
@@ -88,29 +88,26 @@ function LearningDashboard() {
     return null;
   }
 
-  const handleEnrollInCourse = async (courseId: string) => {
-    setEnrolling(courseId);
-    try {
-      await enrollInCourse(courseId);
-    } catch (error) {
-      console.error('Error enrolling in course:', error);
-    }
-    setEnrolling(null);
-  };
-
-  const handleCourseAction = (courseId: string) => {
-    const enrolled = isEnrolled(courseId);
+  const handleCourseAction = async (courseId: string) => {
+    const hasStarted = isStarted(courseId);
     
-    if (enrolled) {
-      // User is enrolled, navigate to course page
+    if (hasStarted) {
+      // User has started, navigate to course page
       navigate(`/learning/course/${courseId}`);
     } else {
-      // User is not enrolled, enroll them first
-      handleEnrollInCourse(courseId);
+      // User hasn't started, start the course and then navigate
+      setStartingCourse(courseId);
+      try {
+        await startCourse(courseId);
+        navigate(`/learning/course/${courseId}`);
+      } catch (error) {
+        console.error('Error starting course:', error);
+      }
+      setStartingCourse(null);
     }
   };
 
-  const isEnrolled = (courseId: string) => {
+  const isStarted = (courseId: string) => {
     return userProgress.some(p => p.course_id === courseId);
   };
 
@@ -148,11 +145,11 @@ function LearningDashboard() {
     return getLanguageInfo(userInitialLanguage);
   };
 
-  // Get button text based on target language and enrollment status
-  const getButtonText = (course: Course, enrolled: boolean, progress: number) => {
+  // Get button text based on target language and whether course has been started
+  const getButtonText = (course: Course, hasStarted: boolean, progress: number) => {
     const targetLang = course.target_language;
     
-    if (enrolled) {
+    if (hasStarted) {
       // "Continue" in the target language
       const continueTexts = {
         'es': 'Continuar',
@@ -349,10 +346,10 @@ function LearningDashboard() {
             </div>
           ) : (
             filteredCourses.map((course) => {
-              const enrolled = isEnrolled(course.id);
+              const hasStarted = isStarted(course.id);
               const progress = getCourseProgress(course.id);
               const targetLangInfo = getLanguageInfo(course.target_language);
-              const buttonText = getButtonText(course, enrolled, progress);
+              const buttonText = getButtonText(course, hasStarted, progress);
               
               return (
                 <div key={course.id} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
@@ -389,7 +386,7 @@ function LearningDashboard() {
                     )}
 
                     {/* Progress Bar */}
-                    {enrolled && progress > 0 && (
+                    {hasStarted && progress > 0 && (
                       <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
                         <div className="bg-gray-300 h-2 rounded-full overflow-hidden">
                           <div 
@@ -433,28 +430,21 @@ function LearningDashboard() {
                     {/* Action Button */}
                     <button
                       onClick={() => handleCourseAction(course.id)}
-                      disabled={enrolling === course.id}
+                      disabled={startingCourse === course.id}
                       className={`w-full py-3 font-black text-sm border-3 border-black dark:border-gray-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 ${
-                        enrolled 
+                        hasStarted 
                           ? 'bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800'
                           : 'bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800'
                       }`}
                       style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
                     >
-                      {enrolling === course.id ? (
+                      {startingCourse === course.id ? (
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      ) : enrolled ? (
+                      ) : (
                         <>
                           <Play className="w-4 h-4" />
                           <span>{buttonText}</span>
                         </>
-                      ) : course.is_premium ? (
-                        <>
-                          <Lock className="w-4 h-4" />
-                          <span>{buttonText} (PRO)</span>
-                        </>
-                      ) : (
-                        <span>{buttonText}</span>
                       )}
                     </button>
                   </div>

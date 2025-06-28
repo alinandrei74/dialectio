@@ -74,31 +74,57 @@ export function useLearning() {
     }
   };
 
-  // Enroll in a course
-  const enrollInCourse = async (courseId: string) => {
+  // Start a course (create progress entry if it doesn't exist)
+  const startCourse = async (courseId: string) => {
     if (!user) throw new Error('User not authenticated');
 
     try {
-      const { data, error } = await supabase
+      // Check if progress already exists
+      const { data: existingProgress } = await supabase
         .from('user_progress')
-        .insert({
-          user_id: user.id,
-          course_id: courseId,
-          completed_lessons: [],
-          total_points: 0,
-          completion_percentage: 0,
-          last_accessed: new Date().toISOString()
-        })
-        .select()
-        .single();
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('course_id', courseId)
+        .maybeSingle();
 
-      if (error) throw error;
-      
-      // Refresh user progress
-      await fetchUserProgress();
-      return data;
+      if (!existingProgress) {
+        // Create new progress entry
+        const { data, error } = await supabase
+          .from('user_progress')
+          .insert({
+            user_id: user.id,
+            course_id: courseId,
+            completed_lessons: [],
+            total_points: 0,
+            completion_percentage: 0,
+            last_accessed: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+        
+        // Refresh user progress
+        await fetchUserProgress();
+        return data;
+      } else {
+        // Update last accessed time
+        const { error } = await supabase
+          .from('user_progress')
+          .update({
+            last_accessed: new Date().toISOString()
+          })
+          .eq('user_id', user.id)
+          .eq('course_id', courseId);
+
+        if (error) throw error;
+        
+        // Refresh user progress
+        await fetchUserProgress();
+        return existingProgress;
+      }
     } catch (error) {
-      console.error('Error enrolling in course:', error);
+      console.error('Error starting course:', error);
       throw error;
     }
   };
@@ -227,7 +253,7 @@ export function useLearning() {
     courses,
     userProgress,
     learningStats,
-    enrollInCourse,
+    startCourse,
     fetchLessons,
     fetchExercises,
     completeLesson,
