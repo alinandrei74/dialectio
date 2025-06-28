@@ -206,10 +206,16 @@ function SettingsPage() {
     setLoading(prev => ({ ...prev, email: false }));
   };
 
-  if (!user) {
-    navigate('/');
-    return null;
-  }
+if (loading) {
+   return null; 
+ } 
+ 
+ // Una vez cargado: si no hay usuario, redirigimos 
+ useEffect(() => { 
+   if (!user) { 
+     navigate('/'); 
+   } 
+ }, [user, navigate]);
 
   const sections = [
     { id: 'profile', name: t.settingsProfileSection, icon: User },
