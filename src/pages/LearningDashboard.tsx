@@ -140,6 +140,33 @@ function LearningDashboard() {
     return getLanguageInfo(userInitialLanguage);
   };
 
+  // Get button text based on target language and enrollment status
+  const getButtonText = (course: Course, enrolled: boolean, progress: number) => {
+    const targetLang = course.target_language;
+    
+    if (enrolled) {
+      // "Continue" in the target language
+      const continueTexts = {
+        'es': 'Continuar',
+        'fr': 'Continuer', 
+        'pt': 'Continuar',
+        'it': 'Continuare',
+        'en': 'Continue'
+      };
+      return continueTexts[targetLang as keyof typeof continueTexts] || 'Continuar';
+    } else {
+      // "Discover/Explore [Country]" in the target language
+      const exploreTexts = {
+        'es': 'Descubre España',
+        'fr': 'Découvre la France',
+        'pt': 'Descobre Portugal', 
+        'it': 'Scopri l\'Italia',
+        'en': 'Discover America'
+      };
+      return exploreTexts[targetLang as keyof typeof exploreTexts] || 'Explorar';
+    }
+  };
+
   const completedLessons = learningStats?.completed_lessons || 0;
   const totalLessons = learningStats?.total_lessons || 0;
 
@@ -317,6 +344,7 @@ function LearningDashboard() {
               const enrolled = isEnrolled(course.id);
               const progress = getCourseProgress(course.id);
               const targetLangInfo = getLanguageInfo(course.target_language);
+              const buttonText = getButtonText(course, enrolled, progress);
               
               return (
                 <div key={course.id} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
@@ -402,7 +430,7 @@ function LearningDashboard() {
                         style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
                       >
                         <Play className="w-4 h-4" />
-                        <span>{progress > 0 ? 'Continuar' : 'Comenzar'}</span>
+                        <span>{buttonText}</span>
                       </button>
                     ) : (
                       <button
@@ -416,10 +444,10 @@ function LearningDashboard() {
                         ) : course.is_premium ? (
                           <>
                             <Lock className="w-4 h-4" />
-                            <span>Inscribirse (PRO)</span>
+                            <span>{buttonText} (PRO)</span>
                           </>
                         ) : (
-                          <span>Inscribirse Gratis</span>
+                          <span>{buttonText}</span>
                         )}
                       </button>
                     )}
