@@ -98,8 +98,16 @@ function LearningDashboard() {
     setEnrolling(null);
   };
 
-  const handleStartCourse = (courseId: string) => {
-    navigate(`/learning/course/${courseId}`);
+  const handleCourseAction = (courseId: string) => {
+    const enrolled = isEnrolled(courseId);
+    
+    if (enrolled) {
+      // User is enrolled, navigate to course page
+      navigate(`/learning/course/${courseId}`);
+    } else {
+      // User is not enrolled, enroll them first
+      handleEnrollInCourse(courseId);
+    }
   };
 
   const isEnrolled = (courseId: string) => {
@@ -423,34 +431,32 @@ function LearningDashboard() {
                     </div>
 
                     {/* Action Button */}
-                    {enrolled ? (
-                      <button
-                        onClick={() => handleStartCourse(course.id)}
-                        className="w-full bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
-                        style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                      >
-                        <Play className="w-4 h-4" />
-                        <span>{buttonText}</span>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleEnrollInCourse(course.id)}
-                        disabled={enrolling === course.id}
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
-                        style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                      >
-                        {enrolling === course.id ? (
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        ) : course.is_premium ? (
-                          <>
-                            <Lock className="w-4 h-4" />
-                            <span>{buttonText} (PRO)</span>
-                          </>
-                        ) : (
+                    <button
+                      onClick={() => handleCourseAction(course.id)}
+                      disabled={enrolling === course.id}
+                      className={`w-full py-3 font-black text-sm border-3 border-black dark:border-gray-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 ${
+                        enrolled 
+                          ? 'bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800'
+                          : 'bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800'
+                      }`}
+                      style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                    >
+                      {enrolling === course.id ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : enrolled ? (
+                        <>
+                          <Play className="w-4 h-4" />
                           <span>{buttonText}</span>
-                        )}
-                      </button>
-                    )}
+                        </>
+                      ) : course.is_premium ? (
+                        <>
+                          <Lock className="w-4 h-4" />
+                          <span>{buttonText} (PRO)</span>
+                        </>
+                      ) : (
+                        <span>{buttonText}</span>
+                      )}
+                    </button>
                   </div>
                 </div>
               );
