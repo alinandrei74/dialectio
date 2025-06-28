@@ -18,18 +18,18 @@ function UserMenu() {
   };
 
   const handleSettingsClick = () => {
-    navigate('/settings');
     setIsOpen(false);
+    navigate('/settings');
   };
 
   const handleLearningClick = () => {
-    navigate('/learning');
     setIsOpen(false);
+    navigate('/learning');
   };
 
   const handleHomeClick = () => {
-    navigate('/');
     setIsOpen(false);
+    navigate('/');
   };
 
   // -------- render --------
