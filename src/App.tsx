@@ -9,6 +9,7 @@ import DemoPage from './pages/DemoPage';
 import SettingsPage from './pages/SettingsPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import LearningDashboard from './pages/LearningDashboard';
+import CourseOverviewPage from './pages/CourseOverviewPage';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/learning" element={<LearningDashboard />} />
+        <Route path="/course-overview/:courseId" element={<CourseOverviewPage />} />
         <Route path="/learning/course/:courseId" element={<CoursePage />} />
         <Route path="/learning/lesson/:lessonId" element={<LessonPage />} />
       </Routes>

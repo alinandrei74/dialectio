@@ -89,22 +89,8 @@ function LearningDashboard() {
   }
 
   const handleCourseAction = async (courseId: string) => {
-    const hasStarted = isStarted(courseId);
-    
-    if (hasStarted) {
-      // User has started, navigate to course page
-      navigate(`/learning/course/${courseId}`);
-    } else {
-      // User hasn't started, start the course and then navigate
-      setStartingCourse(courseId);
-      try {
-        await startCourse(courseId);
-        navigate(`/learning/course/${courseId}`);
-      } catch (error) {
-        console.error('Error starting course:', error);
-      }
-      setStartingCourse(null);
-    }
+    // Navigate to course overview page instead of directly to course page
+    navigate(`/course-overview/${courseId}`);
   };
 
   const isStarted = (courseId: string) => {
