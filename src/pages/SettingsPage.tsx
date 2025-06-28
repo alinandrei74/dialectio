@@ -13,7 +13,7 @@ import { supabase } from '../lib/supabase';
 
 function SettingsPage() {
   const navigate = useNavigate();
-  const { user, updateProfile, updatePassword, updateEmail } = useAuth();
+  const { user, loading, updateProfile, updatePassword, updateEmail } = useAuth();
   const { refreshProgress } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
