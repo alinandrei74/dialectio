@@ -11,18 +11,28 @@ export function useAuth() {
     // Get initial session with error handling for invalid refresh tokens
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (error) {
-        console.error('Error getting session:', error);
-        
-        // If the error is related to refresh token, clear the session
+        // Handle refresh token errors more gracefully
         if (error.message?.includes('Refresh Token Not Found') || 
             error.message?.includes('Invalid Refresh Token')) {
-          console.log('Invalid refresh token detected, clearing session...');
+          console.info('🔄 Session expired, clearing authentication state...');
+          // Clear the session silently without logging as error
           supabase.auth.signOut().then(() => {
             setSession(null);
             setUser(null);
             setLoading(false);
+            // Force redirect to home page for expired sessions
+            if (window.location.pathname !== '/' && 
+                window.location.pathname !== '/demo' && 
+                !window.location.pathname.startsWith('/privacy') &&
+                !window.location.pathname.startsWith('/terms') &&
+                !window.location.pathname.startsWith('/contact')) {
+              window.location.href = '/';
+            }
           });
           return;
+        } else {
+          // Log other authentication errors normally
+          console.error('Error getting session:', error);
         }
       }
       

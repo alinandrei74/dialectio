@@ -159,11 +159,11 @@ export function useChatbot(unit: Unit) {
 
       if (!audioResponse.ok) {
         const errorData = await audioResponse.json().catch(() => ({ error: 'Unknown error' }));
-        console.error('❌ Audio API error response:', errorData);
+        console.warn('⚠️ Audio API error response:', errorData);
         
-        // Handle specific error cases
+        // Handle specific error cases gracefully
         if (audioResponse.status === 401) {
-          console.warn('⚠️ Text-to-speech service authentication failed. Audio disabled.');
+          console.info('ℹ️ Text-to-speech service authentication failed. Audio disabled for this session.');
           setAudioServiceAvailable(false);
           setMessages(prev => prev.map(msg => 
             msg.id === message.id 
@@ -172,7 +172,7 @@ export function useChatbot(unit: Unit) {
           ));
           return;
         } else if (audioResponse.status === 503) {
-          console.warn('⚠️ Text-to-speech service not configured. Audio disabled.');
+          console.info('ℹ️ Text-to-speech service not configured. Audio disabled for this session.');
           setAudioServiceAvailable(false);
           setMessages(prev => prev.map(msg => 
             msg.id === message.id 
@@ -214,7 +214,7 @@ export function useChatbot(unit: Unit) {
       console.log('✅ Audio generated successfully for message:', message.id);
       
     } catch (error) {
-      console.error('💥 Error generating audio:', error);
+      console.warn('⚠️ Error generating audio:', error);
       
       // Mark message as having audio error but don't break the flow
       setMessages(prev => prev.map(msg => 
