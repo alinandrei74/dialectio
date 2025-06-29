@@ -1,19 +1,19 @@
--- dialectio.xyz – estructura narrativa Parte → Fase → Unidad
+-- dialectio.xyz – estructura narrativa Parte → Fase → Unidad
 -- Migración completa, idempotente y con copia de datos
 -- Ejecutar en Supabase CLI: supabase db push
 -- ⇢ Crea tablas parts, phases, units, attempts, chat_sessions, chat_turns
--- ⇢ Copia datos de lessons → units, re‑ancla exercises y progreso
+-- ⇢ Copia datos de lessons → units, re-ancla exercises y progreso
 -- ⇢ Conserva lessons como VIEW y deja lessons_backup con los datos originales
 
 BEGIN;
 
 -------------------------------------------------------------
--- 1. Extensión para generar UUID                         ---
+-- 1. Extensión para generar UUID                         ---
 -------------------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -------------------------------------------------------------
--- 2. Nuevas tablas de currículo                          ---
+-- 2. Nuevas tablas de currículo                          ---
 -------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS parts (
     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS units (
 );
 
 -------------------------------------------------------------
--- 3. Tablas de seguimiento y conversación                ---
+-- 3. Tablas de seguimiento y conversación                ---
 -------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS attempts (
     id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS chat_turns (
 );
 
 -------------------------------------------------------------
--- 4. Copiar datos de lessons → units                     ---
+-- 4. Copiar datos de lessons → units                     ---
 -------------------------------------------------------------
 
 -- 4.1 Crear, si no existen, Parte 1 y sus dos fases por cada curso
@@ -118,7 +118,7 @@ JOIN phases ph       ON ph.part_id = p.id AND ph.kind = 'preparation'
 ON CONFLICT DO NOTHING;
 
 -------------------------------------------------------------
--- 5. Mapa lesson_id → unit_id                            ---
+-- 5. Mapa lesson_id → unit_id                            ---
 -------------------------------------------------------------
 CREATE TEMP TABLE _lesson_unit_map AS
 SELECT l.id AS lesson_id, u.id AS unit_id
@@ -128,7 +128,7 @@ JOIN phases  ph ON ph.id = u.phase_id
 WHERE u.kind = 'exercise' AND ph.kind = 'preparation';
 
 -------------------------------------------------------------
--- 6. Reanclar exercises y progreso                       ---
+-- 6. Reanclar exercises y progreso                       ---
 -------------------------------------------------------------
 -- 6.1 Añadir columna unit_id si no existe (antes de renombrar)
 DO $$ BEGIN
@@ -162,20 +162,37 @@ SET    unit_id = m.unit_id
 FROM   _lesson_unit_map m
 WHERE  up.unit_id = m.lesson_id;
 
-ALTER TABLE user_progress
-    ADD CONSTRAINT IF NOT EXISTS user_progress_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE;
+-- FK para user_progress si aún no existe
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'user_progress_unit_id_fkey') THEN
+        ALTER TABLE user_progress
+            ADD CONSTRAINT user_progress_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE;
+    END IF;
+END $$;
 
 -- 6.4 user_exercise_results si existe lesson_id
 DO $$ BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_exercise_results' AND column_name = 'lesson_id') THEN
         ALTER TABLE user_exercise_results RENAME COLUMN lesson_id TO unit_id;
+    END IF;
+END $$;
+
+-- Actualizar posibles valores
+UPDATE user_exercise_results uer
+SET    unit_id = m.unit_id
+FROM   _lesson_unit_map m
+WHERE  uer.unit_id = m.lesson_id;
+
+-- FK para user_exercise_results
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'user_exercise_results_unit_id_fkey') THEN
         ALTER TABLE user_exercise_results
-            ADD CONSTRAINT IF NOT EXISTS user_exercise_results_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE;
+            ADD CONSTRAINT user_exercise_results_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE;
     END IF;
 END $$;
 
 -------------------------------------------------------------
--- 7. Levantamos la vista lessons y preservamos backup    ---
+-- 7. Levantamos la vista lessons y preservamos backup    ---
 -------------------------------------------------------------
 DROP VIEW IF EXISTS lessons CASCADE;
 ALTER TABLE lessons RENAME TO lessons_backup;
@@ -194,7 +211,7 @@ JOIN parts  p  ON p.id = ph.part_id
 WHERE u.kind = 'exercise';
 
 -------------------------------------------------------------
--- 8. Limpieza temporal                                   --
+-- 8. Limpieza temporal                                   ---
 -------------------------------------------------------------
 DROP TABLE IF EXISTS _lesson_unit_map;
 
