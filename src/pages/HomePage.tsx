@@ -36,19 +36,7 @@ function HomePage() {
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
       <BackgroundElements />
       
-      <Navigation 
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-        currentLang={currentLang}
-        setCurrentLang={setCurrentLang}
-        t={t}
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-        isAuthModalOpen={isAuthModalOpen}
-        setIsAuthModalOpen={setIsAuthModalOpen}
-      />
-      
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute left-[20%] top-[60%] z-50">
         <a 
           href="https://bolt.new/" 
           target="_blank" 
@@ -63,6 +51,18 @@ function HomePage() {
           />
         </a>
       </div>
+      
+      <Navigation 
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        currentLang={currentLang}
+        setCurrentLang={setCurrentLang}
+        t={t}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        isAuthModalOpen={isAuthModalOpen}
+        setIsAuthModalOpen={setIsAuthModalOpen}
+      />
       
       <HeroSection t={t} onStartClick={handleStartClick} />
       
