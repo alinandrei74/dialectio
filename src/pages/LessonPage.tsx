@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Play, CheckCircle, Clock, Target, Award, Volume2, RotateCcw, ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Play, CheckCircle, Clock, Target, Award, RotateCcw, ArrowRight, X } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -11,7 +11,8 @@ import DarkModeToggle from '../components/ui/DarkModeToggle';
 import UserMenu from '../components/auth/UserMenu';
 import Footer from '../components/layout/Footer';
 import ChatbotPanel from '../components/learning/ChatbotPanel';
-import { Course, Exercise, Unit, Part, MultipleChoiceContent, FillBlankContent, TranslationContent, AudioContent } from '../types/learning';
+import ExerciseRenderer from '../components/learning/ExerciseRenderer';
+import { Course, Exercise, Unit, Part, ExerciseValidationResult } from '../types/learning';
 
 function LessonPage() {
   const navigate = useNavigate();
@@ -41,8 +42,9 @@ function LessonPage() {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
-  const [exerciseResults, setExerciseResults] = useState<Record<string, any>>({});
+  const [exerciseResults, setExerciseResults] = useState<Record<string, ExerciseValidationResult>>({});
   const [showResults, setShowResults] = useState(false);
+  const [showHints, setShowHints] = useState(false);
   
   // Estados de UI
   const [loading, setLoading] = useState(true);
@@ -176,7 +178,9 @@ function LessonPage() {
 
       // Move to next exercise or show results
       if (currentExerciseIndex < exercises.length - 1) {
-        setCurrentExerciseIndex(prev => prev + 1);
+        setTimeout(() => {
+          setCurrentExerciseIndex(prev => prev + 1);
+        }, 2000); // Show result for 2 seconds before moving to next
       } else {
         // All exercises completed
         setShowResults(true);
@@ -220,94 +224,15 @@ function LessonPage() {
     }
   };
 
-  const renderExerciseContent = (exercise: Exercise) => {
-    const userAnswer = userAnswers[exercise.id] || '';
-    const isCompleted = completedExercises.has(exercise.id);
+  const handleNextExercise = () => {
+    if (currentExerciseIndex < exercises.length - 1) {
+      setCurrentExerciseIndex(prev => prev + 1);
+    }
+  };
 
-    switch (exercise.exercise_type) {
-      case 'multiple_choice':
-        const mcContent = exercise.content as MultipleChoiceContent;
-        return (
-          <div className="space-y-3">
-            {mcContent.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswerChange(exercise.id, option)}
-                disabled={isCompleted}
-                className={`w-full p-4 text-left border-3 transition-all duration-300 font-bold ${
-                  userAnswer === option
-                    ? 'bg-blue-600 text-white border-black dark:border-gray-300'
-                    : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300'
-                } ${isCompleted ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg'}`}
-                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        );
-
-      case 'fill_blank':
-      case 'translation':
-        return (
-          <input
-            type="text"
-            value={userAnswer}
-            onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
-            disabled={isCompleted}
-            className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
-            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-            placeholder="Escribe tu respuesta aquí..."
-          />
-        );
-
-      case 'audio':
-        const audioContent = exercise.content as AudioContent;
-        return (
-          <div className="space-y-4">
-            {audioContent.audio_url && (
-              <div className="flex items-center space-x-4">
-                <button 
-                  className="bg-blue-600 text-white px-4 py-2 font-bold text-sm border-2 border-black hover:bg-blue-700 transition-all duration-300 flex items-center space-x-2"
-                  onClick={() => {
-                    const audio = new Audio(audioContent.audio_url);
-                    audio.play().catch(console.error);
-                  }}
-                >
-                  <Volume2 className="w-4 h-4" />
-                  <span>Escuchar</span>
-                </button>
-                {audioContent.transcript && (
-                  <span className="text-sm text-gray-600 dark:text-gray-400 font-bold">
-                    Transcripción disponible después de responder
-                  </span>
-                )}
-              </div>
-            )}
-            <input
-              type="text"
-              value={userAnswer}
-              onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
-              disabled={isCompleted}
-              className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
-              style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-              placeholder="Escribe lo que escuchaste..."
-            />
-          </div>
-        );
-
-      default:
-        return (
-          <input
-            type="text"
-            value={userAnswer}
-            onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
-            disabled={isCompleted}
-            className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
-            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-            placeholder="Escribe tu respuesta aquí..."
-          />
-        );
+  const handlePreviousExercise = () => {
+    if (currentExerciseIndex > 0) {
+      setCurrentExerciseIndex(prev => prev - 1);
     }
   };
 
@@ -477,16 +402,32 @@ function LessonPage() {
             
             {activeExerciseUnit ? (
               <>
-                <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
+                <div className="p-4 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
                      style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-                  <h2 className="text-xl font-black">
-                    {activeExerciseUnit.title}
-                  </h2>
-                  {exercises.length > 0 && (
-                    <p className="text-blue-100 font-bold text-sm">
-                      Ejercicio {currentExerciseIndex + 1} de {exercises.length}
-                    </p>
-                  )}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xl font-black">
+                        {activeExerciseUnit.title}
+                      </h2>
+                      {exercises.length > 0 && (
+                        <p className="text-blue-100 font-bold text-sm">
+                          Ejercicio {currentExerciseIndex + 1} de {exercises.length}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {exercises.length > 0 && (
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => setShowHints(!showHints)}
+                          className="px-3 py-1 bg-white/20 text-white font-bold text-xs border-2 border-white hover:bg-white/30 transition-all duration-300"
+                          style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
+                        >
+                          {showHints ? 'Ocultar' : 'Mostrar'} Pistas
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="p-6 h-[500px] overflow-y-auto">
@@ -499,28 +440,47 @@ function LessonPage() {
                         </p>
                       </div>
 
-                      {/* Exercise Question */}
+                      {/* Exercise Content */}
                       <div className="mb-8">
-                        <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-3 border-blue-300 dark:border-blue-500 shadow-lg"
-                             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                          <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                            {currentExercise.content.question}
-                          </h3>
-                        </div>
+                        <ExerciseRenderer
+                          exercise={currentExercise}
+                          userAnswer={userAnswer}
+                          onAnswerChange={(answer) => handleAnswerChange(currentExercise.id, answer)}
+                          isCompleted={isExerciseCompleted}
+                          showHints={showHints}
+                        />
                       </div>
 
-                      {/* Answer Input */}
-                      <div className="mb-8">
-                        {renderExerciseContent(currentExercise)}
-                      </div>
-
-                      {/* Action Buttons */}
+                      {/* Navigation and Action Buttons */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2">
+                          {/* Previous Exercise */}
+                          <button
+                            onClick={handlePreviousExercise}
+                            disabled={currentExerciseIndex === 0}
+                            className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                            style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                          >
+                            <ArrowLeft className="w-4 h-4" />
+                            <span>Anterior</span>
+                          </button>
+
+                          {/* Next Exercise */}
+                          <button
+                            onClick={handleNextExercise}
+                            disabled={currentExerciseIndex === exercises.length - 1}
+                            className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                            style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                          >
+                            <span>Siguiente</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+
+                          {/* Retry Exercise */}
                           {isExerciseCompleted && (
                             <button
                               onClick={handleRetryExercise}
-                              className="bg-gray-600 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                              className="bg-orange-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
                               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
                             >
                               <RotateCcw className="w-4 h-4" />
@@ -529,6 +489,7 @@ function LessonPage() {
                           )}
                         </div>
 
+                        {/* Submit Button */}
                         <button
                           onClick={handleSubmitExercise}
                           disabled={!userAnswer.trim() || submitting || isExerciseCompleted}
@@ -540,12 +501,12 @@ function LessonPage() {
                           ) : isExerciseCompleted ? (
                             <CheckCircle className="w-5 h-5" />
                           ) : (
-                            <ArrowRight className="w-5 h-5" />
+                            <Play className="w-5 h-5" />
                           )}
                           <span>
                             {submitting ? 'Enviando...' : 
                              isExerciseCompleted ? 'Completado' : 
-                             currentExerciseIndex === exercises.length - 1 ? 'Finalizar' : 'Siguiente'}
+                             'Comprobar'}
                           </span>
                         </button>
                       </div>
@@ -633,14 +594,16 @@ function LessonPage() {
                 </div>
               </>
             ) : (
-              <div className="p-6 text-center">
-                <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  Selecciona una Unidad de Ejercicios
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300 font-bold">
-                  Elige una unidad de ejercicios de la navegación superior para comenzar.
-                </p>
+              <div className="p-6 text-center h-full flex items-center justify-center">
+                <div>
+                  <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                    Selecciona una Unidad de Ejercicios
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300 font-bold">
+                    Elige una unidad de ejercicios de la navegación superior para comenzar.
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -651,7 +614,6 @@ function LessonPage() {
               <ChatbotPanel 
                 unit={activeSituationUnit}
                 onComplete={() => {
-                  // Handle conversation completion
                   console.log('Conversation completed');
                 }}
               />

@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, RotateCcw, CheckCircle } from 'lucide-react';
+import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, RotateCcw, CheckCircle, Loader } from 'lucide-react';
 import { Unit } from '../../types/learning';
-
-interface ChatMessage {
-  id: string;
-  speaker: 'student' | 'agent';
-  message: string;
-  timestamp: Date;
-  analysis?: any;
-  suggestions?: string[];
-}
+import { useChatbot } from '../../hooks/useChatbot';
 
 interface ChatbotPanelProps {
   unit: Unit;
@@ -17,143 +9,22 @@ interface ChatbotPanelProps {
 }
 
 function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { messages, isLoading, conversationComplete, sendStudentMessage, resetConversation } = useChatbot(unit);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [sessionStarted, setSessionStarted] = useState(false);
-  const [conversationComplete, setConversationComplete] = useState(false);
 
-  // Inicializar conversación con mensaje del agente
+  // Handle conversation completion
   useEffect(() => {
-    if (unit && unit.kind === 'situation' && !sessionStarted) {
-      const welcomeMessage: ChatMessage = {
-        id: 'welcome',
-        speaker: 'agent',
-        message: getWelcomeMessage(),
-        timestamp: new Date()
-      };
-      setMessages([welcomeMessage]);
-      setSessionStarted(true);
+    if (conversationComplete && onComplete) {
+      onComplete();
     }
-  }, [unit, sessionStarted]);
-
-  const getWelcomeMessage = () => {
-    const agentName = unit.agent_name || 'Tutor';
-    
-    // Mensajes de bienvenida basados en el título de la unidad
-    const welcomeMessages = {
-      'Encuentro Casual': `¡Hola! Soy ${agentName}. Estoy aquí en este café y me gustaría conocerte. ¿Cómo te llamas?`,
-      'En la Recepción': `Buenos días, soy ${agentName}, recepcionista del hotel. ¿En qué puedo ayudarle hoy?`,
-      'Situación A': `¡Hola! Soy ${agentName}. Vamos a practicar presentaciones. ¿Podrías presentarte, por favor?`,
-      'Situación B': `¡Bienvenido! Soy ${agentName}, su camarero. ¿Cómo está usted hoy?`,
-      default: `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar español. ¡Empecemos!`
-    };
-
-    return welcomeMessages[unit.title as keyof typeof welcomeMessages] || welcomeMessages.default;
-  };
+  }, [conversationComplete, onComplete]);
 
   const handleSendMessage = async () => {
     if (!currentMessage.trim() || isLoading) return;
 
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      speaker: 'student',
-      message: currentMessage.trim(),
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+    await sendStudentMessage(currentMessage);
     setCurrentMessage('');
-    setIsLoading(true);
-
-    // Simular respuesta del agente (en producción, esto sería una llamada a la API del chatbot)
-    setTimeout(() => {
-      const agentResponse = generateAgentResponse(userMessage.message, messages.length);
-      const agentMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        speaker: 'agent',
-        message: agentResponse.message,
-        timestamp: new Date(),
-        suggestions: agentResponse.suggestions
-      };
-
-      setMessages(prev => [...prev, agentMessage]);
-      setIsLoading(false);
-
-      // Verificar si la conversación debe terminar
-      if (messages.length >= 8) { // Después de 4-5 intercambios
-        setTimeout(() => {
-          setConversationComplete(true);
-          if (onComplete) {
-            onComplete();
-          }
-        }, 2000);
-      }
-    }, 1500 + Math.random() * 1000); // Simular tiempo de respuesta variable
-  };
-
-  const generateAgentResponse = (userMessage: string, messageCount: number) => {
-    const agentName = unit.agent_name || 'Tutor';
-    
-    // Respuestas basadas en el contexto de la unidad y el progreso de la conversación
-    const responses = {
-      'Encuentro Casual': [
-        {
-          message: `¡Encantada de conocerte! Yo soy ${agentName}. ¿De dónde eres?`,
-          suggestions: ['Corrige la pronunciación si es necesario', 'Practica el uso de "ser" vs "estar"']
-        },
-        {
-          message: `¡Qué interesante! ¿Y a qué te dedicas?`,
-          suggestions: ['Vocabulario de profesiones', 'Estructura de preguntas']
-        },
-        {
-          message: `Me parece muy bien. ¿Te gusta vivir allí?`,
-          suggestions: ['Expresiones de opinión', 'Vocabulario de lugares']
-        },
-        {
-          message: `Ha sido un placer conocerte. ¡Que tengas un buen día!`,
-          suggestions: ['Despedidas formales e informales']
-        }
-      ],
-      'En la Recepción': [
-        {
-          message: `Perfecto. ¿Tiene usted una reserva?`,
-          suggestions: ['Uso formal "usted"', 'Vocabulario hotelero']
-        },
-        {
-          message: `Muy bien. ¿Podría darme su nombre, por favor?`,
-          suggestions: ['Fórmulas de cortesía', 'Registro formal']
-        },
-        {
-          message: `Excelente. Su habitación está lista. ¿Necesita ayuda con el equipaje?`,
-          suggestions: ['Servicios del hotel', 'Ofrecer ayuda']
-        },
-        {
-          message: `Perfecto. Aquí tiene la llave. ¡Disfrute su estancia!`,
-          suggestions: ['Entrega de servicios', 'Buenos deseos']
-        }
-      ],
-      default: [
-        {
-          message: `¡Muy bien! ¿Puedes contarme algo más sobre ti?`,
-          suggestions: ['Información personal básica', 'Estructura de oraciones']
-        },
-        {
-          message: `Interesante. ¿Qué te gusta hacer en tu tiempo libre?`,
-          suggestions: ['Vocabulario de hobbies', 'Expresar gustos']
-        },
-        {
-          message: `¡Excelente! Has hecho un gran progreso en esta conversación.`,
-          suggestions: ['Felicitaciones', 'Resumen de aprendizaje']
-        }
-      ]
-    };
-
-    const unitResponses = responses[unit.title as keyof typeof responses] || responses.default;
-    const responseIndex = Math.min(messageCount / 2, unitResponses.length - 1);
-    
-    return unitResponses[Math.floor(responseIndex)] || unitResponses[unitResponses.length - 1];
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -163,19 +34,45 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     }
   };
 
-  const resetConversation = () => {
-    setMessages([]);
-    setSessionStarted(false);
-    setConversationComplete(false);
-    setCurrentMessage('');
-  };
-
   const speakMessage = (message: string) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(message);
       utterance.lang = 'es-ES';
       utterance.rate = 0.8;
       speechSynthesis.speak(utterance);
+    }
+  };
+
+  const startVoiceRecognition = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.lang = 'es-ES';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setCurrentMessage(transcript);
+        setIsListening(false);
+      };
+
+      recognition.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } else {
+      alert('Tu navegador no soporta reconocimiento de voz');
     }
   };
 
@@ -211,45 +108,62 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+        {messages.length === 0 && !isLoading && (
+          <div className="text-center py-8">
+            <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-gray-400 font-bold">
+              Iniciando conversación...
+            </p>
+          </div>
+        )}
+
         {messages.map((message) => (
           <div key={message.id} className={`flex ${message.speaker === 'student' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] ${
+            <div className={`max-w-[85%] ${
               message.speaker === 'student' 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
-            } p-3 border-2 border-black dark:border-gray-300 shadow-lg`}
+            } p-4 border-2 border-black dark:border-gray-300 shadow-lg`}
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
               
-              <div className="flex items-start space-x-2">
-                <div className="flex-shrink-0">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 mt-1">
                   {message.speaker === 'student' ? (
-                    <User className="w-5 h-5 mt-1" />
+                    <User className="w-5 h-5" />
                   ) : (
-                    <Bot className="w-5 h-5 mt-1" />
+                    <Bot className="w-5 h-5" />
                   )}
                 </div>
-                <div className="flex-1">
-                  <p className="font-bold text-sm mb-1">
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-sm break-words">
                     {message.message}
                   </p>
                   
                   {message.speaker === 'agent' && (
-                    <button
-                      onClick={() => speakMessage(message.message)}
-                      className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 mt-2"
-                    >
-                      <Volume2 className="w-3 h-3" />
-                      <span>Escuchar</span>
-                    </button>
+                    <div className="flex items-center space-x-2 mt-2">
+                      <button
+                        onClick={() => speakMessage(message.message)}
+                        className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-1 rounded hover:bg-black/10"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>Escuchar</span>
+                      </button>
+                    </div>
                   )}
                   
                   {message.suggestions && message.suggestions.length > 0 && (
-                    <div className="mt-2 text-xs opacity-80">
-                      <div className="font-bold mb-1">💡 Consejos:</div>
-                      <ul className="list-disc list-inside space-y-1">
+                    <div className="mt-3 p-2 bg-black/10 rounded text-xs">
+                      <div className="font-bold mb-1 flex items-center space-x-1">
+                        <span>💡</span>
+                        <span>Consejos:</span>
+                      </div>
+                      <ul className="space-y-1 opacity-90">
                         {message.suggestions.map((suggestion, index) => (
-                          <li key={index}>{suggestion}</li>
+                          <li key={index} className="flex items-start space-x-1">
+                            <span className="text-xs">•</span>
+                            <span>{suggestion}</span>
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -262,14 +176,15 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-200 dark:bg-gray-700 p-3 border-2 border-black dark:border-gray-300 shadow-lg"
+            <div className="bg-gray-200 dark:bg-gray-700 p-4 border-2 border-black dark:border-gray-300 shadow-lg"
                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <div className="flex items-center space-x-2">
-                <Bot className="w-5 h-5" />
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100"></div>
-                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-200"></div>
+              <div className="flex items-center space-x-3">
+                <Bot className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                <div className="flex items-center space-x-2">
+                  <Loader className="w-4 h-4 animate-spin text-gray-600 dark:text-gray-400" />
+                  <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
+                    Escribiendo...
+                  </span>
                 </div>
               </div>
             </div>
@@ -279,8 +194,8 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
 
       {/* Input Area */}
       {!conversationComplete && (
-        <div className="p-4 border-t-3 border-black dark:border-gray-300">
-          <div className="flex items-center space-x-3">
+        <div className="p-4 border-t-3 border-black dark:border-gray-300 bg-gray-50/50 dark:bg-gray-800/50">
+          <div className="flex items-end space-x-3">
             <div className="flex-1 relative">
               <textarea
                 value={currentMessage}
@@ -294,10 +209,12 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
               />
               
               <button
-                onClick={() => setIsListening(!isListening)}
-                className={`absolute right-3 top-3 p-1 rounded ${
-                  isListening ? 'bg-red-500 text-white' : 'bg-gray-300 text-gray-600'
-                } hover:opacity-80 transition-opacity`}
+                onClick={isListening ? () => setIsListening(false) : startVoiceRecognition}
+                className={`absolute right-3 top-3 p-2 rounded-full transition-all duration-300 ${
+                  isListening 
+                    ? 'bg-red-500 text-white animate-pulse' 
+                    : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-500'
+                }`}
                 title={isListening ? 'Detener grabación' : 'Grabar audio'}
               >
                 {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -313,19 +230,39 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
               <Send className="w-5 h-5" />
             </button>
           </div>
+          
+          <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 font-bold text-center">
+            Presiona Enter para enviar • Shift+Enter para nueva línea
+          </div>
         </div>
       )}
 
       {/* Completion Actions */}
       {conversationComplete && (
         <div className="p-4 border-t-3 border-black dark:border-gray-300 bg-green-50/90 dark:bg-green-900/30">
-          <div className="text-center space-y-3">
-            <p className="text-green-800 dark:text-green-200 font-bold">
-              ¡Excelente trabajo! Has completado esta conversación.
-            </p>
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center space-x-2 mb-3">
+              <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <p className="text-green-800 dark:text-green-200 font-bold">
+                ¡Excelente trabajo! Has completado esta conversación.
+              </p>
+            </div>
+            
+            <div className="bg-green-100/90 dark:bg-green-800/30 border-2 border-green-500 p-4 shadow-md"
+                 style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+              <div className="text-green-800 dark:text-green-200 font-bold text-sm mb-2">
+                📈 Progreso de la conversación:
+              </div>
+              <div className="text-green-700 dark:text-green-300 font-bold text-sm">
+                • {messages.filter(m => m.speaker === 'student').length} mensajes enviados
+                • Conversación completada exitosamente
+                • ¡Sigue practicando para mejorar tu fluidez!
+              </div>
+            </div>
+            
             <button
               onClick={resetConversation}
-              className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2 mx-auto"
+              className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2 mx-auto"
               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
             >
               <RotateCcw className="w-4 h-4" />
