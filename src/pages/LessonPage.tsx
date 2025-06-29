@@ -10,7 +10,7 @@ import LanguageSelector from '../components/ui/LanguageSelector';
 import DarkModeToggle from '../components/ui/DarkModeToggle';
 import UserMenu from '../components/auth/UserMenu';
 import Footer from '../components/layout/Footer';
-import { Lesson, Exercise, Course } from '../types/learning';
+import { Lesson, Exercise, Course, MultipleChoiceContent, FillBlankContent, TranslationContent, AudioContent } from '../types/learning';
 
 function LessonPage() {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ function LessonPage() {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
+  const [exerciseResults, setExerciseResults] = useState<Record<string, any>>({});
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -97,22 +98,23 @@ function LessonPage() {
     const currentExercise = exercises[currentExerciseIndex];
     const userAnswer = userAnswers[currentExercise.id] || '';
 
+    if (!userAnswer.trim()) return;
+
     setSubmitting(true);
 
     try {
-      // Check if answer is correct (simplified logic)
-      const isCorrect = userAnswer.toLowerCase().trim() === 
-        String(currentExercise.content.correct_answer).toLowerCase().trim();
-      
-      const pointsEarned = isCorrect ? currentExercise.points : 0;
-
-      // Submit exercise result
-      await submitExerciseResult(
+      // Use the new intelligent validation system
+      const result = await submitExerciseResult(
         currentExercise.id,
         userAnswer,
-        isCorrect,
-        pointsEarned
+        currentExercise
       );
+
+      // Store the result
+      setExerciseResults(prev => ({
+        ...prev,
+        [currentExercise.id]: result
+      }));
 
       // Mark exercise as completed
       setCompletedExercises(prev => new Set([...prev, currentExercise.id]));
@@ -147,6 +149,11 @@ function LessonPage() {
       const newSet = new Set(prev);
       newSet.delete(currentExercise.id);
       return newSet;
+    });
+    setExerciseResults(prev => {
+      const newResults = { ...prev };
+      delete newResults[currentExercise.id];
+      return newResults;
     });
   };
 
@@ -191,6 +198,98 @@ function LessonPage() {
     }
   };
 
+  const renderExerciseContent = (exercise: Exercise) => {
+    const userAnswer = userAnswers[exercise.id] || '';
+    const isCompleted = completedExercises.has(exercise.id);
+    const result = exerciseResults[exercise.id];
+
+    switch (exercise.exercise_type) {
+      case 'multiple_choice':
+        const mcContent = exercise.content as MultipleChoiceContent;
+        return (
+          <div className="space-y-3">
+            {mcContent.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswerChange(exercise.id, option)}
+                disabled={isCompleted}
+                className={`w-full p-4 text-left border-3 transition-all duration-300 font-bold ${
+                  userAnswer === option
+                    ? 'bg-blue-600 text-white border-black dark:border-gray-300'
+                    : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300'
+                } ${isCompleted ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg'}`}
+                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        );
+
+      case 'fill_blank':
+      case 'translation':
+        return (
+          <input
+            type="text"
+            value={userAnswer}
+            onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
+            disabled={isCompleted}
+            className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
+            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+            placeholder="Escribe tu respuesta aquí..."
+          />
+        );
+
+      case 'audio':
+        const audioContent = exercise.content as AudioContent;
+        return (
+          <div className="space-y-4">
+            {audioContent.audio_url && (
+              <div className="flex items-center space-x-4">
+                <button 
+                  className="bg-blue-600 text-white px-4 py-2 font-bold text-sm border-2 border-black hover:bg-blue-700 transition-all duration-300 flex items-center space-x-2"
+                  onClick={() => {
+                    const audio = new Audio(audioContent.audio_url);
+                    audio.play().catch(console.error);
+                  }}
+                >
+                  <Volume2 className="w-4 h-4" />
+                  <span>Escuchar</span>
+                </button>
+                {audioContent.transcript && (
+                  <span className="text-sm text-gray-600 dark:text-gray-400 font-bold">
+                    Transcripción disponible después de responder
+                  </span>
+                )}
+              </div>
+            )}
+            <input
+              type="text"
+              value={userAnswer}
+              onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
+              disabled={isCompleted}
+              className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
+              style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+              placeholder="Escribe lo que escuchaste..."
+            />
+          </div>
+        );
+
+      default:
+        return (
+          <input
+            type="text"
+            value={userAnswer}
+            onChange={(e) => handleAnswerChange(exercise.id, e.target.value)}
+            disabled={isCompleted}
+            className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
+            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+            placeholder="Escribe tu respuesta aquí..."
+          />
+        );
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans flex items-center justify-center">
@@ -215,6 +314,7 @@ function LessonPage() {
   const currentExercise = exercises[currentExerciseIndex];
   const isExerciseCompleted = currentExercise && completedExercises.has(currentExercise.id);
   const userAnswer = currentExercise ? userAnswers[currentExercise.id] || '' : '';
+  const exerciseResult = currentExercise ? exerciseResults[currentExercise.id] : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
@@ -311,7 +411,7 @@ function LessonPage() {
 
             <div className="p-6">
               <p className="text-gray-700 dark:text-gray-300 font-bold text-lg">
-                {lesson.description}
+                {lesson.description || 'Practica y mejora tus habilidades con estos ejercicios.'}
               </p>
             </div>
           </div>
@@ -344,48 +444,12 @@ function LessonPage() {
                   <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
                     {currentExercise.content.question}
                   </h3>
-                  
-                  {/* Audio button if available */}
-                  {currentExercise.content.audio_url && (
-                    <button className="bg-blue-600 text-white px-4 py-2 font-bold text-sm border-2 border-black hover:bg-blue-700 transition-all duration-300 flex items-center space-x-2 mb-4">
-                      <Volume2 className="w-4 h-4" />
-                      <span>Escuchar</span>
-                    </button>
-                  )}
                 </div>
               </div>
 
               {/* Answer Input */}
               <div className="mb-8">
-                {currentExercise.exercise_type === 'multiple_choice' && currentExercise.content.options ? (
-                  <div className="space-y-3">
-                    {currentExercise.content.options.map((option, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleAnswerChange(currentExercise.id, option)}
-                        disabled={isExerciseCompleted}
-                        className={`w-full p-4 text-left border-3 transition-all duration-300 font-bold ${
-                          userAnswer === option
-                            ? 'bg-blue-600 text-white border-black dark:border-gray-300'
-                            : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300'
-                        } ${isExerciseCompleted ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg'}`}
-                        style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    value={userAnswer}
-                    onChange={(e) => handleAnswerChange(currentExercise.id, e.target.value)}
-                    disabled={isExerciseCompleted}
-                    className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg disabled:opacity-60"
-                    style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-                    placeholder="Escribe tu respuesta aquí..."
-                  />
-                )}
+                {renderExerciseContent(currentExercise)}
               </div>
 
               {/* Action Buttons */}
@@ -425,15 +489,50 @@ function LessonPage() {
               </div>
 
               {/* Exercise Feedback */}
-              {isExerciseCompleted && currentExercise.content.explanation && (
-                <div className="mt-6 bg-green-50/90 dark:bg-green-900/30 border-3 border-green-500 p-6 shadow-lg"
+              {isExerciseCompleted && exerciseResult && (
+                <div className={`mt-6 border-3 p-6 shadow-lg ${
+                  exerciseResult.isCorrect 
+                    ? 'bg-green-50/90 dark:bg-green-900/30 border-green-500' 
+                    : 'bg-red-50/90 dark:bg-red-900/30 border-red-500'
+                }`}
                      style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                  <h4 className="text-lg font-black text-green-800 dark:text-green-200 mb-2">
-                    Explicación
-                  </h4>
-                  <p className="text-green-700 dark:text-green-300 font-bold">
-                    {currentExercise.content.explanation}
-                  </p>
+                  <div className="flex items-center space-x-3 mb-3">
+                    {exerciseResult.isCorrect ? (
+                      <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    ) : (
+                      <X className="w-6 h-6 text-red-600 dark:text-red-400" />
+                    )}
+                    <h4 className={`text-lg font-black ${
+                      exerciseResult.isCorrect 
+                        ? 'text-green-800 dark:text-green-200' 
+                        : 'text-red-800 dark:text-red-200'
+                    }`}>
+                      {exerciseResult.isCorrect ? '¡Correcto!' : 'Incorrecto'}
+                    </h4>
+                    <span className={`px-3 py-1 font-black text-sm border-2 border-black ${
+                      exerciseResult.isCorrect ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                    }`}>
+                      +{exerciseResult.score} puntos
+                    </span>
+                  </div>
+                  
+                  {currentExercise.content.explanation && (
+                    <p className={`font-bold ${
+                      exerciseResult.isCorrect 
+                        ? 'text-green-700 dark:text-green-300' 
+                        : 'text-red-700 dark:text-red-300'
+                    }`}>
+                      {currentExercise.content.explanation}
+                    </p>
+                  )}
+                  
+                  {!exerciseResult.isCorrect && (
+                    <p className="text-red-700 dark:text-red-300 font-bold mt-2">
+                      Respuesta correcta: <span className="font-black">{
+                        (currentExercise.content as any).correct_answer
+                      }</span>
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -472,7 +571,7 @@ function LessonPage() {
                 <div className="bg-green-50/90 dark:bg-gray-700/90 p-6 border-2 border-green-300 dark:border-green-500 shadow-md text-center">
                   <Award className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
                   <div className="text-lg font-black text-gray-900 dark:text-gray-100">
-                    {exercises.reduce((sum, ex) => sum + ex.points, 0)}
+                    {Object.values(exerciseResults).reduce((sum, result) => sum + (result?.score || 0), 0)}
                   </div>
                   <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
                     Puntos Ganados

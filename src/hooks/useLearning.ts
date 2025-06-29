@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './useAuth';
-import { Course, Lesson, Exercise, UserProgress, LearningStats } from '../types/learning';
+import { Course, Lesson, Exercise, UserProgress, LearningStats, validateExerciseAnswer } from '../types/learning';
 
 export function useLearning() {
   const { user } = useAuth();
@@ -49,23 +49,35 @@ export function useLearning() {
     if (!user) return;
 
     try {
-      // This would be implemented with a more complex query or stored procedure
-      // For now, we'll calculate basic stats
+      // Obtener estadísticas básicas del progreso
       const { data: progressData } = await supabase
         .from('user_progress')
         .select('*')
         .eq('user_id', user.id);
 
-      if (progressData) {
+      // Obtener total de cursos disponibles
+      const { data: coursesData } = await supabase
+        .from('courses')
+        .select('id, total_lessons');
+
+      if (progressData && coursesData) {
+        const totalCourses = coursesData.length;
+        const completedCourses = progressData.filter(p => p.completion_percentage === 100).length;
+        const totalPoints = progressData.reduce((sum, p) => sum + (p.total_points || 0), 0);
+        const completedLessons = progressData.reduce((sum, p) => sum + (p.completed_lessons?.length || 0), 0);
+        
+        // Calcular total de lecciones disponibles
+        const totalLessons = coursesData.reduce((sum, c) => sum + c.total_lessons, 0);
+
         const stats: LearningStats = {
-          total_courses: courses.length,
-          completed_courses: progressData.filter(p => p.completion_percentage === 100).length,
-          total_lessons: progressData.reduce((sum, p) => sum + (p.completed_lessons?.length || 0), 0),
-          completed_lessons: progressData.reduce((sum, p) => sum + (p.completed_lessons?.length || 0), 0),
-          total_points: progressData.reduce((sum, p) => sum + p.total_points, 0),
-          current_streak: 0, // Would be calculated based on daily activity
-          longest_streak: 0, // Would be calculated based on historical data
-          time_spent_minutes: 0 // Would be tracked separately
+          total_courses: totalCourses,
+          completed_courses: completedCourses,
+          total_lessons: totalLessons,
+          completed_lessons: completedLessons,
+          total_points: totalPoints,
+          current_streak: 0, // TODO: Implementar cálculo de racha
+          longest_streak: 0, // TODO: Implementar cálculo de racha más larga
+          time_spent_minutes: 0 // TODO: Implementar seguimiento de tiempo
         };
         setLearningStats(stats);
       }
@@ -129,7 +141,7 @@ export function useLearning() {
     }
   };
 
-  // Get lessons for a course
+  // Get lessons for a course (usando la vista lessons que mapea a units)
   const fetchLessons = async (courseId: string): Promise<Lesson[]> => {
     try {
       const { data, error } = await supabase
@@ -146,13 +158,13 @@ export function useLearning() {
     }
   };
 
-  // Get exercises for a lesson
+  // Get exercises for a lesson (ahora usando unit_id)
   const fetchExercises = async (lessonId: string): Promise<Exercise[]> => {
     try {
       const { data, error } = await supabase
         .from('exercises')
         .select('*')
-        .eq('lesson_id', lessonId)
+        .eq('lesson_id', lessonId) // lesson_id ahora apunta a unit_id
         .order('exercise_order', { ascending: true });
 
       if (error) throw error;
@@ -182,15 +194,15 @@ export function useLearning() {
           completedLessons.push(lessonId);
         }
 
-        // Get total lessons for the course
-        const { data: course } = await supabase
-          .from('courses')
-          .select('total_lessons')
-          .eq('id', courseId)
-          .single();
+        // Get total lessons for the course usando la vista lessons
+        const { data: lessons } = await supabase
+          .from('lessons')
+          .select('id')
+          .eq('course_id', courseId);
 
-        const completionPercentage = course 
-          ? Math.round((completedLessons.length / course.total_lessons) * 100)
+        const totalLessons = lessons?.length || 0;
+        const completionPercentage = totalLessons > 0 
+          ? Math.round((completedLessons.length / totalLessons) * 100)
           : 0;
 
         const { error } = await supabase
@@ -198,6 +210,7 @@ export function useLearning() {
           .update({
             completed_lessons: completedLessons,
             completion_percentage: completionPercentage,
+            current_lesson_id: lessonId,
             last_accessed: new Date().toISOString()
           })
           .eq('user_id', user.id)
@@ -205,8 +218,9 @@ export function useLearning() {
 
         if (error) throw error;
         
-        // Refresh user progress
+        // Refresh user progress and stats
         await fetchUserProgress();
+        await fetchLearningStats();
       }
     } catch (error) {
       console.error('Error completing lesson:', error);
@@ -214,26 +228,102 @@ export function useLearning() {
     }
   };
 
-  // Submit exercise result
-  const submitExerciseResult = async (exerciseId: string, userAnswer: string, isCorrect: boolean, pointsEarned: number) => {
+  // Submit exercise result with intelligent validation
+  const submitExerciseResult = async (
+    exerciseId: string, 
+    userAnswer: string, 
+    exercise: Exercise
+  ) => {
     if (!user) throw new Error('User not authenticated');
 
     try {
-      const { error } = await supabase
+      // Use intelligent validation
+      const validationResult = validateExerciseAnswer(exercise, userAnswer);
+
+      // Submit to user_exercise_results if the table exists
+      const { error: exerciseError } = await supabase
         .from('user_exercise_results')
         .insert({
           user_id: user.id,
           exercise_id: exerciseId,
           user_answer: userAnswer,
-          is_correct: isCorrect,
-          points_earned: pointsEarned,
+          is_correct: validationResult.isCorrect,
+          points_earned: validationResult.score,
           completed_at: new Date().toISOString()
         });
 
-      if (error) throw error;
+      if (exerciseError) {
+        console.warn('Could not save to user_exercise_results:', exerciseError);
+      }
+
+      // Also submit to attempts table (new structure)
+      const { error: attemptError } = await supabase
+        .from('attempts')
+        .insert({
+          user_id: user.id,
+          unit_id: exercise.lesson_id, // lesson_id ahora es unit_id
+          answer: {
+            exercise_id: exerciseId,
+            user_answer: userAnswer,
+            normalized_answer: validationResult.normalizedAnswer
+          },
+          score: validationResult.score
+        });
+
+      if (attemptError) {
+        console.error('Error saving attempt:', attemptError);
+      }
+
+      // Update user progress points if correct
+      if (validationResult.isCorrect) {
+        await updateUserPoints(exercise.lesson_id, validationResult.score);
+      }
+
+      return validationResult;
     } catch (error) {
       console.error('Error submitting exercise result:', error);
       throw error;
+    }
+  };
+
+  // Update user points for a course
+  const updateUserPoints = async (unitId: string, points: number) => {
+    if (!user) return;
+
+    try {
+      // Get course_id from unit
+      const { data: unitData } = await supabase
+        .from('units')
+        .select(`
+          phase_id,
+          phases!inner(
+            part_id,
+            parts!inner(
+              course_id
+            )
+          )
+        `)
+        .eq('id', unitId)
+        .single();
+
+      if (unitData) {
+        const courseId = unitData.phases.parts.course_id;
+
+        // Update total points in user progress
+        const { error } = await supabase
+          .from('user_progress')
+          .update({
+            total_points: supabase.sql`total_points + ${points}`
+          })
+          .eq('user_id', user.id)
+          .eq('course_id', courseId);
+
+        if (error) {
+          console.error('Error updating user points:', error);
+        }
+      }
+    } catch (error) {
+      console.error('Error updating user points:', error);
     }
   };
 
