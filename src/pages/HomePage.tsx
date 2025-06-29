@@ -48,6 +48,22 @@ function HomePage() {
         setIsAuthModalOpen={setIsAuthModalOpen}
       />
       
+      <div className="absolute top-4 right-4 z-50">
+        <a 
+          href="https://bolt.new/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block transition-transform hover:scale-110 focus:outline-none"
+          title="Built with Bolt"
+        >
+          <img 
+            src="/white_circle_360x360.svg" 
+            alt="Built with Bolt" 
+            className="w-16 h-16 drop-shadow-lg"
+          />
+        </a>
+      </div>
+      
       <HeroSection t={t} onStartClick={handleStartClick} />
       
       <LanguageShowcase 
