@@ -14,21 +14,22 @@ export function useLearning() {
   const fetchCourses = async () => {
     setLoading(true);
     try {
-      console.log('Fetching courses...');
+      console.log('🔍 Fetching courses...');
       const { data, error } = await supabase
         .from('courses')
         .select('*')
         .order('created_at', { ascending: true });
 
       if (error) {
-        console.error('Error fetching courses:', error);
+        console.error('❌ Error fetching courses:', error);
         throw error;
       }
       
-      console.log('Courses fetched:', data?.length || 0);
+      console.log('✅ Courses fetched successfully:', data?.length || 0, 'courses');
+      console.log('📋 Courses data:', data);
       setCourses(data || []);
     } catch (error) {
-      console.error('Error fetching courses:', error);
+      console.error('💥 Critical error fetching courses:', error);
       // Set empty array on error to prevent infinite loading
       setCourses([]);
     }
@@ -40,21 +41,21 @@ export function useLearning() {
     if (!user) return;
 
     try {
-      console.log('Fetching user progress for user:', user.id);
+      console.log('🔍 Fetching user progress for user:', user.id);
       const { data, error } = await supabase
         .from('user_progress')
         .select('*')
         .eq('user_id', user.id);
 
       if (error) {
-        console.error('Error fetching user progress:', error);
+        console.error('❌ Error fetching user progress:', error);
         throw error;
       }
       
-      console.log('User progress fetched:', data?.length || 0);
+      console.log('✅ User progress fetched:', data?.length || 0, 'records');
       setUserProgress(data || []);
     } catch (error) {
-      console.error('Error fetching user progress:', error);
+      console.error('💥 Error fetching user progress:', error);
       setUserProgress([]);
     }
   };
@@ -64,6 +65,8 @@ export function useLearning() {
     if (!user) return;
 
     try {
+      console.log('🔍 Fetching learning stats for user:', user.id);
+      
       // Obtener estadísticas básicas del progreso
       const { data: progressData } = await supabase
         .from('user_progress')
@@ -94,10 +97,12 @@ export function useLearning() {
           longest_streak: 0, // TODO: Implementar cálculo de racha más larga
           time_spent_minutes: 0 // TODO: Implementar seguimiento de tiempo
         };
+        
+        console.log('✅ Learning stats calculated:', stats);
         setLearningStats(stats);
       }
     } catch (error) {
-      console.error('Error fetching learning stats:', error);
+      console.error('💥 Error fetching learning stats:', error);
     }
   };
 
@@ -106,7 +111,7 @@ export function useLearning() {
     if (!user) throw new Error('User not authenticated');
 
     try {
-      console.log('Starting course:', courseId);
+      console.log('🚀 Starting course:', courseId);
       // Check if progress already exists
       const { data: existingProgress } = await supabase
         .from('user_progress')
@@ -132,7 +137,7 @@ export function useLearning() {
 
         if (error) throw error;
         
-        console.log('Course progress created:', data);
+        console.log('✅ Course progress created:', data);
         // Refresh user progress
         await fetchUserProgress();
         return data;
@@ -148,13 +153,13 @@ export function useLearning() {
 
         if (error) throw error;
         
-        console.log('Course progress updated');
+        console.log('✅ Course progress updated');
         // Refresh user progress
         await fetchUserProgress();
         return existingProgress;
       }
     } catch (error) {
-      console.error('Error starting course:', error);
+      console.error('💥 Error starting course:', error);
       throw error;
     }
   };
@@ -162,7 +167,7 @@ export function useLearning() {
   // Get lessons for a course (usando la vista lessons que mapea a units)
   const fetchLessons = async (courseId: string): Promise<Lesson[]> => {
     try {
-      console.log('Fetching lessons for course:', courseId);
+      console.log('🔍 Fetching lessons for course:', courseId);
       const { data, error } = await supabase
         .from('lessons')
         .select('*')
@@ -170,37 +175,39 @@ export function useLearning() {
         .order('lesson_order', { ascending: true });
 
       if (error) {
-        console.error('Error fetching lessons:', error);
+        console.error('❌ Error fetching lessons:', error);
         throw error;
       }
       
-      console.log('Lessons fetched:', data?.length || 0);
+      console.log('✅ Lessons fetched:', data?.length || 0, 'lessons');
+      console.log('📋 Lessons data:', data);
       return data || [];
     } catch (error) {
-      console.error('Error fetching lessons:', error);
+      console.error('💥 Error fetching lessons:', error);
       return [];
     }
   };
 
   // Get exercises for a lesson (ahora usando unit_id)
-  const fetchExercises = async (lessonId: string): Promise<Exercise[]> => {
+  const fetchExercises = async (unitId: string): Promise<Exercise[]> => {
     try {
-      console.log('Fetching exercises for lesson/unit:', lessonId);
+      console.log('🔍 Fetching exercises for unit:', unitId);
       const { data, error } = await supabase
         .from('exercises')
         .select('*')
-        .eq('lesson_id', lessonId) // lesson_id ahora apunta a unit_id
+        .eq('lesson_id', unitId) // lesson_id ahora apunta a unit_id
         .order('exercise_order', { ascending: true });
 
       if (error) {
-        console.error('Error fetching exercises:', error);
+        console.error('❌ Error fetching exercises:', error);
         throw error;
       }
       
-      console.log('Exercises fetched:', data?.length || 0);
+      console.log('✅ Exercises fetched:', data?.length || 0, 'exercises');
+      console.log('📋 Exercises data:', data);
       return data || [];
     } catch (error) {
-      console.error('Error fetching exercises:', error);
+      console.error('💥 Error fetching exercises:', error);
       return [];
     }
   };
@@ -208,16 +215,22 @@ export function useLearning() {
   // NEW: Fetch unit by ID
   const fetchUnitById = async (unitId: string): Promise<Unit | null> => {
     try {
+      console.log('🔍 Fetching unit by ID:', unitId);
       const { data, error } = await supabase
         .from('units')
         .select('*')
         .eq('id', unitId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching unit:', error);
+        throw error;
+      }
+      
+      console.log('✅ Unit fetched:', data);
       return data;
     } catch (error) {
-      console.error('Error fetching unit:', error);
+      console.error('💥 Error fetching unit:', error);
       return null;
     }
   };
@@ -225,16 +238,22 @@ export function useLearning() {
   // NEW: Fetch phase by ID
   const fetchPhaseById = async (phaseId: string): Promise<Phase | null> => {
     try {
+      console.log('🔍 Fetching phase by ID:', phaseId);
       const { data, error } = await supabase
         .from('phases')
         .select('*')
         .eq('id', phaseId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching phase:', error);
+        throw error;
+      }
+      
+      console.log('✅ Phase fetched:', data);
       return data;
     } catch (error) {
-      console.error('Error fetching phase:', error);
+      console.error('💥 Error fetching phase:', error);
       return null;
     }
   };
@@ -242,16 +261,22 @@ export function useLearning() {
   // NEW: Fetch part by ID
   const fetchPartById = async (partId: string): Promise<Part | null> => {
     try {
+      console.log('🔍 Fetching part by ID:', partId);
       const { data, error } = await supabase
         .from('parts')
         .select('*')
         .eq('id', partId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching part:', error);
+        throw error;
+      }
+      
+      console.log('✅ Part fetched:', data);
       return data;
     } catch (error) {
-      console.error('Error fetching part:', error);
+      console.error('💥 Error fetching part:', error);
       return null;
     }
   };
@@ -259,6 +284,7 @@ export function useLearning() {
   // NEW: Fetch all units in a part
   const fetchAllUnitsInPart = async (partId: string): Promise<{ preparationUnits: Unit[], conversationUnits: Unit[] }> => {
     try {
+      console.log('🔍 Fetching all units in part:', partId);
       const { data, error } = await supabase
         .from('units')
         .select(`
@@ -274,15 +300,19 @@ export function useLearning() {
         .order('phases.phase_order', { ascending: true })
         .order('unit_order', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching units in part:', error);
+        throw error;
+      }
 
       const units = data || [];
       const preparationUnits = units.filter(u => u.phases.kind === 'preparation');
       const conversationUnits = units.filter(u => u.phases.kind === 'conversation');
 
+      console.log('✅ Units fetched - Preparation:', preparationUnits.length, 'Conversation:', conversationUnits.length);
       return { preparationUnits, conversationUnits };
     } catch (error) {
-      console.error('Error fetching units in part:', error);
+      console.error('💥 Error fetching units in part:', error);
       return { preparationUnits: [], conversationUnits: [] };
     }
   };
@@ -290,6 +320,7 @@ export function useLearning() {
   // NEW: Get complete unit structure (unit -> phase -> part -> course)
   const fetchUnitStructure = async (unitId: string) => {
     try {
+      console.log('🔍 Fetching unit structure for:', unitId);
       const { data, error } = await supabase
         .from('units')
         .select(`
@@ -305,19 +336,26 @@ export function useLearning() {
         .eq('id', unitId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching unit structure:', error);
+        throw error;
+      }
+      
+      console.log('✅ Unit structure fetched:', data);
       return data;
     } catch (error) {
-      console.error('Error fetching unit structure:', error);
+      console.error('💥 Error fetching unit structure:', error);
       return null;
     }
   };
 
   // Complete a lesson
-  const completeLesson = async (courseId: string, lessonId: string) => {
+  const completeLesson = async (courseId: string, unitId: string) => {
     if (!user) throw new Error('User not authenticated');
 
     try {
+      console.log('🎯 Completing lesson - Course:', courseId, 'Unit:', unitId);
+      
       // Get current progress
       const { data: currentProgress } = await supabase
         .from('user_progress')
@@ -328,8 +366,8 @@ export function useLearning() {
 
       if (currentProgress) {
         const completedLessons = currentProgress.completed_lessons || [];
-        if (!completedLessons.includes(lessonId)) {
-          completedLessons.push(lessonId);
+        if (!completedLessons.includes(unitId)) {
+          completedLessons.push(unitId);
         }
 
         // Get total lessons for the course usando la vista lessons
@@ -348,7 +386,7 @@ export function useLearning() {
           .update({
             completed_lessons: completedLessons,
             completion_percentage: completionPercentage,
-            current_lesson_id: lessonId,
+            current_lesson_id: unitId,
             last_accessed: new Date().toISOString()
           })
           .eq('user_id', user.id)
@@ -356,12 +394,13 @@ export function useLearning() {
 
         if (error) throw error;
         
+        console.log('✅ Lesson completed successfully');
         // Refresh user progress and stats
         await fetchUserProgress();
         await fetchLearningStats();
       }
     } catch (error) {
-      console.error('Error completing lesson:', error);
+      console.error('💥 Error completing lesson:', error);
       throw error;
     }
   };
@@ -375,30 +414,13 @@ export function useLearning() {
     if (!user) throw new Error('User not authenticated');
 
     try {
+      console.log('📝 Submitting exercise result:', exerciseId);
+      
       // Use intelligent validation
       const validationResult = validateExerciseAnswer(exercise, userAnswer);
+      console.log('✅ Validation result:', validationResult);
 
-      // Submit to user_exercise_results if the table exists
-      try {
-        const { error: exerciseError } = await supabase
-          .from('user_exercise_results')
-          .insert({
-            user_id: user.id,
-            exercise_id: exerciseId,
-            user_answer: userAnswer,
-            is_correct: validationResult.isCorrect,
-            points_earned: validationResult.score,
-            completed_at: new Date().toISOString()
-          });
-
-        if (exerciseError) {
-          console.warn('Could not save to user_exercise_results:', exerciseError);
-        }
-      } catch (err) {
-        console.warn('user_exercise_results table may not exist:', err);
-      }
-
-      // Also submit to attempts table (new structure)
+      // Submit to attempts table (new structure)
       const { error: attemptError } = await supabase
         .from('attempts')
         .insert({
@@ -413,7 +435,9 @@ export function useLearning() {
         });
 
       if (attemptError) {
-        console.error('Error saving attempt:', attemptError);
+        console.error('❌ Error saving attempt:', attemptError);
+      } else {
+        console.log('✅ Attempt saved successfully');
       }
 
       // Update user points if correct
@@ -423,7 +447,7 @@ export function useLearning() {
 
       return validationResult;
     } catch (error) {
-      console.error('Error submitting exercise result:', error);
+      console.error('💥 Error submitting exercise result:', error);
       throw error;
     }
   };
@@ -433,6 +457,8 @@ export function useLearning() {
     if (!user) return;
 
     try {
+      console.log('🎯 Updating user points:', points, 'for unit:', unitId);
+      
       // Get course_id from unit
       const { data: unitData } = await supabase
         .from('units')
@@ -450,49 +476,52 @@ export function useLearning() {
 
       if (unitData) {
         const courseId = unitData.phases.parts.course_id;
+        console.log('🎯 Found course ID:', courseId);
 
-        // Update total points in user progress
-        const { error } = await supabase
-          .rpc('increment_user_points', {
-            p_user_id: user.id,
-            p_course_id: courseId,
-            p_points: points
-          });
+        // Direct update approach since RPC might not exist
+        const { data: currentProgress } = await supabase
+          .from('user_progress')
+          .select('total_points')
+          .eq('user_id', user.id)
+          .eq('course_id', courseId)
+          .single();
 
-        if (error) {
-          console.error('Error updating user points:', error);
-          // Fallback: try direct update
-          const { error: fallbackError } = await supabase
+        if (currentProgress) {
+          const newTotalPoints = (currentProgress.total_points || 0) + points;
+          
+          const { error } = await supabase
             .from('user_progress')
             .update({
-              total_points: supabase.sql`total_points + ${points}`
+              total_points: newTotalPoints
             })
             .eq('user_id', user.id)
             .eq('course_id', courseId);
 
-          if (fallbackError) {
-            console.error('Fallback error updating user points:', fallbackError);
+          if (error) {
+            console.error('❌ Error updating user points:', error);
+          } else {
+            console.log('✅ User points updated successfully');
           }
         }
       }
     } catch (error) {
-      console.error('Error updating user points:', error);
+      console.error('💥 Error updating user points:', error);
     }
   };
 
   // Initialize data loading
   useEffect(() => {
-    console.log('useLearning: Initializing...');
+    console.log('🚀 useLearning: Initializing...');
     fetchCourses();
   }, []);
 
   useEffect(() => {
     if (user) {
-      console.log('useLearning: User authenticated, fetching user data...');
+      console.log('👤 useLearning: User authenticated, fetching user data...');
       fetchUserProgress();
       fetchLearningStats();
     } else {
-      console.log('useLearning: No user, clearing user data...');
+      console.log('🚫 useLearning: No user, clearing user data...');
       setUserProgress([]);
       setLearningStats(null);
     }

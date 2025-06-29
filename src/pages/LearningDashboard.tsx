@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag, RefreshCw, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -22,23 +22,35 @@ function LearningDashboard() {
   const [startingCourse, setStartingCourse] = useState<string | null>(null);
   const [userInitialLanguage, setUserInitialLanguage] = useState<string>('es');
   const [refreshing, setRefreshing] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
 
   const t: Translation = translations[currentLang];
 
   // Debug logs
   useEffect(() => {
-    console.log('LearningDashboard mounted');
-    console.log('User:', user);
-    console.log('Auth loading:', authLoading);
-    console.log('Courses:', courses);
-    console.log('Loading:', loading);
-  }, [user, authLoading, courses, loading]);
+    console.log('🔍 LearningDashboard state check:');
+    console.log('- User:', user?.id || 'No user');
+    console.log('- Auth loading:', authLoading);
+    console.log('- Courses:', courses.length, 'courses loaded');
+    console.log('- Loading:', loading);
+    console.log('- User progress:', userProgress.length, 'records');
+    
+    setDebugInfo({
+      userExists: !!user,
+      authLoading,
+      coursesCount: courses.length,
+      dataLoading: loading,
+      progressCount: userProgress.length,
+      timestamp: new Date().toISOString()
+    });
+  }, [user, authLoading, courses, loading, userProgress]);
 
   // Load user's initial language from profile
   useEffect(() => {
     const loadUserProfile = async () => {
       if (user) {
         try {
+          console.log('🔍 Loading user profile for:', user.id);
           const { data: profile, error } = await supabase
             .from('profiles')
             .select('initial_language')
@@ -46,13 +58,14 @@ function LearningDashboard() {
             .single();
 
           if (error) {
-            console.error('Error loading user profile:', error);
+            console.error('❌ Error loading user profile:', error);
             setUserInitialLanguage('es'); // fallback
           } else {
+            console.log('✅ User profile loaded:', profile);
             setUserInitialLanguage(profile.initial_language || 'es');
           }
         } catch (err) {
-          console.error('Error fetching user profile:', err);
+          console.error('💥 Error fetching user profile:', err);
           setUserInitialLanguage('es'); // fallback
         }
       }
@@ -64,7 +77,7 @@ function LearningDashboard() {
   // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user) {
-      console.log('User not authenticated, redirecting to home');
+      console.log('🚫 User not authenticated, redirecting to home');
       navigate('/');
     }
   }, [user, authLoading, navigate]);
@@ -73,10 +86,11 @@ function LearningDashboard() {
   const handleRefresh = async () => {
     setRefreshing(true);
     try {
+      console.log('🔄 Manual refresh triggered');
       // Force reload the page to refresh all data
       window.location.reload();
     } catch (error) {
-      console.error('Error refreshing:', error);
+      console.error('💥 Error refreshing:', error);
     }
     setRefreshing(false);
   };
@@ -104,6 +118,7 @@ function LearningDashboard() {
   }
 
   const handleCourseAction = async (courseId: string) => {
+    console.log('🎯 Course action triggered for:', courseId);
     // Navigate to course overview page instead of directly to course page
     navigate(`/course-overview/${courseId}`);
   };
@@ -126,6 +141,7 @@ function LearningDashboard() {
       availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
     }
 
+    console.log('🔍 Available courses after filtering:', availableCourses.length);
     return availableCourses;
   };
 
@@ -175,6 +191,9 @@ function LearningDashboard() {
 
   const completedLessons = learningStats?.completed_lessons || 0;
   const totalLessons = learningStats?.total_lessons || 0;
+
+  // Show debug information in development
+  const showDebugInfo = process.env.NODE_ENV === 'development';
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
@@ -248,6 +267,59 @@ function LearningDashboard() {
             </p>
           </div>
         </div>
+
+        {/* Debug Information (Development Only) */}
+        {showDebugInfo && debugInfo && (
+          <div className="mb-8">
+            <div className="bg-yellow-50/95 dark:bg-yellow-900/30 backdrop-blur-md border-4 border-yellow-500 shadow-2xl p-6"
+                 style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+              <div className="flex items-center space-x-3 mb-4">
+                <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                <h3 className="text-lg font-black text-yellow-800 dark:text-yellow-200">
+                  Debug Information (Development Mode)
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm font-bold">
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">User Status</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {debugInfo.userExists ? '✅ Authenticated' : '❌ Not authenticated'}
+                  </div>
+                </div>
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">Courses Loaded</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {debugInfo.coursesCount} courses
+                  </div>
+                </div>
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">Loading State</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {debugInfo.dataLoading ? '🔄 Loading' : '✅ Ready'}
+                  </div>
+                </div>
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">User Progress</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {debugInfo.progressCount} records
+                  </div>
+                </div>
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">User Language</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {userInitialLanguage.toUpperCase()}
+                  </div>
+                </div>
+                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                  <div className="text-yellow-700 dark:text-yellow-300">Filtered Courses</div>
+                  <div className="text-yellow-900 dark:text-yellow-100">
+                    {filteredCourses.length} available
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* User Language Info */}
         <div className="mb-12">
@@ -364,6 +436,18 @@ function LearningDashboard() {
                   <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
                   <span>{refreshing ? 'Actualizando...' : 'Actualizar'}</span>
                 </button>
+                
+                {/* Additional debug info for empty state */}
+                {showDebugInfo && (
+                  <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-500 text-left">
+                    <div className="text-xs font-mono text-gray-700 dark:text-gray-300">
+                      <div>Total courses in DB: {courses.length}</div>
+                      <div>User language: {userInitialLanguage}</div>
+                      <div>Filtered courses: {filteredCourses.length}</div>
+                      <div>Loading state: {loading ? 'true' : 'false'}</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
