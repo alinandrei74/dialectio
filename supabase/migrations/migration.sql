@@ -194,7 +194,7 @@ JOIN parts  p  ON p.id = ph.part_id
 WHERE u.kind = 'exercise';
 
 -------------------------------------------------------------
--- 8. Limpieza temporal                                   ---
+-- 8. Limpieza temporal                                   --
 -------------------------------------------------------------
 DROP TABLE IF EXISTS _lesson_unit_map;
 
