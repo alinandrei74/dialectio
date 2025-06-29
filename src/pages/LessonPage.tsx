@@ -207,6 +207,8 @@ function LessonPage() {
     if (!activeExerciseUnit || exercises.length === 0) return;
 
     const currentExercise = exercises[currentExerciseIndex];
+    if (!currentExercise) return;
+
     const userAnswer = userAnswers[currentExercise.id] || '';
 
     if (!userAnswer.trim()) return;
@@ -258,6 +260,8 @@ function LessonPage() {
 
   const handleRetryExercise = () => {
     const currentExercise = exercises[currentExerciseIndex];
+    if (!currentExercise) return;
+
     console.log('🔄 LessonPage: Retrying exercise:', currentExercise.title);
     
     setUserAnswers(prev => ({
@@ -332,7 +336,7 @@ function LessonPage() {
     return null; // This should not happen due to the loadLessonData logic above
   }
 
-  const currentExercise = exercises[currentExerciseIndex];
+  const currentExercise = exercises.length > 0 && currentExerciseIndex < exercises.length ? exercises[currentExerciseIndex] : null;
   const isExerciseCompleted = currentExercise && completedExercises.has(currentExercise.id);
   const userAnswer = currentExercise ? userAnswers[currentExercise.id] || '' : '';
   const exerciseResult = currentExercise ? exerciseResults[currentExercise.id] : null;
@@ -508,134 +512,147 @@ function LessonPage() {
 
                 <div className="p-6 h-[500px] overflow-y-auto">
                   {exercises.length > 0 && !showResults ? (
-                    <>
-                      {/* Exercise Instructions */}
-                      <div className="mb-6">
-                        <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-4">
-                          {currentExercise.instructions}
-                        </p>
-                      </div>
+                    currentExercise ? (
+                      <>
+                        {/* Exercise Instructions */}
+                        <div className="mb-6">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-4">
+                            {currentExercise.instructions}
+                          </p>
+                        </div>
 
-                      {/* Exercise Content */}
-                      <div className="mb-8">
-                        <ExerciseRenderer
-                          exercise={currentExercise}
-                          userAnswer={userAnswer}
-                          onAnswerChange={(answer) => handleAnswerChange(currentExercise.id, answer)}
-                          isCompleted={isExerciseCompleted}
-                          showHints={showHints}
-                          targetLanguage={courseTargetLanguage} // Pass target language to ExerciseRenderer
-                        />
-                      </div>
+                        {/* Exercise Content */}
+                        <div className="mb-8">
+                          <ExerciseRenderer
+                            exercise={currentExercise}
+                            userAnswer={userAnswer}
+                            onAnswerChange={(answer) => handleAnswerChange(currentExercise.id, answer)}
+                            isCompleted={isExerciseCompleted}
+                            showHints={showHints}
+                            targetLanguage={courseTargetLanguage} // Pass target language to ExerciseRenderer
+                          />
+                        </div>
 
-                      {/* Navigation and Action Buttons */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          {/* Previous Exercise */}
-                          <button
-                            onClick={handlePreviousExercise}
-                            disabled={currentExerciseIndex === 0}
-                            className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                            style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                          >
-                            <ArrowLeft className="w-4 h-4" />
-                            <span>Anterior</span>
-                          </button>
-
-                          {/* Next Exercise */}
-                          <button
-                            onClick={handleNextExercise}
-                            disabled={currentExerciseIndex === exercises.length - 1}
-                            className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                            style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                          >
-                            <span>Siguiente</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
-
-                          {/* Retry Exercise */}
-                          {isExerciseCompleted && (
+                        {/* Navigation and Action Buttons */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {/* Previous Exercise */}
                             <button
-                              onClick={handleRetryExercise}
-                              className="bg-orange-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                              onClick={handlePreviousExercise}
+                              disabled={currentExerciseIndex === 0}
+                              className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
                               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
                             >
-                              <RotateCcw className="w-4 h-4" />
-                              <span>Reintentar</span>
+                              <ArrowLeft className="w-4 h-4" />
+                              <span>Anterior</span>
                             </button>
-                          )}
-                        </div>
 
-                        {/* Submit Button */}
-                        <button
-                          onClick={handleSubmitExercise}
-                          disabled={!userAnswer.trim() || submitting || isExerciseCompleted}
-                          className="bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl flex items-center space-x-3"
-                          style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                        >
-                          {submitting ? (
-                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          ) : isExerciseCompleted ? (
-                            <CheckCircle className="w-5 h-5" />
-                          ) : (
-                            <Play className="w-5 h-5" />
-                          )}
-                          <span>
-                            {submitting ? 'Enviando...' : 
-                             isExerciseCompleted ? 'Completado' : 
-                             'Comprobar'}
-                          </span>
-                        </button>
-                      </div>
+                            {/* Next Exercise */}
+                            <button
+                              onClick={handleNextExercise}
+                              disabled={currentExerciseIndex === exercises.length - 1}
+                              className="bg-gray-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                            >
+                              <span>Siguiente</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
 
-                      {/* Exercise Feedback */}
-                      {isExerciseCompleted && exerciseResult && (
-                        <div className={`mt-6 border-3 p-6 shadow-lg ${
-                          exerciseResult.isCorrect 
-                            ? 'bg-green-50/90 dark:bg-green-900/30 border-green-500' 
-                            : 'bg-red-50/90 dark:bg-red-900/30 border-red-500'
-                        }`}
-                             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                          <div className="flex items-center space-x-3 mb-3">
-                            {exerciseResult.isCorrect ? (
-                              <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
-                            ) : (
-                              <X className="w-6 h-6 text-red-600 dark:text-red-400" />
+                            {/* Retry Exercise */}
+                            {isExerciseCompleted && (
+                              <button
+                                onClick={handleRetryExercise}
+                                className="bg-orange-600 text-white px-4 py-2 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                              >
+                                <RotateCcw className="w-4 h-4" />
+                                <span>Reintentar</span>
+                              </button>
                             )}
-                            <h4 className={`text-lg font-black ${
-                              exerciseResult.isCorrect 
-                                ? 'text-green-800 dark:text-green-200' 
-                                : 'text-red-800 dark:text-red-200'
-                            }`}>
-                              {exerciseResult.isCorrect ? '¡Correcto!' : 'Incorrecto'}
-                            </h4>
-                            <span className={`px-3 py-1 font-black text-sm border-2 border-black ${
-                              exerciseResult.isCorrect ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                            }`}>
-                              +{exerciseResult.score} puntos
-                            </span>
                           </div>
-                          
-                          {currentExercise.content.explanation && (
-                            <p className={`font-bold ${
-                              exerciseResult.isCorrect 
-                                ? 'text-green-700 dark:text-green-300' 
-                                : 'text-red-700 dark:text-red-300'
-                            }`}>
-                              {currentExercise.content.explanation}
-                            </p>
-                          )}
-                          
-                          {!exerciseResult.isCorrect && (
-                            <p className="text-red-700 dark:text-red-300 font-bold mt-2">
-                              Respuesta correcta: <span className="font-black">{
-                                (currentExercise.content as any).correct_answer
-                              }</span>
-                            </p>
-                          )}
+
+                          {/* Submit Button */}
+                          <button
+                            onClick={handleSubmitExercise}
+                            disabled={!userAnswer.trim() || submitting || isExerciseCompleted}
+                            className="bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl flex items-center space-x-3"
+                            style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                          >
+                            {submitting ? (
+                              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            ) : isExerciseCompleted ? (
+                              <CheckCircle className="w-5 h-5" />
+                            ) : (
+                              <Play className="w-5 h-5" />
+                            )}
+                            <span>
+                              {submitting ? 'Enviando...' : 
+                               isExerciseCompleted ? 'Completado' : 
+                               'Comprobar'}
+                            </span>
+                          </button>
                         </div>
-                      )}
-                    </>
+
+                        {/* Exercise Feedback */}
+                        {isExerciseCompleted && exerciseResult && (
+                          <div className={`mt-6 border-3 p-6 shadow-lg ${
+                            exerciseResult.isCorrect 
+                              ? 'bg-green-50/90 dark:bg-green-900/30 border-green-500' 
+                              : 'bg-red-50/90 dark:bg-red-900/30 border-red-500'
+                          }`}
+                               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                            <div className="flex items-center space-x-3 mb-3">
+                              {exerciseResult.isCorrect ? (
+                                <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                              ) : (
+                                <X className="w-6 h-6 text-red-600 dark:text-red-400" />
+                              )}
+                              <h4 className={`text-lg font-black ${
+                                exerciseResult.isCorrect 
+                                  ? 'text-green-800 dark:text-green-200' 
+                                  : 'text-red-800 dark:text-red-200'
+                              }`}>
+                                {exerciseResult.isCorrect ? '¡Correcto!' : 'Incorrecto'}
+                              </h4>
+                              <span className={`px-3 py-1 font-black text-sm border-2 border-black ${
+                                exerciseResult.isCorrect ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                              }`}>
+                                +{exerciseResult.score} puntos
+                              </span>
+                            </div>
+                            
+                            {currentExercise.content.explanation && (
+                              <p className={`font-bold ${
+                                exerciseResult.isCorrect 
+                                  ? 'text-green-700 dark:text-green-300' 
+                                  : 'text-red-700 dark:text-red-300'
+                              }`}>
+                                {currentExercise.content.explanation}
+                              </p>
+                            )}
+                            
+                            {!exerciseResult.isCorrect && (
+                              <p className="text-red-700 dark:text-red-300 font-bold mt-2">
+                                Respuesta correcta: <span className="font-black">{
+                                  (currentExercise.content as any).correct_answer
+                                }</span>
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      /* Loading Exercise */
+                      <div className="text-center py-12">
+                        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                          Cargando Ejercicio
+                        </h3>
+                        <p className="text-gray-700 dark:text-gray-300 font-bold">
+                          Preparando el contenido del ejercicio...
+                        </p>
+                      </div>
+                    )
                   ) : showResults ? (
                     /* Results Screen */
                     <div className="text-center py-8">
