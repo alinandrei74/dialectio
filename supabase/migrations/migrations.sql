@@ -217,5 +217,4 @@ DROP TABLE IF EXISTS _lesson_unit_map;
 
 COMMIT;
 
--- FIN DE MIGRACIÓN --------------------------------------
-
+-- FIN DE MIGRACIÓN ---------------------------------------
