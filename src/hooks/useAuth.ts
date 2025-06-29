@@ -141,33 +141,74 @@ export function useAuth() {
       // If signup is successful and we have user data, create profile
       if (!error && data.user && username && initialLanguage) {
         try {
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .insert({
-              id: data.user.id,
-              username: username.toLowerCase(),
-              full_name: fullName || username, // Use fullName if provided, otherwise username
-              initial_language: initialLanguage,
-              email: email.toLowerCase()
-            });
+          // Use a more robust approach with retry logic
+          let profileCreated = false;
+          let retryCount = 0;
+          const maxRetries = 3;
 
-          if (profileError) {
-            console.error('Error creating profile:', profileError);
-            
-            // Handle specific database constraint violations
-            if (profileError.code === '23505') {
-              if (profileError.message.includes('profiles_username_key')) {
-                return { data, error: { message: 'Username already exists', code: 'username_taken' } };
-              } else if (profileError.message.includes('profiles_email_key')) {
-                return { data, error: { message: 'Email already exists', code: 'email_taken' } };
+          while (!profileCreated && retryCount < maxRetries) {
+            try {
+              const { error: profileError } = await supabase
+                .from('profiles')
+                .insert({
+                  id: data.user.id,
+                  username: username.toLowerCase(),
+                  full_name: fullName || username,
+                  initial_language: initialLanguage,
+                  email: email.toLowerCase()
+                });
+
+              if (profileError) {
+                // Handle specific database constraint violations
+                if (profileError.code === '23505') {
+                  if (profileError.message.includes('profiles_username_key')) {
+                    return { data, error: { message: 'Username already exists', code: 'username_taken' } };
+                  } else if (profileError.message.includes('profiles_email_key')) {
+                    return { data, error: { message: 'Email already exists', code: 'email_taken' } };
+                  }
+                }
+                
+                // If it's a temporary error, retry
+                if (profileError.code === '23503' || profileError.message.includes('foreign key')) {
+                  retryCount++;
+                  if (retryCount < maxRetries) {
+                    console.log(`Profile creation failed, retrying... (${retryCount}/${maxRetries})`);
+                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount)); // Exponential backoff
+                    continue;
+                  }
+                }
+                
+                throw profileError;
               }
+
+              profileCreated = true;
+            } catch (profileErr) {
+              retryCount++;
+              if (retryCount >= maxRetries) {
+                throw profileErr;
+              }
+              console.log(`Profile creation attempt ${retryCount} failed, retrying...`);
+              await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
             }
-            
-            return { data, error: profileError };
           }
+
+          if (!profileCreated) {
+            throw new Error('Failed to create profile after multiple attempts');
+          }
+
         } catch (profileErr) {
-          console.error('Unexpected error creating profile:', profileErr);
-          return { data, error: { message: 'Error creating user profile', code: 'profile_creation_failed' } };
+          console.error('Error creating profile:', profileErr);
+          
+          // If profile creation fails, we should clean up the auth user
+          // However, Supabase doesn't allow us to delete users from the client
+          // So we'll return an error and let the user try again
+          return { 
+            data, 
+            error: { 
+              message: 'Error creating user profile. Please try again.', 
+              code: 'profile_creation_failed' 
+            } 
+          };
         }
       }
 

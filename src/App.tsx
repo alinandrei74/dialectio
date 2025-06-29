@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 import HomePage from './pages/HomePage';
 import RegistrationPage from './pages/RegistrationPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
@@ -15,22 +16,44 @@ import LessonPage from './pages/LessonPage';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/registro" element={<RegistrationPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/demo" element={<DemoPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/learning" element={<LearningDashboard />} />
-        <Route path="/course-overview/:courseId" element={<CourseOverviewPage />} />
-        <Route path="/learning/course/:courseId" element={<CoursePage />} />
-        <Route path="/learning/lesson/:lessonId" element={<LessonPage />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/registro" element={<RegistrationPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/demo" element={<DemoPage />} />
+          <Route path="/settings" element={
+            <ErrorBoundary>
+              <SettingsPage />
+            </ErrorBoundary>
+          } />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/learning" element={
+            <ErrorBoundary>
+              <LearningDashboard />
+            </ErrorBoundary>
+          } />
+          <Route path="/course-overview/:courseId" element={
+            <ErrorBoundary>
+              <CourseOverviewPage />
+            </ErrorBoundary>
+          } />
+          <Route path="/learning/course/:courseId" element={
+            <ErrorBoundary>
+              <CoursePage />
+            </ErrorBoundary>
+          } />
+          <Route path="/learning/lesson/:lessonId" element={
+            <ErrorBoundary>
+              <LessonPage />
+            </ErrorBoundary>
+          } />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
