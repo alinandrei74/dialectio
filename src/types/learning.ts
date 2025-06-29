@@ -13,37 +13,6 @@ export interface Course {
   updated_at: string;
 }
 
-export interface Part {
-  id: string;
-  course_id: string;
-  title: string;
-  part_order: number;
-  synopsis?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Phase {
-  id: string;
-  part_id: string;
-  kind: 'preparation' | 'conversation';
-  phase_order: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Unit {
-  id: string;
-  phase_id: string;
-  kind: 'exercise' | 'situation';
-  title: string;
-  unit_order: number;
-  agent_name?: string;
-  agent_prompt?: string;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface Lesson {
   id: string;
   course_id: string;
@@ -60,7 +29,7 @@ export interface Lesson {
 
 export interface Exercise {
   id: string;
-  unit_id: string; // Cambiado de lesson_id a unit_id
+  lesson_id: string;
   title: string;
   instructions: string;
   exercise_type: 'multiple_choice' | 'fill_blank' | 'translation' | 'audio' | 'conversation';
@@ -79,34 +48,6 @@ interface ExerciseContent {
   audio_url?: string;
   image_url?: string;
   hints?: string[];
-}
-
-export interface Attempt {
-  id: string;
-  user_id: string;
-  unit_id: string;
-  answer: any; // jsonb
-  score: number; // 0-100
-  created_at: string;
-}
-
-export interface ChatSession {
-  id: string;
-  user_id: string;
-  unit_id: string;
-  error_vector: any[]; // jsonb array
-  started_at: string;
-  finished_at?: string;
-}
-
-export interface ChatTurn {
-  id: string;
-  session_id: string;
-  speaker: 'student' | 'agent';
-  utterance: string;
-  analysis?: any; // jsonb
-  suggestions?: any; // jsonb
-  created_at: string;
 }
 
 export interface UserProgress {
@@ -141,23 +82,4 @@ export interface LearningStats {
   current_streak: number;
   longest_streak: number;
   time_spent_minutes: number;
-}
-
-// Nuevos tipos para la estructura pedagógica
-export interface PedagogicalStructure {
-  course: Course;
-  parts: (Part & {
-    phases: (Phase & {
-      units: Unit[];
-    })[];
-  })[];
-}
-
-export interface LearningPath {
-  course_id: string;
-  current_part: number;
-  current_phase: number;
-  current_unit: number;
-  completed_units: string[];
-  total_progress_percentage: number;
 }
