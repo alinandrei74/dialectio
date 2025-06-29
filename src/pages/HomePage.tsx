@@ -48,7 +48,7 @@ function HomePage() {
         setIsAuthModalOpen={setIsAuthModalOpen}
       />
       
-      <div className="absolute down-1 left-40 z-50 transform -translate-x-2 translate-y-2">
+      <div className="absolute down-100 left-40 z-50 transform -translate-x-2 translate-y-2">
         <a 
           href="https://bolt.new/" 
           target="_blank" 
