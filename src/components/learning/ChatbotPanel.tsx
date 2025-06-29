@@ -10,6 +10,12 @@ interface ChatbotPanelProps {
 }
 
 function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
+  // DEBUG: Log the received props
+  console.log('🔍 ChatbotPanel props:');
+  console.log('- Unit title:', unit.title);
+  console.log('- Target language received:', targetLanguage);
+  console.log('- Target language type:', typeof targetLanguage);
+
   const { 
     messages, 
     isLoading, 
@@ -51,8 +57,15 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
 
   // Get localized UI texts based on target language
   const getUITexts = (langCode: string) => {
+    // DEBUG: Log what language code is being evaluated
+    console.log('🔍 getUITexts called with langCode:', langCode);
+    console.log('🔍 langCode type:', typeof langCode);
+    console.log('🔍 langCode length:', langCode?.length);
+    console.log('🔍 langCode trimmed:', langCode?.trim());
+
     switch (langCode) {
       case 'it':
+        console.log('✅ Using Italian UI texts');
         return {
           conversationWith: 'Conversazione con',
           aiVoice: 'IA + Voce',
@@ -92,6 +105,7 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
           tutorTips: 'Consigli del tutor:'
         };
       case 'fr':
+        console.log('✅ Using French UI texts');
         return {
           conversationWith: 'Conversation avec',
           aiVoice: 'IA + Voix',
@@ -131,6 +145,7 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
           tutorTips: 'Conseils du tuteur:'
         };
       case 'pt':
+        console.log('✅ Using Portuguese UI texts');
         return {
           conversationWith: 'Conversa com',
           aiVoice: 'IA + Voz',
@@ -166,10 +181,11 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
           medium: 'Média',
           low: 'Baixa',
           grammarErrors: 'Erros gramaticais:',
-          vocabularySuggestions: 'Sugestões de vocabulário:',
+          vocabularySuggestions: 'Sugerências de vocabulário:',
           tutorTips: 'Dicas do tutor:'
         };
       case 'en':
+        console.log('✅ Using English UI texts');
         return {
           conversationWith: 'Conversation with',
           aiVoice: 'AI + Voice',
@@ -210,6 +226,7 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
         };
       case 'es':
       default:
+        console.log('⚠️ Using Spanish UI texts (default case)');
         return {
           conversationWith: 'Conversación con',
           aiVoice: 'IA + Voz',
@@ -252,6 +269,10 @@ function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
   };
 
   const texts = getUITexts(targetLanguage);
+  console.log('🔍 Final texts object sample:', {
+    conversationWith: texts.conversationWith,
+    startingConversation: texts.startingConversation
+  });
 
   // Initialize speech recognition with target language
   useEffect(() => {
