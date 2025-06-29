@@ -15,12 +15,13 @@ import { Course, Lesson } from '../types/learning';
 function CoursePage() {
   const navigate = useNavigate();
   const { courseId } = useParams<{ courseId: string }>();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth(); // Import authLoading
   const { courses, userProgress, fetchLessons, startCourse, loading } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loadingLessons, setLoadingLessons] = useState(true);
+  const [pageInitialized, setPageInitialized] = useState(false);
 
   const t: Translation = translations[currentLang];
 
@@ -28,44 +29,105 @@ function CoursePage() {
   const progress = userProgress.find(p => p.course_id === courseId);
 
   useEffect(() => {
+    // Wait for authentication to complete before making any decisions
+    if (authLoading) {
+      console.log('🔄 CoursePage: Waiting for authentication to complete...');
+      return;
+    }
+
+    // Now we can safely check authentication
     if (!user) {
+      console.log('🚫 CoursePage: User not authenticated, redirecting to home');
       navigate('/');
       return;
     }
 
     if (!courseId) {
+      console.log('🚫 CoursePage: No courseId provided, redirecting to learning dashboard');
       navigate('/learning');
       return;
     }
 
-    // Auto-start course if user hasn't started it yet
-    const initializeCourse = async () => {
-      if (course && !progress) {
+    // Wait for courses to load if they haven't yet
+    if (loading) {
+      console.log('🔄 CoursePage: Waiting for courses to load...');
+      return;
+    }
+
+    // Check if course exists after courses have loaded
+    if (courses.length > 0 && !course) {
+      console.log('🚫 CoursePage: Course not found, redirecting to learning dashboard');
+      navigate('/learning');
+      return;
+    }
+
+    // If we have a course, proceed with initialization
+    if (course) {
+      console.log('✅ CoursePage: Course found, initializing page...');
+      initializePage();
+    }
+  }, [courseId, user, navigate, authLoading, loading, courses, course]);
+
+  const initializePage = async () => {
+    if (!courseId || !course) return;
+
+    try {
+      // Auto-start course if user hasn't started it yet
+      if (!progress) {
+        console.log('🚀 CoursePage: Starting course for user...');
         try {
           await startCourse(courseId);
         } catch (error) {
-          console.error('Error starting course:', error);
+          console.error('❌ CoursePage: Error starting course:', error);
         }
       }
-    };
 
-    initializeCourse();
+      // Fetch lessons for this course
+      console.log('📚 CoursePage: Loading lessons...');
+      setLoadingLessons(true);
+      const courseLessons = await fetchLessons(courseId);
+      setLessons(courseLessons);
+      setLoadingLessons(false);
+      
+      setPageInitialized(true);
+      console.log('✅ CoursePage: Page initialization complete');
+    } catch (error) {
+      console.error('💥 CoursePage: Error during page initialization:', error);
+      setLoadingLessons(false);
+    }
+  };
 
-    // Fetch lessons for this course
-    const loadLessons = async () => {
-      if (courseId) {
-        setLoadingLessons(true);
-        const courseLessons = await fetchLessons(courseId);
-        setLessons(courseLessons);
-        setLoadingLessons(false);
-      }
-    };
+  // Show loading screen while authentication is being determined or while initializing
+  if (authLoading || !pageInitialized || (loading && courses.length === 0)) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans flex items-center justify-center">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-md w-full mx-4"
+             style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              {authLoading ? 'Verificando autenticación...' : 
+               loading ? 'Cargando cursos...' : 
+               'Inicializando curso...'}
+            </p>
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mt-4 text-xs text-gray-600 dark:text-gray-400 font-mono">
+                <div>Auth Loading: {authLoading ? 'true' : 'false'}</div>
+                <div>Data Loading: {loading ? 'true' : 'false'}</div>
+                <div>Page Initialized: {pageInitialized ? 'true' : 'false'}</div>
+                <div>Courses Count: {courses.length}</div>
+                <div>Course Found: {course ? 'true' : 'false'}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    loadLessons();
-  }, [courseId, course, progress, user, navigate, fetchLessons, startCourse]);
-
+  // If we reach here, authentication is complete and user is authenticated
   if (!user || !course) {
-    return null;
+    return null; // This should not happen due to the useEffect logic above
   }
 
   const isLessonCompleted = (lessonId: string) => {
@@ -78,6 +140,7 @@ function CoursePage() {
   };
 
   const handleStartLesson = (lessonId: string) => {
+    console.log('🎯 CoursePage: Starting lesson:', lessonId);
     navigate(`/learning/lesson/${lessonId}`);
   };
 
