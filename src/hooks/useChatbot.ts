@@ -20,7 +20,7 @@ interface ChatMessage {
   audioError?: boolean;
 }
 
-export function useChatbot(unit: Unit) {
+export function useChatbot(unit: Unit, targetLanguage: string) {
   const { user } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
@@ -35,7 +35,7 @@ export function useChatbot(unit: Unit) {
     if (!user || !unit) return;
 
     try {
-      console.log('🚀 Starting chat session for unit:', unit.title);
+      console.log('🚀 Starting chat session for unit:', unit.title, 'in language:', targetLanguage);
       
       const { data, error } = await supabase
         .from('chat_sessions')
@@ -78,7 +78,8 @@ export function useChatbot(unit: Unit) {
           conversationHistory: [],
           agentName: unit.agent_name || 'Tutor',
           agentPrompt: unit.agent_prompt || `Inicia una conversación sobre "${unit.title}". Saluda al estudiante y haz una pregunta inicial para comenzar la práctica.`,
-          unitTitle: unit.title
+          unitTitle: unit.title,
+          targetLanguage: targetLanguage // Pass target language to AI
         }),
       });
 
@@ -141,6 +142,7 @@ export function useChatbot(unit: Unit) {
     try {
       setIsGeneratingAudio(true);
       console.log('🔊 Starting audio generation for message:', message.id, 'Text:', message.message.substring(0, 50) + '...');
+      console.log('🌍 Target language:', targetLanguage);
       
       const audioResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
         method: 'POST',
@@ -150,8 +152,8 @@ export function useChatbot(unit: Unit) {
         },
         body: JSON.stringify({
           text: message.message,
-          voice: 'Bella', // Default Spanish voice
-          language: 'es'
+          voice: 'auto', // Use auto to select cheapest voice for language
+          language: targetLanguage // Pass the target language
         }),
       });
 
@@ -407,7 +409,8 @@ export function useChatbot(unit: Unit) {
             conversationHistory,
             agentName: unit.agent_name || 'Tutor',
             agentPrompt: unit.agent_prompt || `Continúa la conversación sobre "${unit.title}". Proporciona retroalimentación constructiva y mantén la conversación fluida.`,
-            unitTitle: unit.title
+            unitTitle: unit.title,
+            targetLanguage: targetLanguage // Pass target language to AI
           }),
         });
 
@@ -464,15 +467,24 @@ export function useChatbot(unit: Unit) {
   const getSimpleWelcomeMessage = () => {
     const agentName = unit.agent_name || 'Tutor';
     
-    const welcomeMessages: Record<string, string> = {
-      'Encuentro Casual': `¡Hola! Soy ${agentName}. Estoy aquí en este café y me gustaría conocerte. ¿Cómo te llamas?`,
-      'En la Recepción': `Buenos días, soy ${agentName}, recepcionista del hotel. ¿En qué puedo ayudarle hoy?`,
-      'Saludos y Presentaciones': `¡Hola! Soy ${agentName}. Vamos a practicar presentaciones. ¿Podrías presentarte, por favor?`,
-      'Información Personal': `¡Bienvenido! Soy ${agentName}. Vamos a practicar hablando sobre información personal. ¿Cómo estás hoy?`,
-      'Conversación Básica': `¡Hola! Soy ${agentName}. Vamos a tener una conversación básica. ¿Qué tal tu día?`
+    // Get language-specific welcome messages
+    const getWelcomeByLanguage = (lang: string) => {
+      switch (lang) {
+        case 'it':
+          return `Ciao! Sono ${agentName}. Sono qui per aiutarti a praticare l'italiano. Come stai oggi?`;
+        case 'fr':
+          return `Bonjour! Je suis ${agentName}. Je suis ici pour t'aider à pratiquer le français. Comment allez-vous?`;
+        case 'pt':
+          return `Olá! Eu sou ${agentName}. Estou aqui para te ajudar a praticar português. Como está você?`;
+        case 'en':
+          return `Hello! I'm ${agentName}. I'm here to help you practice English. How are you today?`;
+        case 'es':
+        default:
+          return `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar español. ¿Cómo estás hoy?`;
+      }
     };
 
-    return welcomeMessages[unit.title] || `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar español. ¡Empecemos!`;
+    return getWelcomeByLanguage(targetLanguage);
   };
 
   // Resetear conversación
@@ -518,7 +530,7 @@ export function useChatbot(unit: Unit) {
         }
       });
     };
-  }, [user, unit]);
+  }, [user, unit, targetLanguage]); // Re-initialize when target language changes
 
   return {
     messages,

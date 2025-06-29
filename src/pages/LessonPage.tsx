@@ -52,6 +52,9 @@ function LessonPage() {
   const [submitting, setSubmitting] = useState(false);
   const [pageInitialized, setPageInitialized] = useState(false);
 
+  // NEW: Estado para el idioma del curso
+  const [courseTargetLanguage, setCourseTargetLanguage] = useState<string>('es');
+
   const t: Translation = translations[currentLang];
 
   useEffect(() => {
@@ -110,6 +113,10 @@ function LessonPage() {
 
       setCourse(currentCourse);
       setPart(currentPart);
+
+      // NEW: Establecer el idioma del curso
+      setCourseTargetLanguage(currentCourse.target_language);
+      console.log('🌍 LessonPage: Course target language set to:', currentCourse.target_language);
 
       console.log('📚 LessonPage: Course:', currentCourse.title);
       console.log('📖 LessonPage: Part:', currentPart.title);
@@ -402,7 +409,7 @@ function LessonPage() {
                     {course.title}
                   </div>
                   <div className="text-purple-100 font-bold text-sm">
-                    Curso completo
+                    Curso completo • {courseTargetLanguage.toUpperCase()}
                   </div>
                 </div>
               </div>
@@ -682,6 +689,7 @@ function LessonPage() {
             {activeSituationUnit ? (
               <ChatbotPanel 
                 unit={activeSituationUnit}
+                targetLanguage={courseTargetLanguage}
                 onComplete={() => {
                   console.log('💬 LessonPage: Conversation completed');
                 }}

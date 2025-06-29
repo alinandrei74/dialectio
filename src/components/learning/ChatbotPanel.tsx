@@ -5,10 +5,11 @@ import { useChatbot } from '../../hooks/useChatbot';
 
 interface ChatbotPanelProps {
   unit: Unit;
+  targetLanguage: string; // NEW: Target language for the course
   onComplete?: () => void;
 }
 
-function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
+function ChatbotPanel({ unit, targetLanguage, onComplete }: ChatbotPanelProps) {
   const { 
     messages, 
     isLoading, 
@@ -17,49 +18,69 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     sendStudentMessage, 
     resetConversation,
     playMessageAudio
-  } = useChatbot(unit);
+  } = useChatbot(unit, targetLanguage); // Pass targetLanguage to hook
   
   const [currentMessage, setCurrentMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [speechRecognition, setSpeechRecognition] = useState<any>(null);
   const [speechSupported, setSpeechSupported] = useState(false);
 
-  // Initialize speech recognition
+  // Helper function to map language codes to speech recognition language tags
+  const getLanguageTag = (langCode: string): string => {
+    const languageMap: Record<string, string> = {
+      'es': 'es-ES',
+      'fr': 'fr-FR', 
+      'pt': 'pt-PT',
+      'it': 'it-IT',
+      'en': 'en-US'
+    };
+    return languageMap[langCode] || 'es-ES';
+  };
+
+  // Initialize speech recognition with target language
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
       const recognition = new SpeechRecognition();
       
-      recognition.lang = 'es-ES';
+      // Set language based on course target language
+      const languageTag = getLanguageTag(targetLanguage);
+      recognition.lang = languageTag;
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
+      console.log('🎤 Speech recognition initialized for language:', languageTag);
+
       recognition.onstart = () => {
         setIsListening(true);
+        console.log('🎤 Speech recognition started');
       };
 
       recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
+        console.log('🎤 Speech recognition result:', transcript);
         setCurrentMessage(transcript);
         setIsListening(false);
       };
 
       recognition.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
+        console.error('🎤 Speech recognition error:', event.error);
         setIsListening(false);
       };
 
       recognition.onend = () => {
+        console.log('🎤 Speech recognition ended');
         setIsListening(false);
       };
 
       setSpeechRecognition(recognition);
       setSpeechSupported(true);
     } else {
+      console.warn('🎤 Speech recognition not supported in this browser');
       setSpeechSupported(false);
     }
-  }, []);
+  }, [targetLanguage]); // Re-initialize when target language changes
 
   // Handle conversation completion
   useEffect(() => {
@@ -119,6 +140,18 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     return 'text-red-600 dark:text-red-400';
   };
 
+  // Get language display name
+  const getLanguageName = (langCode: string): string => {
+    const languageNames: Record<string, string> = {
+      'es': 'Español',
+      'fr': 'Français',
+      'pt': 'Português', 
+      'it': 'Italiano',
+      'en': 'English'
+    };
+    return languageNames[langCode] || langCode.toUpperCase();
+  };
+
   return (
     <div className="h-full flex flex-col bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl"
          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
@@ -136,7 +169,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 {unit.title}
               </h3>
               <p className="text-green-100 font-bold text-sm">
-                Conversación con {unit.agent_name || 'Tutor'} • IA + Voz
+                Conversación con {unit.agent_name || 'Tutor'} • {getLanguageName(targetLanguage)} • IA + Voz
               </p>
             </div>
           </div>
@@ -163,7 +196,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           <div className="text-center py-8">
             <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400 font-bold">
-              Iniciando conversación inteligente...
+              Iniciando conversación inteligente en {getLanguageName(targetLanguage)}...
             </p>
             <p className="text-gray-500 dark:text-gray-500 font-bold text-sm mt-2">
               🤖 Powered by OpenAI • 🔊 Powered by ElevenLabs
@@ -328,7 +361,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
             <div className="mb-3 p-2 bg-red-100 dark:bg-red-900/30 border-2 border-red-500 text-red-700 dark:text-red-300 text-center font-bold text-sm flex items-center justify-center space-x-2"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <Mic className="w-4 h-4 animate-pulse" />
-              <span>Escuchando... Habla ahora</span>
+              <span>Escuchando en {getLanguageName(targetLanguage)}... Habla ahora</span>
             </div>
           )}
 
@@ -347,7 +380,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 value={currentMessage}
                 onChange={(e) => setCurrentMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Escribe tu respuesta aquí..."
+                placeholder={`Escribe tu respuesta en ${getLanguageName(targetLanguage)} aquí...`}
                 className="w-full px-4 py-3 pr-12 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
                 style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
                 rows={2}
@@ -364,7 +397,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                       ? 'bg-red-500 text-white animate-pulse' 
                       : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-500'
                   } disabled:opacity-50`}
-                  title={isListening ? 'Detener grabación' : 'Grabar audio'}
+                  title={isListening ? 'Detener grabación' : `Grabar audio en ${getLanguageName(targetLanguage)}`}
                 >
                   {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                 </button>
@@ -382,7 +415,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           </div>
           
           <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 font-bold text-center">
-            Presiona Enter para enviar • {speechSupported ? 'Usa el micrófono para hablar • ' : ''}Shift+Enter para nueva línea
+            Presiona Enter para enviar • {speechSupported ? `Usa el micrófono para hablar en ${getLanguageName(targetLanguage)} • ` : ''}Shift+Enter para nueva línea
           </div>
         </div>
       )}
@@ -394,7 +427,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
             <div className="flex items-center justify-center space-x-2 mb-3">
               <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
               <p className="text-green-800 dark:text-green-200 font-bold">
-                ¡Excelente trabajo! Has completado esta conversación inteligente.
+                ¡Excelente trabajo! Has completado esta conversación inteligente en {getLanguageName(targetLanguage)}.
               </p>
             </div>
             
@@ -406,7 +439,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
               <div className="text-green-700 dark:text-green-300 font-bold text-sm">
                 • {messages.filter(m => m.speaker === 'student').length} mensajes enviados
                 • Conversación con IA completada exitosamente
-                • Análisis en tiempo real de tu español
+                • Análisis en tiempo real de tu {getLanguageName(targetLanguage)}
                 • ¡Sigue practicando para mejorar tu fluidez!
               </div>
             </div>

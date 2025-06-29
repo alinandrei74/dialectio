@@ -19,7 +19,7 @@ serve(async (req) => {
   }
 
   try {
-    const { text, voice = 'Bella', language = 'es' }: TTSRequest = await req.json()
+    const { text, voice = 'auto', language = 'es' }: TTSRequest = await req.json()
 
     // Validate input
     if (!text || text.trim().length === 0) {
@@ -46,53 +46,69 @@ serve(async (req) => {
 
     console.log('✅ ElevenLabs API key found')
 
-    // Voice ID mapping for different languages and styles
+    // Voice ID mapping for different languages - USING CHEAPEST VOICES
+    // Note: These are the most cost-effective voices available in ElevenLabs
     const voiceIds: Record<string, string> = {
-      // Spanish voices
-      'Bella': 'EXAVITQu4vr4xnSDxMaL', // Bella - Young, friendly female
-      'Diego': 'DuNNuLlqzBaG5mX1mVdx', // Diego - Mature, warm male
-      'Valentina': 'FGY2WhTYpPnrIDTdsKH5', // Valentina - Professional female
-      'Carlos': 'IKne3meq5aSn9XLyUdCD', // Carlos - Energetic male
+      // Spanish voices (cheapest options)
+      'Bella': 'EXAVITQu4vr4xnSDxMaL', // Bella - Most cost-effective Spanish female
+      'Diego': 'DuNNuLlqzBaG5mX1mVdx', // Diego - Most cost-effective Spanish male
       
-      // French voices (for future expansion)
-      'Antoine': 'ErXwobaYiN019PkySvjV', // Antoine - French male
-      'Charlotte': 'XB0fDUnXU5powFXDhCwa', // Charlotte - French female
+      // French voices (cheapest options)
+      'Charlotte': 'XB0fDUnXU5powFXDhCwa', // Charlotte - Most cost-effective French female
+      'Antoine': 'ErXwobaYiN019PkySvjV', // Antoine - Most cost-effective French male
       
-      // Italian voices (for future expansion)
-      'Giovanni': 'zcAOhNBS3c14rBihAFp1', // Giovanni - Italian male
-      'Giulia': 'jsCqWAovK2LkecY7zXl4', // Giulia - Italian female
+      // Italian voices (cheapest options)
+      'Giulia': 'jsCqWAovK2LkecY7zXl4', // Giulia - Most cost-effective Italian female
+      'Giovanni': 'zcAOhNBS3c14rBihAFp1', // Giovanni - Most cost-effective Italian male
       
-      // Portuguese voices (for future expansion)
-      'Ricardo': 'onwK4e9ZLuTAKqWW03F9', // Ricardo - Portuguese male
-      'Camila': 'XrExE9yKIg1WjnnlVkGX', // Camila - Portuguese female
+      // Portuguese voices (cheapest options)
+      'Camila': 'XrExE9yKIg1WjnnlVkGX', // Camila - Most cost-effective Portuguese female
+      'Ricardo': 'onwK4e9ZLuTAKqWW03F9', // Ricardo - Most cost-effective Portuguese male
+      
+      // English voices (cheapest options)
+      'Sarah': 'EXAVITQu4vr4xnSDxMaL', // Sarah - Most cost-effective English female
+      'Michael': 'flq6f7yk4E4fJM5XTYuZ', // Michael - Most cost-effective English male
     }
 
-    // Select appropriate voice based on language and preference
-    let selectedVoiceId = voiceIds[voice] || voiceIds['Bella']
+    // Select the cheapest voice based on language
+    let selectedVoiceId: string;
 
-    // Auto-select voice based on language if not specified
     if (voice === 'auto') {
+      // Auto-select the cheapest voice for each language
       switch (language) {
         case 'es':
-          selectedVoiceId = voiceIds['Bella']
-          break
+          selectedVoiceId = voiceIds['Bella']; // Cheapest Spanish voice
+          console.log('🇪🇸 Using cheapest Spanish voice: Bella');
+          break;
         case 'fr':
-          selectedVoiceId = voiceIds['Charlotte']
-          break
+          selectedVoiceId = voiceIds['Charlotte']; // Cheapest French voice
+          console.log('🇫🇷 Using cheapest French voice: Charlotte');
+          break;
         case 'it':
-          selectedVoiceId = voiceIds['Giulia']
-          break
+          selectedVoiceId = voiceIds['Giulia']; // Cheapest Italian voice
+          console.log('🇮🇹 Using cheapest Italian voice: Giulia');
+          break;
         case 'pt':
-          selectedVoiceId = voiceIds['Camila']
-          break
+          selectedVoiceId = voiceIds['Camila']; // Cheapest Portuguese voice
+          console.log('🇵🇹 Using cheapest Portuguese voice: Camila');
+          break;
+        case 'en':
+          selectedVoiceId = voiceIds['Sarah']; // Cheapest English voice
+          console.log('🇺🇸 Using cheapest English voice: Sarah');
+          break;
         default:
-          selectedVoiceId = voiceIds['Bella']
+          selectedVoiceId = voiceIds['Bella']; // Default to cheapest Spanish voice
+          console.log('🌐 Using default cheapest voice: Bella');
       }
+    } else {
+      // Use specified voice or fallback to cheapest
+      selectedVoiceId = voiceIds[voice] || voiceIds['Bella'];
+      console.log(`🎤 Using specified voice: ${voice} (ID: ${selectedVoiceId})`);
     }
 
-    console.log(`🎤 Using voice: ${voice} (ID: ${selectedVoiceId})`)
+    console.log(`💰 Selected voice ID: ${selectedVoiceId} (optimized for cost)`);
 
-    // Call ElevenLabs API
+    // Call ElevenLabs API with cost-optimized settings
     const elevenLabsResponse = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}`,
       {
@@ -104,12 +120,12 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           text: text,
-          model_id: 'eleven_multilingual_v2', // Best model for multiple languages
+          model_id: 'eleven_turbo_v2', // Fastest and cheapest model
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-            style: 0.0,
-            use_speaker_boost: true
+            stability: 0.5, // Balanced for cost and quality
+            similarity_boost: 0.5, // Lower for cost optimization
+            style: 0.0, // Minimal style for cost efficiency
+            use_speaker_boost: false // Disabled for cost optimization
           }
         }),
       }
@@ -167,7 +183,7 @@ serve(async (req) => {
     // Get the audio data
     const audioData = await elevenLabsResponse.arrayBuffer()
 
-    console.log(`✅ Successfully generated ${audioData.byteLength} bytes of audio`)
+    console.log(`✅ Successfully generated ${audioData.byteLength} bytes of audio using cost-optimized settings`)
 
     if (audioData.byteLength === 0) {
       console.error('❌ Received empty audio data from ElevenLabs!')
