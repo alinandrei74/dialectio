@@ -17,14 +17,15 @@ import { Course, Exercise, Unit, Part, ExerciseValidationResult } from '../types
 function LessonPage() {
   const navigate = useNavigate();
   const { lessonId } = useParams<{ lessonId: string }>(); // Este es realmente un unitId
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth(); // Import authLoading
   const { 
     courses, 
     fetchExercises, 
     completeLesson, 
     submitExerciseResult,
     fetchUnitStructure,
-    fetchAllUnitsInPart
+    fetchAllUnitsInPart,
+    loading: dataLoading
   } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
@@ -49,35 +50,58 @@ function LessonPage() {
   // Estados de UI
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [pageInitialized, setPageInitialized] = useState(false);
 
   const t: Translation = translations[currentLang];
 
   useEffect(() => {
+    console.log('🔍 LessonPage: useEffect triggered');
+    console.log('- Auth Loading:', authLoading);
+    console.log('- User:', user?.id || 'No user');
+    console.log('- Lesson ID:', lessonId);
+    console.log('- Data Loading:', dataLoading);
+
+    // Wait for authentication to complete before making any decisions
+    if (authLoading) {
+      console.log('🔄 LessonPage: Waiting for authentication to complete...');
+      return;
+    }
+
+    // Now we can safely check authentication
     if (!user) {
+      console.log('🚫 LessonPage: User not authenticated, redirecting to home');
       navigate('/');
       return;
     }
 
     if (!lessonId) {
+      console.log('🚫 LessonPage: No lessonId provided, redirecting to learning dashboard');
       navigate('/learning');
       return;
     }
 
+    // If we have user and lessonId, proceed with loading lesson data
+    console.log('✅ LessonPage: User authenticated, loading lesson data...');
     loadLessonData();
-  }, [lessonId, user, navigate]);
+  }, [lessonId, user, navigate, authLoading]);
 
   const loadLessonData = async () => {
     if (!lessonId) return;
 
     setLoading(true);
     try {
+      console.log('🔍 LessonPage: Fetching unit structure for:', lessonId);
+      
       // Obtener la estructura completa de la unidad
       const unitStructure = await fetchUnitStructure(lessonId);
       
       if (!unitStructure) {
+        console.log('❌ LessonPage: Unit structure not found, redirecting to learning dashboard');
         navigate('/learning');
         return;
       }
+
+      console.log('✅ LessonPage: Unit structure loaded:', unitStructure);
 
       // Extraer datos de la estructura
       const currentUnit = unitStructure;
@@ -87,48 +111,69 @@ function LessonPage() {
       setCourse(currentCourse);
       setPart(currentPart);
 
+      console.log('📚 LessonPage: Course:', currentCourse.title);
+      console.log('📖 LessonPage: Part:', currentPart.title);
+      console.log('🎯 LessonPage: Unit:', currentUnit.title, '(', currentUnit.kind, ')');
+
       // Obtener todas las unidades de esta parte
       const { preparationUnits: prepUnits, conversationUnits: convUnits } = 
         await fetchAllUnitsInPart(currentPart.id);
+
+      console.log('📝 LessonPage: Preparation units:', prepUnits.length);
+      console.log('💬 LessonPage: Conversation units:', convUnits.length);
 
       setPreparationUnits(prepUnits);
       setConversationUnits(convUnits);
 
       // Establecer unidades activas
       if (currentUnit.kind === 'exercise') {
+        console.log('🎯 LessonPage: Setting active exercise unit:', currentUnit.title);
         setActiveExerciseUnit(currentUnit);
         // Si hay unidades de conversación, seleccionar la primera
         if (convUnits.length > 0) {
+          console.log('💬 LessonPage: Setting active situation unit:', convUnits[0].title);
           setActiveSituationUnit(convUnits[0]);
         }
       } else if (currentUnit.kind === 'situation') {
+        console.log('💬 LessonPage: Setting active situation unit:', currentUnit.title);
         setActiveSituationUnit(currentUnit);
         // Si hay unidades de ejercicio, seleccionar la primera
         if (prepUnits.length > 0) {
+          console.log('🎯 LessonPage: Setting active exercise unit:', prepUnits[0].title);
           setActiveExerciseUnit(prepUnits[0]);
         }
       }
 
       // Cargar ejercicios para la unidad de ejercicios activa
       if (currentUnit.kind === 'exercise') {
+        console.log('📝 LessonPage: Loading exercises for current unit...');
         const unitExercises = await fetchExercises(currentUnit.id);
+        console.log('✅ LessonPage: Loaded', unitExercises.length, 'exercises');
         setExercises(unitExercises);
       } else if (prepUnits.length > 0) {
+        console.log('📝 LessonPage: Loading exercises for first preparation unit...');
         const unitExercises = await fetchExercises(prepUnits[0].id);
+        console.log('✅ LessonPage: Loaded', unitExercises.length, 'exercises');
         setExercises(unitExercises);
       }
 
+      setPageInitialized(true);
+      console.log('✅ LessonPage: Page initialization complete');
+
     } catch (error) {
-      console.error('Error loading lesson data:', error);
+      console.error('💥 LessonPage: Error loading lesson data:', error);
       navigate('/learning');
     }
     setLoading(false);
   };
 
   const handleUnitChange = async (unit: Unit, type: 'exercise' | 'situation') => {
+    console.log('🔄 LessonPage: Changing unit:', unit.title, 'type:', type);
+    
     if (type === 'exercise') {
       setActiveExerciseUnit(unit);
       // Cargar ejercicios para esta unidad
+      console.log('📝 LessonPage: Loading exercises for unit:', unit.title);
       const unitExercises = await fetchExercises(unit.id);
       setExercises(unitExercises);
       // Resetear estado de ejercicios
@@ -137,8 +182,10 @@ function LessonPage() {
       setCompletedExercises(new Set());
       setExerciseResults({});
       setShowResults(false);
+      console.log('✅ LessonPage: Unit changed and exercises loaded');
     } else {
       setActiveSituationUnit(unit);
+      console.log('✅ LessonPage: Situation unit changed');
     }
   };
 
@@ -157,6 +204,7 @@ function LessonPage() {
 
     if (!userAnswer.trim()) return;
 
+    console.log('📝 LessonPage: Submitting exercise:', currentExercise.title);
     setSubmitting(true);
 
     try {
@@ -166,6 +214,8 @@ function LessonPage() {
         userAnswer,
         currentExercise
       );
+
+      console.log('✅ LessonPage: Exercise result:', result);
 
       // Store the result
       setExerciseResults(prev => ({
@@ -187,12 +237,13 @@ function LessonPage() {
         
         // Mark lesson as completed
         if (course) {
+          console.log('🎉 LessonPage: Completing lesson for course:', course.title);
           await completeLesson(course.id, activeExerciseUnit.id);
         }
       }
 
     } catch (error) {
-      console.error('Error submitting exercise:', error);
+      console.error('💥 LessonPage: Error submitting exercise:', error);
     }
 
     setSubmitting(false);
@@ -200,6 +251,8 @@ function LessonPage() {
 
   const handleRetryExercise = () => {
     const currentExercise = exercises[currentExerciseIndex];
+    console.log('🔄 LessonPage: Retrying exercise:', currentExercise.title);
+    
     setUserAnswers(prev => ({
       ...prev,
       [currentExercise.id]: ''
@@ -217,6 +270,7 @@ function LessonPage() {
   };
 
   const handleBackToCourse = () => {
+    console.log('🔙 LessonPage: Going back to course');
     if (course) {
       navigate(`/learning/course/${course.id}`);
     } else {
@@ -226,17 +280,20 @@ function LessonPage() {
 
   const handleNextExercise = () => {
     if (currentExerciseIndex < exercises.length - 1) {
+      console.log('➡️ LessonPage: Moving to next exercise');
       setCurrentExerciseIndex(prev => prev + 1);
     }
   };
 
   const handlePreviousExercise = () => {
     if (currentExerciseIndex > 0) {
+      console.log('⬅️ LessonPage: Moving to previous exercise');
       setCurrentExerciseIndex(prev => prev - 1);
     }
   };
 
-  if (loading) {
+  // Show loading screen while authentication is being determined or while initializing
+  if (authLoading || loading || !pageInitialized) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans flex items-center justify-center">
         <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-8 max-w-md w-full mx-4"
@@ -244,16 +301,28 @@ function LessonPage() {
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
-              Cargando lección...
+              {authLoading ? 'Verificando autenticación...' : 
+               loading ? 'Cargando lección...' : 
+               'Inicializando interfaz...'}
             </p>
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mt-4 text-xs text-gray-600 dark:text-gray-400 font-mono">
+                <div>Auth Loading: {authLoading ? 'true' : 'false'}</div>
+                <div>Data Loading: {loading ? 'true' : 'false'}</div>
+                <div>Page Initialized: {pageInitialized ? 'true' : 'false'}</div>
+                <div>Lesson ID: {lessonId || 'none'}</div>
+                <div>User: {user ? 'authenticated' : 'not authenticated'}</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
     );
   }
 
+  // If we reach here, authentication is complete and user is authenticated
   if (!part || !course) {
-    return null;
+    return null; // This should not happen due to the loadLessonData logic above
   }
 
   const currentExercise = exercises[currentExerciseIndex];
@@ -614,7 +683,7 @@ function LessonPage() {
               <ChatbotPanel 
                 unit={activeSituationUnit}
                 onComplete={() => {
-                  console.log('Conversation completed');
+                  console.log('💬 LessonPage: Conversation completed');
                 }}
               />
             ) : (
