@@ -44,6 +44,12 @@ export interface Unit {
   agent_prompt?: string;
   created_at: string;
   updated_at: string;
+  // Relaciones anidadas para consultas complejas
+  phases?: Phase & {
+    parts?: Part & {
+      courses?: Course;
+    };
+  };
 }
 
 // Definición específica y robusta para el contenido de ejercicios

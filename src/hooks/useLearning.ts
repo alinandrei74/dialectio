@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './useAuth';
-import { Course, Lesson, Exercise, UserProgress, LearningStats, validateExerciseAnswer } from '../types/learning';
+import { Course, Lesson, Exercise, UserProgress, LearningStats, validateExerciseAnswer, Part, Phase, Unit } from '../types/learning';
 
 export function useLearning() {
   const { user } = useAuth();
@@ -175,6 +175,114 @@ export function useLearning() {
     }
   };
 
+  // NEW: Fetch unit by ID
+  const fetchUnitById = async (unitId: string): Promise<Unit | null> => {
+    try {
+      const { data, error } = await supabase
+        .from('units')
+        .select('*')
+        .eq('id', unitId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching unit:', error);
+      return null;
+    }
+  };
+
+  // NEW: Fetch phase by ID
+  const fetchPhaseById = async (phaseId: string): Promise<Phase | null> => {
+    try {
+      const { data, error } = await supabase
+        .from('phases')
+        .select('*')
+        .eq('id', phaseId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching phase:', error);
+      return null;
+    }
+  };
+
+  // NEW: Fetch part by ID
+  const fetchPartById = async (partId: string): Promise<Part | null> => {
+    try {
+      const { data, error } = await supabase
+        .from('parts')
+        .select('*')
+        .eq('id', partId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching part:', error);
+      return null;
+    }
+  };
+
+  // NEW: Fetch all units in a part
+  const fetchAllUnitsInPart = async (partId: string): Promise<{ preparationUnits: Unit[], conversationUnits: Unit[] }> => {
+    try {
+      const { data, error } = await supabase
+        .from('units')
+        .select(`
+          *,
+          phases!inner(
+            id,
+            kind,
+            phase_order,
+            part_id
+          )
+        `)
+        .eq('phases.part_id', partId)
+        .order('phases.phase_order', { ascending: true })
+        .order('unit_order', { ascending: true });
+
+      if (error) throw error;
+
+      const units = data || [];
+      const preparationUnits = units.filter(u => u.phases.kind === 'preparation');
+      const conversationUnits = units.filter(u => u.phases.kind === 'conversation');
+
+      return { preparationUnits, conversationUnits };
+    } catch (error) {
+      console.error('Error fetching units in part:', error);
+      return { preparationUnits: [], conversationUnits: [] };
+    }
+  };
+
+  // NEW: Get complete unit structure (unit -> phase -> part -> course)
+  const fetchUnitStructure = async (unitId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('units')
+        .select(`
+          *,
+          phases!inner(
+            *,
+            parts!inner(
+              *,
+              courses!inner(*)
+            )
+          )
+        `)
+        .eq('id', unitId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching unit structure:', error);
+      return null;
+    }
+  };
+
   // Complete a lesson
   const completeLesson = async (courseId: string, lessonId: string) => {
     if (!user) throw new Error('User not authenticated');
@@ -274,7 +382,7 @@ export function useLearning() {
         console.error('Error saving attempt:', attemptError);
       }
 
-      // Update user progress points if correct
+      // Update user points if correct
       if (validationResult.isCorrect) {
         await updateUserPoints(exercise.lesson_id, validationResult.score);
       }
@@ -349,6 +457,12 @@ export function useLearning() {
     completeLesson,
     submitExerciseResult,
     refreshProgress: fetchUserProgress,
-    refreshStats: fetchLearningStats
+    refreshStats: fetchLearningStats,
+    // New functions for the split view
+    fetchUnitById,
+    fetchPhaseById,
+    fetchPartById,
+    fetchAllUnitsInPart,
+    fetchUnitStructure
   };
 }

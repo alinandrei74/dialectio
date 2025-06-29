@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Play, CheckCircle, Clock, Target, Award, Volume2, RotateCcw, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Play, CheckCircle, Clock, Target, Award, Volume2, RotateCcw, ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -10,24 +10,41 @@ import LanguageSelector from '../components/ui/LanguageSelector';
 import DarkModeToggle from '../components/ui/DarkModeToggle';
 import UserMenu from '../components/auth/UserMenu';
 import Footer from '../components/layout/Footer';
-import { Lesson, Exercise, Course, MultipleChoiceContent, FillBlankContent, TranslationContent, AudioContent } from '../types/learning';
+import ChatbotPanel from '../components/learning/ChatbotPanel';
+import { Course, Exercise, Unit, Part, MultipleChoiceContent, FillBlankContent, TranslationContent, AudioContent } from '../types/learning';
 
 function LessonPage() {
   const navigate = useNavigate();
-  const { lessonId } = useParams<{ lessonId: string }>();
+  const { lessonId } = useParams<{ lessonId: string }>(); // Este es realmente un unitId
   const { user } = useAuth();
-  const { courses, fetchLessons, fetchExercises, completeLesson, submitExerciseResult } = useLearning();
+  const { 
+    courses, 
+    fetchExercises, 
+    completeLesson, 
+    submitExerciseResult,
+    fetchUnitStructure,
+    fetchAllUnitsInPart
+  } = useLearning();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [currentLang, setCurrentLang] = useState<string>('es');
   
-  const [lesson, setLesson] = useState<Lesson | null>(null);
+  // Estados principales
   const [course, setCourse] = useState<Course | null>(null);
+  const [part, setPart] = useState<Part | null>(null);
+  const [preparationUnits, setPreparationUnits] = useState<Unit[]>([]);
+  const [conversationUnits, setConversationUnits] = useState<Unit[]>([]);
+  const [activeExerciseUnit, setActiveExerciseUnit] = useState<Unit | null>(null);
+  const [activeSituationUnit, setActiveSituationUnit] = useState<Unit | null>(null);
+  
+  // Estados de ejercicios
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
   const [exerciseResults, setExerciseResults] = useState<Record<string, any>>({});
   const [showResults, setShowResults] = useState(false);
+  
+  // Estados de UI
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,37 +69,75 @@ function LessonPage() {
 
     setLoading(true);
     try {
-      // Find the lesson and its course
-      let foundLesson: Lesson | null = null;
-      let foundCourse: Course | null = null;
-
-      for (const courseItem of courses) {
-        const courseLessons = await fetchLessons(courseItem.id);
-        const lessonMatch = courseLessons.find(l => l.id === lessonId);
-        if (lessonMatch) {
-          foundLesson = lessonMatch;
-          foundCourse = courseItem;
-          break;
-        }
-      }
-
-      if (!foundLesson || !foundCourse) {
+      // Obtener la estructura completa de la unidad
+      const unitStructure = await fetchUnitStructure(lessonId);
+      
+      if (!unitStructure) {
         navigate('/learning');
         return;
       }
 
-      setLesson(foundLesson);
-      setCourse(foundCourse);
+      // Extraer datos de la estructura
+      const currentUnit = unitStructure;
+      const currentPart = unitStructure.phases.parts;
+      const currentCourse = unitStructure.phases.parts.courses;
 
-      // Load exercises for this lesson
-      const lessonExercises = await fetchExercises(lessonId);
-      setExercises(lessonExercises);
+      setCourse(currentCourse);
+      setPart(currentPart);
+
+      // Obtener todas las unidades de esta parte
+      const { preparationUnits: prepUnits, conversationUnits: convUnits } = 
+        await fetchAllUnitsInPart(currentPart.id);
+
+      setPreparationUnits(prepUnits);
+      setConversationUnits(convUnits);
+
+      // Establecer unidades activas
+      if (currentUnit.kind === 'exercise') {
+        setActiveExerciseUnit(currentUnit);
+        // Si hay unidades de conversación, seleccionar la primera
+        if (convUnits.length > 0) {
+          setActiveSituationUnit(convUnits[0]);
+        }
+      } else if (currentUnit.kind === 'situation') {
+        setActiveSituationUnit(currentUnit);
+        // Si hay unidades de ejercicio, seleccionar la primera
+        if (prepUnits.length > 0) {
+          setActiveExerciseUnit(prepUnits[0]);
+        }
+      }
+
+      // Cargar ejercicios para la unidad de ejercicios activa
+      if (currentUnit.kind === 'exercise') {
+        const unitExercises = await fetchExercises(currentUnit.id);
+        setExercises(unitExercises);
+      } else if (prepUnits.length > 0) {
+        const unitExercises = await fetchExercises(prepUnits[0].id);
+        setExercises(unitExercises);
+      }
 
     } catch (error) {
       console.error('Error loading lesson data:', error);
       navigate('/learning');
     }
     setLoading(false);
+  };
+
+  const handleUnitChange = async (unit: Unit, type: 'exercise' | 'situation') => {
+    if (type === 'exercise') {
+      setActiveExerciseUnit(unit);
+      // Cargar ejercicios para esta unidad
+      const unitExercises = await fetchExercises(unit.id);
+      setExercises(unitExercises);
+      // Resetear estado de ejercicios
+      setCurrentExerciseIndex(0);
+      setUserAnswers({});
+      setCompletedExercises(new Set());
+      setExerciseResults({});
+      setShowResults(false);
+    } else {
+      setActiveSituationUnit(unit);
+    }
   };
 
   const handleAnswerChange = (exerciseId: string, answer: string) => {
@@ -93,7 +148,7 @@ function LessonPage() {
   };
 
   const handleSubmitExercise = async () => {
-    if (!lesson || exercises.length === 0) return;
+    if (!activeExerciseUnit || exercises.length === 0) return;
 
     const currentExercise = exercises[currentExerciseIndex];
     const userAnswer = userAnswers[currentExercise.id] || '';
@@ -128,7 +183,7 @@ function LessonPage() {
         
         // Mark lesson as completed
         if (course) {
-          await completeLesson(course.id, lesson.id);
+          await completeLesson(course.id, activeExerciseUnit.id);
         }
       }
 
@@ -165,43 +220,9 @@ function LessonPage() {
     }
   };
 
-  const getLanguageInfo = (langCode: string) => {
-    const languageMap = {
-      'es': { name: 'Español', flag: '🇪🇸', color: 'from-red-600 to-red-800' },
-      'fr': { name: 'Français', flag: '🇫🇷', color: 'from-blue-600 to-blue-800' },
-      'pt': { name: 'Português', flag: '🇵🇹', color: 'from-green-600 to-green-800' },
-      'it': { name: 'Italiano', flag: '🇮🇹', color: 'from-green-700 to-green-900' },
-      'en': { name: 'English', flag: '🇺🇸', color: 'from-blue-700 to-blue-900' }
-    };
-    return languageMap[langCode as keyof typeof languageMap] || { name: langCode, flag: '🌐', color: 'from-gray-600 to-gray-800' };
-  };
-
-  const getLessonTypeIcon = (type: string) => {
-    switch (type) {
-      case 'vocabulary': return '📚';
-      case 'grammar': return '📝';
-      case 'conversation': return '💬';
-      case 'culture': return '🎭';
-      case 'practice': return '🎯';
-      default: return '📖';
-    }
-  };
-
-  const getLessonTypeColor = (type: string) => {
-    switch (type) {
-      case 'vocabulary': return 'from-blue-600 to-blue-800';
-      case 'grammar': return 'from-purple-600 to-purple-800';
-      case 'conversation': return 'from-green-600 to-green-800';
-      case 'culture': return 'from-orange-600 to-orange-800';
-      case 'practice': return 'from-red-600 to-red-800';
-      default: return 'from-gray-600 to-gray-800';
-    }
-  };
-
   const renderExerciseContent = (exercise: Exercise) => {
     const userAnswer = userAnswers[exercise.id] || '';
     const isCompleted = completedExercises.has(exercise.id);
-    const result = exerciseResults[exercise.id];
 
     switch (exercise.exercise_type) {
       case 'multiple_choice':
@@ -306,11 +327,10 @@ function LessonPage() {
     );
   }
 
-  if (!lesson || !course) {
+  if (!part || !course) {
     return null;
   }
 
-  const targetLangInfo = getLanguageInfo(course.target_language);
   const currentExercise = exercises[currentExerciseIndex];
   const isExerciseCompleted = currentExercise && completedExercises.has(currentExercise.id);
   const userAnswer = currentExercise ? userAnswers[currentExercise.id] || '' : '';
@@ -366,258 +386,291 @@ function LessonPage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {/* Lesson Header */}
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        {/* Part Header */}
         <div className="mb-8">
           <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl"
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
             
-            <div className={`p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r ${getLessonTypeColor(lesson.lesson_type)} text-white mx-2 mt-2`}
+            <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-500 dark:to-purple-700 text-white mx-2 mt-2"
                  style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="text-4xl">
-                    {getLessonTypeIcon(lesson.lesson_type)}
+                <div>
+                  <h1 className="text-2xl font-black mb-1">
+                    {part.title}
+                  </h1>
+                  <p className="text-purple-100 font-bold">
+                    {part.synopsis || 'Practica ejercicios y conversaciones'}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-black">
+                    {course.title}
                   </div>
-                  <div>
-                    <h1 className="text-2xl font-black mb-1">
-                      {lesson.title}
-                    </h1>
-                    <div className="flex items-center space-x-4 text-sm font-bold opacity-90">
-                      <div className="flex items-center space-x-1">
-                        <span>{targetLangInfo.flag}</span>
-                        <span>{targetLangInfo.name}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{lesson.estimated_minutes} min</span>
-                      </div>
-                    </div>
+                  <div className="text-purple-100 font-bold text-sm">
+                    Curso completo
                   </div>
                 </div>
-                
-                {exercises.length > 0 && (
-                  <div className="text-right">
-                    <div className="text-lg font-black">
-                      {currentExerciseIndex + 1} / {exercises.length}
-                    </div>
-                    <div className="text-sm font-bold opacity-90">
-                      Ejercicios
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
+            {/* Navigation Tabs */}
             <div className="p-6">
-              <p className="text-gray-700 dark:text-gray-300 font-bold text-lg">
-                {lesson.description || 'Practica y mejora tus habilidades con estos ejercicios.'}
-              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Exercise Units Navigation */}
+                <div>
+                  <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                    <BookOpen className="w-5 h-5" />
+                    <span>Ejercicios</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {preparationUnits.map((unit, index) => (
+                      <button
+                        key={unit.id}
+                        onClick={() => handleUnitChange(unit, 'exercise')}
+                        className={`px-4 py-2 font-bold text-sm border-3 transition-all duration-300 ${
+                          activeExerciseUnit?.id === unit.id
+                            ? 'bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white border-black dark:border-gray-300 shadow-xl scale-105'
+                            : 'hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300 hover:shadow-lg bg-white dark:bg-gray-800'
+                        }`}
+                        style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                      >
+                        {index + 1}. {unit.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Conversation Units Navigation */}
+                <div>
+                  <h3 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                    <Languages className="w-5 h-5" />
+                    <span>Conversaciones</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {conversationUnits.map((unit, index) => (
+                      <button
+                        key={unit.id}
+                        onClick={() => handleUnitChange(unit, 'situation')}
+                        className={`px-4 py-2 font-bold text-sm border-3 transition-all duration-300 ${
+                          activeSituationUnit?.id === unit.id
+                            ? 'bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white border-black dark:border-gray-300 shadow-xl scale-105'
+                            : 'hover:bg-green-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-400 dark:border-gray-500 hover:border-black dark:hover:border-gray-300 hover:shadow-lg bg-white dark:bg-gray-800'
+                        }`}
+                        style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                      >
+                        {index + 1}. {unit.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Exercise Content */}
-        {exercises.length > 0 && !showResults ? (
+        {/* Split View Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
+          {/* Left Panel - Exercises */}
           <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl"
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
             
-            <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white mx-2 mt-2"
-                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-              <h2 className="text-xl font-black">
-                {currentExercise.title}
-              </h2>
-            </div>
+            {activeExerciseUnit ? (
+              <>
+                <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
+                     style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+                  <h2 className="text-xl font-black">
+                    {activeExerciseUnit.title}
+                  </h2>
+                  {exercises.length > 0 && (
+                    <p className="text-blue-100 font-bold text-sm">
+                      Ejercicio {currentExerciseIndex + 1} de {exercises.length}
+                    </p>
+                  )}
+                </div>
 
-            <div className="p-8">
-              {/* Exercise Instructions */}
-              <div className="mb-6">
-                <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-4">
-                  {currentExercise.instructions}
+                <div className="p-6 h-[500px] overflow-y-auto">
+                  {exercises.length > 0 && !showResults ? (
+                    <>
+                      {/* Exercise Instructions */}
+                      <div className="mb-6">
+                        <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-4">
+                          {currentExercise.instructions}
+                        </p>
+                      </div>
+
+                      {/* Exercise Question */}
+                      <div className="mb-8">
+                        <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-3 border-blue-300 dark:border-blue-500 shadow-lg"
+                             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                          <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                            {currentExercise.content.question}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Answer Input */}
+                      <div className="mb-8">
+                        {renderExerciseContent(currentExercise)}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                          {isExerciseCompleted && (
+                            <button
+                              onClick={handleRetryExercise}
+                              className="bg-gray-600 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                            >
+                              <RotateCcw className="w-4 h-4" />
+                              <span>Reintentar</span>
+                            </button>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={handleSubmitExercise}
+                          disabled={!userAnswer.trim() || submitting || isExerciseCompleted}
+                          className="bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl flex items-center space-x-3"
+                          style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                        >
+                          {submitting ? (
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          ) : isExerciseCompleted ? (
+                            <CheckCircle className="w-5 h-5" />
+                          ) : (
+                            <ArrowRight className="w-5 h-5" />
+                          )}
+                          <span>
+                            {submitting ? 'Enviando...' : 
+                             isExerciseCompleted ? 'Completado' : 
+                             currentExerciseIndex === exercises.length - 1 ? 'Finalizar' : 'Siguiente'}
+                          </span>
+                        </button>
+                      </div>
+
+                      {/* Exercise Feedback */}
+                      {isExerciseCompleted && exerciseResult && (
+                        <div className={`mt-6 border-3 p-6 shadow-lg ${
+                          exerciseResult.isCorrect 
+                            ? 'bg-green-50/90 dark:bg-green-900/30 border-green-500' 
+                            : 'bg-red-50/90 dark:bg-red-900/30 border-red-500'
+                        }`}
+                             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                          <div className="flex items-center space-x-3 mb-3">
+                            {exerciseResult.isCorrect ? (
+                              <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                            ) : (
+                              <X className="w-6 h-6 text-red-600 dark:text-red-400" />
+                            )}
+                            <h4 className={`text-lg font-black ${
+                              exerciseResult.isCorrect 
+                                ? 'text-green-800 dark:text-green-200' 
+                                : 'text-red-800 dark:text-red-200'
+                            }`}>
+                              {exerciseResult.isCorrect ? '¡Correcto!' : 'Incorrecto'}
+                            </h4>
+                            <span className={`px-3 py-1 font-black text-sm border-2 border-black ${
+                              exerciseResult.isCorrect ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                            }`}>
+                              +{exerciseResult.score} puntos
+                            </span>
+                          </div>
+                          
+                          {currentExercise.content.explanation && (
+                            <p className={`font-bold ${
+                              exerciseResult.isCorrect 
+                                ? 'text-green-700 dark:text-green-300' 
+                                : 'text-red-700 dark:text-red-300'
+                            }`}>
+                              {currentExercise.content.explanation}
+                            </p>
+                          )}
+                          
+                          {!exerciseResult.isCorrect && (
+                            <p className="text-red-700 dark:text-red-300 font-bold mt-2">
+                              Respuesta correcta: <span className="font-black">{
+                                (currentExercise.content as any).correct_answer
+                              }</span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  ) : showResults ? (
+                    /* Results Screen */
+                    <div className="text-center py-8">
+                      <Award className="w-16 h-16 text-green-600 dark:text-green-400 mx-auto mb-6" />
+                      <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                        ¡Ejercicios Completados!
+                      </h3>
+                      <p className="text-gray-700 dark:text-gray-300 font-bold mb-6">
+                        Has completado todos los ejercicios de "{activeExerciseUnit.title}".
+                      </p>
+                      <div className="bg-green-50/90 dark:bg-green-900/30 border-3 border-green-500 p-6 shadow-lg mb-6"
+                           style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                        <div className="text-2xl font-black text-green-800 dark:text-green-200">
+                          {Object.values(exerciseResults).reduce((sum, result) => sum + (result?.score || 0), 0)} puntos
+                        </div>
+                        <div className="text-green-700 dark:text-green-300 font-bold">
+                          Puntos ganados
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* No Exercises Available */
+                    <div className="text-center py-12">
+                      <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+                      <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                        Contenido en Desarrollo
+                      </h3>
+                      <p className="text-gray-700 dark:text-gray-300 font-bold">
+                        Los ejercicios para esta unidad se están preparando. ¡Vuelve pronto!
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="p-6 text-center">
+                <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  Selecciona una Unidad de Ejercicios
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300 font-bold">
+                  Elige una unidad de ejercicios de la navegación superior para comenzar.
                 </p>
               </div>
+            )}
+          </div>
 
-              {/* Exercise Question */}
-              <div className="mb-8">
-                <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-3 border-blue-300 dark:border-blue-500 shadow-lg"
-                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+          {/* Right Panel - Chatbot */}
+          <div>
+            {activeSituationUnit ? (
+              <ChatbotPanel 
+                unit={activeSituationUnit}
+                onComplete={() => {
+                  // Handle conversation completion
+                  console.log('Conversation completed');
+                }}
+              />
+            ) : (
+              <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl p-6 text-center h-full flex items-center justify-center"
+                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                <div>
+                  <Languages className="w-16 h-16 text-gray-400 mx-auto mb-6" />
                   <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                    {currentExercise.content.question}
+                    Selecciona una Situación de Conversación
                   </h3>
+                  <p className="text-gray-700 dark:text-gray-300 font-bold">
+                    Elige una situación de conversación de la navegación superior para practicar.
+                  </p>
                 </div>
               </div>
-
-              {/* Answer Input */}
-              <div className="mb-8">
-                {renderExerciseContent(currentExercise)}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  {isExerciseCompleted && (
-                    <button
-                      onClick={handleRetryExercise}
-                      className="bg-gray-600 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                      style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                    >
-                      <RotateCcw className="w-4 h-4" />
-                      <span>Reintentar</span>
-                    </button>
-                  )}
-                </div>
-
-                <button
-                  onClick={handleSubmitExercise}
-                  disabled={!userAnswer.trim() || submitting || isExerciseCompleted}
-                  className="bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white px-8 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-green-700 hover:to-green-900 dark:hover:from-green-600 dark:hover:to-green-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl flex items-center space-x-3"
-                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                >
-                  {submitting ? (
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  ) : isExerciseCompleted ? (
-                    <CheckCircle className="w-5 h-5" />
-                  ) : (
-                    <ArrowRight className="w-5 h-5" />
-                  )}
-                  <span>
-                    {submitting ? 'Enviando...' : 
-                     isExerciseCompleted ? 'Completado' : 
-                     currentExerciseIndex === exercises.length - 1 ? 'Finalizar' : 'Siguiente'}
-                  </span>
-                </button>
-              </div>
-
-              {/* Exercise Feedback */}
-              {isExerciseCompleted && exerciseResult && (
-                <div className={`mt-6 border-3 p-6 shadow-lg ${
-                  exerciseResult.isCorrect 
-                    ? 'bg-green-50/90 dark:bg-green-900/30 border-green-500' 
-                    : 'bg-red-50/90 dark:bg-red-900/30 border-red-500'
-                }`}
-                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                  <div className="flex items-center space-x-3 mb-3">
-                    {exerciseResult.isCorrect ? (
-                      <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
-                    ) : (
-                      <X className="w-6 h-6 text-red-600 dark:text-red-400" />
-                    )}
-                    <h4 className={`text-lg font-black ${
-                      exerciseResult.isCorrect 
-                        ? 'text-green-800 dark:text-green-200' 
-                        : 'text-red-800 dark:text-red-200'
-                    }`}>
-                      {exerciseResult.isCorrect ? '¡Correcto!' : 'Incorrecto'}
-                    </h4>
-                    <span className={`px-3 py-1 font-black text-sm border-2 border-black ${
-                      exerciseResult.isCorrect ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                    }`}>
-                      +{exerciseResult.score} puntos
-                    </span>
-                  </div>
-                  
-                  {currentExercise.content.explanation && (
-                    <p className={`font-bold ${
-                      exerciseResult.isCorrect 
-                        ? 'text-green-700 dark:text-green-300' 
-                        : 'text-red-700 dark:text-red-300'
-                    }`}>
-                      {currentExercise.content.explanation}
-                    </p>
-                  )}
-                  
-                  {!exerciseResult.isCorrect && (
-                    <p className="text-red-700 dark:text-red-300 font-bold mt-2">
-                      Respuesta correcta: <span className="font-black">{
-                        (currentExercise.content as any).correct_answer
-                      }</span>
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
+            )}
           </div>
-        ) : showResults ? (
-          /* Results Screen */
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl"
-               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-            
-            <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white mx-2 mt-2"
-                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-              <div className="text-center">
-                <Award className="w-16 h-16 mx-auto mb-4" />
-                <h2 className="text-3xl font-black">
-                  ¡Lección Completada!
-                </h2>
-              </div>
-            </div>
-
-            <div className="p-8 text-center">
-              <p className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-8">
-                Has completado exitosamente la lección "{lesson.title}".
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-2 border-blue-300 dark:border-blue-500 shadow-md text-center">
-                  <Target className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
-                  <div className="text-lg font-black text-gray-900 dark:text-gray-100">
-                    {exercises.length}
-                  </div>
-                  <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
-                    Ejercicios Completados
-                  </div>
-                </div>
-
-                <div className="bg-green-50/90 dark:bg-gray-700/90 p-6 border-2 border-green-300 dark:border-green-500 shadow-md text-center">
-                  <Award className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
-                  <div className="text-lg font-black text-gray-900 dark:text-gray-100">
-                    {Object.values(exerciseResults).reduce((sum, result) => sum + (result?.score || 0), 0)}
-                  </div>
-                  <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
-                    Puntos Ganados
-                  </div>
-                </div>
-
-                <div className="bg-purple-50/90 dark:bg-gray-700/90 p-6 border-2 border-purple-300 dark:border-purple-500 shadow-md text-center">
-                  <Clock className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
-                  <div className="text-lg font-black text-gray-900 dark:text-gray-100">
-                    {lesson.estimated_minutes}
-                  </div>
-                  <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
-                    Minutos de Estudio
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={handleBackToCourse}
-                className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-8 py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
-                style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-              >
-                Volver al Curso
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* No Exercises Available */
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl text-center p-12"
-               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-            <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-4">
-              Contenido en Desarrollo
-            </h3>
-            <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-8">
-              Los ejercicios para esta lección se están preparando. ¡Vuelve pronto!
-            </p>
-            <button
-              onClick={handleBackToCourse}
-              className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-8 py-4 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
-              style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-            >
-              Volver al Curso
-            </button>
-          </div>
-        )}
+        </div>
       </main>
 
       <Footer t={t} />
