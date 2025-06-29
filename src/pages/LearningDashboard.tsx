@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -21,6 +21,7 @@ function LearningDashboard() {
   const [currentLang, setCurrentLang] = useState<string>('es');
   const [startingCourse, setStartingCourse] = useState<string | null>(null);
   const [userInitialLanguage, setUserInitialLanguage] = useState<string>('es');
+  const [refreshing, setRefreshing] = useState(false);
 
   const t: Translation = translations[currentLang];
 
@@ -29,7 +30,9 @@ function LearningDashboard() {
     console.log('LearningDashboard mounted');
     console.log('User:', user);
     console.log('Auth loading:', authLoading);
-  }, [user, authLoading]);
+    console.log('Courses:', courses);
+    console.log('Loading:', loading);
+  }, [user, authLoading, courses, loading]);
 
   // Load user's initial language from profile
   useEffect(() => {
@@ -65,6 +68,18 @@ function LearningDashboard() {
       navigate('/');
     }
   }, [user, authLoading, navigate]);
+
+  // Manual refresh function
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      // Force reload the page to refresh all data
+      window.location.reload();
+    } catch (error) {
+      console.error('Error refreshing:', error);
+    }
+    setRefreshing(false);
+  };
 
   // Don't render anything while checking authentication
   if (authLoading) {
@@ -193,6 +208,15 @@ function LearningDashboard() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="w-12 h-12 bg-white/20 dark:bg-gray-800/30 backdrop-blur-md hover:bg-white/30 dark:hover:bg-gray-700/50 transition-all duration-300 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center disabled:opacity-50"
+              title="Actualizar datos"
+            >
+              <RefreshCw className={`w-6 h-6 text-gray-900 dark:text-gray-100 transform -rotate-45 ${refreshing ? 'animate-spin' : ''}`} />
+            </button>
+
             <LanguageSelector 
               currentLang={currentLang}
               setCurrentLang={setCurrentLang}
@@ -325,9 +349,21 @@ function LearningDashboard() {
                 <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-2">
                   No hay cursos disponibles
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 font-bold">
-                  Pronto añadiremos más cursos para tu idioma base.
+                <p className="text-gray-600 dark:text-gray-400 font-bold mb-6">
+                  {courses.length === 0 
+                    ? 'Los cursos se están cargando. Si el problema persiste, intenta actualizar la página.'
+                    : 'Pronto añadiremos más cursos para tu idioma base.'
+                  }
                 </p>
+                <button
+                  onClick={handleRefresh}
+                  disabled={refreshing}
+                  className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 transform hover:scale-105 shadow-xl flex items-center space-x-2 mx-auto"
+                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                >
+                  <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                  <span>{refreshing ? 'Actualizando...' : 'Actualizar'}</span>
+                </button>
               </div>
             </div>
           ) : (

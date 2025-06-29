@@ -10,19 +10,27 @@ export function useLearning() {
   const [userProgress, setUserProgress] = useState<UserProgress[]>([]);
   const [learningStats, setLearningStats] = useState<LearningStats | null>(null);
 
-  // Fetch available courses
+  // Fetch available courses with better error handling
   const fetchCourses = async () => {
     setLoading(true);
     try {
+      console.log('Fetching courses...');
       const { data, error } = await supabase
         .from('courses')
         .select('*')
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching courses:', error);
+        throw error;
+      }
+      
+      console.log('Courses fetched:', data?.length || 0);
       setCourses(data || []);
     } catch (error) {
       console.error('Error fetching courses:', error);
+      // Set empty array on error to prevent infinite loading
+      setCourses([]);
     }
     setLoading(false);
   };
@@ -32,15 +40,22 @@ export function useLearning() {
     if (!user) return;
 
     try {
+      console.log('Fetching user progress for user:', user.id);
       const { data, error } = await supabase
         .from('user_progress')
         .select('*')
         .eq('user_id', user.id);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching user progress:', error);
+        throw error;
+      }
+      
+      console.log('User progress fetched:', data?.length || 0);
       setUserProgress(data || []);
     } catch (error) {
       console.error('Error fetching user progress:', error);
+      setUserProgress([]);
     }
   };
 
@@ -91,6 +106,7 @@ export function useLearning() {
     if (!user) throw new Error('User not authenticated');
 
     try {
+      console.log('Starting course:', courseId);
       // Check if progress already exists
       const { data: existingProgress } = await supabase
         .from('user_progress')
@@ -116,6 +132,7 @@ export function useLearning() {
 
         if (error) throw error;
         
+        console.log('Course progress created:', data);
         // Refresh user progress
         await fetchUserProgress();
         return data;
@@ -131,6 +148,7 @@ export function useLearning() {
 
         if (error) throw error;
         
+        console.log('Course progress updated');
         // Refresh user progress
         await fetchUserProgress();
         return existingProgress;
@@ -144,13 +162,19 @@ export function useLearning() {
   // Get lessons for a course (usando la vista lessons que mapea a units)
   const fetchLessons = async (courseId: string): Promise<Lesson[]> => {
     try {
+      console.log('Fetching lessons for course:', courseId);
       const { data, error } = await supabase
         .from('lessons')
         .select('*')
         .eq('course_id', courseId)
         .order('lesson_order', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching lessons:', error);
+        throw error;
+      }
+      
+      console.log('Lessons fetched:', data?.length || 0);
       return data || [];
     } catch (error) {
       console.error('Error fetching lessons:', error);
@@ -161,13 +185,19 @@ export function useLearning() {
   // Get exercises for a lesson (ahora usando unit_id)
   const fetchExercises = async (lessonId: string): Promise<Exercise[]> => {
     try {
+      console.log('Fetching exercises for lesson/unit:', lessonId);
       const { data, error } = await supabase
         .from('exercises')
         .select('*')
         .eq('lesson_id', lessonId) // lesson_id ahora apunta a unit_id
         .order('exercise_order', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching exercises:', error);
+        throw error;
+      }
+      
+      console.log('Exercises fetched:', data?.length || 0);
       return data || [];
     } catch (error) {
       console.error('Error fetching exercises:', error);
@@ -349,19 +379,23 @@ export function useLearning() {
       const validationResult = validateExerciseAnswer(exercise, userAnswer);
 
       // Submit to user_exercise_results if the table exists
-      const { error: exerciseError } = await supabase
-        .from('user_exercise_results')
-        .insert({
-          user_id: user.id,
-          exercise_id: exerciseId,
-          user_answer: userAnswer,
-          is_correct: validationResult.isCorrect,
-          points_earned: validationResult.score,
-          completed_at: new Date().toISOString()
-        });
+      try {
+        const { error: exerciseError } = await supabase
+          .from('user_exercise_results')
+          .insert({
+            user_id: user.id,
+            exercise_id: exerciseId,
+            user_answer: userAnswer,
+            is_correct: validationResult.isCorrect,
+            points_earned: validationResult.score,
+            completed_at: new Date().toISOString()
+          });
 
-      if (exerciseError) {
-        console.warn('Could not save to user_exercise_results:', exerciseError);
+        if (exerciseError) {
+          console.warn('Could not save to user_exercise_results:', exerciseError);
+        }
+      } catch (err) {
+        console.warn('user_exercise_results table may not exist:', err);
       }
 
       // Also submit to attempts table (new structure)
@@ -419,15 +453,26 @@ export function useLearning() {
 
         // Update total points in user progress
         const { error } = await supabase
-          .from('user_progress')
-          .update({
-            total_points: supabase.sql`total_points + ${points}`
-          })
-          .eq('user_id', user.id)
-          .eq('course_id', courseId);
+          .rpc('increment_user_points', {
+            p_user_id: user.id,
+            p_course_id: courseId,
+            p_points: points
+          });
 
         if (error) {
           console.error('Error updating user points:', error);
+          // Fallback: try direct update
+          const { error: fallbackError } = await supabase
+            .from('user_progress')
+            .update({
+              total_points: supabase.sql`total_points + ${points}`
+            })
+            .eq('user_id', user.id)
+            .eq('course_id', courseId);
+
+          if (fallbackError) {
+            console.error('Fallback error updating user points:', fallbackError);
+          }
         }
       }
     } catch (error) {
@@ -435,14 +480,21 @@ export function useLearning() {
     }
   };
 
+  // Initialize data loading
   useEffect(() => {
+    console.log('useLearning: Initializing...');
     fetchCourses();
   }, []);
 
   useEffect(() => {
     if (user) {
+      console.log('useLearning: User authenticated, fetching user data...');
       fetchUserProgress();
       fetchLearningStats();
+    } else {
+      console.log('useLearning: No user, clearing user data...');
+      setUserProgress([]);
+      setLearningStats(null);
     }
   }, [user, courses]);
 
