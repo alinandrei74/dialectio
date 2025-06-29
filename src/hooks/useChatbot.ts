@@ -8,26 +8,8 @@ interface ChatMessage {
   speaker: 'student' | 'agent';
   message: string;
   timestamp: Date;
-  analysis?: {
-    grammar_errors: string[];
-    vocabulary_suggestions: string[];
-    pronunciation_tips: string[];
-    fluency_score: number;
-  };
+  analysis?: any;
   suggestions?: string[];
-  audioUrl?: string;
-}
-
-interface AIResponse {
-  message: string;
-  analysis: {
-    grammar_errors: string[];
-    vocabulary_suggestions: string[];
-    pronunciation_tips: string[];
-    fluency_score: number;
-  };
-  suggestions: string[];
-  audioUrl?: string;
 }
 
 export function useChatbot(unit: Unit) {
@@ -36,7 +18,6 @@ export function useChatbot(unit: Unit) {
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [conversationComplete, setConversationComplete] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   // Inicializar sesión de chat
   const startChatSession = async () => {
@@ -57,21 +38,16 @@ export function useChatbot(unit: Unit) {
       if (error) throw error;
       setCurrentSession(data);
       
-      // Añadir mensaje de bienvenida usando IA
-      const welcomeMessage = await generateWelcomeMessage();
+      // Añadir mensaje de bienvenida
+      const welcomeMessage = await addChatTurn(data.id, 'agent', getWelcomeMessage());
       if (welcomeMessage) {
-        const agentTurn = await addChatTurn(data.id, 'agent', welcomeMessage.message, welcomeMessage.analysis, welcomeMessage.suggestions);
-        if (agentTurn) {
-          setMessages([{
-            id: agentTurn.id,
-            speaker: 'agent',
-            message: welcomeMessage.message,
-            timestamp: new Date(agentTurn.created_at),
-            analysis: welcomeMessage.analysis,
-            suggestions: welcomeMessage.suggestions,
-            audioUrl: welcomeMessage.audioUrl
-          }]);
-        }
+        setMessages([{
+          id: welcomeMessage.id,
+          speaker: 'agent',
+          message: welcomeMessage.utterance || '',
+          timestamp: new Date(welcomeMessage.created_at),
+          suggestions: welcomeMessage.suggestions
+        }]);
       }
     } catch (error) {
       console.error('Error starting chat session:', error);
@@ -120,59 +96,6 @@ export function useChatbot(unit: Unit) {
     }
   };
 
-  // Generar mensaje de bienvenida usando IA
-  const generateWelcomeMessage = async (): Promise<AIResponse | null> => {
-    try {
-      const response = await callAIChat('¡Hola!', []);
-      return response;
-    } catch (error) {
-      console.error('Error generating welcome message:', error);
-      // Fallback to default welcome message
-      return {
-        message: `¡Hola! Soy ${unit.agent_name || 'tu tutor'}. Estoy aquí para ayudarte a practicar. ¡Empecemos!`,
-        analysis: {
-          grammar_errors: [],
-          vocabulary_suggestions: [],
-          pronunciation_tips: [],
-          fluency_score: 0
-        },
-        suggestions: ['Preséntate y cuéntame sobre ti', 'Haz preguntas sobre el tema', 'Practica vocabulario nuevo']
-      };
-    }
-  };
-
-  // Llamar a la función de IA
-  const callAIChat = async (userMessage: string, conversationHistory: Array<{role: 'user' | 'assistant', content: string}>): Promise<AIResponse> => {
-    const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
-    
-    const headers = {
-      'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-    };
-
-    const requestBody = {
-      message: userMessage,
-      unitTitle: unit.title,
-      agentName: unit.agent_name || 'Tutor',
-      agentPrompt: unit.agent_prompt,
-      conversationHistory,
-      targetLanguage: 'español', // This could be dynamic based on course
-      userLevel: 'intermediate' // This could be dynamic based on user progress
-    };
-
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      throw new Error(`AI Chat API error: ${response.status}`);
-    }
-
-    return await response.json();
-  };
-
   // Enviar mensaje del estudiante
   const sendStudentMessage = async (message: string) => {
     if (!currentSession || !message.trim()) return;
@@ -193,39 +116,32 @@ export function useChatbot(unit: Unit) {
 
         setMessages(prev => [...prev, studentMessage]);
 
-        // Preparar historial de conversación para la IA
-        const conversationHistory = messages.map(msg => ({
-          role: msg.speaker === 'student' ? 'user' as const : 'assistant' as const,
-          content: msg.message
-        }));
-
-        // Generar respuesta del agente usando IA
-        const aiResponse = await callAIChat(message.trim(), conversationHistory);
+        // Generar respuesta del agente
+        const agentResponse = await generateAgentResponse(message.trim(), messages.length);
         
         // Guardar respuesta del agente
         const agentTurn = await addChatTurn(
           currentSession.id, 
           'agent', 
-          aiResponse.message,
-          aiResponse.analysis,
-          aiResponse.suggestions
+          agentResponse.message,
+          agentResponse.analysis,
+          agentResponse.suggestions
         );
 
         if (agentTurn) {
           const agentMessage: ChatMessage = {
             id: agentTurn.id,
             speaker: 'agent',
-            message: aiResponse.message,
+            message: agentResponse.message,
             timestamp: new Date(agentTurn.created_at),
-            analysis: aiResponse.analysis,
-            suggestions: aiResponse.suggestions,
-            audioUrl: aiResponse.audioUrl
+            analysis: agentResponse.analysis,
+            suggestions: agentResponse.suggestions
           };
 
           setMessages(prev => [...prev, agentMessage]);
 
-          // Verificar si debe terminar la conversación (después de 10-12 intercambios)
-          if (messages.length >= 20) {
+          // Verificar si debe terminar la conversación
+          if (messages.length >= 8) {
             setTimeout(() => {
               endChatSession();
             }, 2000);
@@ -234,50 +150,110 @@ export function useChatbot(unit: Unit) {
       }
     } catch (error) {
       console.error('Error sending student message:', error);
-      
-      // Add fallback message in case of AI failure
-      const fallbackMessage: ChatMessage = {
-        id: `fallback-${Date.now()}`,
-        speaker: 'agent',
-        message: 'Lo siento, ha ocurrido un problema técnico. ¿Podrías repetir tu mensaje?',
-        timestamp: new Date(),
-        analysis: {
-          grammar_errors: [],
-          vocabulary_suggestions: [],
-          pronunciation_tips: [],
-          fluency_score: 0
-        },
-        suggestions: ['Intenta reformular tu mensaje', 'Usa palabras más simples', 'Verifica tu conexión a internet']
-      };
-      
-      setMessages(prev => [...prev, fallbackMessage]);
     }
 
     setIsLoading(false);
   };
 
-  // Reproducir audio
-  const playAudio = async (audioUrl: string) => {
-    if (!audioUrl || isPlayingAudio) return;
+  // Generar respuesta del agente (simulada - en producción sería una llamada a IA)
+  const generateAgentResponse = async (userMessage: string, messageCount: number) => {
+    // Simular tiempo de procesamiento
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
 
-    try {
-      setIsPlayingAudio(true);
-      const audio = new Audio(audioUrl);
-      
-      audio.onended = () => {
-        setIsPlayingAudio(false);
-      };
-      
-      audio.onerror = () => {
-        setIsPlayingAudio(false);
-        console.error('Error playing audio');
-      };
+    const agentName = unit.agent_name || 'Tutor';
+    
+    // Análisis básico del mensaje del usuario
+    const analysis = {
+      message_length: userMessage.length,
+      contains_greeting: /hola|buenos|buenas|saludos/i.test(userMessage),
+      contains_question: userMessage.includes('?'),
+      language_detected: 'es', // En producción, esto sería detección real
+      confidence: 0.85
+    };
 
-      await audio.play();
-    } catch (error) {
-      console.error('Error playing audio:', error);
-      setIsPlayingAudio(false);
-    }
+    // Respuestas contextuales basadas en la unidad
+    const responses = getContextualResponses(unit.title, messageCount);
+    const response = responses[Math.min(Math.floor(messageCount / 2), responses.length - 1)];
+
+    return {
+      message: response.message.replace('{agentName}', agentName),
+      analysis,
+      suggestions: response.suggestions
+    };
+  };
+
+  // Obtener mensaje de bienvenida
+  const getWelcomeMessage = () => {
+    const agentName = unit.agent_name || 'Tutor';
+    
+    const welcomeMessages: Record<string, string> = {
+      'Encuentro Casual': `¡Hola! Soy ${agentName}. Estoy aquí en este café y me gustaría conocerte. ¿Cómo te llamas?`,
+      'En la Recepción': `Buenos días, soy ${agentName}, recepcionista del hotel. ¿En qué puedo ayudarle hoy?`,
+      'Saludos y Presentaciones': `¡Hola! Soy ${agentName}. Vamos a practicar presentaciones. ¿Podrías presentarte, por favor?`,
+      'Información Personal': `¡Bienvenido! Soy ${agentName}. Vamos a practicar hablando sobre información personal. ¿Cómo estás hoy?`,
+      'Conversación Básica': `¡Hola! Soy ${agentName}. Vamos a tener una conversación básica. ¿Qué tal tu día?`
+    };
+
+    return welcomeMessages[unit.title] || `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar. ¡Empecemos!`;
+  };
+
+  // Obtener respuestas contextuales
+  const getContextualResponses = (unitTitle: string, messageCount: number) => {
+    const responseTemplates: Record<string, Array<{message: string, suggestions: string[]}>> = {
+      'Encuentro Casual': [
+        {
+          message: '¡Encantada de conocerte! Yo soy {agentName}. ¿De dónde eres?',
+          suggestions: ['Practica la pronunciación', 'Uso de "ser" para origen']
+        },
+        {
+          message: '¡Qué interesante! ¿Y a qué te dedicas?',
+          suggestions: ['Vocabulario de profesiones', 'Estructura de preguntas']
+        },
+        {
+          message: 'Me parece muy bien. ¿Te gusta vivir allí?',
+          suggestions: ['Expresiones de opinión', 'Vocabulario de lugares']
+        },
+        {
+          message: 'Ha sido un placer conocerte. ¡Que tengas un buen día!',
+          suggestions: ['Despedidas formales e informales']
+        }
+      ],
+      'En la Recepción': [
+        {
+          message: 'Perfecto. ¿Tiene usted una reserva?',
+          suggestions: ['Uso formal "usted"', 'Vocabulario hotelero']
+        },
+        {
+          message: 'Muy bien. ¿Podría darme su nombre, por favor?',
+          suggestions: ['Fórmulas de cortesía', 'Registro formal']
+        },
+        {
+          message: 'Excelente. Su habitación está lista. ¿Necesita ayuda con el equipaje?',
+          suggestions: ['Servicios del hotel', 'Ofrecer ayuda']
+        },
+        {
+          message: 'Perfecto. Aquí tiene la llave. ¡Disfrute su estancia!',
+          suggestions: ['Entrega de servicios', 'Buenos deseos']
+        }
+      ]
+    };
+
+    const defaultResponses = [
+      {
+        message: '¡Muy bien! ¿Puedes contarme algo más sobre ti?',
+        suggestions: ['Información personal básica', 'Estructura de oraciones']
+      },
+      {
+        message: 'Interesante. ¿Qué te gusta hacer en tu tiempo libre?',
+        suggestions: ['Vocabulario de hobbies', 'Expresar gustos']
+      },
+      {
+        message: '¡Excelente! Has hecho un gran progreso en esta conversación.',
+        suggestions: ['Felicitaciones', 'Resumen de aprendizaje']
+      }
+    ];
+
+    return responseTemplates[unitTitle] || defaultResponses;
   };
 
   // Resetear conversación
@@ -286,7 +262,6 @@ export function useChatbot(unit: Unit) {
     setCurrentSession(null);
     setConversationComplete(false);
     setIsLoading(false);
-    setIsPlayingAudio(false);
   };
 
   // Cargar sesión existente si existe
@@ -300,10 +275,8 @@ export function useChatbot(unit: Unit) {
     messages,
     isLoading,
     conversationComplete,
-    isPlayingAudio,
     sendStudentMessage,
     resetConversation,
-    startChatSession,
-    playAudio
+    startChatSession
   };
 }

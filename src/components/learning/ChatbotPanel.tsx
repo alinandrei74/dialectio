@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, RotateCcw, CheckCircle, Loader, Play, Pause, AlertTriangle } from 'lucide-react';
+import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, RotateCcw, CheckCircle, Loader } from 'lucide-react';
 import { Unit } from '../../types/learning';
 import { useChatbot } from '../../hooks/useChatbot';
 
@@ -9,10 +9,9 @@ interface ChatbotPanelProps {
 }
 
 function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
-  const { messages, isLoading, conversationComplete, isPlayingAudio, sendStudentMessage, resetConversation, playAudio } = useChatbot(unit);
+  const { messages, isLoading, conversationComplete, sendStudentMessage, resetConversation } = useChatbot(unit);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const [showAnalysis, setShowAnalysis] = useState<string | null>(null);
 
   // Handle conversation completion
   useEffect(() => {
@@ -32,6 +31,15 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  const speakMessage = (message: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.8;
+      speechSynthesis.speak(utterance);
     }
   };
 
@@ -68,27 +76,6 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     }
   };
 
-  const handlePlayAudio = (audioUrl: string) => {
-    playAudio(audioUrl);
-  };
-
-  const toggleAnalysis = (messageId: string) => {
-    setShowAnalysis(showAnalysis === messageId ? null : messageId);
-  };
-
-  const getFluidityColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
-    return 'text-red-600 dark:text-red-400';
-  };
-
-  const getFluidityLabel = (score: number) => {
-    if (score >= 80) return 'Excelente';
-    if (score >= 60) return 'Bueno';
-    if (score >= 40) return 'Regular';
-    return 'Necesita práctica';
-  };
-
   return (
     <div className="h-full flex flex-col bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-4 border-black dark:border-gray-300 shadow-2xl"
          style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
@@ -106,7 +93,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 {unit.title}
               </h3>
               <p className="text-green-100 font-bold text-sm">
-                Conversación con {unit.agent_name || 'Tutor IA'}
+                Conversación con {unit.agent_name || 'Tutor'}
               </p>
             </div>
           </div>
@@ -126,7 +113,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           <div className="text-center py-8">
             <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400 font-bold">
-              Iniciando conversación con IA...
+              Iniciando conversación...
             </p>
           </div>
         )}
@@ -153,99 +140,18 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                     {message.message}
                   </p>
                   
-                  {/* Agent message controls */}
                   {message.speaker === 'agent' && (
                     <div className="flex items-center space-x-2 mt-2">
-                      {/* Audio playback button */}
-                      {message.audioUrl && (
-                        <button
-                          onClick={() => handlePlayAudio(message.audioUrl!)}
-                          disabled={isPlayingAudio}
-                          className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-1 rounded hover:bg-black/10 disabled:opacity-50"
-                          title="Reproducir audio"
-                        >
-                          {isPlayingAudio ? (
-                            <Pause className="w-3 h-3" />
-                          ) : (
-                            <Play className="w-3 h-3" />
-                          )}
-                          <span>Audio IA</span>
-                        </button>
-                      )}
-                      
-                      {/* Analysis toggle button */}
-                      {message.analysis && (
-                        <button
-                          onClick={() => toggleAnalysis(message.id)}
-                          className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-1 rounded hover:bg-black/10"
-                          title="Ver análisis"
-                        >
-                          <AlertTriangle className="w-3 h-3" />
-                          <span>Análisis</span>
-                        </button>
-                      )}
+                      <button
+                        onClick={() => speakMessage(message.message)}
+                        className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-1 rounded hover:bg-black/10"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>Escuchar</span>
+                      </button>
                     </div>
                   )}
                   
-                  {/* Analysis panel */}
-                  {message.analysis && showAnalysis === message.id && (
-                    <div className="mt-3 p-3 bg-black/10 rounded text-xs space-y-2">
-                      {/* Fluency Score */}
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold">Fluidez:</span>
-                        <span className={`font-black ${getFluidityColor(message.analysis.fluency_score)}`}>
-                          {message.analysis.fluency_score}/100 ({getFluidityLabel(message.analysis.fluency_score)})
-                        </span>
-                      </div>
-                      
-                      {/* Grammar Errors */}
-                      {message.analysis.grammar_errors.length > 0 && (
-                        <div>
-                          <div className="font-bold mb-1 text-red-600 dark:text-red-400">🔴 Errores gramaticales:</div>
-                          <ul className="space-y-1 opacity-90">
-                            {message.analysis.grammar_errors.map((error, index) => (
-                              <li key={index} className="flex items-start space-x-1">
-                                <span className="text-xs">•</span>
-                                <span>{error}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {/* Vocabulary Suggestions */}
-                      {message.analysis.vocabulary_suggestions.length > 0 && (
-                        <div>
-                          <div className="font-bold mb-1 text-blue-600 dark:text-blue-400">📚 Vocabulario:</div>
-                          <ul className="space-y-1 opacity-90">
-                            {message.analysis.vocabulary_suggestions.map((suggestion, index) => (
-                              <li key={index} className="flex items-start space-x-1">
-                                <span className="text-xs">•</span>
-                                <span>{suggestion}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {/* Pronunciation Tips */}
-                      {message.analysis.pronunciation_tips.length > 0 && (
-                        <div>
-                          <div className="font-bold mb-1 text-purple-600 dark:text-purple-400">🗣️ Pronunciación:</div>
-                          <ul className="space-y-1 opacity-90">
-                            {message.analysis.pronunciation_tips.map((tip, index) => (
-                              <li key={index} className="flex items-start space-x-1">
-                                <span className="text-xs">•</span>
-                                <span>{tip}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Suggestions */}
                   {message.suggestions && message.suggestions.length > 0 && (
                     <div className="mt-3 p-2 bg-black/10 rounded text-xs">
                       <div className="font-bold mb-1 flex items-center space-x-1">
@@ -277,7 +183,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 <div className="flex items-center space-x-2">
                   <Loader className="w-4 h-4 animate-spin text-gray-600 dark:text-gray-400" />
                   <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
-                    IA pensando...
+                    Escribiendo...
                   </span>
                 </div>
               </div>
@@ -326,7 +232,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           </div>
           
           <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 font-bold text-center">
-            Presiona Enter para enviar • Shift+Enter para nueva línea • Conversación potenciada por IA
+            Presiona Enter para enviar • Shift+Enter para nueva línea
           </div>
         </div>
       )}
@@ -338,14 +244,14 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
             <div className="flex items-center justify-center space-x-2 mb-3">
               <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
               <p className="text-green-800 dark:text-green-200 font-bold">
-                ¡Excelente trabajo! Has completado esta conversación con IA.
+                ¡Excelente trabajo! Has completado esta conversación.
               </p>
             </div>
             
             <div className="bg-green-100/90 dark:bg-green-800/30 border-2 border-green-500 p-4 shadow-md"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <div className="text-green-800 dark:text-green-200 font-bold text-sm mb-2">
-                📈 Resumen de la conversación:
+                📈 Progreso de la conversación:
               </div>
               <div className="text-green-700 dark:text-green-300 font-bold text-sm">
                 • {messages.filter(m => m.speaker === 'student').length} mensajes enviados
@@ -360,7 +266,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Nueva conversación</span>
+              <span>Practicar de nuevo</span>
             </button>
           </div>
         </div>
