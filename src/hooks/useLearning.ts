@@ -297,7 +297,7 @@ export function useLearning() {
           )
         `)
         .eq('phases.part_id', partId)
-        .order('phases.phase_order', { ascending: true })
+        .order('phase_order', { foreignTable: 'phases', ascending: true })
         .order('unit_order', { ascending: true });
 
       if (error) {
