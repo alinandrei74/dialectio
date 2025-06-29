@@ -64,6 +64,22 @@ function HomePage() {
       
       <CTASection t={t} onStartClick={handleStartClick} />
       
+      {/* Bolt Badge */}
+      <div className="flex justify-center my-8">
+        <a 
+          href="https://bolt.new/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="transition-transform hover:scale-110 duration-300"
+        >
+          <img 
+            src="/white_circle_360x360.svg" 
+            alt="Built with Bolt" 
+            className="w-16 h-16 md:w-20 md:h-20"
+          />
+        </a>
+      </div>
+      
       <Footer t={t} />
     </div>
   );
