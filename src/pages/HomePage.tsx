@@ -36,6 +36,22 @@ function HomePage() {
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
       <BackgroundElements />
       
+      {/* Bolt Badge */}
+      <div className="fixed top-4 left-4 z-50">
+        <a 
+          href="https://bolt.new/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block transition-transform hover:scale-110 duration-300"
+        >
+          <img 
+            src="/white_circle_360x360.svg" 
+            alt="Made with Bolt" 
+            className="w-12 h-12 md:w-16 md:h-16"
+          />
+        </a>
+      </div>
+      
       <Navigation 
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
