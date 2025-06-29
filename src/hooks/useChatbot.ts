@@ -8,8 +8,15 @@ interface ChatMessage {
   speaker: 'student' | 'agent';
   message: string;
   timestamp: Date;
-  analysis?: any;
+  analysis?: {
+    grammar_errors: string[];
+    vocabulary_suggestions: string[];
+    fluency_score: number;
+    confidence_level: 'low' | 'medium' | 'high';
+  };
   suggestions?: string[];
+  audioUrl?: string;
+  isPlaying?: boolean;
 }
 
 export function useChatbot(unit: Unit) {
@@ -18,12 +25,16 @@ export function useChatbot(unit: Unit) {
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [conversationComplete, setConversationComplete] = useState(false);
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   // Inicializar sesión de chat
   const startChatSession = async () => {
     if (!user || !unit) return;
 
     try {
+      console.log('🚀 Starting chat session for unit:', unit.title);
+      
       const { data, error } = await supabase
         .from('chat_sessions')
         .insert({
@@ -38,19 +49,178 @@ export function useChatbot(unit: Unit) {
       if (error) throw error;
       setCurrentSession(data);
       
-      // Añadir mensaje de bienvenida
-      const welcomeMessage = await addChatTurn(data.id, 'agent', getWelcomeMessage());
+      console.log('✅ Chat session created:', data.id);
+      
+      // Generar mensaje de bienvenida usando IA
+      await generateWelcomeMessage(data.id);
+      
+    } catch (error) {
+      console.error('❌ Error starting chat session:', error);
+    }
+  };
+
+  // Generar mensaje de bienvenida con IA
+  const generateWelcomeMessage = async (sessionId: string) => {
+    try {
+      setIsLoading(true);
+      
+      const welcomeResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          unitId: unit.id,
+          userMessage: '[INICIO_CONVERSACION]',
+          conversationHistory: [],
+          agentName: unit.agent_name || 'Tutor',
+          agentPrompt: unit.agent_prompt || `Inicia una conversación sobre "${unit.title}". Saluda al estudiante y haz una pregunta inicial para comenzar la práctica.`,
+          unitTitle: unit.title
+        }),
+      });
+
+      if (!welcomeResponse.ok) {
+        throw new Error('Failed to generate welcome message');
+      }
+
+      const welcomeData = await welcomeResponse.json();
+      
+      // Guardar mensaje de bienvenida
+      const welcomeMessage = await addChatTurn(
+        sessionId, 
+        'agent', 
+        welcomeData.message,
+        welcomeData.analysis,
+        welcomeData.suggestions
+      );
+      
       if (welcomeMessage) {
-        setMessages([{
+        const messageObj: ChatMessage = {
           id: welcomeMessage.id,
           speaker: 'agent',
-          message: welcomeMessage.utterance || '',
+          message: welcomeData.message,
           timestamp: new Date(welcomeMessage.created_at),
-          suggestions: welcomeMessage.suggestions
+          analysis: welcomeData.analysis,
+          suggestions: welcomeData.suggestions
+        };
+
+        setMessages([messageObj]);
+        
+        // Generar audio para el mensaje de bienvenida
+        await generateAudioForMessage(messageObj);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error generating welcome message:', error);
+      // Fallback to simple welcome message
+      const fallbackMessage = await addChatTurn(sessionId, 'agent', getSimpleWelcomeMessage());
+      if (fallbackMessage) {
+        setMessages([{
+          id: fallbackMessage.id,
+          speaker: 'agent',
+          message: fallbackMessage.utterance || '',
+          timestamp: new Date(fallbackMessage.created_at)
         }]);
       }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generar audio para un mensaje
+  const generateAudioForMessage = async (message: ChatMessage) => {
+    if (message.speaker !== 'agent') return;
+
+    try {
+      setIsGeneratingAudio(true);
+      
+      const audioResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: message.message,
+          voice: 'Bella', // Default Spanish voice
+          language: 'es'
+        }),
+      });
+
+      if (!audioResponse.ok) {
+        throw new Error('Failed to generate audio');
+      }
+
+      const audioBlob = await audioResponse.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      // Update message with audio URL
+      setMessages(prev => prev.map(msg => 
+        msg.id === message.id 
+          ? { ...msg, audioUrl }
+          : msg
+      ));
+      
+      console.log('🔊 Audio generated for message:', message.id);
+      
     } catch (error) {
-      console.error('Error starting chat session:', error);
+      console.error('❌ Error generating audio:', error);
+    } finally {
+      setIsGeneratingAudio(false);
+    }
+  };
+
+  // Reproducir audio de un mensaje
+  const playMessageAudio = async (message: ChatMessage) => {
+    if (!message.audioUrl) {
+      // Generate audio if not available
+      await generateAudioForMessage(message);
+      return;
+    }
+
+    try {
+      // Stop current audio if playing
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+
+      const audio = new Audio(message.audioUrl);
+      setCurrentAudio(audio);
+      
+      // Update playing state
+      setMessages(prev => prev.map(msg => ({
+        ...msg,
+        isPlaying: msg.id === message.id
+      })));
+
+      audio.onended = () => {
+        setMessages(prev => prev.map(msg => ({
+          ...msg,
+          isPlaying: false
+        })));
+        setCurrentAudio(null);
+      };
+
+      audio.onerror = () => {
+        console.error('❌ Error playing audio');
+        setMessages(prev => prev.map(msg => ({
+          ...msg,
+          isPlaying: false
+        })));
+        setCurrentAudio(null);
+      };
+
+      await audio.play();
+      console.log('🔊 Playing audio for message:', message.id);
+      
+    } catch (error) {
+      console.error('❌ Error playing audio:', error);
+      setMessages(prev => prev.map(msg => ({
+        ...msg,
+        isPlaying: false
+      })));
     }
   };
 
@@ -68,8 +238,9 @@ export function useChatbot(unit: Unit) {
 
       if (error) throw error;
       setConversationComplete(true);
+      console.log('✅ Chat session completed');
     } catch (error) {
-      console.error('Error ending chat session:', error);
+      console.error('❌ Error ending chat session:', error);
     }
   };
 
@@ -91,7 +262,7 @@ export function useChatbot(unit: Unit) {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error('Error adding chat turn:', error);
+      console.error('❌ Error adding chat turn:', error);
       return null;
     }
   };
@@ -103,6 +274,8 @@ export function useChatbot(unit: Unit) {
     setIsLoading(true);
 
     try {
+      console.log('📤 Sending student message:', message);
+      
       // Guardar mensaje del estudiante
       const studentTurn = await addChatTurn(currentSession.id, 'student', message.trim());
       
@@ -116,32 +289,61 @@ export function useChatbot(unit: Unit) {
 
         setMessages(prev => [...prev, studentMessage]);
 
-        // Generar respuesta del agente
-        const agentResponse = await generateAgentResponse(message.trim(), messages.length);
+        // Preparar historial de conversación para la IA
+        const conversationHistory = messages.map(msg => ({
+          role: msg.speaker === 'student' ? 'user' as const : 'assistant' as const,
+          content: msg.message
+        }));
+
+        // Generar respuesta del agente usando IA
+        const aiResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            unitId: unit.id,
+            userMessage: message.trim(),
+            conversationHistory,
+            agentName: unit.agent_name || 'Tutor',
+            agentPrompt: unit.agent_prompt || `Continúa la conversación sobre "${unit.title}". Proporciona retroalimentación constructiva y mantén la conversación fluida.`,
+            unitTitle: unit.title
+          }),
+        });
+
+        if (!aiResponse.ok) {
+          throw new Error('Failed to get AI response');
+        }
+
+        const aiData = await aiResponse.json();
         
         // Guardar respuesta del agente
         const agentTurn = await addChatTurn(
           currentSession.id, 
           'agent', 
-          agentResponse.message,
-          agentResponse.analysis,
-          agentResponse.suggestions
+          aiData.message,
+          aiData.analysis,
+          aiData.suggestions
         );
 
         if (agentTurn) {
           const agentMessage: ChatMessage = {
             id: agentTurn.id,
             speaker: 'agent',
-            message: agentResponse.message,
+            message: aiData.message,
             timestamp: new Date(agentTurn.created_at),
-            analysis: agentResponse.analysis,
-            suggestions: agentResponse.suggestions
+            analysis: aiData.analysis,
+            suggestions: aiData.suggestions
           };
 
           setMessages(prev => [...prev, agentMessage]);
 
+          // Generar audio para la respuesta del agente
+          await generateAudioForMessage(agentMessage);
+
           // Verificar si debe terminar la conversación
-          if (messages.length >= 8) {
+          if (aiData.conversationComplete || messages.length >= 16) {
             setTimeout(() => {
               endChatSession();
             }, 2000);
@@ -149,41 +351,14 @@ export function useChatbot(unit: Unit) {
         }
       }
     } catch (error) {
-      console.error('Error sending student message:', error);
+      console.error('❌ Error sending student message:', error);
     }
 
     setIsLoading(false);
   };
 
-  // Generar respuesta del agente (simulada - en producción sería una llamada a IA)
-  const generateAgentResponse = async (userMessage: string, messageCount: number) => {
-    // Simular tiempo de procesamiento
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
-
-    const agentName = unit.agent_name || 'Tutor';
-    
-    // Análisis básico del mensaje del usuario
-    const analysis = {
-      message_length: userMessage.length,
-      contains_greeting: /hola|buenos|buenas|saludos/i.test(userMessage),
-      contains_question: userMessage.includes('?'),
-      language_detected: 'es', // En producción, esto sería detección real
-      confidence: 0.85
-    };
-
-    // Respuestas contextuales basadas en la unidad
-    const responses = getContextualResponses(unit.title, messageCount);
-    const response = responses[Math.min(Math.floor(messageCount / 2), responses.length - 1)];
-
-    return {
-      message: response.message.replace('{agentName}', agentName),
-      analysis,
-      suggestions: response.suggestions
-    };
-  };
-
-  // Obtener mensaje de bienvenida
-  const getWelcomeMessage = () => {
+  // Obtener mensaje de bienvenida simple (fallback)
+  const getSimpleWelcomeMessage = () => {
     const agentName = unit.agent_name || 'Tutor';
     
     const welcomeMessages: Record<string, string> = {
@@ -194,74 +369,30 @@ export function useChatbot(unit: Unit) {
       'Conversación Básica': `¡Hola! Soy ${agentName}. Vamos a tener una conversación básica. ¿Qué tal tu día?`
     };
 
-    return welcomeMessages[unit.title] || `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar. ¡Empecemos!`;
-  };
-
-  // Obtener respuestas contextuales
-  const getContextualResponses = (unitTitle: string, messageCount: number) => {
-    const responseTemplates: Record<string, Array<{message: string, suggestions: string[]}>> = {
-      'Encuentro Casual': [
-        {
-          message: '¡Encantada de conocerte! Yo soy {agentName}. ¿De dónde eres?',
-          suggestions: ['Practica la pronunciación', 'Uso de "ser" para origen']
-        },
-        {
-          message: '¡Qué interesante! ¿Y a qué te dedicas?',
-          suggestions: ['Vocabulario de profesiones', 'Estructura de preguntas']
-        },
-        {
-          message: 'Me parece muy bien. ¿Te gusta vivir allí?',
-          suggestions: ['Expresiones de opinión', 'Vocabulario de lugares']
-        },
-        {
-          message: 'Ha sido un placer conocerte. ¡Que tengas un buen día!',
-          suggestions: ['Despedidas formales e informales']
-        }
-      ],
-      'En la Recepción': [
-        {
-          message: 'Perfecto. ¿Tiene usted una reserva?',
-          suggestions: ['Uso formal "usted"', 'Vocabulario hotelero']
-        },
-        {
-          message: 'Muy bien. ¿Podría darme su nombre, por favor?',
-          suggestions: ['Fórmulas de cortesía', 'Registro formal']
-        },
-        {
-          message: 'Excelente. Su habitación está lista. ¿Necesita ayuda con el equipaje?',
-          suggestions: ['Servicios del hotel', 'Ofrecer ayuda']
-        },
-        {
-          message: 'Perfecto. Aquí tiene la llave. ¡Disfrute su estancia!',
-          suggestions: ['Entrega de servicios', 'Buenos deseos']
-        }
-      ]
-    };
-
-    const defaultResponses = [
-      {
-        message: '¡Muy bien! ¿Puedes contarme algo más sobre ti?',
-        suggestions: ['Información personal básica', 'Estructura de oraciones']
-      },
-      {
-        message: 'Interesante. ¿Qué te gusta hacer en tu tiempo libre?',
-        suggestions: ['Vocabulario de hobbies', 'Expresar gustos']
-      },
-      {
-        message: '¡Excelente! Has hecho un gran progreso en esta conversación.',
-        suggestions: ['Felicitaciones', 'Resumen de aprendizaje']
-      }
-    ];
-
-    return responseTemplates[unitTitle] || defaultResponses;
+    return welcomeMessages[unit.title] || `¡Hola! Soy ${agentName}. Estoy aquí para ayudarte a practicar español. ¡Empecemos!`;
   };
 
   // Resetear conversación
   const resetConversation = () => {
+    // Stop any playing audio
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+    }
+
+    // Clean up audio URLs
+    messages.forEach(msg => {
+      if (msg.audioUrl) {
+        URL.revokeObjectURL(msg.audioUrl);
+      }
+    });
+
     setMessages([]);
     setCurrentSession(null);
     setConversationComplete(false);
     setIsLoading(false);
+    setIsGeneratingAudio(false);
   };
 
   // Cargar sesión existente si existe
@@ -269,14 +400,30 @@ export function useChatbot(unit: Unit) {
     if (user && unit && !currentSession) {
       startChatSession();
     }
+
+    // Cleanup on unmount
+    return () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        setCurrentAudio(null);
+      }
+      // Clean up audio URLs
+      messages.forEach(msg => {
+        if (msg.audioUrl) {
+          URL.revokeObjectURL(msg.audioUrl);
+        }
+      });
+    };
   }, [user, unit]);
 
   return {
     messages,
     isLoading,
+    isGeneratingAudio,
     conversationComplete,
     sendStudentMessage,
     resetConversation,
-    startChatSession
+    startChatSession,
+    playMessageAudio
   };
 }

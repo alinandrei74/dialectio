@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, RotateCcw, CheckCircle, Loader } from 'lucide-react';
+import { MessageCircle, Send, Bot, User, Mic, MicOff, Volume2, VolumeX, RotateCcw, CheckCircle, Loader, Play, Pause, AlertCircle } from 'lucide-react';
 import { Unit } from '../../types/learning';
 import { useChatbot } from '../../hooks/useChatbot';
 
@@ -9,9 +9,57 @@ interface ChatbotPanelProps {
 }
 
 function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
-  const { messages, isLoading, conversationComplete, sendStudentMessage, resetConversation } = useChatbot(unit);
+  const { 
+    messages, 
+    isLoading, 
+    isGeneratingAudio,
+    conversationComplete, 
+    sendStudentMessage, 
+    resetConversation,
+    playMessageAudio
+  } = useChatbot(unit);
+  
   const [currentMessage, setCurrentMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const [speechRecognition, setSpeechRecognition] = useState<any>(null);
+  const [speechSupported, setSpeechSupported] = useState(false);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.lang = 'es-ES';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setCurrentMessage(transcript);
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      setSpeechRecognition(recognition);
+      setSpeechSupported(true);
+    } else {
+      setSpeechSupported(false);
+    }
+  }, []);
 
   // Handle conversation completion
   useEffect(() => {
@@ -34,46 +82,41 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
     }
   };
 
-  const speakMessage = (message: string) => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = 'es-ES';
-      utterance.rate = 0.8;
-      speechSynthesis.speak(utterance);
+  const startVoiceRecognition = () => {
+    if (speechRecognition && speechSupported) {
+      try {
+        speechRecognition.start();
+      } catch (error) {
+        console.error('Error starting speech recognition:', error);
+        setIsListening(false);
+      }
     }
   };
 
-  const startVoiceRecognition = () => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
-      const recognition = new SpeechRecognition();
-      
-      recognition.lang = 'es-ES';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onstart = () => {
-        setIsListening(true);
-      };
-
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setCurrentMessage(transcript);
-        setIsListening(false);
-      };
-
-      recognition.onerror = () => {
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognition.start();
-    } else {
-      alert('Tu navegador no soporta reconocimiento de voz');
+  const stopVoiceRecognition = () => {
+    if (speechRecognition) {
+      speechRecognition.stop();
+      setIsListening(false);
     }
+  };
+
+  const handlePlayAudio = (message: any) => {
+    playMessageAudio(message);
+  };
+
+  const getAnalysisColor = (level: string) => {
+    switch (level) {
+      case 'high': return 'text-green-600 dark:text-green-400';
+      case 'medium': return 'text-yellow-600 dark:text-yellow-400';
+      case 'low': return 'text-red-600 dark:text-red-400';
+      default: return 'text-gray-600 dark:text-gray-400';
+    }
+  };
+
+  const getFluidityColor = (score: number) => {
+    if (score >= 80) return 'text-green-600 dark:text-green-400';
+    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
+    return 'text-red-600 dark:text-red-400';
   };
 
   return (
@@ -93,7 +136,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 {unit.title}
               </h3>
               <p className="text-green-100 font-bold text-sm">
-                Conversación con {unit.agent_name || 'Tutor'}
+                Conversación con {unit.agent_name || 'Tutor'} • IA + Voz
               </p>
             </div>
           </div>
@@ -102,6 +145,13 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
             <div className="flex items-center space-x-2">
               <CheckCircle className="w-6 h-6 text-white" />
               <span className="font-bold text-sm">¡Completado!</span>
+            </div>
+          )}
+
+          {isGeneratingAudio && (
+            <div className="flex items-center space-x-2">
+              <Loader className="w-5 h-5 animate-spin text-white" />
+              <span className="font-bold text-sm">Generando audio...</span>
             </div>
           )}
         </div>
@@ -113,7 +163,10 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           <div className="text-center py-8">
             <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400 font-bold">
-              Iniciando conversación...
+              Iniciando conversación inteligente...
+            </p>
+            <p className="text-gray-500 dark:text-gray-500 font-bold text-sm mt-2">
+              🤖 Powered by OpenAI • 🔊 Powered by ElevenLabs
             </p>
           </div>
         )}
@@ -140,23 +193,98 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                     {message.message}
                   </p>
                   
+                  {/* Audio Controls for Agent Messages */}
                   {message.speaker === 'agent' && (
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="flex items-center space-x-2 mt-3">
                       <button
-                        onClick={() => speakMessage(message.message)}
-                        className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-1 rounded hover:bg-black/10"
+                        onClick={() => handlePlayAudio(message)}
+                        disabled={isGeneratingAudio}
+                        className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center space-x-1 p-2 rounded hover:bg-black/10 disabled:opacity-50"
+                        title={message.audioUrl ? 'Reproducir audio' : 'Generar audio'}
                       >
-                        <Volume2 className="w-3 h-3" />
-                        <span>Escuchar</span>
+                        {message.isPlaying ? (
+                          <Pause className="w-4 h-4" />
+                        ) : message.audioUrl ? (
+                          <Volume2 className="w-4 h-4" />
+                        ) : (
+                          <Play className="w-4 h-4" />
+                        )}
+                        <span>
+                          {message.isPlaying ? 'Pausar' : 
+                           message.audioUrl ? 'Escuchar' : 
+                           'Generar audio'}
+                        </span>
                       </button>
                     </div>
                   )}
                   
+                  {/* Analysis for Student Messages */}
+                  {message.speaker === 'student' && message.analysis && (
+                    <div className="mt-3 p-3 bg-black/10 rounded text-xs">
+                      <div className="font-bold mb-2 flex items-center space-x-1">
+                        <span>📊</span>
+                        <span>Análisis de IA:</span>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        {/* Fluency Score */}
+                        <div className="flex items-center justify-between">
+                          <span>Fluidez:</span>
+                          <span className={`font-bold ${getFluidityColor(message.analysis.fluency_score)}`}>
+                            {message.analysis.fluency_score}/100
+                          </span>
+                        </div>
+                        
+                        {/* Confidence Level */}
+                        <div className="flex items-center justify-between">
+                          <span>Confianza:</span>
+                          <span className={`font-bold ${getAnalysisColor(message.analysis.confidence_level)}`}>
+                            {message.analysis.confidence_level === 'high' ? 'Alta' :
+                             message.analysis.confidence_level === 'medium' ? 'Media' : 'Baja'}
+                          </span>
+                        </div>
+                        
+                        {/* Grammar Errors */}
+                        {message.analysis.grammar_errors.length > 0 && (
+                          <div>
+                            <div className="font-bold text-red-600 dark:text-red-400 mb-1">
+                              ⚠️ Errores gramaticales:
+                            </div>
+                            <ul className="space-y-1">
+                              {message.analysis.grammar_errors.map((error, index) => (
+                                <li key={index} className="text-red-600 dark:text-red-400">
+                                  • {error}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {/* Vocabulary Suggestions */}
+                        {message.analysis.vocabulary_suggestions.length > 0 && (
+                          <div>
+                            <div className="font-bold text-blue-600 dark:text-blue-400 mb-1">
+                              💡 Sugerencias de vocabulario:
+                            </div>
+                            <ul className="space-y-1">
+                              {message.analysis.vocabulary_suggestions.map((suggestion, index) => (
+                                <li key={index} className="text-blue-600 dark:text-blue-400">
+                                  • {suggestion}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Teaching Suggestions for Agent Messages */}
                   {message.suggestions && message.suggestions.length > 0 && (
                     <div className="mt-3 p-2 bg-black/10 rounded text-xs">
                       <div className="font-bold mb-1 flex items-center space-x-1">
-                        <span>💡</span>
-                        <span>Consejos:</span>
+                        <span>🎯</span>
+                        <span>Consejos del tutor:</span>
                       </div>
                       <ul className="space-y-1 opacity-90">
                         {message.suggestions.map((suggestion, index) => (
@@ -183,7 +311,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 <div className="flex items-center space-x-2">
                   <Loader className="w-4 h-4 animate-spin text-gray-600 dark:text-gray-400" />
                   <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
-                    Escribiendo...
+                    {unit.agent_name || 'Tutor'} está pensando...
                   </span>
                 </div>
               </div>
@@ -195,6 +323,24 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
       {/* Input Area */}
       {!conversationComplete && (
         <div className="p-4 border-t-3 border-black dark:border-gray-300 bg-gray-50/50 dark:bg-gray-800/50">
+          {/* Speech Recognition Status */}
+          {isListening && (
+            <div className="mb-3 p-2 bg-red-100 dark:bg-red-900/30 border-2 border-red-500 text-red-700 dark:text-red-300 text-center font-bold text-sm flex items-center justify-center space-x-2"
+                 style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+              <Mic className="w-4 h-4 animate-pulse" />
+              <span>Escuchando... Habla ahora</span>
+            </div>
+          )}
+
+          {/* Speech Recognition Error */}
+          {!speechSupported && (
+            <div className="mb-3 p-2 bg-yellow-100 dark:bg-yellow-900/30 border-2 border-yellow-500 text-yellow-700 dark:text-yellow-300 text-center font-bold text-xs flex items-center justify-center space-x-2"
+                 style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
+              <AlertCircle className="w-4 h-4" />
+              <span>Reconocimiento de voz no disponible en este navegador</span>
+            </div>
+          )}
+
           <div className="flex items-end space-x-3">
             <div className="flex-1 relative">
               <textarea
@@ -208,17 +354,21 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
                 disabled={isLoading}
               />
               
-              <button
-                onClick={isListening ? () => setIsListening(false) : startVoiceRecognition}
-                className={`absolute right-3 top-3 p-2 rounded-full transition-all duration-300 ${
-                  isListening 
-                    ? 'bg-red-500 text-white animate-pulse' 
-                    : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-500'
-                }`}
-                title={isListening ? 'Detener grabación' : 'Grabar audio'}
-              >
-                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              </button>
+              {/* Voice Recognition Button */}
+              {speechSupported && (
+                <button
+                  onClick={isListening ? stopVoiceRecognition : startVoiceRecognition}
+                  disabled={isLoading}
+                  className={`absolute right-3 top-3 p-2 rounded-full transition-all duration-300 ${
+                    isListening 
+                      ? 'bg-red-500 text-white animate-pulse' 
+                      : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-500'
+                  } disabled:opacity-50`}
+                  title={isListening ? 'Detener grabación' : 'Grabar audio'}
+                >
+                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                </button>
+              )}
             </div>
             
             <button
@@ -232,7 +382,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
           </div>
           
           <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 font-bold text-center">
-            Presiona Enter para enviar • Shift+Enter para nueva línea
+            Presiona Enter para enviar • {speechSupported ? 'Usa el micrófono para hablar • ' : ''}Shift+Enter para nueva línea
           </div>
         </div>
       )}
@@ -244,18 +394,19 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
             <div className="flex items-center justify-center space-x-2 mb-3">
               <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
               <p className="text-green-800 dark:text-green-200 font-bold">
-                ¡Excelente trabajo! Has completado esta conversación.
+                ¡Excelente trabajo! Has completado esta conversación inteligente.
               </p>
             </div>
             
             <div className="bg-green-100/90 dark:bg-green-800/30 border-2 border-green-500 p-4 shadow-md"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <div className="text-green-800 dark:text-green-200 font-bold text-sm mb-2">
-                📈 Progreso de la conversación:
+                🎯 Resumen de la conversación:
               </div>
               <div className="text-green-700 dark:text-green-300 font-bold text-sm">
                 • {messages.filter(m => m.speaker === 'student').length} mensajes enviados
-                • Conversación completada exitosamente
+                • Conversación con IA completada exitosamente
+                • Análisis en tiempo real de tu español
                 • ¡Sigue practicando para mejorar tu fluidez!
               </div>
             </div>
@@ -266,7 +417,7 @@ function ChatbotPanel({ unit, onComplete }: ChatbotPanelProps) {
               style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Practicar de nuevo</span>
+              <span>Nueva conversación</span>
             </button>
           </div>
         </div>
