@@ -6,7 +6,6 @@ export interface Course {
   description: string;
   target_language: string;
   source_language: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
   total_lessons: number;
   estimated_hours: number;
   image_url?: string;

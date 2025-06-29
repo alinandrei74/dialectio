@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Target, Play, Star, Globe, Flag } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -277,7 +277,7 @@ function LearningDashboard() {
             <div className="bg-yellow-50/90 dark:bg-gray-700/90 backdrop-blur-md p-6 border-4 border-black dark:border-gray-300 shadow-xl text-center"
                  style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
               <div className="w-16 h-16 bg-gradient-to-br from-yellow-600 to-orange-600 flex items-center justify-center mx-auto mb-4 border-3 border-black dark:border-gray-300 transform rotate-45 shadow-xl">
-                <Target className="w-8 h-8 text-white transform -rotate-45" />
+                <Languages className="w-8 h-8 text-white transform -rotate-45" />
               </div>
               <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-2">
                 {learningStats.completed_lessons}

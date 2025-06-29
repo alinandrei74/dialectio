@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Clock, Target, Award, Play, Users, Globe, Star, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Clock, Award, Play, Users, Globe, Star, CheckCircle } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -366,7 +366,7 @@ function CourseOverviewPage() {
               </div>
 
               {/* Course Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                 <div className="bg-blue-50/90 dark:bg-gray-700/90 p-4 border-2 border-blue-300 dark:border-blue-500 shadow-md text-center"
                      style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
                   <BookOpen className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
@@ -389,19 +389,8 @@ function CourseOverviewPage() {
                   </div>
                 </div>
 
-                <div className="bg-purple-50/90 dark:bg-gray-700/90 p-4 border-2 border-purple-300 dark:border-purple-500 shadow-md text-center"
-                     style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-                  <Target className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
-                  <div className="text-2xl font-black text-gray-900 dark:text-gray-100 capitalize">
-                    {course.level}
-                  </div>
-                  <div className="text-xs font-bold text-gray-600 dark:text-gray-400">
-                    Nivel
-                  </div>
-                </div>
-
                 <div className="bg-orange-50/90 dark:bg-gray-700/90 p-4 border-2 border-orange-300 dark:border-orange-500 shadow-md text-center"
-                     style={{ clipPath: 'polygon(0% 0%, 97% 0%, 100% 100%, 3% 100%)' }}>
+                     style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
                   <Users className="w-8 h-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
                   <div className="text-2xl font-black text-gray-900 dark:text-gray-100">
                     1.2k
@@ -540,7 +529,7 @@ function CourseOverviewPage() {
                     <h3 className="font-black text-gray-900 dark:text-gray-100">
                       Conversación Real
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 font-bold">
+                    <p className="text-sm text-gray-600 dark-text-gray-400 font-bold">
                       Practica diálogos auténticos para situaciones cotidianas.
                     </p>
                   </div>
