@@ -21,10 +21,25 @@ serve(async (req) => {
   try {
     const { text, voice = 'Bella', language = 'es' }: TTSRequest = await req.json()
 
+    // Validate input
+    if (!text || text.trim().length === 0) {
+      throw new Error('Text is required for speech synthesis')
+    }
+
     // Get ElevenLabs API key from environment
     const elevenLabsApiKey = Deno.env.get('ELEVENLABS_API_KEY')
     if (!elevenLabsApiKey) {
-      throw new Error('ElevenLabs API key not configured')
+      console.error('ElevenLabs API key not configured')
+      return new Response(
+        JSON.stringify({ 
+          error: 'Text-to-speech service not configured',
+          details: 'API key missing'
+        }),
+        { 
+          status: 503,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
     }
 
     // Voice ID mapping for different languages and styles
@@ -71,6 +86,8 @@ serve(async (req) => {
       }
     }
 
+    console.log(`Generating speech for text: "${text.substring(0, 50)}..." with voice: ${voice} (${selectedVoiceId})`)
+
     // Call ElevenLabs API
     const elevenLabsResponse = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}`,
@@ -96,12 +113,55 @@ serve(async (req) => {
 
     if (!elevenLabsResponse.ok) {
       const errorText = await elevenLabsResponse.text()
-      console.error('ElevenLabs API error:', errorText)
-      throw new Error(`ElevenLabs API error: ${elevenLabsResponse.status}`)
+      console.error('ElevenLabs API error:', {
+        status: elevenLabsResponse.status,
+        statusText: elevenLabsResponse.statusText,
+        error: errorText
+      })
+
+      // Handle specific error cases
+      if (elevenLabsResponse.status === 401) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'Text-to-speech authentication failed',
+            details: 'Invalid or expired API key'
+          }),
+          { 
+            status: 401,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        )
+      } else if (elevenLabsResponse.status === 429) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'Text-to-speech rate limit exceeded',
+            details: 'Too many requests to the speech service'
+          }),
+          { 
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        )
+      } else if (elevenLabsResponse.status === 422) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'Text-to-speech validation error',
+            details: 'Invalid text or voice parameters'
+          }),
+          { 
+            status: 422,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        )
+      }
+
+      throw new Error(`ElevenLabs API error: ${elevenLabsResponse.status} - ${errorText}`)
     }
 
     // Get the audio data
     const audioData = await elevenLabsResponse.arrayBuffer()
+
+    console.log(`Successfully generated ${audioData.byteLength} bytes of audio`)
 
     // Return the audio file
     return new Response(audioData, {

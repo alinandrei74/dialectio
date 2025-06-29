@@ -17,6 +17,7 @@ interface ChatMessage {
   suggestions?: string[];
   audioUrl?: string;
   isPlaying?: boolean;
+  audioError?: boolean;
 }
 
 export function useChatbot(unit: Unit) {
@@ -27,6 +28,7 @@ export function useChatbot(unit: Unit) {
   const [conversationComplete, setConversationComplete] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
+  const [audioServiceAvailable, setAudioServiceAvailable] = useState(true);
 
   // Inicializar sesión de chat
   const startChatSession = async () => {
@@ -107,8 +109,12 @@ export function useChatbot(unit: Unit) {
 
         setMessages([messageObj]);
         
-        // Generar audio para el mensaje de bienvenida
-        await generateAudioForMessage(messageObj);
+        // Generar audio para el mensaje de bienvenida (sin bloquear la UI)
+        if (audioServiceAvailable) {
+          generateAudioForMessage(messageObj).catch(error => {
+            console.warn('⚠️ Audio generation failed for welcome message:', error.message);
+          });
+        }
       }
       
     } catch (error) {
@@ -130,7 +136,7 @@ export function useChatbot(unit: Unit) {
 
   // Generar audio para un mensaje
   const generateAudioForMessage = async (message: ChatMessage) => {
-    if (message.speaker !== 'agent') return;
+    if (message.speaker !== 'agent' || !audioServiceAvailable) return;
 
     try {
       setIsGeneratingAudio(true);
@@ -149,7 +155,38 @@ export function useChatbot(unit: Unit) {
       });
 
       if (!audioResponse.ok) {
-        throw new Error('Failed to generate audio');
+        const errorData = await audioResponse.json().catch(() => ({ error: 'Unknown error' }));
+        
+        // Handle specific error cases
+        if (audioResponse.status === 401) {
+          console.warn('⚠️ Text-to-speech service authentication failed. Audio disabled.');
+          setAudioServiceAvailable(false);
+          setMessages(prev => prev.map(msg => 
+            msg.id === message.id 
+              ? { ...msg, audioError: true }
+              : msg
+          ));
+          return;
+        } else if (audioResponse.status === 503) {
+          console.warn('⚠️ Text-to-speech service not configured. Audio disabled.');
+          setAudioServiceAvailable(false);
+          setMessages(prev => prev.map(msg => 
+            msg.id === message.id 
+              ? { ...msg, audioError: true }
+              : msg
+          ));
+          return;
+        } else if (audioResponse.status === 429) {
+          console.warn('⚠️ Text-to-speech rate limit exceeded. Skipping audio for this message.');
+          setMessages(prev => prev.map(msg => 
+            msg.id === message.id 
+              ? { ...msg, audioError: true }
+              : msg
+          ));
+          return;
+        }
+
+        throw new Error(errorData.details || errorData.error || 'Failed to generate audio');
       }
 
       const audioBlob = await audioResponse.blob();
@@ -158,14 +195,21 @@ export function useChatbot(unit: Unit) {
       // Update message with audio URL
       setMessages(prev => prev.map(msg => 
         msg.id === message.id 
-          ? { ...msg, audioUrl }
+          ? { ...msg, audioUrl, audioError: false }
           : msg
       ));
       
       console.log('🔊 Audio generated for message:', message.id);
       
     } catch (error) {
-      console.error('❌ Error generating audio:', error);
+      console.warn('⚠️ Error generating audio:', error.message);
+      
+      // Mark message as having audio error but don't break the flow
+      setMessages(prev => prev.map(msg => 
+        msg.id === message.id 
+          ? { ...msg, audioError: true }
+          : msg
+      ));
     } finally {
       setIsGeneratingAudio(false);
     }
@@ -173,6 +217,11 @@ export function useChatbot(unit: Unit) {
 
   // Reproducir audio de un mensaje
   const playMessageAudio = async (message: ChatMessage) => {
+    if (!audioServiceAvailable || message.audioError) {
+      console.warn('⚠️ Audio service not available or message has audio error');
+      return;
+    }
+
     if (!message.audioUrl) {
       // Generate audio if not available
       await generateAudioForMessage(message);
@@ -207,7 +256,8 @@ export function useChatbot(unit: Unit) {
         console.error('❌ Error playing audio');
         setMessages(prev => prev.map(msg => ({
           ...msg,
-          isPlaying: false
+          isPlaying: false,
+          audioError: msg.id === message.id ? true : msg.audioError
         })));
         setCurrentAudio(null);
       };
@@ -219,7 +269,8 @@ export function useChatbot(unit: Unit) {
       console.error('❌ Error playing audio:', error);
       setMessages(prev => prev.map(msg => ({
         ...msg,
-        isPlaying: false
+        isPlaying: false,
+        audioError: msg.id === message.id ? true : msg.audioError
       })));
     }
   };
@@ -339,8 +390,12 @@ export function useChatbot(unit: Unit) {
 
           setMessages(prev => [...prev, agentMessage]);
 
-          // Generar audio para la respuesta del agente
-          await generateAudioForMessage(agentMessage);
+          // Generar audio para la respuesta del agente (sin bloquear la UI)
+          if (audioServiceAvailable) {
+            generateAudioForMessage(agentMessage).catch(error => {
+              console.warn('⚠️ Audio generation failed for agent response:', error.message);
+            });
+          }
 
           // Verificar si debe terminar la conversación
           if (aiData.conversationComplete || messages.length >= 16) {
@@ -393,6 +448,7 @@ export function useChatbot(unit: Unit) {
     setConversationComplete(false);
     setIsLoading(false);
     setIsGeneratingAudio(false);
+    setAudioServiceAvailable(true); // Reset audio service availability
   };
 
   // Cargar sesión existente si existe
@@ -421,6 +477,7 @@ export function useChatbot(unit: Unit) {
     isLoading,
     isGeneratingAudio,
     conversationComplete,
+    audioServiceAvailable,
     sendStudentMessage,
     resetConversation,
     startChatSession,
