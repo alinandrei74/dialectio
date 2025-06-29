@@ -34,6 +34,17 @@ function LearningDashboard() {
     console.log('- Courses:', courses.length, 'courses loaded');
     console.log('- Loading:', loading);
     console.log('- User progress:', userProgress.length, 'records');
+    console.log('- User initial language:', userInitialLanguage);
+    
+    // Debug course filtering
+    const availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
+    console.log('- Available courses after filtering:', availableCourses.length);
+    console.log('- Course details:', courses.map(c => ({
+      title: c.title,
+      source: c.source_language,
+      target: c.target_language,
+      matches: c.source_language === userInitialLanguage
+    })));
     
     setDebugInfo({
       userExists: !!user,
@@ -41,9 +52,17 @@ function LearningDashboard() {
       coursesCount: courses.length,
       dataLoading: loading,
       progressCount: userProgress.length,
+      userLanguage: userInitialLanguage,
+      filteredCount: availableCourses.length,
+      courseDetails: courses.map(c => ({
+        title: c.title,
+        source: c.source_language,
+        target: c.target_language,
+        matches: c.source_language === userInitialLanguage
+      })),
       timestamp: new Date().toISOString()
     });
-  }, [user, authLoading, courses, loading, userProgress]);
+  }, [user, authLoading, courses, loading, userProgress, userInitialLanguage]);
 
   // Load user's initial language from profile
   useEffect(() => {
@@ -62,7 +81,9 @@ function LearningDashboard() {
             setUserInitialLanguage('es'); // fallback
           } else {
             console.log('✅ User profile loaded:', profile);
-            setUserInitialLanguage(profile.initial_language || 'es');
+            const userLang = profile.initial_language || 'es';
+            setUserInitialLanguage(userLang);
+            console.log('🌍 User initial language set to:', userLang);
           }
         } catch (err) {
           console.error('💥 Error fetching user profile:', err);
@@ -138,10 +159,15 @@ function LearningDashboard() {
 
     // Filter by user's source language (show courses they can take)
     if (userInitialLanguage) {
-      availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
+      availableCourses = courses.filter(course => {
+        const matches = course.source_language === userInitialLanguage;
+        console.log(`🔍 Course "${course.title}" (${course.source_language} → ${course.target_language}) matches user language "${userInitialLanguage}": ${matches}`);
+        return matches;
+      });
     }
 
     console.log('🔍 Available courses after filtering:', availableCourses.length);
+    console.log('🔍 Filtered courses:', availableCourses.map(c => `${c.title} (${c.source_language} → ${c.target_language})`));
     return availableCourses;
   };
 
@@ -279,7 +305,7 @@ function LearningDashboard() {
                   Debug Information (Development Mode)
                 </h3>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm font-bold">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm font-bold mb-4">
                 <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
                   <div className="text-yellow-700 dark:text-yellow-300">User Status</div>
                   <div className="text-yellow-900 dark:text-yellow-100">
@@ -307,14 +333,26 @@ function LearningDashboard() {
                 <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
                   <div className="text-yellow-700 dark:text-yellow-300">User Language</div>
                   <div className="text-yellow-900 dark:text-yellow-100">
-                    {userInitialLanguage.toUpperCase()}
+                    {debugInfo.userLanguage?.toUpperCase()}
                   </div>
                 </div>
                 <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
                   <div className="text-yellow-700 dark:text-yellow-300">Filtered Courses</div>
                   <div className="text-yellow-900 dark:text-yellow-100">
-                    {filteredCourses.length} available
+                    {debugInfo.filteredCount} available
                   </div>
+                </div>
+              </div>
+              
+              {/* Course Details */}
+              <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
+                <div className="text-yellow-700 dark:text-yellow-300 font-bold mb-2">Course Details:</div>
+                <div className="text-yellow-900 dark:text-yellow-100 text-xs space-y-1">
+                  {debugInfo.courseDetails?.map((course: any, index: number) => (
+                    <div key={index} className={`${course.matches ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                      {course.matches ? '✅' : '❌'} {course.title} ({course.source} → {course.target})
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -424,18 +462,30 @@ function LearningDashboard() {
                 <p className="text-gray-600 dark:text-gray-400 font-bold mb-6">
                   {courses.length === 0 
                     ? 'Los cursos se están cargando. Si el problema persiste, intenta actualizar la página.'
-                    : 'Pronto añadiremos más cursos para tu idioma base.'
+                    : `No hay cursos disponibles para aprender desde ${getUserSourceLanguageInfo().name}. Cambia tu idioma base en configuración para ver más opciones.`
                   }
                 </p>
-                <button
-                  onClick={handleRefresh}
-                  disabled={refreshing}
-                  className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 transform hover:scale-105 shadow-xl flex items-center space-x-2 mx-auto"
-                  style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
-                >
-                  <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                  <span>{refreshing ? 'Actualizando...' : 'Actualizar'}</span>
-                </button>
+                <div className="space-y-4">
+                  <button
+                    onClick={handleRefresh}
+                    disabled={refreshing}
+                    className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 disabled:opacity-50 transform hover:scale-105 shadow-xl flex items-center space-x-2 mx-auto"
+                    style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                  >
+                    <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                    <span>{refreshing ? 'Actualizando...' : 'Actualizar'}</span>
+                  </button>
+                  
+                  {courses.length > 0 && (
+                    <button
+                      onClick={() => navigate('/settings')}
+                      className="bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-500 dark:to-purple-700 text-white px-6 py-3 font-black text-sm border-3 border-black dark:border-gray-300 hover:from-purple-700 hover:to-purple-900 dark:hover:from-purple-600 dark:hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-xl mx-auto"
+                      style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
+                    >
+                      Cambiar Idioma Base
+                    </button>
+                  )}
+                </div>
                 
                 {/* Additional debug info for empty state */}
                 {showDebugInfo && (
