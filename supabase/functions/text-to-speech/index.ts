@@ -26,10 +26,12 @@ serve(async (req) => {
       throw new Error('Text is required for speech synthesis')
     }
 
+    console.log(`🔊 TTS Request - Text: "${text.substring(0, 100)}...", Voice: ${voice}, Language: ${language}`)
+
     // Get ElevenLabs API key from environment
     const elevenLabsApiKey = Deno.env.get('ELEVENLABS_API_KEY')
     if (!elevenLabsApiKey) {
-      console.error('ElevenLabs API key not configured')
+      console.error('❌ ElevenLabs API key not configured')
       return new Response(
         JSON.stringify({ 
           error: 'Text-to-speech service not configured',
@@ -41,6 +43,8 @@ serve(async (req) => {
         }
       )
     }
+
+    console.log('✅ ElevenLabs API key found')
 
     // Voice ID mapping for different languages and styles
     const voiceIds: Record<string, string> = {
@@ -86,7 +90,7 @@ serve(async (req) => {
       }
     }
 
-    console.log(`Generating speech for text: "${text.substring(0, 50)}..." with voice: ${voice} (${selectedVoiceId})`)
+    console.log(`🎤 Using voice: ${voice} (ID: ${selectedVoiceId})`)
 
     // Call ElevenLabs API
     const elevenLabsResponse = await fetch(
@@ -111,9 +115,11 @@ serve(async (req) => {
       }
     )
 
+    console.log(`📡 ElevenLabs API response: ${elevenLabsResponse.status} ${elevenLabsResponse.statusText}`)
+
     if (!elevenLabsResponse.ok) {
       const errorText = await elevenLabsResponse.text()
-      console.error('ElevenLabs API error:', {
+      console.error('❌ ElevenLabs API error:', {
         status: elevenLabsResponse.status,
         statusText: elevenLabsResponse.statusText,
         error: errorText
@@ -161,7 +167,12 @@ serve(async (req) => {
     // Get the audio data
     const audioData = await elevenLabsResponse.arrayBuffer()
 
-    console.log(`Successfully generated ${audioData.byteLength} bytes of audio`)
+    console.log(`✅ Successfully generated ${audioData.byteLength} bytes of audio`)
+
+    if (audioData.byteLength === 0) {
+      console.error('❌ Received empty audio data from ElevenLabs!')
+      throw new Error('Received empty audio data')
+    }
 
     // Return the audio file
     return new Response(audioData, {
@@ -173,7 +184,7 @@ serve(async (req) => {
     })
 
   } catch (error) {
-    console.error('Error in text-to-speech function:', error)
+    console.error('💥 Error in text-to-speech function:', error)
     return new Response(
       JSON.stringify({ 
         error: 'Error generating speech',

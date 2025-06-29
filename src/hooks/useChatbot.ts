@@ -140,6 +140,7 @@ export function useChatbot(unit: Unit) {
 
     try {
       setIsGeneratingAudio(true);
+      console.log('🔊 Starting audio generation for message:', message.id, 'Text:', message.message.substring(0, 50) + '...');
       
       const audioResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
         method: 'POST',
@@ -154,8 +155,11 @@ export function useChatbot(unit: Unit) {
         }),
       });
 
+      console.log('📡 Audio API response status:', audioResponse.status, audioResponse.statusText);
+
       if (!audioResponse.ok) {
         const errorData = await audioResponse.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('❌ Audio API error response:', errorData);
         
         // Handle specific error cases
         if (audioResponse.status === 401) {
@@ -190,7 +194,15 @@ export function useChatbot(unit: Unit) {
       }
 
       const audioBlob = await audioResponse.blob();
+      console.log('📦 Audio blob received - Size:', audioBlob.size, 'bytes, Type:', audioBlob.type);
+      
+      if (audioBlob.size === 0) {
+        console.error('❌ Audio blob is empty!');
+        throw new Error('Received empty audio data');
+      }
+
       const audioUrl = URL.createObjectURL(audioBlob);
+      console.log('🔗 Audio URL created:', audioUrl);
       
       // Update message with audio URL
       setMessages(prev => prev.map(msg => 
@@ -199,10 +211,10 @@ export function useChatbot(unit: Unit) {
           : msg
       ));
       
-      console.log('🔊 Audio generated for message:', message.id);
+      console.log('✅ Audio generated successfully for message:', message.id);
       
     } catch (error) {
-      console.warn('⚠️ Error generating audio:', error.message);
+      console.error('💥 Error generating audio:', error);
       
       // Mark message as having audio error but don't break the flow
       setMessages(prev => prev.map(msg => 
@@ -217,26 +229,37 @@ export function useChatbot(unit: Unit) {
 
   // Reproducir audio de un mensaje
   const playMessageAudio = async (message: ChatMessage) => {
+    console.log('🎵 playMessageAudio called for message:', message.id);
+    console.log('🔍 Audio service available:', audioServiceAvailable);
+    console.log('🔍 Message has audio error:', message.audioError);
+    console.log('🔍 Message audio URL:', message.audioUrl);
+
     if (!audioServiceAvailable || message.audioError) {
       console.warn('⚠️ Audio service not available or message has audio error');
       return;
     }
 
     if (!message.audioUrl) {
+      console.log('🔄 No audio URL found, generating audio...');
       // Generate audio if not available
       await generateAudioForMessage(message);
       return;
     }
 
     try {
+      console.log('🎵 Starting audio playback for URL:', message.audioUrl);
+      
       // Stop current audio if playing
       if (currentAudio) {
+        console.log('⏹️ Stopping current audio');
         currentAudio.pause();
         currentAudio.currentTime = 0;
       }
 
       const audio = new Audio(message.audioUrl);
       setCurrentAudio(audio);
+      
+      console.log('🎵 Audio object created, setting up event listeners');
       
       // Update playing state
       setMessages(prev => prev.map(msg => ({
@@ -245,6 +268,7 @@ export function useChatbot(unit: Unit) {
       })));
 
       audio.onended = () => {
+        console.log('✅ Audio playback ended successfully');
         setMessages(prev => prev.map(msg => ({
           ...msg,
           isPlaying: false
@@ -252,8 +276,14 @@ export function useChatbot(unit: Unit) {
         setCurrentAudio(null);
       };
 
-      audio.onerror = () => {
-        console.error('❌ Error playing audio');
+      audio.onerror = (event) => {
+        console.error('❌ Audio playback error:', event);
+        console.error('❌ Audio error details:', {
+          error: audio.error,
+          networkState: audio.networkState,
+          readyState: audio.readyState,
+          src: audio.src
+        });
         setMessages(prev => prev.map(msg => ({
           ...msg,
           isPlaying: false,
@@ -262,11 +292,29 @@ export function useChatbot(unit: Unit) {
         setCurrentAudio(null);
       };
 
+      audio.onloadstart = () => {
+        console.log('📡 Audio loading started');
+      };
+
+      audio.oncanplay = () => {
+        console.log('✅ Audio can start playing');
+      };
+
+      audio.onloadeddata = () => {
+        console.log('📦 Audio data loaded');
+      };
+
+      console.log('▶️ Attempting to play audio...');
       await audio.play();
-      console.log('🔊 Playing audio for message:', message.id);
+      console.log('🎵 Audio.play() called successfully');
       
     } catch (error) {
-      console.error('❌ Error playing audio:', error);
+      console.error('💥 Error in playMessageAudio:', error);
+      console.error('💥 Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
       setMessages(prev => prev.map(msg => ({
         ...msg,
         isPlaying: false,
