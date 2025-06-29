@@ -524,6 +524,7 @@ function LessonPage() {
                           onAnswerChange={(answer) => handleAnswerChange(currentExercise.id, answer)}
                           isCompleted={isExerciseCompleted}
                           showHints={showHints}
+                          targetLanguage={courseTargetLanguage} // Pass target language to ExerciseRenderer
                         />
                       </div>
 

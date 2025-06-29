@@ -8,20 +8,129 @@ interface ExerciseRendererProps {
   onAnswerChange: (answer: string) => void;
   isCompleted: boolean;
   showHints?: boolean;
+  targetLanguage?: string; // NEW: Target language for hints and interface
 }
 
-function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, showHints = false }: ExerciseRendererProps) {
+function ExerciseRenderer({ 
+  exercise, 
+  userAnswer, 
+  onAnswerChange, 
+  isCompleted, 
+  showHints = false,
+  targetLanguage = 'es' // Default to Spanish
+}: ExerciseRendererProps) {
+  
+  // Get localized texts based on target language
+  const getLocalizedTexts = (langCode: string) => {
+    switch (langCode) {
+      case 'it':
+        return {
+          hints: 'Suggerimenti:',
+          listenQuestion: 'Ascolta domanda',
+          listenText: 'Ascolta testo originale',
+          playAudio: 'Riproduci Audio',
+          writeAnswer: 'Scrivi la parola mancante...',
+          writeTranslation: 'Scrivi la tua traduzione qui...',
+          writeHeard: 'Scrivi quello che hai sentito...',
+          respondNaturally: 'Rispondi in modo naturale...',
+          exampleResponses: 'Esempi di risposte:',
+          scenario: 'SCENARIO:',
+          transcript: 'Trascrizione:',
+          caseInsensitive: 'Non distingue maiuscole',
+          exerciseNotSupported: 'Tipo di esercizio non supportato:'
+        };
+      case 'fr':
+        return {
+          hints: 'Indices:',
+          listenQuestion: 'Écouter la question',
+          listenText: 'Écouter le texte original',
+          playAudio: 'Lire l\'Audio',
+          writeAnswer: 'Écrivez le mot manquant...',
+          writeTranslation: 'Écrivez votre traduction ici...',
+          writeHeard: 'Écrivez ce que vous avez entendu...',
+          respondNaturally: 'Répondez naturellement...',
+          exampleResponses: 'Exemples de réponses:',
+          scenario: 'SCÉNARIO:',
+          transcript: 'Transcription:',
+          caseInsensitive: 'Ne distingue pas les majuscules',
+          exerciseNotSupported: 'Type d\'exercice non supporté:'
+        };
+      case 'pt':
+        return {
+          hints: 'Dicas:',
+          listenQuestion: 'Ouvir pergunta',
+          listenText: 'Ouvir texto original',
+          playAudio: 'Reproduzir Áudio',
+          writeAnswer: 'Escreva a palavra que falta...',
+          writeTranslation: 'Escreva sua tradução aqui...',
+          writeHeard: 'Escreva o que você ouviu...',
+          respondNaturally: 'Responda naturalmente...',
+          exampleResponses: 'Exemplos de respostas:',
+          scenario: 'CENÁRIO:',
+          transcript: 'Transcrição:',
+          caseInsensitive: 'Não distingue maiúsculas',
+          exerciseNotSupported: 'Tipo de exercício não suportado:'
+        };
+      case 'en':
+        return {
+          hints: 'Hints:',
+          listenQuestion: 'Listen to question',
+          listenText: 'Listen to original text',
+          playAudio: 'Play Audio',
+          writeAnswer: 'Write the missing word...',
+          writeTranslation: 'Write your translation here...',
+          writeHeard: 'Write what you heard...',
+          respondNaturally: 'Respond naturally...',
+          exampleResponses: 'Example responses:',
+          scenario: 'SCENARIO:',
+          transcript: 'Transcript:',
+          caseInsensitive: 'Case insensitive',
+          exerciseNotSupported: 'Exercise type not supported:'
+        };
+      case 'es':
+      default:
+        return {
+          hints: 'Pistas:',
+          listenQuestion: 'Escuchar pregunta',
+          listenText: 'Escuchar texto original',
+          playAudio: 'Reproducir Audio',
+          writeAnswer: 'Escribe la palabra que falta...',
+          writeTranslation: 'Escribe tu traducción aquí...',
+          writeHeard: 'Escribe lo que escuchaste...',
+          respondNaturally: 'Responde de forma natural...',
+          exampleResponses: 'Ejemplos de respuestas:',
+          scenario: 'ESCENARIO:',
+          transcript: 'Transcripción:',
+          caseInsensitive: 'No distingue mayúsculas',
+          exerciseNotSupported: 'Tipo de ejercicio no soportado:'
+        };
+    }
+  };
+
+  const texts = getLocalizedTexts(targetLanguage);
   
   const playAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
     audio.play().catch(console.error);
   };
 
-  const speakText = (text: string, lang: string = 'es') => {
+  const speakText = (text: string, lang: string = targetLanguage) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang === 'es' ? 'es-ES' : lang === 'fr' ? 'fr-FR' : lang === 'pt' ? 'pt-PT' : lang === 'it' ? 'it-IT' : 'en-US';
+      
+      // Map language codes to speech synthesis language tags
+      const languageMap: Record<string, string> = {
+        'es': 'es-ES',
+        'fr': 'fr-FR',
+        'pt': 'pt-PT',
+        'it': 'it-IT',
+        'en': 'en-US'
+      };
+      
+      utterance.lang = languageMap[lang] || 'es-ES';
       utterance.rate = 0.8;
+      
+      console.log(`🔊 Speaking text in ${utterance.lang}:`, text.substring(0, 50) + '...');
       speechSynthesis.speak(utterance);
     }
   };
@@ -33,7 +142,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
       <div className="mt-4 p-3 bg-yellow-50/90 dark:bg-yellow-900/30 border-2 border-yellow-400 dark:border-yellow-500 shadow-md"
            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
         <div className="text-yellow-800 dark:text-yellow-200 font-bold text-sm mb-2">
-          💡 Pistas:
+          💡 {texts.hints}
         </div>
         <ul className="text-yellow-700 dark:text-yellow-300 font-bold text-sm space-y-1">
           {hints.map((hint, index) => (
@@ -60,9 +169,9 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                 {mcContent.question}
               </h3>
               <button
-                onClick={() => speakText(mcContent.question)}
+                onClick={() => speakText(mcContent.question, targetLanguage)}
                 className="ml-4 p-2 bg-blue-600 text-white border-2 border-black hover:bg-blue-700 transition-all duration-300 flex items-center space-x-1"
-                title="Escuchar pregunta"
+                title={texts.listenQuestion}
               >
                 <Volume2 className="w-4 h-4" />
               </button>
@@ -88,7 +197,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      speakText(option);
+                      speakText(option, targetLanguage);
                     }}
                     className="p-1 opacity-60 hover:opacity-100 transition-opacity"
                   >
@@ -115,9 +224,9 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                 {fbContent.question}
               </h3>
               <button
-                onClick={() => speakText(fbContent.question)}
+                onClick={() => speakText(fbContent.question, targetLanguage)}
                 className="ml-4 p-2 bg-green-600 text-white border-2 border-black hover:bg-green-700 transition-all duration-300"
-                title="Escuchar pregunta"
+                title={texts.listenQuestion}
               >
                 <Volume2 className="w-4 h-4" />
               </button>
@@ -133,11 +242,11 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
               disabled={isCompleted}
               className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-green-500 text-lg disabled:opacity-60"
               style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-              placeholder="Escribe la palabra que falta..."
+              placeholder={texts.writeAnswer}
             />
             {fbContent.case_sensitive === false && (
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 dark:text-gray-400 font-bold">
-                No distingue mayúsculas
+                {texts.caseInsensitive}
               </div>
             )}
           </div>
@@ -160,7 +269,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
               <button
                 onClick={() => speakText(trContent.question, trContent.source_language)}
                 className="p-2 bg-purple-600 text-white border-2 border-black hover:bg-purple-700 transition-all duration-300"
-                title="Escuchar texto original"
+                title={texts.listenText}
               >
                 <Volume2 className="w-4 h-4" />
               </button>
@@ -177,7 +286,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
             disabled={isCompleted}
             className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg disabled:opacity-60 resize-none"
             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-            placeholder="Escribe tu traducción aquí..."
+            placeholder={texts.writeTranslation}
             rows={3}
           />
 
@@ -203,12 +312,12 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                 style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}
               >
                 <Play className="w-5 h-5" />
-                <span>Reproducir Audio</span>
+                <span>{texts.playAudio}</span>
               </button>
               
               {isCompleted && audioContent.transcript && (
                 <div className="text-sm text-orange-700 dark:text-orange-300 font-bold">
-                  Transcripción: "{audioContent.transcript}"
+                  {texts.transcript}: "{audioContent.transcript}"
                 </div>
               )}
             </div>
@@ -222,7 +331,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
             disabled={isCompleted}
             className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg disabled:opacity-60"
             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-            placeholder="Escribe lo que escuchaste..."
+            placeholder={texts.writeHeard}
           />
 
           {renderHints(audioContent.hints)}
@@ -238,7 +347,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
             <div className="mb-4">
               <span className="text-sm font-bold text-teal-700 dark:text-teal-300 mb-2 block">
-                ESCENARIO:
+                {texts.scenario}
               </span>
               <p className="text-teal-800 dark:text-teal-200 font-bold text-sm mb-4">
                 {convContent.scenario}
@@ -250,9 +359,9 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
                 {convContent.question}
               </h3>
               <button
-                onClick={() => speakText(convContent.question)}
+                onClick={() => speakText(convContent.question, targetLanguage)}
                 className="ml-4 p-2 bg-teal-600 text-white border-2 border-black hover:bg-teal-700 transition-all duration-300"
-                title="Escuchar pregunta"
+                title={texts.listenQuestion}
               >
                 <Volume2 className="w-4 h-4" />
               </button>
@@ -266,7 +375,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
             disabled={isCompleted}
             className="w-full px-6 py-4 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-2 focus:ring-teal-500 text-lg disabled:opacity-60 resize-none"
             style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
-            placeholder="Responde de forma natural..."
+            placeholder={texts.respondNaturally}
             rows={3}
           />
 
@@ -275,7 +384,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
             <div className="p-3 bg-teal-50/90 dark:bg-teal-900/30 border-2 border-teal-400 dark:border-teal-500 shadow-md"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <div className="text-teal-800 dark:text-teal-200 font-bold text-sm mb-2">
-                💡 Ejemplos de respuestas:
+                💡 {texts.exampleResponses}
               </div>
               <ul className="text-teal-700 dark:text-teal-300 font-bold text-sm space-y-1">
                 {convContent.expected_responses.map((response, index) => (
@@ -296,7 +405,7 @@ function ExerciseRenderer({ exercise, userAnswer, onAnswerChange, isCompleted, s
       return (
         <div className="p-6 bg-gray-50/90 dark:bg-gray-700/90 border-3 border-gray-300 dark:border-gray-500 text-center">
           <p className="text-gray-600 dark:text-gray-400 font-bold">
-            Tipo de ejercicio no soportado: {exercise.exercise_type}
+            {texts.exerciseNotSupported} {exercise.exercise_type}
           </p>
         </div>
       );
