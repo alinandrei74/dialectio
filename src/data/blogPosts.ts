@@ -1,0 +1,138 @@
+import { BlogPost } from '../types/blog';
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: '1',
+    title: 'La Ciencia Detrás del Aprendizaje de Lenguas Romances',
+    slug: 'ciencia-aprendizaje-lenguas-romances',
+    excerpt: 'Descubre cómo la neurociencia y la lingüística cognitiva pueden acelerar tu proceso de aprendizaje de idiomas relacionados.',
+    content: `
+      <h2>El Poder de las Conexiones Neurales</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      
+      <h3>Transferencia Lingüística Positiva</h3>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+      
+      <h3>Cognados: Tu Arma Secreta</h3>
+      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+      
+      <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+      
+      <h2>Aplicaciones Prácticas</h2>
+      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
+    `,
+    author: 'Dr. María González',
+    publishedAt: '2024-12-20',
+    imageUrl: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg',
+    readTime: '8 min',
+    tags: ['Neurociencia', 'Aprendizaje', 'Investigación']
+  },
+  {
+    id: '2',
+    title: 'Del Español al Italiano: Mi Experiencia Personal',
+    slug: 'del-espanol-al-italiano-experiencia',
+    excerpt: 'Un relato personal de cómo logré dominar el italiano en 6 meses aprovechando mi conocimiento del español.',
+    content: `
+      <h2>El Punto de Partida</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel magna at nulla cursus tempor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
+      
+      <h3>Primeras Semanas: La Luna de Miel</h3>
+      <p>Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+      
+      <p>Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.</p>
+      
+      <h3>El Despertar: Falsos Amigos</h3>
+      <p>Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.</p>
+      
+      <p>Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</p>
+      
+      <h2>Mes 2-3: Encontrando el Ritmo</h2>
+      <p>Aliquam erat volutpat. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin lorem quis bibendum magna.</p>
+      
+      <h3>Mes 4-6: El Breakthrough</h3>
+      <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+    `,
+    author: 'Carlos Mendoza',
+    publishedAt: '2024-12-15',
+    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+    readTime: '12 min',
+    tags: ['Experiencia Personal', 'Italiano', 'Motivación']
+  },
+  {
+    id: '3',
+    title: '5 Errores Comunes al Aprender Múltiples Idiomas',
+    slug: 'errores-comunes-multiples-idiomas',
+    excerpt: 'Evita estos errores frecuentes que cometen los estudiantes cuando aprenden varios idiomas romances simultáneamente.',
+    content: `
+      <h2>Error #1: Mezclar Vocabulario Similar</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+      
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      
+      <h2>Error #2: Asumir Transferencia Directa</h2>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+      
+      <h3>La Solución</h3>
+      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+      
+      <h2>Error #3: Descuidar la Pronunciación</h2>
+      <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+      
+      <h2>Error #4: Aprender Demasiados Idiomas a la Vez</h2>
+      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+      
+      <h2>Error #5: Ignorar el Contexto Cultural</h2>
+      <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+      
+      <h3>Estrategias de Éxito</h3>
+      <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+    `,
+    author: 'Prof. Ana Rodríguez',
+    publishedAt: '2024-12-10',
+    imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
+    readTime: '10 min',
+    tags: ['Consejos', 'Errores Comunes', 'Estrategias']
+  },
+  {
+    id: '4',
+    title: 'Técnicas de Memorización para Vocabulario Romance',
+    slug: 'tecnicas-memorizacion-vocabulario-romance',
+    excerpt: 'Descubre métodos científicamente probados para memorizar y retener vocabulario en lenguas romances de manera eficiente.',
+    content: `
+      <h2>La Importancia de la Memoria en el Aprendizaje</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec auctor blandit quam, et molestie augue vehicula quis. Fusce in feugiat purus.</p>
+      
+      <h3>Técnica #1: El Método de los Loci</h3>
+      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris viverra veniam sit amet lacus cursus venenatis. Etiam sit amet orci eget eros faucibus tincidunt.</p>
+      
+      <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio.</p>
+      
+      <h3>Técnica #2: Asociaciones Visuales</h3>
+      <p>Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
+      
+      <h2>Técnica #3: Repetición Espaciada</h2>
+      <p>Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+      
+      <h3>Implementación Práctica</h3>
+      <p>Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor.</p>
+      
+      <h2>Técnica #4: Mapas Mentales Multilingües</h2>
+      <p>Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.</p>
+      
+      <h3>Creando Conexiones Efectivas</h3>
+      <p>Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
+      
+      <h2>Técnica #5: Inmersión Controlada</h2>
+      <p>Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.</p>
+      
+      <p>Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.</p>
+    `,
+    author: 'Dr. Luis Fernández',
+    publishedAt: '2024-12-05',
+    imageUrl: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg',
+    readTime: '15 min',
+    tags: ['Memorización', 'Técnicas', 'Vocabulario']
+  }
+];
