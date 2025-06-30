@@ -33,7 +33,7 @@
 
 2. **Nacimos con la intención de crear una forma de aprender que tenga en cuenta la conexión de las lenguas y hacer que aproveches tus conocimientos previos. Cuando hablas español ya tienes las bases para comprender francés. Si conoces el italiano, el portugués te resultará familiar.**
 
-3. **Con dialectio.xyz no harás tan sólo ejercicios de rellenar huevos y ordenar palabras. No te aburriremos con gramática. Creemos que aprender una lengua es usarla. Nuestro sistema se basa en crear situaciones reales donde el estudiante tenga la oportunidad de usar la lengua que está aprendiendo así como su cultura.**
+3. **Con dialectio.xyz no harás tan sólo ejercicios de rellenar huecos y ordenar palabras. No te aburriremos con gramática. Creemos que aprender una lengua es usarla. Nuestro sistema se basa en crear situaciones reales donde el estudiante tenga la oportunidad de usar la lengua que está aprendiendo así como su cultura.**
 
 ### Tarjetas informativas:
 - **Nuestra historia** - Título de tarjeta
