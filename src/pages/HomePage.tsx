@@ -37,7 +37,7 @@ function HomePage() {
       <BackgroundElements />
       
       {/* Bolt Badge */}
-      <div className="fixed top-[218px] left-[160px] z-50">
+      <div className="fixed top-[258px] left-[160px] z-50">
   <a 
     href="https://bolt.new/" 
     target="_blank" 
