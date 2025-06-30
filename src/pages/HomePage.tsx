@@ -38,19 +38,19 @@ function HomePage() {
       
       {/* Bolt Badge */}
       <div className="fixed top-[98px] left-[160px] z-50">
-        <a 
-          href="https://bolt.new/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block transition-transform hover:scale-110 duration-300"
-        >
-          <img 
-            src="/white_circle_360x360.svg" 
-            alt="Made with Bolt" 
-            className="w-12 h-12 md:w-16 md:h-16"
-          />
-        </a>
-      </div>
+  <a 
+    href="https://bolt.new/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="block transition-transform hover:scale-110 duration-300"
+  >
+    <img 
+      src="/white_circle_360x360.svg" 
+      alt="Made with Bolt" 
+      className="w-20 h-20 md:w-24 md:h-24"
+    />
+  </a>
+</div>
       
       <Navigation 
         isMenuOpen={isMenuOpen}
