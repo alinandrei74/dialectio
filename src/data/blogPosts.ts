@@ -25,37 +25,33 @@ export const blogPosts: BlogPost[] = [
   readTime: '10 min',
   tags: ['Cognitive Science', 'Language Learning', 'Research']
 },
-  {
-    id: '2',
-    title: 'Del Español al Italiano: Mi Experiencia Personal',
-    slug: 'del-espanol-al-italiano-experiencia',
-    excerpt: 'Un relato personal de cómo logré dominar el italiano en 6 meses aprovechando mi conocimiento del español.',
-    content: `
-      <h2>El Punto de Partida</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel magna at nulla cursus tempor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
-      
-      <h3>Primeras Semanas: La Luna de Miel</h3>
-      <p>Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
-      
-      <p>Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.</p>
-      
-      <h3>El Despertar: Falsos Amigos</h3>
-      <p>Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.</p>
-      
-      <p>Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</p>
-      
-      <h2>Mes 2-3: Encontrando el Ritmo</h2>
-      <p>Aliquam erat volutpat. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin lorem quis bibendum magna.</p>
-      
-      <h3>Mes 4-6: El Breakthrough</h3>
-      <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-    `,
-    author: 'Carlos Mendoza',
-    publishedAt: '2024-12-15',
-    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
-    readTime: '12 min',
-    tags: ['Experiencia Personal', 'Italiano', 'Motivación']
-  },
+ {
+  id: '2',
+  title: 'The Future of Language Education',
+  slug: 'future-language-education',
+  excerpt: 'Mixed reality, generative content and social re-embedding will dissolve the boundary between life and study. Here is how language learning will feel in 2030—and how Dialectio is preparing for it.',
+  content: `
+    <p>It is 2030. You wake up, slip on lightweight augmented-reality glasses and see your kitchen annotated in Mandarin: 锅 floats above the pot, 水壶 labels the kettle, and when you pour coffee, a serene voice reminds you that 咖啡 shares its loanword origin with countless tongues. The device has sensed your circadian rhythm, chosen a gentle speaking rate and scheduled a review adaptive to last night’s sleep quality. No classroom, no textbook, yet language envelops you everywhere.</p>
+
+    <p>This vignette is not science fiction; it is the logical convergence of three trajectories already visible today.</p>
+
+    <p><strong>The first is ubiquitous computation.</strong> Processing power embedded in everyday objects will let curricula materialise contextually. Turn on a smart oven and receive culinary verbs in Italian; step into your car and negotiate directions in German with a synthetic co-driver who adjusts difficulty based on heart-rate variability.</p>
+
+    <p><strong>The second is generative content pipelines.</strong> Models can now spin coherent mini-stories, songs or dialogues at the cost of a database query. Soon, instead of selecting from pre-baked lessons, learners will generate scenes tailored to their biography: a lawyer practising Japanese courtroom etiquette, a gamer exploring French fantasy lore. Pedagogical design shifts from authoring static materials to sculpting constraints that guarantee coherence and didactic sequencing.</p>
+
+    <p><strong>The third is social re-embedding.</strong> Ironically, as technology personalises everything, the hunger for genuine human connection intensifies. Successful platforms will not isolate users but orchestrate encounters: tandem partners found through linguistic matchmaking algorithms, multicultural quests where teams must solve problems across time zones, community challenges that turn collective progress into shared storytelling.</p>
+
+    <p>Dialectio positions itself at this intersection. Our roadmap includes a mixed-reality mode where physical space becomes a stage for quests in the target language, backed by an agent ensemble that monitors cognitive load in real-time. We are building a content graph that merges generative flexibility with pedagogical guardrails, ensuring your spontaneous adventure still covers the A2 grammar you skipped last week. And we cultivate an ecosystem of mentors who step in when nuance surpasses silicon.</p>
+
+    <p>The future of language education is therefore neither gadget nor guru; it is an ecology. Tools amplify humans, humans curate tools, and learners navigate a continuum where boundaries between study and life dissolve. If we succeed, the phrase “I’m going to my language lesson” will sound quaint, much like “I’m going to the internet” once did.</p>
+  `,
+  author: 'Dialectio Team',
+  publishedAt: '2025-06-30',
+  imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+  readTime: '9 min',
+  tags: ['Future', 'Language Education', 'EdTech']
+}
+,
   {
     id: '3',
     title: '5 Errores Comunes al Aprender Múltiples Idiomas',
