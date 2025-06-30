@@ -70,11 +70,11 @@ function Footer({ t }: FooterProps) {
             </h3>
             <div className="space-y-3">
               <a 
-                href="mailto:hello@dialectio.xyz" 
+                href="mailto:team@dialectio.xyz" 
                 className="flex items-center space-x-2 text-gray-300 hover:text-white font-bold transition-colors duration-300"
               >
                 <Mail className="w-4 h-4" />
-                <span>hello@dialectio.xyz</span>
+                <span>team@dialectio.xyz</span>
               </a>
               <div className="flex space-x-4 pt-2">
                 <a 
