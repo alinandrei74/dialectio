@@ -75,44 +75,27 @@ export const blogPosts: BlogPost[] = [
   tags: ['Chatbots', 'Practice', 'AI Tutoring']
 }
 ,
-  {
-    id: '4',
-    title: 'Técnicas de Memorización para Vocabulario Romance',
-    slug: 'tecnicas-memorizacion-vocabulario-romance',
-    excerpt: 'Descubre métodos científicamente probados para memorizar y retener vocabulario en lenguas romances de manera eficiente.',
-    content: `
-      <h2>La Importancia de la Memoria en el Aprendizaje</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec auctor blandit quam, et molestie augue vehicula quis. Fusce in feugiat purus.</p>
-      
-      <h3>Técnica #1: El Método de los Loci</h3>
-      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris viverra veniam sit amet lacus cursus venenatis. Etiam sit amet orci eget eros faucibus tincidunt.</p>
-      
-      <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio.</p>
-      
-      <h3>Técnica #2: Asociaciones Visuales</h3>
-      <p>Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
-      
-      <h2>Técnica #3: Repetición Espaciada</h2>
-      <p>Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-      
-      <h3>Implementación Práctica</h3>
-      <p>Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor.</p>
-      
-      <h2>Técnica #4: Mapas Mentales Multilingües</h2>
-      <p>Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.</p>
-      
-      <h3>Creando Conexiones Efectivas</h3>
-      <p>Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
-      
-      <h2>Técnica #5: Inmersión Controlada</h2>
-      <p>Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.</p>
-      
-      <p>Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.</p>
-    `,
-    author: 'Dr. Luis Fernández',
-    publishedAt: '2024-12-05',
-    imageUrl: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg',
-    readTime: '15 min',
-    tags: ['Memorización', 'Técnicas', 'Vocabulario']
-  }
+ {
+  id: '4',
+  title: 'Language or Dialect? A Journey from the Carpathians to Finisterre',
+  slug: 'language-or-dialect-carpathians-finisterre',
+  excerpt: 'From Aromanian villages east of Cluj to Galician shores, Europe’s Romance ribbon reveals a continuum rather than discrete tongues. What does that mean for learners—and for Dialectio’s pedagogical design?',
+  content: `
+    <p>Take a slow train east of Cluj, Romania, where village elders greet you in a speech that linguists label Aromanian. Ride south into the Pindus mountains of Greece and the cadence shifts, yet mutual comprehension lingers. Cross the Adriatic, meander through Apulia, and hear bare vowels lengthen into Italian warmth. Head west across Provence where the <em>oc</em> of Occitan contends with the <em>oui</em> of Paris. Enter Catalonia, where street signs barter between Castilian and Catalan, then press on to Galicia, where <em>falamos galego</em> merges with echoes of Portuguese carried on Atlantic winds. You have travelled nearly three thousand kilometres, but each conversation has felt like a dialectal nudge rather than a leap.</p>
+
+    <p>What, then, counts as a separate language? The classic quip—“a language is a dialect with an army and a navy”—underscores that political frontiers often trump linguistic metrics. Mutual intelligibility, lexical overlap and shared ancestry paint gradients, not borders. Dialect continua abound: Arabic across North Africa and the Levant, Germanic varieties along the Rhine, the endless quilt of Chinese topolects. Europe’s Romance ribbon is simply more compact, hence easier to traverse in a single lifetime.</p>
+
+    <p>Understanding this continuum reshapes learning. If Italian shades into Provençal, then a Spanish-speaker need not start anew with blank pages: they can pivot, tweak phonology, absorb regional lexicon and move forward. Pedagogically, the continuum invites comparative mindset over memorisation. It teaches humility—your Spanish is but one coordinate in a vast linguistic field—and fosters curiosity about neighbouring variants rather than defensive purity.</p>
+
+    <p>Dialectio was named in homage to that fluidity. We decline to freeze language into canonical snapshots. Instead, we present it as a living spectrum, encouraging learners to notice patterns, drift, borrowings. Our modules may prompt you to adjust a Valencian recipe into standard Spanish, or decipher a Piedmontese proverb armed only with your knowledge of Italian. The goal is not encyclopaedic coverage but the realisation that boundaries are negotiable, that communicative success often lies in the goodwill to bridge slight differences.</p>
+
+    <p>By the time you reach Cape Finisterre, having chatted with shepherds, fishers and café owners across the continent, you may ask yourself: Did I learn many languages or just trace one river with many tributaries? The answer matters less than the experience. To embrace the continuum is to accept that language, like culture, is motion. Dialectio merely hands you the compass and invites you to keep walking.</p>
+  `,
+  author: 'Dialectio Team',
+  publishedAt: '2025-06-30',
+  imageUrl: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg',
+  readTime: '11 min',
+  tags: ['Dialect Continuum', 'Sociolinguistics', 'Romance Languages']
+}
+
 ];
