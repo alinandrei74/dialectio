@@ -1,5 +1,6 @@
 import React from 'react';
-import { Globe, BookOpen, Languages } from 'lucide-react';
+import { Languages, Heart, Github, Twitter, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Translation } from '../../types/translations';
 
 interface FooterProps {
@@ -8,64 +9,109 @@ interface FooterProps {
 
 function Footer({ t }: FooterProps) {
   return (
-    <footer className="bg-black dark:bg-gray-900 text-white relative">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-5 left-1/4 w-8 h-8 bg-gradient-to-br from-green-700 to-green-900 dark:from-green-600 dark:to-green-800 transform rotate-45 opacity-35 shadow-lg"></div>
-        <div className="absolute bottom-5 right-1/4 w-4 h-16 bg-gradient-to-b from-green-800 to-black dark:from-green-700 dark:to-gray-900 transform -rotate-30 opacity-35 shadow-md"></div>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-14">
-        {/* Contenido principal del footer en disposición horizontal */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 xl:gap-10">
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-7">
-              <div className="w-14 h-14 bg-gradient-to-br from-green-700 to-green-900 dark:from-green-600 dark:to-green-800 flex items-center justify-center transform rotate-45 border-3 border-white dark:border-gray-300 shadow-xl">
-                <Languages className="w-7 h-7 text-white transform -rotate-45" />
+    <footer className="relative z-10 bg-black/80 dark:bg-black/90 backdrop-blur-md border-t-4 border-white dark:border-gray-300 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Section */}
+          <div className="md:col-span-2">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center transform rotate-45 border-3 border-white shadow-xl">
+                <Languages className="w-6 h-6 text-white transform -rotate-45" />
               </div>
-              <span className="text-2xl font-black">dialectio.xyz</span>
+              <span className="text-2xl font-black tracking-tight">
+                dialectio.xyz
+              </span>
             </div>
-            <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-6 mb-7 border-3 border-gray-700 dark:border-gray-600 shadow-xl"
-                 style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <p className="text-gray-300 dark:text-gray-200 font-bold text-sm leading-relaxed">
-                {t.footerDescription}
-              </p>
-            </div>
-            <div className="flex space-x-4">
-              <div className="w-12 h-12 bg-gray-800 dark:bg-gray-700 flex items-center justify-center hover:bg-green-700 dark:hover:bg-green-600 transition-all duration-300 cursor-pointer border-2 border-gray-600 dark:border-gray-500 transform hover:rotate-45 shadow-lg hover:shadow-xl">
-                <Globe className="w-6 h-6" />
-              </div>
-              <div className="w-12 h-12 bg-gray-800 dark:bg-gray-700 flex items-center justify-center hover:bg-green-700 dark:hover:bg-green-600 transition-all duration-300 cursor-pointer border-2 border-gray-600 dark:border-gray-500 transform hover:rotate-45 shadow-lg hover:shadow-xl">
-                <BookOpen className="w-6 h-6" />
-              </div>
-            </div>
+            <p className="text-gray-300 font-bold text-lg mb-4 leading-relaxed">
+              {t.footerDescription}
+            </p>
+            <p className="text-gray-400 font-bold text-sm">
+              {t.footerTagline}
+            </p>
           </div>
-          
-          {/* Enlaces en disposición horizontal */}
-          <div className="flex flex-col">
-            <h3 className="text-lg font-black mb-5">{t.languages}</h3>
-            <div className="space-y-3 text-gray-400 dark:text-gray-300">
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Español</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Français</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Português</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">Italiano</a>
-            </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-black mb-4 text-white">
+              {t.footerQuickLinks}
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link 
+                  to="/demo" 
+                  className="text-gray-300 hover:text-white font-bold transition-colors duration-300 hover:underline"
+                >
+                  {t.demo}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/blog" 
+                  className="text-gray-300 hover:text-white font-bold transition-colors duration-300 hover:underline"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/contact" 
+                  className="text-gray-300 hover:text-white font-bold transition-colors duration-300 hover:underline"
+                >
+                  {t.contact}
+                </Link>
+              </li>
+            </ul>
           </div>
-          
-          <div className="flex flex-col">
-            <h3 className="text-lg font-black mb-5">{t.resources}</h3>
-            <div className="space-y-3 text-gray-400 dark:text-gray-300">
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.blog}</a>
-              <a href="#" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.help}</a>
-              <a href="/contact" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.contact}</a>
-              <a href="/privacy-policy" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.privacyPolicy}</a>
-              <a href="/terms-and-conditions" className="block hover:text-white transition-all duration-300 font-bold text-sm">{t.termsAndConditions}</a>
+
+          {/* Contact & Social */}
+          <div>
+            <h3 className="text-lg font-black mb-4 text-white">
+              {t.footerConnect}
+            </h3>
+            <div className="space-y-3">
+              <a 
+                href="mailto:hello@dialectio.xyz" 
+                className="flex items-center space-x-2 text-gray-300 hover:text-white font-bold transition-colors duration-300"
+              >
+                <Mail className="w-4 h-4" />
+                <span>hello@dialectio.xyz</span>
+              </a>
+              <div className="flex space-x-4 pt-2">
+                <a 
+                  href="https://github.com/dialectio" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/10 hover:bg-white/20 transition-all duration-300 border-2 border-white/30 hover:border-white transform rotate-45 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center"
+                >
+                  <Github className="w-5 h-5 text-white transform -rotate-45" />
+                </a>
+                <a 
+                  href="https://twitter.com/dialectio" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/10 hover:bg-white/20 transition-all duration-300 border-2 border-white/30 hover:border-white transform rotate-45 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center"
+                >
+                  <Twitter className="w-5 h-5 text-white transform -rotate-45" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div className="border-t-4 border-gray-700 dark:border-gray-600 mt-10 pt-9 text-center">
-          <div className="bg-gray-900/90 dark:bg-gray-800/90 backdrop-blur-md p-5 border-3 border-gray-700 dark:border-gray-600 inline-block shadow-xl"
-               style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <p className="text-gray-400 dark:text-gray-300 font-bold text-sm">{t.copyright}</p>
+
+        {/* Bottom Section */}
+        <div className="border-t border-white/20 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center space-x-2 text-gray-400 font-bold text-sm mb-4 md:mb-0">
+              <span>© 2025 Dialectio</span>
+              <span>•</span>
+              <span>{t.footerMadeWith}</span>
+              <Heart className="w-4 h-4 text-red-500" />
+              <span>{t.footerForLanguageLearners}</span>
+            </div>
+            
+            <div className="text-gray-400 font-bold text-sm">
+              <span>{t.footerVersion} 1.0.0</span>
+            </div>
           </div>
         </div>
       </div>
