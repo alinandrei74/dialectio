@@ -180,10 +180,54 @@ function DemoPage() {
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             
             {/* Notification Header */}
-           
+            <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-600 dark:to-blue-800 text-white mx-2 mt-2"
+                 style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
+              <div className="flex items-center justify-center space-x-3">
+                <Bell className="w-6 h-6" />
+                <h2 className="text-xl font-black">
+                  {t.demoNotifyTitle}
+                </h2>
+              </div>
+            </div>
 
             {/* Notification Form */}
-            
+            <div className="p-8">
+              {success && (
+                <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 border-2 border-green-500 text-green-800 dark:text-green-200 font-bold text-center"
+                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                  <div className="flex items-center justify-center space-x-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>{success}</span>
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 border-2 border-red-500 text-red-800 dark:text-red-200 font-bold text-center"
+                     style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleNotifySubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-black text-gray-900 dark:text-gray-100 mb-2">
+                    {t.demoNotifyEmail}
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t.demoNotifyEmailPlaceholder}
+                      className="w-full pl-12 pr-4 py-3 border-3 border-black dark:border-gray-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300"
+                      style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}
+                      required
+                    />
+                  </div>
+                </div>
 
                 {/* Privacy Consent */}
                 <div className="bg-gray-50/90 dark:bg-gray-700/90 p-4 border-2 border-gray-300 dark:border-gray-500 shadow-md"
