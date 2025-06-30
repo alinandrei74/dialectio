@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag, RefreshCw, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Languages, BookOpen, Trophy, Clock, Play, Star, Globe, Flag, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLearning } from '../hooks/useLearning';
@@ -22,46 +22,30 @@ function LearningDashboard() {
   const [startingCourse, setStartingCourse] = useState<string | null>(null);
   const [userInitialLanguage, setUserInitialLanguage] = useState<string>('es');
   const [refreshing, setRefreshing] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
 
   const t: Translation = translations[currentLang];
 
-  // Debug logs
+  // Debug logs (only in development)
   useEffect(() => {
-    console.log('🔍 LearningDashboard state check:');
-    console.log('- User:', user?.id || 'No user');
-    console.log('- Auth loading:', authLoading);
-    console.log('- Courses:', courses.length, 'courses loaded');
-    console.log('- Loading:', loading);
-    console.log('- User progress:', userProgress.length, 'records');
-    console.log('- User initial language:', userInitialLanguage);
-    
-    // Debug course filtering
-    const availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
-    console.log('- Available courses after filtering:', availableCourses.length);
-    console.log('- Course details:', courses.map(c => ({
-      title: c.title,
-      source: c.source_language,
-      target: c.target_language,
-      matches: c.source_language === userInitialLanguage
-    })));
-    
-    setDebugInfo({
-      userExists: !!user,
-      authLoading,
-      coursesCount: courses.length,
-      dataLoading: loading,
-      progressCount: userProgress.length,
-      userLanguage: userInitialLanguage,
-      filteredCount: availableCourses.length,
-      courseDetails: courses.map(c => ({
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 LearningDashboard state check:');
+      console.log('- User:', user?.id || 'No user');
+      console.log('- Auth loading:', authLoading);
+      console.log('- Courses:', courses.length, 'courses loaded');
+      console.log('- Loading:', loading);
+      console.log('- User progress:', userProgress.length, 'records');
+      console.log('- User initial language:', userInitialLanguage);
+      
+      // Debug course filtering
+      const availableCourses = courses.filter(course => course.source_language === userInitialLanguage);
+      console.log('- Available courses after filtering:', availableCourses.length);
+      console.log('- Course details:', courses.map(c => ({
         title: c.title,
         source: c.source_language,
         target: c.target_language,
         matches: c.source_language === userInitialLanguage
-      })),
-      timestamp: new Date().toISOString()
-    });
+      })));
+    }
   }, [user, authLoading, courses, loading, userProgress, userInitialLanguage]);
 
   // Load user's initial language from profile
@@ -161,13 +145,17 @@ function LearningDashboard() {
     if (userInitialLanguage) {
       availableCourses = courses.filter(course => {
         const matches = course.source_language === userInitialLanguage;
-        console.log(`🔍 Course "${course.title}" (${course.source_language} → ${course.target_language}) matches user language "${userInitialLanguage}": ${matches}`);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`🔍 Course "${course.title}" (${course.source_language} → ${course.target_language}) matches user language "${userInitialLanguage}": ${matches}`);
+        }
         return matches;
       });
     }
 
-    console.log('🔍 Available courses after filtering:', availableCourses.length);
-    console.log('🔍 Filtered courses:', availableCourses.map(c => `${c.title} (${c.source_language} → ${c.target_language})`));
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 Available courses after filtering:', availableCourses.length);
+      console.log('🔍 Filtered courses:', availableCourses.map(c => `${c.title} (${c.source_language} → ${c.target_language})`));
+    }
     return availableCourses;
   };
 
@@ -217,9 +205,6 @@ function LearningDashboard() {
 
   const completedLessons = learningStats?.completed_lessons || 0;
   const totalLessons = learningStats?.total_lessons || 0;
-
-  // Show debug information in development
-  const showDebugInfo = process.env.NODE_ENV === 'development';
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
@@ -293,71 +278,6 @@ function LearningDashboard() {
             </p>
           </div>
         </div>
-
-        {/* Debug Information (Development Only) */}
-        {showDebugInfo && debugInfo && (
-          <div className="mb-8">
-            <div className="bg-yellow-50/95 dark:bg-yellow-900/30 backdrop-blur-md border-4 border-yellow-500 shadow-2xl p-6"
-                 style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-              <div className="flex items-center space-x-3 mb-4">
-                <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
-                <h3 className="text-lg font-black text-yellow-800 dark:text-yellow-200">
-                  Debug Information (Development Mode)
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm font-bold mb-4">
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">User Status</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.userExists ? '✅ Authenticated' : '❌ Not authenticated'}
-                  </div>
-                </div>
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">Courses Loaded</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.coursesCount} courses
-                  </div>
-                </div>
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">Loading State</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.dataLoading ? '🔄 Loading' : '✅ Ready'}
-                  </div>
-                </div>
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">User Progress</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.progressCount} records
-                  </div>
-                </div>
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">User Language</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.userLanguage?.toUpperCase()}
-                  </div>
-                </div>
-                <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                  <div className="text-yellow-700 dark:text-yellow-300">Filtered Courses</div>
-                  <div className="text-yellow-900 dark:text-yellow-100">
-                    {debugInfo.filteredCount} available
-                  </div>
-                </div>
-              </div>
-              
-              {/* Course Details */}
-              <div className="bg-yellow-100/50 dark:bg-yellow-800/30 p-3 border border-yellow-400">
-                <div className="text-yellow-700 dark:text-yellow-300 font-bold mb-2">Course Details:</div>
-                <div className="text-yellow-900 dark:text-yellow-100 text-xs space-y-1">
-                  {debugInfo.courseDetails?.map((course: any, index: number) => (
-                    <div key={index} className={`${course.matches ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                      {course.matches ? '✅' : '❌'} {course.title} ({course.source} → {course.target})
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* User Language Info */}
         <div className="mb-12">
@@ -486,18 +406,6 @@ function LearningDashboard() {
                     </button>
                   )}
                 </div>
-                
-                {/* Additional debug info for empty state */}
-                {showDebugInfo && (
-                  <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-500 text-left">
-                    <div className="text-xs font-mono text-gray-700 dark:text-gray-300">
-                      <div>Total courses in DB: {courses.length}</div>
-                      <div>User language: {userInitialLanguage}</div>
-                      <div>Filtered courses: {filteredCourses.length}</div>
-                      <div>Loading state: {loading ? 'true' : 'false'}</div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ) : (
