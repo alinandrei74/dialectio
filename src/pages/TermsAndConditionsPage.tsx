@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Languages, FileText, Users, Shield, AlertTriangle, Scale, Globe } from 'lucide-react';
+import { ArrowLeft, Languages } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { translations } from '../translations';
 import { Translation } from '../types/translations';
@@ -81,21 +81,15 @@ function TermsAndConditionsPage() {
              style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
           
           {/* Header */}
-          <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-500 dark:to-green-700 text-white mx-2 mt-2"
+          <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-10 h-10 bg-white/20 flex items-center justify-center transform rotate-45 border-2 border-white shadow-lg">
-                <FileText className="w-5 h-5 text-white transform -rotate-45" />
-              </div>
-              <h2 className="text-2xl font-black">
-                {t.termsAndConditions}
-              </h2>
-            </div>
+            <h2 className="text-2xl font-black text-center">
+              {t.termsAndConditions}
+            </h2>
           </div>
 
           {/* Content */}
           <div className="p-8">
-            {/* Demo Notice */}
             <div className="bg-yellow-50/90 dark:bg-yellow-900/30 border-3 border-yellow-500 p-6 mb-8 shadow-lg"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <p className="text-yellow-800 dark:text-yellow-200 font-bold text-center">
@@ -103,122 +97,77 @@ function TermsAndConditionsPage() {
               </p>
             </div>
 
-            {/* Basic Terms for Demo */}
+            {/* Placeholder sections for when content is added */}
             <div className="space-y-8">
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
-                    <Users className="w-5 h-5 text-white transform -rotate-45" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
-                    1. Aceptación de Términos (Demo)
-                  </h3>
-                </div>
-                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                  <p>• Al usar esta demostración técnica, aceptas estos términos básicos</p>
-                  <p>• Esta aplicación es solo para fines de evaluación y demostración</p>
-                  <p>• No se garantiza disponibilidad continua del servicio durante la demo</p>
-                  <p>• Los términos completos se desarrollarían para una versión de producción</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  1. Aceptación de términos
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(0% 0%, 99% 0%, 100% 100%, 1% 100%)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
-                    <Shield className="w-5 h-5 text-white transform -rotate-45" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
-                    2. Uso Permitido
-                  </h3>
-                </div>
-                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                  <p>• <strong>Evaluación:</strong> Usar la demo para evaluar funcionalidades</p>
-                  <p>• <strong>Pruebas:</strong> Probar características de aprendizaje de idiomas</p>
-                  <p>• <strong>Feedback:</strong> Proporcionar comentarios sobre la experiencia</p>
-                  <p>• <strong>No comercial:</strong> No usar para fines comerciales o de producción</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  2. Uso del servicio
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
-                    <AlertTriangle className="w-5 h-5 text-white transform -rotate-45" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
-                    3. Restricciones
-                  </h3>
-                </div>
-                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                  <p>• <strong>No redistribuir:</strong> No compartir o redistribuir el código</p>
-                  <p>• <strong>No modificar:</strong> No intentar modificar o hackear la aplicación</p>
-                  <p>• <strong>No abusar:</strong> No sobrecargar el sistema con uso excesivo</p>
-                  <p>• <strong>Respeto:</strong> Usar la plataforma de manera respetuosa</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  3. Cuenta de usuario
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(0% 0%, 99% 0%, 100% 100%, 1% 100%)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
-                    <Scale className="w-5 h-5 text-white transform -rotate-45" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
-                    4. Limitación de Responsabilidad
-                  </h3>
-                </div>
-                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                  <p>• <strong>Demo únicamente:</strong> Esta es una demostración técnica, no un producto final</p>
-                  <p>• <strong>Sin garantías:</strong> No se garantiza precisión o disponibilidad</p>
-                  <p>• <strong>Uso bajo riesgo:</strong> El uso es bajo tu propio riesgo</p>
-                  <p>• <strong>No responsabilidad:</strong> No somos responsables por pérdidas o daños</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  4. Propiedad intelectual
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-orange-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
-                    <Globe className="w-5 h-5 text-white transform -rotate-45" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
-                    5. Servicios de Terceros
-                  </h3>
-                </div>
-                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                  <p>• <strong>OpenAI:</strong> Servicios de IA conversacional sujetos a sus términos</p>
-                  <p>• <strong>ElevenLabs:</strong> Servicios de texto a voz sujetos a sus términos</p>
-                  <p>• <strong>Supabase:</strong> Infraestructura de base de datos sujeta a sus términos</p>
-                  <p>• <strong>Responsabilidad:</strong> No somos responsables por servicios de terceros</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  5. Limitación de responsabilidad
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
 
-              {/* Demo Specific Notice */}
-              <div className="bg-blue-50/90 dark:bg-blue-900/30 border-3 border-blue-500 p-6 shadow-lg"
-                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                <h4 className="text-lg font-black text-blue-800 dark:text-blue-200 mb-3">
-                  Aviso Importante - Demo Técnica para Hackathon
-                </h4>
-                <div className="text-blue-700 dark:text-blue-300 font-bold text-sm space-y-2">
-                  <p>Esta aplicación es una demostración técnica desarrollada específicamente para una hackathon. En una versión de producción:</p>
-                  <p>• Se desarrollarían términos y condiciones completos y legalmente vinculantes</p>
-                  <p>• Se establecerían políticas de uso detalladas</p>
-                  <p>• Se implementarían procedimientos de resolución de disputas</p>
-                  <p>• Se cumplirían todas las regulaciones legales aplicables</p>
-                  <p>• Se proporcionaría soporte al cliente y garantías apropiadas</p>
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <div className="bg-green-50/90 dark:bg-green-900/30 border-3 border-green-500 p-6 shadow-lg"
-                   style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <h4 className="text-lg font-black text-green-800 dark:text-green-200 mb-3">
-                  Contacto para la Demo
-                </h4>
-                <div className="text-green-700 dark:text-green-300 font-bold text-sm">
-                  <p>Para preguntas sobre esta demostración técnica o para proporcionar feedback, contacta al equipo de desarrollo a través de los canales oficiales de la hackathon.</p>
+              <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
+                   style={{ clipPath: 'polygon(0% 0%, 99% 0%, 100% 100%, 1% 100%)' }}>
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
+                  6. Modificaciones
+                </h3>
+                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
+                    [Contenido pendiente]
+                  </p>
                 </div>
               </div>
             </div>

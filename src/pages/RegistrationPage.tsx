@@ -65,12 +65,12 @@ function RegistrationPage() {
       <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-gray-100 mb-6 tracking-tight">
-            {t.registrationDisabled}
+            Registro Deshabilitado
           </h1>
           <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md p-6 max-w-3xl mx-auto border-4 border-black dark:border-gray-300 shadow-2xl"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             <p className="text-lg text-gray-900 dark:text-gray-100 font-bold">
-              {t.hackathonDemo}
+              Esta es una demostración técnica para la hackathon
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ function RegistrationPage() {
                 <AlertTriangle className="w-5 h-5 text-white transform -rotate-45" />
               </div>
               <h2 className="text-2xl font-black">
-                {t.technicalDemo}
+                Demo Técnica
               </h2>
             </div>
           </div>
@@ -97,39 +97,41 @@ function RegistrationPage() {
             <div className="mb-8">
               <Lock className="w-20 h-20 text-gray-400 mx-auto mb-6" />
               <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                {t.registrationDisabled}
+                Creación de Cuentas Deshabilitada
               </h3>
               <p className="text-gray-700 dark:text-gray-300 font-bold text-lg mb-6">
-                {t.demoNotice}
+                Esta aplicación es una demostración técnica desarrollada para la hackathon. 
+                La creación de nuevas cuentas está temporalmente deshabilitada.
               </p>
             </div>
 
             <div className="bg-blue-50/90 dark:bg-gray-700/90 p-6 border-3 border-blue-300 dark:border-blue-500 shadow-lg mb-8"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <h4 className="text-lg font-black text-blue-800 dark:text-blue-200 mb-3">
-                {t.judgeAccess}
+                ¿Eres juez de la hackathon?
               </h4>
               <p className="text-blue-700 dark:text-blue-300 font-bold text-sm mb-4">
-                {t.judgeAccessDescription}
+                Si tienes credenciales de acceso para evaluar esta demo, puedes iniciar sesión desde la página principal.
               </p>
               <button
                 onClick={() => navigate('/')}
                 className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white px-6 py-3 font-black text-lg border-3 border-black dark:border-gray-300 hover:from-blue-700 hover:to-blue-900 dark:hover:from-blue-600 dark:hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
                 style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}
               >
-                {t.goToLogin}
+                Ir a Inicio de Sesión
               </button>
             </div>
 
             <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                  style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
               <h4 className="text-lg font-black text-gray-900 dark:text-gray-100 mb-3">
-                {t.aboutThisDemo}
+                Sobre esta Demo
               </h4>
               <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
-                {t.demoFeatures.map((feature, index) => (
-                  <p key={index}>• {feature}</p>
-                ))}
+                <p>• Aplicación de aprendizaje de lenguas romances</p>
+                <p>• Utiliza IA conversacional para práctica interactiva</p>
+                <p>• Diseñada con React, TypeScript y Supabase</p>
+                <p>• Integra OpenAI y ElevenLabs para experiencias inmersivas</p>
               </div>
             </div>
 
@@ -139,7 +141,7 @@ function RegistrationPage() {
                 onClick={() => navigate('/')}
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-black text-sm underline transition-colors duration-300"
               >
-                {t.backToHome}
+                ← Volver al inicio
               </button>
             </div>
           </div>
