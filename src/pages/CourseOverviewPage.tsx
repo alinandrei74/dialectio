@@ -240,6 +240,28 @@ function CourseOverviewPage() {
     }
   };
 
+  const getLessonTypeDescription = (type: string) => {
+    switch (type) {
+      case 'vocabulary': return 'Aprende palabras y expresiones esenciales del idioma';
+      case 'grammar': return 'Domina las estructuras y reglas gramaticales';
+      case 'conversation': return 'Practica diálogos reales y situaciones cotidianas';
+      case 'culture': return 'Descubre la cultura y tradiciones del país';
+      case 'practice': return 'Refuerza lo aprendido con ejercicios variados';
+      default: return 'Contenido educativo especializado';
+    }
+  };
+
+  const getLessonTypeColor = (type: string) => {
+    switch (type) {
+      case 'vocabulary': return 'from-blue-600 to-blue-800';
+      case 'grammar': return 'from-purple-600 to-purple-800';
+      case 'conversation': return 'from-green-600 to-green-800';
+      case 'culture': return 'from-orange-600 to-orange-800';
+      case 'practice': return 'from-red-600 to-red-800';
+      default: return 'from-gray-600 to-gray-800';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 via-blue-300 via-gray-200 via-green-200 to-black dark:from-gray-900 dark:via-gray-800 dark:via-gray-700 dark:via-gray-600 dark:to-black relative overflow-hidden font-sans">
       {/* Background Elements */}
@@ -455,26 +477,121 @@ function CourseOverviewPage() {
                 <div className="space-y-4">
                   {Object.entries(lessonTypeStats).map(([type, count]) => (
                     count > 0 && (
-                      <div key={type} className="flex items-center justify-between p-4 bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md"
+                      <div key={type} className="bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md overflow-hidden"
                            style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
-                        <div className="flex items-center space-x-3">
-                          <span className="text-2xl">{getLessonTypeIcon(type)}</span>
-                          <div>
-                            <h3 className="font-black text-gray-900 dark:text-gray-100">
-                              {getLessonTypeName(type)}
-                            </h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 font-bold">
-                              {count} lección{count !== 1 ? 'es' : ''}
-                            </p>
+                        <div className={`bg-gradient-to-r ${getLessonTypeColor(type)} p-3`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">{getLessonTypeIcon(type)}</span>
+                              <div>
+                                <h3 className="font-black text-white text-lg">
+                                  {getLessonTypeName(type)}
+                                </h3>
+                                <p className="text-white/90 font-bold text-sm">
+                                  {count} lección{count !== 1 ? 'es' : ''}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-white/20 text-white px-3 py-1 font-black text-lg border-2 border-white shadow-lg"
+                                 style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
+                              {count}
+                            </div>
                           </div>
                         </div>
-                        <div className="bg-blue-600 text-white px-3 py-1 font-black text-sm border-2 border-black shadow-lg"
-                             style={{ clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)' }}>
-                          {count}
+                        <div className="p-4">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                            {getLessonTypeDescription(type)}
+                          </p>
                         </div>
                       </div>
                     )
                   ))}
+                  
+                  {/* If no lesson types found, show default content */}
+                  {Object.values(lessonTypeStats).every(count => count === 0) && (
+                    <div className="space-y-4">
+                      {/* Default lesson types for any language course */}
+                      <div className="bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md overflow-hidden"
+                           style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                        <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">📚</span>
+                              <div>
+                                <h3 className="font-black text-white text-lg">Vocabulario</h3>
+                                <p className="text-white/90 font-bold text-sm">Palabras esenciales</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                            Aprende las palabras y expresiones más importantes para comunicarte efectivamente.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md overflow-hidden"
+                           style={{ clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)' }}>
+                        <div className="bg-gradient-to-r from-purple-600 to-purple-800 p-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">📝</span>
+                              <div>
+                                <h3 className="font-black text-white text-lg">Gramática</h3>
+                                <p className="text-white/90 font-bold text-sm">Estructuras del idioma</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                            Domina las reglas gramaticales fundamentales con ejemplos prácticos y ejercicios.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md overflow-hidden"
+                           style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
+                        <div className="bg-gradient-to-r from-green-600 to-green-800 p-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">💬</span>
+                              <div>
+                                <h3 className="font-black text-white text-lg">Conversación</h3>
+                                <p className="text-white/90 font-bold text-sm">Diálogos reales</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                            Practica conversaciones auténticas para situaciones cotidianas y profesionales.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50/90 dark:bg-gray-700/90 border-2 border-gray-300 dark:border-gray-500 shadow-md overflow-hidden"
+                           style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                        <div className="bg-gradient-to-r from-orange-600 to-orange-800 p-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">🎭</span>
+                              <div>
+                                <h3 className="font-black text-white text-lg">Cultura</h3>
+                                <p className="text-white/90 font-bold text-sm">Contexto cultural</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <p className="text-gray-700 dark:text-gray-300 font-bold text-sm">
+                            Comprende la cultura, tradiciones y costumbres del país donde se habla el idioma.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -529,7 +646,7 @@ function CourseOverviewPage() {
                     <h3 className="font-black text-gray-900 dark:text-gray-100">
                       Conversación Real
                     </h3>
-                    <p className="text-sm text-gray-600 dark-text-gray-400 font-bold">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 font-bold">
                       Practica diálogos auténticos para situaciones cotidianas.
                     </p>
                   </div>
