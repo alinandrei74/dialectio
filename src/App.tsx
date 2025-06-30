@@ -13,6 +13,8 @@ import LearningDashboard from './pages/LearningDashboard';
 import CourseOverviewPage from './pages/CourseOverviewPage';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 
 function App() {
   return (
@@ -49,6 +51,16 @@ function App() {
           <Route path="/learning/lesson/:lessonId" element={
             <ErrorBoundary>
               <LessonPage />
+            </ErrorBoundary>
+          } />
+          <Route path="/blog" element={
+            <ErrorBoundary>
+              <BlogPage />
+            </ErrorBoundary>
+          } />
+          <Route path="/blog/:slug" element={
+            <ErrorBoundary>
+              <BlogPostPage />
             </ErrorBoundary>
           } />
         </Routes>
