@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Languages } from 'lucide-react';
+import { ArrowLeft, Languages, Shield, Eye, Database, Lock, Mail, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { translations } from '../translations';
 import { Translation } from '../types/translations';
@@ -83,13 +83,19 @@ function PrivacyPolicyPage() {
           {/* Header */}
           <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
-            <h2 className="text-2xl font-black text-center">
-              {t.privacyPolicy}
-            </h2>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-10 h-10 bg-white/20 flex items-center justify-center transform rotate-45 border-2 border-white shadow-lg">
+                <Shield className="w-5 h-5 text-white transform -rotate-45" />
+              </div>
+              <h2 className="text-2xl font-black">
+                {t.privacyPolicy}
+              </h2>
+            </div>
           </div>
 
           {/* Content */}
           <div className="p-8">
+            {/* Demo Notice */}
             <div className="bg-yellow-50/90 dark:bg-yellow-900/30 border-3 border-yellow-500 p-6 mb-8 shadow-lg"
                  style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
               <p className="text-yellow-800 dark:text-yellow-200 font-bold text-center">
@@ -97,65 +103,110 @@ function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Placeholder sections for when content is added */}
+            {/* Basic Privacy Information for Demo */}
             <div className="space-y-8">
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  1. Información que recopilamos
-                </h3>
-                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
-                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                    [Contenido pendiente]
-                  </p>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
+                    <Database className="w-5 h-5 text-white transform -rotate-45" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
+                    1. Información que Recopilamos (Demo)
+                  </h3>
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
+                  <p>• <strong>Datos de cuenta:</strong> Email, nombre de usuario y preferencias de idioma</p>
+                  <p>• <strong>Progreso de aprendizaje:</strong> Lecciones completadas, puntuaciones y estadísticas</p>
+                  <p>• <strong>Interacciones:</strong> Conversaciones con IA para mejorar la experiencia</p>
+                  <p>• <strong>Datos técnicos:</strong> Información del navegador para funcionalidad básica</p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(0% 0%, 99% 0%, 100% 100%, 1% 100%)' }}>
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  2. Cómo utilizamos la información
-                </h3>
-                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
-                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                    [Contenido pendiente]
-                  </p>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
+                    <Eye className="w-5 h-5 text-white transform -rotate-45" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
+                    2. Cómo Utilizamos la Información
+                  </h3>
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
+                  <p>• <strong>Personalización:</strong> Adaptar lecciones a tu nivel y progreso</p>
+                  <p>• <strong>Funcionalidad:</strong> Proporcionar características de la aplicación</p>
+                  <p>• <strong>Mejoras:</strong> Analizar uso para mejorar la experiencia (solo en demo)</p>
+                  <p>• <strong>Comunicación:</strong> Enviar actualizaciones importantes del servicio</p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  3. Compartir información
-                </h3>
-                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
-                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                    [Contenido pendiente]
-                  </p>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
+                    <Globe className="w-5 h-5 text-white transform -rotate-45" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
+                    3. Compartir Información
+                  </h3>
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
+                  <p>• <strong>Servicios de IA:</strong> OpenAI y ElevenLabs para funcionalidad de chat y audio</p>
+                  <p>• <strong>Infraestructura:</strong> Supabase para almacenamiento seguro de datos</p>
+                  <p>• <strong>No vendemos datos:</strong> Nunca vendemos información personal a terceros</p>
+                  <p>• <strong>Solo demo:</strong> Los datos se usan únicamente para demostración técnica</p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(0% 0%, 99% 0%, 100% 100%, 1% 100%)' }}>
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  4. Seguridad de datos
-                </h3>
-                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
-                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                    [Contenido pendiente]
-                  </p>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
+                    <Lock className="w-5 h-5 text-white transform -rotate-45" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
+                    4. Seguridad de Datos
+                  </h3>
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
+                  <p>• <strong>Encriptación:</strong> Todos los datos se transmiten de forma segura</p>
+                  <p>• <strong>Acceso limitado:</strong> Solo personal autorizado puede acceder a los datos</p>
+                  <p>• <strong>Contraseñas:</strong> Se almacenan de forma encriptada y segura</p>
+                  <p>• <strong>Monitoreo:</strong> Supervisión continua de la seguridad del sistema</p>
                 </div>
               </div>
 
               <div className="bg-gray-50/90 dark:bg-gray-700/90 p-6 border-2 border-gray-300 dark:border-gray-500 shadow-md"
                    style={{ clipPath: 'polygon(1% 0%, 100% 0%, 99% 100%, 0% 100%)' }}>
-                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">
-                  5. Contacto
-                </h3>
-                <div className="h-24 bg-gray-200/50 dark:bg-gray-600/50 border border-gray-300 dark:border-gray-500 flex items-center justify-center">
-                  <p className="text-gray-600 dark:text-gray-400 font-bold text-sm">
-                    [Contenido pendiente]
-                  </p>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-orange-800 flex items-center justify-center transform rotate-45 border-2 border-black shadow-lg">
+                    <Mail className="w-5 h-5 text-white transform -rotate-45" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">
+                    5. Contacto y Derechos
+                  </h3>
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-bold text-sm space-y-2">
+                  <p>• <strong>Acceso:</strong> Puedes solicitar una copia de tus datos personales</p>
+                  <p>• <strong>Corrección:</strong> Puedes actualizar información incorrecta</p>
+                  <p>• <strong>Eliminación:</strong> Puedes solicitar la eliminación de tu cuenta</p>
+                  <p>• <strong>Contacto:</strong> Para consultas sobre privacidad, contacta al equipo de desarrollo</p>
+                </div>
+              </div>
+
+              {/* Demo Specific Notice */}
+              <div className="bg-blue-50/90 dark:bg-blue-900/30 border-3 border-blue-500 p-6 shadow-lg"
+                   style={{ clipPath: 'polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)' }}>
+                <h4 className="text-lg font-black text-blue-800 dark:text-blue-200 mb-3">
+                  Aviso Importante - Demo Técnica
+                </h4>
+                <div className="text-blue-700 dark:text-blue-300 font-bold text-sm space-y-2">
+                  <p>Esta aplicación es una demostración técnica desarrollada para una hackathon. En una versión de producción:</p>
+                  <p>• Se implementarían políticas de privacidad más detalladas</p>
+                  <p>• Se añadirían controles de privacidad adicionales</p>
+                  <p>• Se establecerían procedimientos formales de manejo de datos</p>
+                  <p>• Se cumplirían todas las regulaciones aplicables (GDPR, CCPA, etc.)</p>
                 </div>
               </div>
             </div>

@@ -1,1296 +1,508 @@
 export const translations = {
   es: {
-    // Navigation
-    languages: 'Idiomas',
-    method: 'Método',
-    about: 'Nosotros',
-    faq: 'FAQ',
-    start: 'Comenzar',
-    
-    // Hero Section
-    heroTitle: 'Las lenguas',
-    heroSubtitle: 'no se acaban',
-    heroTitle2: ', se continúan',
-    heroDescription: 'Descubre cómo tus conocimientos en una lengua romance pueden acelerar tu aprendizaje de español, francés, portugués e italiano.',
-    startJourney: 'Empezar mi viaje',
-    viewDemo: 'Ver demo',
-    
-    // Language Section
-    languagesSectionTitle: 'Cuatro lenguas, una familia',
-    languagesSectionSubtitle: 'Explora las conexiones profundas entre las lenguas romances y acelera tu aprendizaje',
-    
-    // Language Descriptions
-    spanishDescription: 'Lengua madre de 500 millones de personas',
-    frenchDescription: 'La lengua de la diplomacia y la cultura',
-    portugueseDescription: 'Idioma de 260 millones de hablantes',
-    italianDescription: 'La lengua de la belleza y el arte',
-    
-    // About Section
-    aboutTitle: 'Nuestra historia comienza contigo',
-    aboutSubtitle: 'Cada idioma que conoces es una puerta que te abre a nuevos mundos',
-    aboutDescription1: 'En dialectio.xyz, entendemos que aprender un nuevo idioma no significa empezar desde cero. Tu mente ya posee un tesoro lingüístico que puede ser la clave para desbloquear nuevas lenguas de manera natural y eficiente.',
-    aboutDescription2: 'Nacimos con la intención de crear una forma de aprender que tenga en cuenta la conexión de las lenguas y hacer que aproveches tus conocimientos previos. Cuando hablas español ya tienes las bases para comprender francés. Si conoces el italiano, el portugués te resultará familiar.',
-    aboutDescription3: 'Con dialectio.xyz no harás tan sólo ejercicios de rellenar huecos y ordenar palabras. No te aburriremos con gramática. Creemos que aprender una lengua es usarla. Nuestro sistema se basa en crear situaciones reales donde el estudiante tenga la oportunidad de usar la lengua que está aprendiendo así como su cultura.',
-    ourStoryTitle: 'Nuestra historia',
-    ourStoryDescription: 'Todo comenzó con una observación sencilla: aprender italiano resulta mucho más rápido para quienes ya hablan otras lenguas romances. Esta constatación dio paso a una investigación profunda sobre las conexiones entre las lenguas romances, y con el tiempo, a la creación de un método que aprovecha sus similitudes naturales para facilitar el aprendizaje.',
-    ourMissionTitle: 'Nuestra misión',
-    ourMissionDescription: 'Acelerar el aprendizaje de idiomas haciendo que sea más rápido, natural y accesible para todos. Creemos que poder entender múltiples lenguas de la misma familia de las que ya conoces debería ser la norma, no la excepción. Queremos hacer que esto sea una posibilidad para cualquier persona con curiosidad y determinación.',
-    ourVisionTitle: 'Nuestra visión',
-    ourVisionDescription: 'Imaginamos un mundo donde entender tus lenguas cercanas sea más sencillo y satisfactorio que usar el traductor, donde cada persona pueda comunicarse fluidamente en múltiples idiomas, y donde la diversidad cultural se celebra a través del entendimiento mutuo que sólo el multilingüismo puede ofrecer.',
-    
-    // Features Section
-    methodTitle: 'Nuestro método único',
-    methodSubtitle: 'Aprovecha las similitudes lingüísticas para un aprendizaje más eficiente y natural',
-    
-    // Feature Items
-    acceleratedLearningTitle: 'Aprendizaje Acelerado',
-    acceleratedLearningDescription: 'Utiliza tus conocimientos previos para aprender más rápido. Las lenguas romances comparten raíces latinas.',
-    contrastiveMethodTitle: 'Método Contrastivo',
-    contrastiveMethodDescription: 'Compara y contrasta similitudes entre idiomas para una comprensión más profunda y duradera.',
-    
-    // Stats Section
-    fasterStat: 'Más rápido',
-    fasterDescription: 'Aprendizaje acelerado aprovechando conocimientos previos',
-    languagesStat: 'Idiomas',
-    languagesDescription: 'Lenguas romances principales en una sola plataforma',
-    
-    // FAQ Section
-    faqTitle: 'Preguntas frecuentes',
-    faqSubtitle: 'Resolvemos las dudas más comunes sobre dialectio.xyz',
-    faqQuestion1: '¿Qué es Dialectio.xyz y cómo funciona?',
-    faqAnswer1: 'Dialectio.xyz es una plataforma en línea concebida para acelerar el aprendizaje desde lenguas similares. Parte de un principio sencillo: si ya dominas una lengua como el español, el italiano, el francés o el portugués, posees una gran parte del camino recorrido hacia las demás. El sistema identifica esas correspondencias —léxicas, gramaticales y fonéticas— y las convierte en atajos prácticos y prioridades. El aprendizaje se articula en dos frentes complementarios. Por un lado, conversaciones guiadas con tutores virtuales que simulan situaciones reales y con los que hablarás; por otro, ejercicios tradicionales previos a la fase de conversación, donde aprenderás los rudimentos básicos para desenvolverte en una situación real. La combinación de uso inmediato y reflexión consciente permite avanzar con rapidez y retener de forma duradera.',
-    faqQuestion2: '¿Qué idiomas puedo aprender en Dialectio.xyz?',
-    faqAnswer2: 'En la versión actual se ofrecen español, francés, italiano y portugués. El catálogo crecerá gradualmente, primero con otras lenguas de la misma familia —catalán, gallego, rumano— y después con otras lenguas, guardando siempre este enfoque en la familiaridad entre lenguas.',
-    faqQuestion3: '¿Necesito tener conocimientos previos de alguna de las lenguas actuales para usar Dialectio.xyz?',
-    faqAnswer3: 'No es imprescindible. El sistema admite el inglés como lengua de apoyo para explicaciones y pistas básicas. Sin embargo, su diseño saca el máximo rendimiento cuando el usuario ya domina, aunque sea de manera parcial, al menos una lengua romance: cada similitud reconocida se convierte entonces en un impulso de comprensión y en un ahorro de esfuerzo.',
-    faqQuestion4: '¿Cuál es la diferencia entre Dialectio.xyz y otras plataformas de aprendizaje de idiomas?',
-    faqAnswer4: 'La mayoría de los programas enseñan cada lengua en aislamiento, como si empezaras desde cero. Dialectio.xyz parte de lo que ya sabes. Explora raíces comunes, patrones morfológicos compartidos y falsos amigos característicos entre lenguas emparentadas. De ese modo evita redundancias y centra la atención en los verdaderos puntos de divergencia. Además, la práctica no se reduce a gimnasia gramatical: las conversaciones, los relatos y las tareas funcionales generan exposición auténtica y refuerzan la confianza comunicativa.',
-    faqQuestion5: '¿Cómo se estructura el aprendizaje en Dialectio.xyz?',
-    faqAnswer5: 'Cada sesión se organiza en torno a un micro-objetivo comunicativo: saludar a un vecino, pedir café, describir un itinerario, responder en una entrevista y en conjunto construyen una historia en el país de la lengua, tu historia. El primer paso son ejercicios tradicionales que te dan los rudimento básicos para desenvolverte, el segundo te lanza a situaciones reales en las que practicar la lengua en su contexto cultural.',
-    faqQuestion6: '¿Quién está detrás de Dialectio.xyz?',
-    faqAnswer6: 'Un equipo mixto de desarrolladores, lingüistas y apasionados del autoaprendizaje. Comparten la convicción de que las fronteras entre lenguas romances son más porosas de lo que sugiere la enseñanza tradicional y que la tecnología conversacional puede dinamizar esa cercanía lingüística para cualquier público.',
-    faqQuestion7: '¿Qué necesito para empezar?',
-    faqAnswer7: 'Solo crear una cuenta y disponer de conexión a internet. Todo sucede en el navegador: no hay descargas ni instalaciones. Desde el primer acceso obtendrás un diagnóstico de tu nivel y una ruta de aprendizaje personalizada que puedes seguir en ordenador, tableta o móvil.',
-    faqQuestion8: '¿Qué papel juega la motivación para el aprendizaje en Dialectio.xyz?',
-    faqAnswer8: 'En Dialectio.xyz la motivación quizá no acompañe al usuario desde el minuto cero, pero se considera esencial para que el proceso continúe. Por ello el diseño didáctico está orientado a generarla en lugar de presuponerla. Cada actividad coloca al aprendiz en un contexto significativo donde los resultados aparecen pronto y son tangibles: entender un guiño cultural en una canción, cerrar una reserva de alojamiento, o responder con aplomo en una llamada. Esa utilidad provoca curiosidad, alimenta el deseo de seguir y transforma la motivación en una consecuencia natural, nunca en una barrera inicial.',
-    
-    // CTA Section
-    ctaTitle: '¿Listo para continuar tu viaje lingüístico?',
-    ctaDescription: 'Únete a miles de estudiantes que ya están aprovechando sus conocimientos para dominar múltiples lenguas romances.',
-    createAccount: 'Crear cuenta gratis',
-    learnMore: 'Conocer más',
-    
-    // Footer
-    footerDescription: 'Las lenguas no se acaban, se continúan. Aprende español, francés, portugués e italiano de manera inteligente y eficiente.',
-    resources: 'Recursos',
-    blog: 'Blog',
-    help: 'Ayuda',
-    contact: 'Contacto',
-    copyright: '© 2025 dialectio.xyz. Todos los derechos reservados.',
-
-    // Auth
-    login: 'Iniciar sesión',
+    // Existing translations...
+    title: 'dialectio.xyz',
+    subtitle: 'Las lenguas no se acaban, se continúan',
+    heroTitle: 'Las lenguas no se acaban, se continúan',
+    heroSubtitle: 'Aprende español, francés, portugués e italiano aprovechando tus conocimientos previos',
+    startLearning: 'Comenzar a Aprender',
+    login: 'Iniciar Sesión',
     register: 'Registrarse',
-    email: 'Email',
-    password: 'Contraseña',
-    confirmPassword: 'Confirmar contraseña',
-    username: 'Usuario',
-    fullName: 'Nombre completo',
-    initialLanguage: 'Idioma inicial',
-    selectInitialLanguage: 'Selecciona tu idioma inicial',
-    emailOrUsername: 'Email o usuario',
-    loginButton: 'Entrar',
-    registerButton: 'Crear cuenta',
-    alreadyHaveAccount: '¿Ya tienes cuenta?',
-    dontHaveAccount: '¿No tienes cuenta?',
-    createNewAccount: 'Crear nueva cuenta',
-    backToLogin: 'Volver al inicio de sesión',
     
-    // Registration Page
-    registrationTitle: 'Únete a dialectio.xyz',
-    registrationSubtitle: 'Crea tu cuenta y comienza tu viaje multilingüe',
-    personalInfoTitle: 'Información personal',
-    personalInfoDescription: 'Datos básicos para crear tu cuenta',
-    languageInfoTitle: 'Información lingüística',
-    languageInfoDescription: 'Selecciona tu idioma de partida para personalizar tu experiencia',
-    fullNameLabel: 'Nombre completo',
-    fullNamePlaceholder: 'Tu nombre completo',
-    usernameLabel: 'Nombre de usuario',
-    usernamePlaceholder: 'usuario123',
-    usernameDescription: 'Solo letras, números y guiones bajos. Mínimo 3 caracteres.',
-    emailLabel: 'Correo electrónico',
-    emailPlaceholder: 'tu@email.com',
-    passwordLabel: 'Contraseña',
-    passwordPlaceholder: 'Mínimo 6 caracteres',
-    confirmPasswordLabel: 'Confirmar contraseña',
-    confirmPasswordPlaceholder: 'Repite tu contraseña',
-    initialLanguageLabel: 'Tu idioma principal',
-    initialLanguageDescription: 'Selecciona el idioma que mejor dominas para personalizar tu experiencia de aprendizaje',
-    completeRegistration: 'Completar registro',
-    backToHome: 'Volver al inicio',
-    
-    // Language Options
+    // Languages
     spanish: 'Español',
-    french: 'Francés',
-    portuguese: 'Portugués',
-    italian: 'Italiano',
-    english: 'Inglés',
-    
-    // Validation Messages
-    fieldRequired: 'Este campo es obligatorio',
-    emailInvalid: 'El email no es válido',
-    passwordTooShort: 'La contraseña debe tener al menos 6 caracteres',
-    passwordMustContainLetter: 'La contraseña debe contener al menos una letra',
-    passwordMustContainNumberOrSpecial: 'La contraseña debe contener al menos un número o símbolo',
-    passwordsDoNotMatch: 'Las contraseñas no coinciden',
-    usernameTooShort: 'El usuario debe tener al menos 3 caracteres',
-    usernameInvalidChars: 'El usuario solo puede contener letras, números y guiones bajos',
-    usernameAlreadyExists: 'Este nombre de usuario ya está en uso',
-    emailAlreadyExists: 'Este email ya está registrado',
-    
-    // Success Messages
-    registrationSuccess: '¡Registro exitoso! Bienvenido a dialectio.xyz',
-    welcomeBack: '¡Bienvenido de vuelta!',
-    
-    // Error Messages
-    invalidCredentials: 'Credenciales incorrectas',
-    registrationError: 'Error en el registro. Inténtalo de nuevo.',
-    connectionError: 'Error de conexión. Verifica tu internet.',
-
-    // Legal Pages
-    privacyPolicy: 'Política de Privacidad',
-    privacyPolicySubtitle: 'Información sobre cómo protegemos y utilizamos tus datos',
-    privacyPolicyPlaceholder: 'El contenido de la política de privacidad se añadirá próximamente. Mientras tanto, ten la seguridad de que respetamos tu privacidad y protegemos tus datos personales.',
-    termsAndConditions: 'Términos y Condiciones',
-    termsAndConditionsSubtitle: 'Condiciones de uso de la plataforma dialectio.xyz',
-    termsAndConditionsPlaceholder: 'Los términos y condiciones completos se añadirán próximamente. Al usar dialectio.xyz, aceptas nuestras políticas de uso responsable y respeto mutuo.',
-
-    // Contact Page
-    contactTitle: 'Contacta con nosotros',
-    contactSubtitle: 'Estamos aquí para ayudarte en tu viaje de aprendizaje',
-    contactInfoTitle: 'Información de contacto',
-    contactFormTitle: 'Envíanos un mensaje',
-    contactPlaceholder: 'La información de contacto se actualizará próximamente. Mientras tanto, puedes usar el formulario para enviarnos tus consultas.',
-    nameLabel: 'Nombre',
-    namePlaceholder: 'Tu nombre',
-    subjectLabel: 'Asunto',
-    subjectPlaceholder: 'Asunto del mensaje',
-    messageLabel: 'Mensaje',
-    messagePlaceholder: 'Escribe tu mensaje aquí...',
-    phoneLabel: 'Teléfono',
-    addressLabel: 'Dirección',
-    sendMessage: 'Enviar mensaje',
-    sendingMessage: 'Enviando...',
-    contactSuccess: '¡Mensaje enviado exitosamente! Te responderemos pronto.',
-    contactError: 'Error al enviar el mensaje. Inténtalo de nuevo.',
-
-    // Terms Acceptance
-    acceptTerms: 'Acepto los términos y condiciones',
-    acceptTermsDescription: 'Al registrarte, aceptas nuestros',
-    mustAcceptTerms: 'Debes aceptar los términos y condiciones',
-
-    // Demo Page
-    demoTitle: 'Demo de dialectio.xyz',
-    demoSubtitle: 'Descubre cómo funciona nuestra plataforma de aprendizaje',
-    demoVideoTitle: 'Video demostrativo',
-    demoVideoPlaceholder: 'Demo interactivo',
-    demoVideoDescription: 'Próximamente: experiencia completa de aprendizaje',
-    comingSoon: 'Próximamente',
-    demoNotifyTitle: 'Notificaciones de lanzamiento',
-    demoNotifyDescription: '¿Quieres ser el primero en saber cuando dialectio.xyz esté disponible?',
-    demoNotifyBenefits: 'Recibe acceso anticipado, descuentos especiales y contenido exclusivo.',
-    demoNotifyPlaceholder: 'tu@email.com',
-    demoNotifyButton: 'Notificarme',
-    demoNotifyProcessing: 'Procesando...',
-    demoNotifySuccess: '¡Perfecto! Te notificaremos cuando estemos listos.',
-    demoNotifyError: 'Error al suscribirse. Inténtalo de nuevo.',
-    demoNotifyPrivacy: 'Respetamos tu privacidad. Solo te contactaremos sobre el lanzamiento.',
-    demoFeaturesTitle: 'Características principales',
-    demoFeaturesDescription: 'Lo que podrás hacer cuando dialectio.xyz esté disponible',
-    demoFeature1Title: 'Aprendizaje Inteligente',
-    demoFeature1Description: 'Aprovecha tus conocimientos previos para aprender más rápido',
-    demoFeature2Title: 'Práctica Interactiva',
-    demoFeature2Description: 'Conversaciones reales con tutores virtuales avanzados',
-    demoFeature3Title: 'Progreso Personalizado',
-    demoFeature3Description: 'Rutas de aprendizaje adaptadas a tu nivel y objetivos',
-
-    // Settings Page
-    settingsTitle: 'Configuración',
-    settingsSubtitle: 'Personaliza tu experiencia de aprendizaje',
-    settingsNavigation: 'Configuración',
-    settingsProfileSection: 'Perfil',
-    settingsPasswordSection: 'Contraseña',
-    settingsEmailSection: 'Email',
-    settingsPreferencesSection: 'Preferencias',
-    settingsCurrentInfo: 'Información actual',
-    settingsCurrentPassword: 'Contraseña actual',
-    settingsNewPassword: 'Nueva contraseña',
-    settingsCurrentEmail: 'Email actual',
-    settingsNewEmail: 'Nuevo email',
-    settingsConfirmPassword: 'Confirmar con contraseña',
-    settingsChangePassword: 'Cambiar contraseña',
-    settingsChangeEmail: 'Cambiar email',
-    settingsSaveChanges: 'Guardar cambios',
-    settingsSaving: 'Guardando...',
-    settingsSending: 'Enviando...',
-    settingsLanguagePreference: 'Idioma de la interfaz',
-    settingsLanguageDescription: 'Selecciona el idioma para la interfaz de la aplicación',
-    settingsThemePreference: 'Tema visual',
-    settingsThemeDescription: 'Elige entre tema claro u oscuro',
-    settingsMorePreferences: 'Más opciones de personalización estarán disponibles próximamente.',
-    settingsProfileSuccess: '¡Perfil actualizado exitosamente!',
-    settingsProfileError: 'Error al actualizar el perfil. Inténtalo de nuevo.',
-    settingsPasswordSuccess: '¡Contraseña actualizada exitosamente!',
-    settingsPasswordError: 'Error al actualizar la contraseña. Verifica tu contraseña actual.',
-    settingsEmailSuccess: '¡Email actualizado exitosamente!',
-    settingsEmailError: 'Error al actualizar el email. Verifica tu contraseña.',
-    settingsRegistrationDate: 'Fecha de registro',
-    settingsPasswordResetTitle: 'Restablecer contraseña',
-    settingsPasswordResetDescription: 'Te enviaremos un enlace para restablecer tu contraseña de forma segura.',
-    settingsPasswordResetEmailNote: 'Recibirás un email con instrucciones para crear una nueva contraseña.',
-
-    // Password Reset
-    forgotPassword: '¿Olvidaste tu contraseña?',
-    resetPassword: 'Restablecer contraseña',
-    resetPasswordDescription: 'Te enviaremos un enlace para restablecer tu contraseña de forma segura.',
-    sendResetEmail: 'Enviar enlace',
-    resetPasswordSuccess: '¡Enlace enviado! Revisa tu email para restablecer tu contraseña.',
-    resetPasswordError: 'Error al enviar el enlace. Verifica tu email e inténtalo de nuevo.',
-  },
-
-  fr: {
-    // Navigation
-    languages: 'Langues',
-    method: 'Méthode',
-    about: 'À propos',
-    faq: 'FAQ',
-    start: 'Commencer',
-    
-    // Hero Section
-    heroTitle: 'Les langues',
-    heroSubtitle: 'ne finissent pas',
-    heroTitle2: ', elles continuent',
-    heroDescription: 'Découvrez comment vos connaissances d\'une langue romane peuvent accélérer votre apprentissage de l\'espagnol, du français, du portugais et de l\'italien.',
-    startJourney: 'Commencer mon voyage',
-    viewDemo: 'Voir la démo',
-    
-    // Language Section
-    languagesSectionTitle: 'Quatre langues, une famille',
-    languagesSectionSubtitle: 'Explorez les connexions profondes entre les langues romanes et accélérez votre apprentissage',
-    
-    // Language Descriptions
-    spanishDescription: 'Langue maternelle de 500 millions de personnes',
-    frenchDescription: 'La langue de la diplomatie et de la culture',
-    portugueseDescription: 'Langue de 260 millions de locuteurs',
-    italianDescription: 'La langue de la beauté et de l\'art',
-    
-    // About Section
-    aboutTitle: 'Notre histoire commence avec vous',
-    aboutSubtitle: 'Chaque langue que vous connaissez est une porte qui vous ouvre de nouveaux mondes',
-    aboutDescription1: 'Chez dialectio.xyz, nous comprenons qu\'apprendre une nouvelle langue ne signifie pas repartir de zéro. Votre esprit possède déjà un trésor linguistique qui peut être la clé pour débloquer de nouvelles langues de manière naturelle et efficace.',
-    aboutDescription2: 'Nous sommes nés avec l\'intention de créer une façon d\'apprendre qui tient compte de la connexion des langues et vous fait profiter de vos connaissances préalables. Quand vous parlez espagnol, vous avez déjà les bases pour comprendre le français. Si vous connaissez l\'italien, le portugais vous semblera familier.',
-    aboutDescription3: 'Avec dialectio.xyz, vous ne ferez pas seulement des exercices de remplissage de blancs et d\'organisation de mots. Nous ne vous ennuierons pas avec la grammaire. Nous croyons qu\'apprendre une langue, c\'est l\'utiliser. Notre système se base sur la création de situations réelles où l\'étudiant a l\'opportunité d\'utiliser la langue qu\'il apprend ainsi que sa culture.',
-    ourStoryTitle: 'Notre histoire',
-    ourStoryDescription: 'Tout a commencé par une observation simple : apprendre l\'italien est beaucoup plus rapide pour ceux qui parlent déjà d\'autres langues romanes. Cette constatation a donné lieu à une recherche approfondie sur les connexions entre les langues romanes, et avec le temps, à la création d\'une méthode qui tire parti de leurs similitudes naturelles pour faciliter l\'apprentissage.',
-    ourMissionTitle: 'Notre mission',
-    ourMissionDescription: 'Accélérer l\'apprentissage des langues en le rendant plus rapide, naturel et accessible à tous. Nous croyons que pouvoir comprendre plusieurs langues de la même famille que celles que vous connaissez déjà devrait être la norme, pas l\'exception. Nous voulons faire de cela une possibilité pour toute personne avec de la curiosité et de la détermination.',
-    ourVisionTitle: 'Notre vision',
-    ourVisionDescription: 'Nous imaginons un monde où comprendre vos langues proches est plus simple et satisfaisant qu\'utiliser le traducteur, où chaque personne peut communiquer couramment dans plusieurs langues, et où la diversité culturelle est célébrée à travers la compréhension mutuelle que seul le multilinguisme peut offrir.',
-    
-    // Features Section
-    methodTitle: 'Notre méthode unique',
-    methodSubtitle: 'Tirez parti des similitudes linguistiques pour un apprentissage plus efficace et naturel',
-    
-    // Feature Items
-    acceleratedLearningTitle: 'Apprentissage Accéléré',
-    acceleratedLearningDescription: 'Utilisez vos connaissances préalables pour apprendre plus rapidement. Les langues romanes partagent des racines latines.',
-    contrastiveMethodTitle: 'Méthode Contrastive',
-    contrastiveMethodDescription: 'Comparez et contrastez les similitudes entre les langues pour une compréhension plus profonde et durable.',
-    
-    // Stats Section
-    fasterStat: 'Plus rapide',
-    fasterDescription: 'Apprentissage accéléré en tirant parti des connaissances préalables',
-    languagesStat: 'Langues',
-    languagesDescription: 'Principales langues romanes sur une seule plateforme',
-    
-    // FAQ Section
-    faqTitle: 'Questions fréquentes',
-    faqSubtitle: 'Nous résolvons les doutes les plus courants sur dialectio.xyz',
-    faqQuestion1: 'Qu\'est-ce que Dialectio.xyz et comment ça fonctionne ?',
-    faqAnswer1: 'Dialectio.xyz est une plateforme en ligne conçue pour accélérer l\'apprentissage à partir de langues similaires. Elle part d\'un principe simple : si vous maîtrisez déjà une langue comme l\'espagnol, l\'italien, le français ou le portugais, vous possédez une grande partie du chemin parcouru vers les autres. Le système identifie ces correspondances —lexicales, grammaticales et phonétiques— et les convertit en raccourcis pratiques et priorités. L\'apprentissage s\'articule sur deux fronts complémentaires. D\'une part, des conversations guidées avec des tuteurs virtuels qui simulent des situations réelles et avec lesquels vous parlerez ; d\'autre part, des exercices traditionnels préalables à la phase de conversation, où vous apprendrez les rudiments de base pour vous débrouiller dans une situation réelle. La combinaison d\'usage immédiat et de réflexion consciente permet d\'avancer rapidement et de retenir durablement.',
-    faqQuestion2: 'Quelles langues puis-je apprendre sur Dialectio.xyz ?',
-    faqAnswer2: 'Dans la version actuelle, l\'espagnol, le français, l\'italien et le portugais sont proposés. Le catalogue grandira progressivement, d\'abord avec d\'autres langues de la même famille —catalan, galicien, roumain— puis avec d\'autres langues, en gardant toujours cette approche sur la familiarité entre langues.',
-    faqQuestion3: 'Ai-je besoin d\'avoir des connaissances préalables d\'une des langues actuelles pour utiliser Dialectio.xyz ?',
-    faqAnswer3: 'Ce n\'est pas indispensable. Le système admet l\'anglais comme langue de support pour les explications et indices de base. Cependant, sa conception tire le maximum de rendement quand l\'utilisateur maîtrise déjà, même partiellement, au moins une langue romane : chaque similitude reconnue devient alors un élan de compréhension et une économie d\'effort.',
-    faqQuestion4: 'Quelle est la différence entre Dialectio.xyz et d\'autres plateformes d\'apprentissage de langues ?',
-    faqAnswer4: 'La plupart des programmes enseignent chaque langue en isolation, comme si vous repartiez de zéro. Dialectio.xyz part de ce que vous savez déjà. Il explore les racines communes, les modèles morphologiques partagés et les faux amis caractéristiques entre langues apparentées. De cette façon, il évite les redondances et centre l\'attention sur les véritables points de divergence. De plus, la pratique ne se réduit pas à de la gymnastique grammaticale : les conversations, les récits et les tâches fonctionnelles génèrent une exposition authentique et renforcent la confiance communicative.',
-    faqQuestion5: 'Comment l\'apprentissage est-il structuré dans Dialectio.xyz ?',
-    faqAnswer5: 'Chaque session s\'organise autour d\'un micro-objectif communicatif : saluer un voisin, commander un café, décrire un itinéraire, répondre dans un entretien et ensemble ils construisent une histoire dans le pays de la langue, votre histoire. La première étape sont des exercices traditionnels qui vous donnent les rudiments de base pour vous débrouiller, la seconde vous lance dans des situations réelles où pratiquer la langue dans son contexte culturel.',
-    faqQuestion6: 'Qui est derrière Dialectio.xyz ?',
-    faqAnswer6: 'Une équipe mixte de développeurs, linguistes et passionnés d\'auto-apprentissage. Ils partagent la conviction que les frontières entre langues romanes sont plus poreuses que ne le suggère l\'enseignement traditionnel et que la technologie conversationnelle peut dynamiser cette proximité linguistique pour tout public.',
-    faqQuestion7: 'De quoi ai-je besoin pour commencer ?',
-    faqAnswer7: 'Seulement créer un compte et avoir une connexion internet. Tout se passe dans le navigateur : il n\'y a pas de téléchargements ni d\'installations. Dès le premier accès, vous obtiendrez un diagnostic de votre niveau et un parcours d\'apprentissage personnalisé que vous pouvez suivre sur ordinateur, tablette ou mobile.',
-    faqQuestion8: 'Quel rôle joue la motivation pour l\'apprentissage dans Dialectio.xyz ?',
-    faqAnswer8: 'Dans Dialectio.xyz, la motivation n\'accompagne peut-être pas l\'utilisateur dès la première minute, mais elle est considérée comme essentielle pour que le processus continue. C\'est pourquoi la conception didactique est orientée pour la générer au lieu de la présupposer. Chaque activité place l\'apprenant dans un contexte significatif où les résultats apparaissent tôt et sont tangibles : comprendre un clin d\'œil culturel dans une chanson, finaliser une réservation d\'hébergement, ou répondre avec assurance lors d\'un appel. Cette utilité provoque la curiosité, nourrit le désir de continuer et transforme la motivation en une conséquence naturelle, jamais en une barrière initiale.',
-    
-    // CTA Section
-    ctaTitle: 'Prêt à continuer votre voyage linguistique ?',
-    ctaDescription: 'Rejoignez des milliers d\'étudiants qui tirent déjà parti de leurs connaissances pour maîtriser plusieurs langues romanes.',
-    createAccount: 'Créer un compte gratuit',
-    learnMore: 'En savoir plus',
-    
-    // Footer
-    footerDescription: 'Les langues ne finissent pas, elles continuent. Apprenez l\'espagnol, le français, le portugais et l\'italien de manière intelligente et efficace.',
-    resources: 'Ressources',
-    blog: 'Blog',
-    help: 'Aide',
-    contact: 'Contact',
-    copyright: '© 2025 dialectio.xyz. Tous droits réservés.',
-
-    // Auth
-    login: 'Se connecter',
-    register: 'S\'inscrire',
-    email: 'Email',
-    password: 'Mot de passe',
-    confirmPassword: 'Confirmer le mot de passe',
-    username: 'Utilisateur',
-    fullName: 'Nom complet',
-    initialLanguage: 'Langue initiale',
-    selectInitialLanguage: 'Sélectionnez votre langue initiale',
-    emailOrUsername: 'Email ou utilisateur',
-    loginButton: 'Entrer',
-    registerButton: 'Créer un compte',
-    alreadyHaveAccount: 'Vous avez déjà un compte ?',
-    dontHaveAccount: 'Vous n\'avez pas de compte ?',
-    createNewAccount: 'Créer un nouveau compte',
-    backToLogin: 'Retour à la connexion',
-    
-    // Registration Page
-    registrationTitle: 'Rejoignez dialectio.xyz',
-    registrationSubtitle: 'Créez votre compte et commencez votre voyage multilingue',
-    personalInfoTitle: 'Informations personnelles',
-    personalInfoDescription: 'Données de base pour créer votre compte',
-    languageInfoTitle: 'Informations linguistiques',
-    languageInfoDescription: 'Sélectionnez votre langue de départ pour personnaliser votre expérience',
-    fullNameLabel: 'Nom complet',
-    fullNamePlaceholder: 'Votre nom complet',
-    usernameLabel: 'Nom d\'utilisateur',
-    usernamePlaceholder: 'utilisateur123',
-    usernameDescription: 'Seulement lettres, chiffres et traits de soulignement. Minimum 3 caractères.',
-    emailLabel: 'Adresse email',
-    emailPlaceholder: 'votre@email.com',
-    passwordLabel: 'Mot de passe',
-    passwordPlaceholder: 'Minimum 6 caractères',
-    confirmPasswordLabel: 'Confirmer le mot de passe',
-    confirmPasswordPlaceholder: 'Répétez votre mot de passe',
-    initialLanguageLabel: 'Votre langue principale',
-    initialLanguageDescription: 'Sélectionnez la langue que vous maîtrisez le mieux pour personnaliser votre expérience d\'apprentissage',
-    completeRegistration: 'Terminer l\'inscription',
-    backToHome: 'Retour à l\'accueil',
-    
-    // Language Options
-    spanish: 'Espagnol',
     french: 'Français',
-    portuguese: 'Portugais',
-    italian: 'Italien',
-    english: 'Anglais',
-    
-    // Validation Messages
-    fieldRequired: 'Ce champ est obligatoire',
-    emailInvalid: 'L\'email n\'est pas valide',
-    passwordTooShort: 'Le mot de passe doit avoir au moins 6 caractères',
-    passwordMustContainLetter: 'Le mot de passe doit contenir au moins une lettre',
-    passwordMustContainNumberOrSpecial: 'Le mot de passe doit contenir au moins un chiffre ou symbole',
-    passwordsDoNotMatch: 'Les mots de passe ne correspondent pas',
-    usernameTooShort: 'L\'utilisateur doit avoir au moins 3 caractères',
-    usernameInvalidChars: 'L\'utilisateur ne peut contenir que des lettres, chiffres et traits de soulignement',
-    usernameAlreadyExists: 'Ce nom d\'utilisateur est déjà utilisé',
-    emailAlreadyExists: 'Cet email est déjà enregistré',
-    
-    // Success Messages
-    registrationSuccess: 'Inscription réussie ! Bienvenue sur dialectio.xyz',
-    welcomeBack: 'Bon retour !',
-    
-    // Error Messages
-    invalidCredentials: 'Identifiants incorrects',
-    registrationError: 'Erreur lors de l\'inscription. Réessayez.',
-    connectionError: 'Erreur de connexion. Vérifiez votre internet.',
-
-    // Legal Pages
-    privacyPolicy: 'Politique de Confidentialité',
-    privacyPolicySubtitle: 'Informations sur la façon dont nous protégeons et utilisons vos données',
-    privacyPolicyPlaceholder: 'Le contenu de la politique de confidentialité sera ajouté prochainement. En attendant, soyez assuré que nous respectons votre vie privée et protégeons vos données personnelles.',
-    termsAndConditions: 'Conditions Générales',
-    termsAndConditionsSubtitle: 'Conditions d\'utilisation de la plateforme dialectio.xyz',
-    termsAndConditionsPlaceholder: 'Les conditions générales complètes seront ajoutées prochainement. En utilisant dialectio.xyz, vous acceptez nos politiques d\'usage responsable et de respect mutuel.',
-
-    // Contact Page
-    contactTitle: 'Contactez-nous',
-    contactSubtitle: 'Nous sommes là pour vous aider dans votre parcours d\'apprentissage',
-    contactInfoTitle: 'Informations de contact',
-    contactFormTitle: 'Envoyez-nous un message',
-    contactPlaceholder: 'Les informations de contact seront mises à jour prochainement. En attendant, vous pouvez utiliser le formulaire pour nous envoyer vos questions.',
-    nameLabel: 'Nom',
-    namePlaceholder: 'Votre nom',
-    subjectLabel: 'Sujet',
-    subjectPlaceholder: 'Sujet du message',
-    messageLabel: 'Message',
-    messagePlaceholder: 'Écrivez votre message ici...',
-    phoneLabel: 'Téléphone',
-    addressLabel: 'Adresse',
-    sendMessage: 'Envoyer le message',
-    sendingMessage: 'Envoi en cours...',
-    contactSuccess: 'Message envoyé avec succès ! Nous vous répondrons bientôt.',
-    contactError: 'Erreur lors de l\'envoi du message. Réessayez.',
-
-    // Terms Acceptance
-    acceptTerms: 'J\'accepte les conditions générales',
-    acceptTermsDescription: 'En vous inscrivant, vous acceptez nos',
-    mustAcceptTerms: 'Vous devez accepter les conditions générales',
-
-    // Demo Page
-    demoTitle: 'Démo de dialectio.xyz',
-    demoSubtitle: 'Découvrez comment fonctionne notre plateforme d\'apprentissage',
-    demoVideoTitle: 'Vidéo de démonstration',
-    demoVideoPlaceholder: 'Démo interactive',
-    demoVideoDescription: 'Prochainement : expérience complète d\'apprentissage',
-    comingSoon: 'Prochainement',
-    demoNotifyTitle: 'Notifications de lancement',
-    demoNotifyDescription: 'Voulez-vous être le premier à savoir quand dialectio.xyz sera disponible ?',
-    demoNotifyBenefits: 'Recevez un accès anticipé, des réductions spéciales et du contenu exclusif.',
-    demoNotifyPlaceholder: 'votre@email.com',
-    demoNotifyButton: 'Me notifier',
-    demoNotifyProcessing: 'Traitement...',
-    demoNotifySuccess: 'Parfait ! Nous vous notifierons quand nous serons prêts.',
-    demoNotifyError: 'Erreur lors de l\'abonnement. Réessayez.',
-    demoNotifyPrivacy: 'Nous respectons votre vie privée. Nous ne vous contacterons que pour le lancement.',
-    demoFeaturesTitle: 'Caractéristiques principales',
-    demoFeaturesDescription: 'Ce que vous pourrez faire quand dialectio.xyz sera disponible',
-    demoFeature1Title: 'Apprentissage Intelligent',
-    demoFeature1Description: 'Tirez parti de vos connaissances préalables pour apprendre plus rapidement',
-    demoFeature2Title: 'Pratique Interactive',
-    demoFeature2Description: 'Conversations réelles avec des tuteurs virtuels avancés',
-    demoFeature3Title: 'Progrès Personnalisé',
-    demoFeature3Description: 'Parcours d\'apprentissage adaptés à votre niveau et objectifs',
-
-    // Settings Page
-    settingsTitle: 'Paramètres',
-    settingsSubtitle: 'Personnalisez votre expérience d\'apprentissage',
-    settingsNavigation: 'Paramètres',
-    settingsProfileSection: 'Profil',
-    settingsPasswordSection: 'Mot de passe',
-    settingsEmailSection: 'Email',
-    settingsPreferencesSection: 'Préférences',
-    settingsCurrentInfo: 'Informations actuelles',
-    settingsCurrentPassword: 'Mot de passe actuel',
-    settingsNewPassword: 'Nouveau mot de passe',
-    settingsCurrentEmail: 'Email actuel',
-    settingsNewEmail: 'Nouvel email',
-    settingsConfirmPassword: 'Confirmer avec le mot de passe',
-    settingsChangePassword: 'Changer le mot de passe',
-    settingsChangeEmail: 'Changer l\'email',
-    settingsSaveChanges: 'Sauvegarder les modifications',
-    settingsSaving: 'Sauvegarde...',
-    settingsSending: 'Envoi...',
-    settingsLanguagePreference: 'Langue de l\'interface',
-    settingsLanguageDescription: 'Sélectionnez la langue pour l\'interface de l\'application',
-    settingsThemePreference: 'Thème visuel',
-    settingsThemeDescription: 'Choisissez entre le thème clair ou sombre',
-    settingsMorePreferences: 'Plus d\'options de personnalisation seront disponibles prochainement.',
-    settingsProfileSuccess: 'Profil mis à jour avec succès !',
-    settingsProfileError: 'Erreur lors de la mise à jour du profil. Réessayez.',
-    settingsPasswordSuccess: 'Mot de passe mis à jour avec succès !',
-    settingsPasswordError: 'Erreur lors de la mise à jour du mot de passe. Vérifiez votre mot de passe actuel.',
-    settingsEmailSuccess: 'Email mis à jour avec succès !',
-    settingsEmailError: 'Erreur lors de la mise à jour de l\'email. Vérifiez votre mot de passe.',
-    settingsRegistrationDate: 'Date d\'inscription',
-    settingsPasswordResetTitle: 'Réinitialiser le mot de passe',
-    settingsPasswordResetDescription: 'Nous vous enverrons un lien pour réinitialiser votre mot de passe en toute sécurité.',
-    settingsPasswordResetEmailNote: 'Vous recevrez un email avec des instructions pour créer un nouveau mot de passe.',
-
-    // Password Reset
-    forgotPassword: 'Mot de passe oublié ?',
-    resetPassword: 'Réinitialiser le mot de passe',
-    resetPasswordDescription: 'Nous vous enverrons un lien pour réinitialiser votre mot de passe en toute sécurité.',
-    sendResetEmail: 'Envoyer le lien',
-    resetPasswordSuccess: 'Lien envoyé ! Vérifiez votre email pour réinitialiser votre mot de passe.',
-    resetPasswordError: 'Erreur lors de l\'envoi du lien. Vérifiez votre email et réessayez.',
-  },
-
-  pt: {
-    // Navigation
-    languages: 'Idiomas',
-    method: 'Método',
-    about: 'Sobre nós',
-    faq: 'FAQ',
-    start: 'Começar',
-    
-    // Hero Section
-    heroTitle: 'As línguas',
-    heroSubtitle: 'não acabam',
-    heroTitle2: ', continuam',
-    heroDescription: 'Descubra como seus conhecimentos em uma língua românica podem acelerar seu aprendizado de espanhol, francês, português e italiano.',
-    startJourney: 'Começar minha jornada',
-    viewDemo: 'Ver demo',
-    
-    // Language Section
-    languagesSectionTitle: 'Quatro línguas, uma família',
-    languagesSectionSubtitle: 'Explore as conexões profundas entre as línguas românicas e acelere seu aprendizado',
-    
-    // Language Descriptions
-    spanishDescription: 'Língua materna de 500 milhões de pessoas',
-    frenchDescription: 'A língua da diplomacia e da cultura',
-    portugueseDescription: 'Idioma de 260 milhões de falantes',
-    italianDescription: 'A língua da beleza e da arte',
-    
-    // About Section
-    aboutTitle: 'Nossa história começa com você',
-    aboutSubtitle: 'Cada idioma que você conhece é uma porta que abre novos mundos',
-    aboutDescription1: 'Na dialectio.xyz, entendemos que aprender um novo idioma não significa começar do zero. Sua mente já possui um tesouro linguístico que pode ser a chave para desbloquear novas línguas de forma natural e eficiente.',
-    aboutDescription2: 'Nascemos com a intenção de criar uma forma de aprender que leve em conta a conexão das línguas e faça você aproveitar seus conhecimentos prévios. Quando você fala espanhol, já tem as bases para compreender francês. Se conhece italiano, o português parecerá familiar.',
-    aboutDescription3: 'Com dialectio.xyz você não fará apenas exercícios de preencher lacunas e ordenar palavras. Não vamos entediá-lo com gramática. Acreditamos que aprender uma língua é usá-la. Nosso sistema se baseia em criar situações reais onde o estudante tem a oportunidade de usar a língua que está aprendendo, bem como sua cultura.',
-    ourStoryTitle: 'Nossa história',
-    ourStoryDescription: 'Tudo começou com uma observação simples: aprender italiano é muito mais rápido para quem já fala outras línguas românicas. Esta constatação levou a uma pesquisa profunda sobre as conexões entre as línguas românicas e, com o tempo, à criação de um método que aproveita suas semelhanças naturais para facilitar o aprendizado.',
-    ourMissionTitle: 'Nossa missão',
-    ourMissionDescription: 'Acelerar o aprendizado de idiomas tornando-o mais rápido, natural e acessível para todos. Acreditamos que poder entender múltiplas línguas da mesma família das que você já conhece deveria ser a norma, não a exceção. Queremos tornar isso uma possibilidade para qualquer pessoa com curiosidade e determinação.',
-    ourVisionTitle: 'Nossa visão',
-    ourVisionDescription: 'Imaginamos um mundo onde entender suas línguas próximas seja mais simples e satisfatório que usar o tradutor, onde cada pessoa possa se comunicar fluentemente em múltiplos idiomas, e onde a diversidade cultural seja celebrada através do entendimento mútuo que só o multilinguismo pode oferecer.',
-    
-    // Features Section
-    methodTitle: 'Nosso método único',
-    methodSubtitle: 'Aproveite as semelhanças linguísticas para um aprendizado mais eficiente e natural',
-    
-    // Feature Items
-    acceleratedLearningTitle: 'Aprendizado Acelerado',
-    acceleratedLearningDescription: 'Use seus conhecimentos prévios para aprender mais rápido. As línguas românicas compartilham raízes latinas.',
-    contrastiveMethodTitle: 'Método Contrastivo',
-    contrastiveMethodDescription: 'Compare e contraste semelhanças entre idiomas para uma compreensão mais profunda e duradoura.',
-    
-    // Stats Section
-    fasterStat: 'Mais rápido',
-    fasterDescription: 'Aprendizado acelerado aproveitando conhecimentos prévios',
-    languagesStat: 'Idiomas',
-    languagesDescription: 'Principais línguas românicas em uma única plataforma',
-    
-    // FAQ Section
-    faqTitle: 'Perguntas frequentes',
-    faqSubtitle: 'Resolvemos as dúvidas mais comuns sobre dialectio.xyz',
-    faqQuestion1: 'O que é Dialectio.xyz e como funciona?',
-    faqAnswer1: 'Dialectio.xyz é uma plataforma online concebida para acelerar o aprendizado a partir de línguas similares. Parte de um princípio simples: se você já domina uma língua como espanhol, italiano, francês ou português, possui grande parte do caminho percorrido em direção às demais. O sistema identifica essas correspondências —lexicais, gramaticais e fonéticas— e as converte em atalhos práticos e prioridades. O aprendizado se articula em duas frentes complementares. Por um lado, conversações guiadas com tutores virtuais que simulam situações reais e com os quais você falará; por outro, exercícios tradicionais prévios à fase de conversação, onde aprenderá os rudimentos básicos para se desenvolver em uma situação real. A combinação de uso imediato e reflexão consciente permite avançar rapidamente e reter de forma duradoura.',
-    faqQuestion2: 'Que idiomas posso aprender no Dialectio.xyz?',
-    faqAnswer2: 'Na versão atual são oferecidos espanhol, francês, italiano e português. O catálogo crescerá gradualmente, primeiro com outras línguas da mesma família —catalão, galego, romeno— e depois com outras línguas, sempre mantendo este foco na familiaridade entre línguas.',
-    faqQuestion3: 'Preciso ter conhecimentos prévios de alguma das línguas atuais para usar Dialectio.xyz?',
-    faqAnswer3: 'Não é imprescindível. O sistema admite o inglês como língua de apoio para explicações e dicas básicas. No entanto, seu design obtém máximo rendimento quando o usuário já domina, mesmo que parcialmente, pelo menos uma língua românica: cada semelhança reconhecida se converte então em um impulso de compreensão e uma economia de esforço.',
-    faqQuestion4: 'Qual é a diferença entre Dialectio.xyz e outras plataformas de aprendizado de idiomas?',
-    faqAnswer4: 'A maioria dos programas ensina cada língua isoladamente, como se você começasse do zero. Dialectio.xyz parte do que você já sabe. Explora raízes comuns, padrões morfológicos compartilhados e falsos cognatos característicos entre línguas aparentadas. Dessa forma evita redundâncias e centra a atenção nos verdadeiros pontos de divergência. Além disso, a prática não se reduz a ginástica gramatical: as conversações, relatos e tarefas funcionais geram exposição autêntica e reforçam a confiança comunicativa.',
-    faqQuestion5: 'Como se estrutura o aprendizado no Dialectio.xyz?',
-    faqAnswer5: 'Cada sessão se organiza em torno de um micro-objetivo comunicativo: cumprimentar um vizinho, pedir café, descrever um itinerário, responder em uma entrevista e em conjunto constroem uma história no país da língua, sua história. O primeiro passo são exercícios tradicionais que dão os rudimentos básicos para se desenvolver, o segundo lança você a situações reais nas quais praticar a língua em seu contexto cultural.',
-    faqQuestion6: 'Quem está por trás do Dialectio.xyz?',
-    faqAnswer6: 'Uma equipe mista de desenvolvedores, linguistas e apaixonados pelo autoaprendizado. Compartilham a convicção de que as fronteiras entre línguas românicas são mais porosas do que sugere o ensino tradicional e que a tecnologia conversacional pode dinamizar essa proximidade linguística para qualquer público.',
-    faqQuestion7: 'O que preciso para começar?',
-    faqAnswer7: 'Apenas criar uma conta e ter conexão à internet. Tudo acontece no navegador: não há downloads nem instalações. Desde o primeiro acesso obterá um diagnóstico de seu nível e uma rota de aprendizado personalizada que pode seguir em computador, tablet ou celular.',
-    faqQuestion8: 'Que papel desempenha a motivação para o aprendizado no Dialectio.xyz?',
-    faqAnswer8: 'No Dialectio.xyz a motivação talvez não acompanhe o usuário desde o primeiro minuto, mas é considerada essencial para que o processo continue. Por isso o design didático está orientado a gerá-la em vez de pressupô-la. Cada atividade coloca o aprendiz em um contexto significativo onde os resultados aparecem cedo e são tangíveis: entender uma piscadela cultural em uma música, fechar uma reserva de hospedagem, ou responder com aplomb em uma ligação. Essa utilidade provoca curiosidade, alimenta o desejo de continuar e transforma a motivação em uma consequência natural, nunca em uma barreira inicial.',
-    
-    // CTA Section
-    ctaTitle: 'Pronto para continuar sua jornada linguística?',
-    ctaDescription: 'Junte-se a milhares de estudantes que já estão aproveitando seus conhecimentos para dominar múltiplas línguas românicas.',
-    createAccount: 'Criar conta grátis',
-    learnMore: 'Saber mais',
-    
-    // Footer
-    footerDescription: 'As línguas não acabam, continuam. Aprenda espanhol, francês, português e italiano de forma inteligente e eficiente.',
-    resources: 'Recursos',
-    blog: 'Blog',
-    help: 'Ajuda',
-    contact: 'Contato',
-    copyright: '© 2025 dialectio.xyz. Todos os direitos reservados.',
-
-    // Auth
-    login: 'Entrar',
-    register: 'Registrar-se',
-    email: 'Email',
-    password: 'Senha',
-    confirmPassword: 'Confirmar senha',
-    username: 'Usuário',
-    fullName: 'Nome completo',
-    initialLanguage: 'Idioma inicial',
-    selectInitialLanguage: 'Selecione seu idioma inicial',
-    emailOrUsername: 'Email ou usuário',
-    loginButton: 'Entrar',
-    registerButton: 'Criar conta',
-    alreadyHaveAccount: 'Já tem conta?',
-    dontHaveAccount: 'Não tem conta?',
-    createNewAccount: 'Criar nova conta',
-    backToLogin: 'Voltar ao login',
-    
-    // Registration Page
-    registrationTitle: 'Junte-se ao dialectio.xyz',
-    registrationSubtitle: 'Crie sua conta e comece sua jornada multilíngue',
-    personalInfoTitle: 'Informações pessoais',
-    personalInfoDescription: 'Dados básicos para criar sua conta',
-    languageInfoTitle: 'Informações linguísticas',
-    languageInfoDescription: 'Selecione seu idioma de partida para personalizar sua experiência',
-    fullNameLabel: 'Nome completo',
-    fullNamePlaceholder: 'Seu nome completo',
-    usernameLabel: 'Nome de usuário',
-    usernamePlaceholder: 'usuario123',
-    usernameDescription: 'Apenas letras, números e sublinhados. Mínimo 3 caracteres.',
-    emailLabel: 'Endereço de email',
-    emailPlaceholder: 'seu@email.com',
-    passwordLabel: 'Senha',
-    passwordPlaceholder: 'Mínimo 6 caracteres',
-    confirmPasswordLabel: 'Confirmar senha',
-    confirmPasswordPlaceholder: 'Repita sua senha',
-    initialLanguageLabel: 'Seu idioma principal',
-    initialLanguageDescription: 'Selecione o idioma que melhor domina para personalizar sua experiência de aprendizado',
-    completeRegistration: 'Completar registro',
-    backToHome: 'Voltar ao início',
-    
-    // Language Options
-    spanish: 'Espanhol',
-    french: 'Francês',
     portuguese: 'Português',
     italian: 'Italiano',
-    english: 'Inglês',
+    english: 'English',
     
-    // Validation Messages
-    fieldRequired: 'Este campo é obrigatório',
-    emailInvalid: 'O email não é válido',
-    passwordTooShort: 'A senha deve ter pelo menos 6 caracteres',
-    passwordMustContainLetter: 'A senha deve conter pelo menos uma letra',
-    passwordMustContainNumberOrSpecial: 'A senha deve conter pelo menos um número ou símbolo',
-    passwordsDoNotMatch: 'As senhas não coincidem',
-    usernameTooShort: 'O usuário deve ter pelo menos 3 caracteres',
-    usernameInvalidChars: 'O usuário só pode conter letras, números e sublinhados',
-    usernameAlreadyExists: 'Este nome de usuário já está em uso',
-    emailAlreadyExists: 'Este email já está registrado',
+    // Navigation
+    home: 'Inicio',
+    about: 'Acerca de',
+    features: 'Características',
+    contact: 'Contacto',
+    blog: 'Blog',
     
-    // Success Messages
-    registrationSuccess: 'Registro bem-sucedido! Bem-vindo ao dialectio.xyz',
-    welcomeBack: 'Bem-vindo de volta!',
+    // About section
+    aboutTitle: 'Acelera tu aprendizaje',
+    aboutDescription: 'Dialectio aprovecha las similitudes entre las lenguas romances para acelerar tu proceso de aprendizaje. Si ya hablas español, francés, italiano o portugués, puedes aprender los otros idiomas hasta 3 veces más rápido.',
     
-    // Error Messages
-    invalidCredentials: 'Credenciais incorretas',
-    registrationError: 'Erro no registro. Tente novamente.',
-    connectionError: 'Erro de conexão. Verifique sua internet.',
-
-    // Legal Pages
-    privacyPolicy: 'Política de Privacidade',
-    privacyPolicySubtitle: 'Informações sobre como protegemos e utilizamos seus dados',
-    privacyPolicyPlaceholder: 'O conteúdo da política de privacidade será adicionado em breve. Enquanto isso, tenha certeza de que respeitamos sua privacidade e protegemos seus dados pessoais.',
-    termsAndConditions: 'Termos e Condições',
-    termsAndConditionsSubtitle: 'Condições de uso da plataforma dialectio.xyz',
-    termsAndConditionsPlaceholder: 'Os termos e condições completos serão adicionados em breve. Ao usar dialectio.xyz, você aceita nossas políticas de uso responsável e respeito mútuo.',
-
-    // Contact Page
-    contactTitle: 'Entre em contato',
-    contactSubtitle: 'Estamos aqui para ajudá-lo em sua jornada de aprendizado',
-    contactInfoTitle: 'Informações de contato',
-    contactFormTitle: 'Envie-nos uma mensagem',
-    contactPlaceholder: 'As informações de contato serão atualizadas em breve. Enquanto isso, você pode usar o formulário para nos enviar suas consultas.',
-    nameLabel: 'Nome',
-    namePlaceholder: 'Seu nome',
-    subjectLabel: 'Assunto',
-    subjectPlaceholder: 'Assunto da mensagem',
-    messageLabel: 'Mensagem',
-    messagePlaceholder: 'Escreva sua mensagem aqui...',
-    phoneLabel: 'Telefone',
-    addressLabel: 'Endereço',
-    sendMessage: 'Enviar mensagem',
-    sendingMessage: 'Enviando...',
-    contactSuccess: 'Mensagem enviada com sucesso! Responderemos em breve.',
-    contactError: 'Erro ao enviar mensagem. Tente novamente.',
-
-    // Terms Acceptance
-    acceptTerms: 'Aceito os termos e condições',
-    acceptTermsDescription: 'Ao se registrar, você aceita nossos',
-    mustAcceptTerms: 'Você deve aceitar os termos e condições',
-
-    // Demo Page
-    demoTitle: 'Demo do dialectio.xyz',
-    demoSubtitle: 'Descubra como funciona nossa plataforma de aprendizado',
-    demoVideoTitle: 'Vídeo demonstrativo',
-    demoVideoPlaceholder: 'Demo interativo',
-    demoVideoDescription: 'Em breve: experiência completa de aprendizado',
-    comingSoon: 'Em breve',
-    demoNotifyTitle: 'Notificações de lançamento',
-    demoNotifyDescription: 'Quer ser o primeiro a saber quando dialectio.xyz estiver disponível?',
-    demoNotifyBenefits: 'Receba acesso antecipado, descontos especiais e conteúdo exclusivo.',
-    demoNotifyPlaceholder: 'seu@email.com',
-    demoNotifyButton: 'Me notificar',
-    demoNotifyProcessing: 'Processando...',
-    demoNotifySuccess: 'Perfeito! Te notificaremos quando estivermos prontos.',
-    demoNotifyError: 'Erro ao se inscrever. Tente novamente.',
-    demoNotifyPrivacy: 'Respeitamos sua privacidade. Só entraremos em contato sobre o lançamento.',
-    demoFeaturesTitle: 'Características principais',
-    demoFeaturesDescription: 'O que você poderá fazer quando dialectio.xyz estiver disponível',
-    demoFeature1Title: 'Aprendizado Inteligente',
-    demoFeature1Description: 'Aproveite seus conhecimentos prévios para aprender mais rápido',
-    demoFeature2Title: 'Prática Interativa',
-    demoFeature2Description: 'Conversações reais com tutores virtuais avançados',
-    demoFeature3Title: 'Progresso Personalizado',
-    demoFeature3Description: 'Rotas de aprendizado adaptadas ao seu nível e objetivos',
-
-    // Settings Page
-    settingsTitle: 'Configurações',
-    settingsSubtitle: 'Personalize sua experiência de aprendizado',
-    settingsNavigation: 'Configurações',
+    // Features
+    featuresTitle: 'Características Principales',
+    feature1Title: 'Aprendizaje Acelerado',
+    feature1Description: 'Aprovecha tus conocimientos previos para aprender más rápido',
+    feature2Title: 'IA Conversacional',
+    feature2Description: 'Practica con tutores de IA que se adaptan a tu nivel',
+    feature3Title: 'Método Científico',
+    feature3Description: 'Basado en investigación en lingüística cognitiva',
+    
+    // FAQ
+    faqTitle: 'Preguntas Frecuentes',
+    faq1Question: '¿Cómo funciona el método de Dialectio?',
+    faq1Answer: 'Nuestro método aprovecha las similitudes entre las lenguas romances. Si ya hablas español, por ejemplo, puedes aprender italiano o francés más rápidamente porque compartes vocabulario, gramática y estructuras similares.',
+    faq2Question: '¿Qué idiomas puedo aprender?',
+    faq2Answer: 'Actualmente ofrecemos cursos de español, francés, italiano y portugués. Puedes aprender cualquiera de estos idiomas si ya hablas uno de los otros.',
+    faq3Question: '¿Necesito conocimientos previos?',
+    faq3Answer: 'Sí, necesitas hablar al menos uno de los idiomas romances (español, francés, italiano o portugués) para aprovechar al máximo nuestro método.',
+    
+    // CTA
+    ctaTitle: '¿Listo para acelerar tu aprendizaje?',
+    ctaDescription: 'Únete a miles de estudiantes que ya están aprendiendo idiomas 3 veces más rápido',
+    ctaButton: 'Comenzar Gratis',
+    
+    // Footer
+    footerDescription: 'Acelera tu aprendizaje de lenguas romances',
+    footerLinks: 'Enlaces',
+    footerLegal: 'Legal',
+    privacyPolicy: 'Política de Privacidad',
+    termsAndConditions: 'Términos y Condiciones',
+    
+    // Auth
+    emailLabel: 'Correo electrónico',
+    passwordLabel: 'Contraseña',
+    loginButton: 'Iniciar Sesión',
+    registerButton: 'Registrarse',
+    forgotPassword: 'Olvidé mi contraseña',
+    
+    // Registration
+    registrationTitle: 'Crear Cuenta',
+    registrationSubtitle: 'Únete a la comunidad de Dialectio',
+    usernameLabel: 'Nombre de usuario',
+    fullNameLabel: 'Nombre completo',
+    confirmPasswordLabel: 'Confirmar contraseña',
+    initialLanguageLabel: 'Tu idioma principal',
+    acceptTerms: 'Acepto los términos y condiciones',
+    completeRegistration: 'Completar Registro',
+    
+    // Validation messages
+    fieldRequired: 'Este campo es obligatorio',
+    emailInvalid: 'Correo electrónico inválido',
+    passwordTooShort: 'La contraseña debe tener al menos 6 caracteres',
+    passwordsDoNotMatch: 'Las contraseñas no coinciden',
+    usernameAlreadyExists: 'El nombre de usuario ya existe',
+    emailAlreadyExists: 'El correo electrónico ya está registrado',
+    
+    // Placeholders
+    emailPlaceholder: 'tu@email.com',
+    passwordPlaceholder: '••••••••',
+    usernamePlaceholder: 'usuario123',
+    fullNamePlaceholder: 'Tu nombre completo',
+    confirmPasswordPlaceholder: '••••••••',
+    
+    // Success/Error messages
+    registrationSuccess: '¡Cuenta creada exitosamente!',
+    registrationError: 'Error al crear la cuenta',
+    loginError: 'Error al iniciar sesión',
+    connectionError: 'Error de conexión',
+    
+    // Demo/Hackathon specific
+    technicalDemo: 'Demo Técnica',
+    hackathonDemo: 'Demostración para Hackathon',
+    registrationDisabled: 'Registro Deshabilitado',
+    demoNotice: 'Esta es una demostración técnica desarrollada para la hackathon',
+    judgeAccess: '¿Eres juez de la hackathon?',
+    judgeAccessDescription: 'Si tienes credenciales de acceso para evaluar esta demo, puedes iniciar sesión desde la página principal.',
+    goToLogin: 'Ir a Inicio de Sesión',
+    aboutThisDemo: 'Sobre esta Demo',
+    demoFeatures: [
+      'Aplicación de aprendizaje de lenguas romances',
+      'Utiliza IA conversacional para práctica interactiva',
+      'Diseñada con React, TypeScript y Supabase',
+      'Integra OpenAI y ElevenLabs para experiencias inmersivas'
+    ],
+    backToHome: '← Volver al inicio',
+    
+    // Privacy Policy
+    privacyPolicySubtitle: 'Información sobre cómo manejamos tus datos en esta demostración',
+    privacyPolicyPlaceholder: 'Esta es una demostración técnica para la hackathon. Los términos completos se desarrollarían para una versión de producción.',
+    
+    // Terms and Conditions
+    termsAndConditionsSubtitle: 'Términos de uso para esta demostración técnica',
+    termsAndConditionsPlaceholder: 'Esta es una demostración técnica para la hackathon. Los términos completos se desarrollarían para una versión de producción.',
+    
+    // Settings
+    settingsTitle: 'Configuración',
+    settingsSubtitle: 'Personaliza tu experiencia de aprendizaje',
+    settingsNavigation: 'Navegación',
     settingsProfileSection: 'Perfil',
-    settingsPasswordSection: 'Senha',
-    settingsEmailSection: 'Email',
-    settingsPreferencesSection: 'Preferências',
-    settingsCurrentInfo: 'Informações atuais',
-    settingsCurrentPassword: 'Senha atual',
-    settingsNewPassword: 'Nova senha',
-    settingsCurrentEmail: 'Email atual',
-    settingsNewEmail: 'Novo email',
-    settingsConfirmPassword: 'Confirmar com senha',
-    settingsChangePassword: 'Alterar senha',
-    settingsChangeEmail: 'Alterar email',
-    settingsSaveChanges: 'Salvar alterações',
-    settingsSaving: 'Salvando...',
-    settingsSending: 'Enviando...',
-    settingsLanguagePreference: 'Idioma da interface',
-    settingsLanguageDescription: 'Selecione o idioma para a interface da aplicação',
-    settingsThemePreference: 'Tema visual',
-    settingsThemeDescription: 'Escolha entre tema claro ou escuro',
-    settingsMorePreferences: 'Mais opções de personalização estarão disponíveis em breve.',
-    settingsProfileSuccess: 'Perfil atualizado com sucesso!',
-    settingsProfileError: 'Erro ao atualizar perfil. Tente novamente.',
-    settingsPasswordSuccess: 'Senha atualizada com sucesso!',
-    settingsPasswordError: 'Erro ao atualizar senha. Verifique sua senha atual.',
-    settingsEmailSuccess: 'Email atualizado com sucesso!',
-    settingsEmailError: 'Erro ao atualizar email. Verifique sua senha.',
-    settingsRegistrationDate: 'Data de registro',
-    settingsPasswordResetTitle: 'Redefinir senha',
-    settingsPasswordResetDescription: 'Enviaremos um link para redefinir sua senha com segurança.',
-    settingsPasswordResetEmailNote: 'Você receberá um email com instruções para criar uma nova senha.',
-
-    // Password Reset
-    forgotPassword: 'Esqueceu sua senha?',
-    resetPassword: 'Redefinir senha',
-    resetPasswordDescription: 'Enviaremos um link para redefinir sua senha com segurança.',
-    sendResetEmail: 'Enviar link',
-    resetPasswordSuccess: 'Link enviado! Verifique seu email para redefinir sua senha.',
-    resetPasswordError: 'Erro ao enviar link. Verifique seu email e tente novamente.',
+    settingsPasswordSection: 'Contraseña',
+    settingsEmailSection: 'Correo Electrónico',
+    settingsPreferencesSection: 'Preferencias',
+    settingsCurrentInfo: 'Información Actual',
+    settingsCurrentPassword: 'Contraseña Actual',
+    settingsNewPassword: 'Nueva Contraseña',
+    settingsCurrentEmail: 'Correo Actual',
+    settingsNewEmail: 'Nuevo Correo',
+    settingsConfirmPassword: 'Confirmar con Contraseña',
+    settingsLanguagePreference: 'Idioma de la Interfaz',
+    settingsLanguageDescription: 'Cambia el idioma de la aplicación',
+    settingsThemePreference: 'Tema Visual',
+    settingsThemeDescription: 'Alterna entre modo claro y oscuro',
+    settingsMorePreferences: 'Más opciones de personalización próximamente...',
+    settingsSaveChanges: 'Guardar Cambios',
+    settingsSaving: 'Guardando...',
+    settingsChangePassword: 'Cambiar Contraseña',
+    settingsChangeEmail: 'Cambiar Correo',
+    settingsProfileSuccess: 'Perfil actualizado exitosamente',
+    settingsProfileError: 'Error al actualizar el perfil',
+    settingsPasswordSuccess: 'Contraseña actualizada exitosamente',
+    settingsPasswordError: 'Error al actualizar la contraseña',
+    settingsEmailSuccess: 'Correo actualizado exitosamente',
+    settingsEmailError: 'Error al actualizar el correo',
+    
+    // Reset Password
+    resetPassword: 'Restablecer Contraseña',
+    resetPasswordDescription: 'Ingresa tu nueva contraseña',
+    
+    // Additional validation
+    usernameTooShort: 'El nombre de usuario debe tener al menos 3 caracteres',
+    usernameInvalidChars: 'El nombre de usuario solo puede contener letras, números y guiones bajos',
+    passwordMustContainLetter: 'La contraseña debe contener al menos una letra',
+    passwordMustContainNumberOrSpecial: 'La contraseña debe contener al menos un número o símbolo',
+    mustAcceptTerms: 'Debes aceptar los términos y condiciones',
+    
+    // Registration form sections
+    personalInfoTitle: 'Información Personal',
+    personalInfoDescription: 'Datos básicos para tu cuenta',
+    languageInfoTitle: 'Información de Idioma',
+    languageInfoDescription: 'Selecciona tu idioma principal para personalizar tu experiencia',
+    usernameDescription: 'Mínimo 3 caracteres, solo letras, números y guiones bajos',
+    initialLanguageDescription: 'Este será el idioma desde el cual aprenderás otros idiomas',
+    acceptTermsDescription: 'Al registrarte, aceptas nuestros',
+    alreadyHaveAccount: '¿Ya tienes una cuenta?',
+    backToLogin: 'Volver al inicio de sesión'
   },
-
-  it: {
-    // Navigation
-    languages: 'Lingue',
-    method: 'Metodo',
-    about: 'Chi siamo',
-    faq: 'FAQ',
-    start: 'Inizia',
-    
-    // Hero Section
-    heroTitle: 'Le lingue',
-    heroSubtitle: 'non finiscono',
-    heroTitle2: ', continuano',
-    heroDescription: 'Scopri come le tue conoscenze di una lingua romanza possono accelerare il tuo apprendimento di spagnolo, francese, portoghese e italiano.',
-    startJourney: 'Inizia il mio viaggio',
-    viewDemo: 'Vedi demo',
-    
-    // Language Section
-    languagesSectionTitle: 'Quattro lingue, una famiglia',
-    languagesSectionSubtitle: 'Esplora le connessioni profonde tra le lingue romanze e accelera il tuo apprendimento',
-    
-    // Language Descriptions
-    spanishDescription: 'Lingua madre di 500 milioni di persone',
-    frenchDescription: 'La lingua della diplomazia e della cultura',
-    portugueseDescription: 'Idioma di 260 milioni di parlanti',
-    italianDescription: 'La lingua della bellezza e dell\'arte',
-    
-    // About Section
-    aboutTitle: 'La nostra storia inizia con te',
-    aboutSubtitle: 'Ogni lingua che conosci è una porta che ti apre nuovi mondi',
-    aboutDescription1: 'In dialectio.xyz, capiamo che imparare una nuova lingua non significa iniziare da zero. La tua mente possiede già un tesoro linguistico che può essere la chiave per sbloccare nuove lingue in modo naturale ed efficiente.',
-    aboutDescription2: 'Siamo nati con l\'intenzione di creare un modo di imparare che tenga conto della connessione delle lingue e ti faccia sfruttare le tue conoscenze precedenti. Quando parli spagnolo hai già le basi per comprendere il francese. Se conosci l\'italiano, il portoghese ti sembrerà familiare.',
-    aboutDescription3: 'Con dialectio.xyz non farai solo esercizi di riempimento di spazi vuoti e ordinamento di parole. Non ti annoieremo con la grammatica. Crediamo che imparare una lingua significhi usarla. Il nostro sistema si basa sulla creazione di situazioni reali dove lo studente ha l\'opportunità di usare la lingua che sta imparando così come la sua cultura.',
-    ourStoryTitle: 'La nostra storia',
-    ourStoryDescription: 'Tutto è iniziato con un\'osservazione semplice: imparare l\'italiano è molto più veloce per chi parla già altre lingue romanze. Questa constatazione ha portato a una ricerca approfondita sulle connessioni tra le lingue romanze e, nel tempo, alla creazione di un metodo che sfrutta le loro somiglianze naturali per facilitare l\'apprendimento.',
-    ourMissionTitle: 'La nostra missione',
-    ourMissionDescription: 'Accelerare l\'apprendimento delle lingue rendendolo più veloce, naturale e accessibile a tutti. Crediamo che poter capire più lingue della stessa famiglia di quelle che già conosci dovrebbe essere la norma, non l\'eccezione. Vogliamo rendere questo una possibilità per chiunque abbia curiosità e determinazione.',
-    ourVisionTitle: 'La nostra visione',
-    ourVisionDescription: 'Immaginiamo un mondo dove capire le tue lingue vicine sia più semplice e soddisfacente che usare il traduttore, dove ogni persona possa comunicare fluentemente in più lingue, e dove la diversità culturale sia celebrata attraverso la comprensione reciproca che solo il multilinguismo può offrire.',
-    
-    // Features Section
-    methodTitle: 'Il nostro metodo unico',
-    methodSubtitle: 'Sfrutta le somiglianze linguistiche per un apprendimento più efficiente e naturale',
-    
-    // Feature Items
-    acceleratedLearningTitle: 'Apprendimento Accelerato',
-    acceleratedLearningDescription: 'Usa le tue conoscenze precedenti per imparare più velocemente. Le lingue romanze condividono radici latine.',
-    contrastiveMethodTitle: 'Metodo Contrastivo',
-    contrastiveMethodDescription: 'Confronta e contrasta le somiglianze tra le lingue per una comprensione più profonda e duratura.',
-    
-    // Stats Section
-    fasterStat: 'Più veloce',
-    fasterDescription: 'Apprendimento accelerato sfruttando conoscenze precedenti',
-    languagesStat: 'Lingue',
-    languagesDescription: 'Principali lingue romanze in un\'unica piattaforma',
-    
-    // FAQ Section
-    faqTitle: 'Domande frequenti',
-    faqSubtitle: 'Risolviamo i dubbi più comuni su dialectio.xyz',
-    faqQuestion1: 'Cos\'è Dialectio.xyz e come funziona?',
-    faqAnswer1: 'Dialectio.xyz è una piattaforma online concepita per accelerare l\'apprendimento da lingue simili. Parte da un principio semplice: se già padroneggi una lingua come lo spagnolo, l\'italiano, il francese o il portoghese, possiedi gran parte del cammino percorso verso le altre. Il sistema identifica queste corrispondenze —lessicali, grammaticali e fonetiche— e le converte in scorciatoie pratiche e priorità. L\'apprendimento si articola su due fronti complementari. Da un lato, conversazioni guidate con tutor virtuali che simulano situazioni reali e con cui parlerai; dall\'altro, esercizi tradizionali precedenti alla fase di conversazione, dove imparerai i rudimenti di base per cavartela in una situazione reale. La combinazione di uso immediato e riflessione consapevole permette di avanzare rapidamente e trattenere in modo duraturo.',
-    faqQuestion2: 'Quali lingue posso imparare su Dialectio.xyz?',
-    faqAnswer2: 'Nella versione attuale sono offerti spagnolo, francese, italiano e portoghese. Il catalogo crescerà gradualmente, prima con altre lingue della stessa famiglia —catalano, galiziano, rumeno— e poi con altre lingue, mantenendo sempre questo approccio sulla familiarità tra lingue.',
-    faqQuestion3: 'Ho bisogno di avere conoscenze precedenti di qualcuna delle lingue attuali per usare Dialectio.xyz?',
-    faqAnswer3: 'Non è indispensabile. Il sistema ammette l\'inglese come lingua di supporto per spiegazioni e suggerimenti di base. Tuttavia, il suo design ottiene il massimo rendimento quando l\'utente padroneggia già, anche se parzialmente, almeno una lingua romanza: ogni somiglianza riconosciuta diventa allora un impulso di comprensione e un risparmio di sforzo.',
-    faqQuestion4: 'Qual è la differenza tra Dialectio.xyz e altre piattaforme di apprendimento linguistico?',
-    faqAnswer4: 'La maggior parte dei programmi insegna ogni lingua in isolamento, come se iniziassi da zero. Dialectio.xyz parte da quello che già sai. Esplora radici comuni, modelli morfologici condivisi e falsi amici caratteristici tra lingue imparentate. In questo modo evita ridondanze e centra l\'attenzione sui veri punti di divergenza. Inoltre, la pratica non si riduce a ginnastica grammaticale: le conversazioni, i racconti e i compiti funzionali generano esposizione autentica e rafforzano la fiducia comunicativa.',
-    faqQuestion5: 'Come si struttura l\'apprendimento in Dialectio.xyz?',
-    faqAnswer5: 'Ogni sessione si organizza attorno a un micro-obiettivo comunicativo: salutare un vicino, ordinare un caffè, descrivere un itinerario, rispondere in un\'intervista e insieme costruiscono una storia nel paese della lingua, la tua storia. Il primo passo sono esercizi tradizionali che ti danno i rudimenti di base per cavartela, il secondo ti lancia in situazioni reali in cui praticare la lingua nel suo contesto culturale.',
-    faqQuestion6: 'Chi c\'è dietro Dialectio.xyz?',
-    faqAnswer6: 'Un team misto di sviluppatori, linguisti e appassionati di auto-apprendimento. Condividono la convinzione che i confini tra lingue romanze sono più porosi di quanto suggerisca l\'insegnamento tradizionale e che la tecnologia conversazionale può dinamizzare questa vicinanza linguistica per qualsiasi pubblico.',
-    faqQuestion7: 'Cosa mi serve per iniziare?',
-    faqAnswer7: 'Solo creare un account e avere una connessione internet. Tutto succede nel browser: non ci sono download né installazioni. Dal primo accesso otterrai una diagnosi del tuo livello e un percorso di apprendimento personalizzato che puoi seguire su computer, tablet o cellulare.',
-    faqQuestion8: 'Che ruolo gioca la motivazione per l\'apprendimento in Dialectio.xyz?',
-    faqAnswer8: 'In Dialectio.xyz la motivazione forse non accompagna l\'utente dal primo minuto, ma è considerata essenziale perché il processo continui. Per questo il design didattico è orientato a generarla invece di presupporla. Ogni attività colloca l\'apprendente in un contesto significativo dove i risultati appaiono presto e sono tangibili: capire un riferimento culturale in una canzone, concludere una prenotazione di alloggio, o rispondere con sicurezza in una chiamata. Questa utilità provoca curiosità, alimenta il desiderio di continuare e trasforma la motivazione in una conseguenza naturale, mai in una barriera iniziale.',
-    
-    // CTA Section
-    ctaTitle: 'Pronto a continuare il tuo viaggio linguistico?',
-    ctaDescription: 'Unisciti a migliaia di studenti che stanno già sfruttando le loro conoscenze per padroneggiare più lingue romanze.',
-    createAccount: 'Crea account gratuito',
-    learnMore: 'Scopri di più',
-    
-    // Footer
-    footerDescription: 'Le lingue non finiscono, continuano. Impara spagnolo, francese, portoghese e italiano in modo intelligente ed efficiente.',
-    resources: 'Risorse',
-    blog: 'Blog',
-    help: 'Aiuto',
-    contact: 'Contatto',
-    copyright: '© 2025 dialectio.xyz. Tutti i diritti riservati.',
-
-    // Auth
-    login: 'Accedi',
-    register: 'Registrati',
-    email: 'Email',
-    password: 'Password',
-    confirmPassword: 'Conferma password',
-    username: 'Utente',
-    fullName: 'Nome completo',
-    initialLanguage: 'Lingua iniziale',
-    selectInitialLanguage: 'Seleziona la tua lingua iniziale',
-    emailOrUsername: 'Email o utente',
-    loginButton: 'Entra',
-    registerButton: 'Crea account',
-    alreadyHaveAccount: 'Hai già un account?',
-    dontHaveAccount: 'Non hai un account?',
-    createNewAccount: 'Crea nuovo account',
-    backToLogin: 'Torna al login',
-    
-    // Registration Page
-    registrationTitle: 'Unisciti a dialectio.xyz',
-    registrationSubtitle: 'Crea il tuo account e inizia il tuo viaggio multilingue',
-    personalInfoTitle: 'Informazioni personali',
-    personalInfoDescription: 'Dati di base per creare il tuo account',
-    languageInfoTitle: 'Informazioni linguistiche',
-    languageInfoDescription: 'Seleziona la tua lingua di partenza per personalizzare la tua esperienza',
-    fullNameLabel: 'Nome completo',
-    fullNamePlaceholder: 'Il tuo nome completo',
-    usernameLabel: 'Nome utente',
-    usernamePlaceholder: 'utente123',
-    usernameDescription: 'Solo lettere, numeri e trattini bassi. Minimo 3 caratteri.',
-    emailLabel: 'Indirizzo email',
-    emailPlaceholder: 'tuo@email.com',
-    passwordLabel: 'Password',
-    passwordPlaceholder: 'Minimo 6 caratteri',
-    confirmPasswordLabel: 'Conferma password',
-    confirmPasswordPlaceholder: 'Ripeti la tua password',
-    initialLanguageLabel: 'La tua lingua principale',
-    initialLanguageDescription: 'Seleziona la lingua che padroneggi meglio per personalizzare la tua esperienza di apprendimento',
-    completeRegistration: 'Completa registrazione',
-    backToHome: 'Torna all\'inizio',
-    
-    // Language Options
-    spanish: 'Spagnolo',
-    french: 'Francese',
-    portuguese: 'Portoghese',
-    italian: 'Italiano',
-    english: 'Inglese',
-    
-    // Validation Messages
-    fieldRequired: 'Questo campo è obbligatorio',
-    emailInvalid: 'L\'email non è valida',
-    passwordTooShort: 'La password deve avere almeno 6 caratteri',
-    passwordMustContainLetter: 'La password deve contenere almeno una lettera',
-    passwordMustContainNumberOrSpecial: 'La password deve contenere almeno un numero o simbolo',
-    passwordsDoNotMatch: 'Le password non coincidono',
-    usernameTooShort: 'L\'utente deve avere almeno 3 caratteri',
-    usernameInvalidChars: 'L\'utente può contenere solo lettere, numeri e trattini bassi',
-    usernameAlreadyExists: 'Questo nome utente è già in uso',
-    emailAlreadyExists: 'Questa email è già registrata',
-    
-    // Success Messages
-    registrationSuccess: 'Registrazione riuscita! Benvenuto in dialectio.xyz',
-    welcomeBack: 'Bentornato!',
-    
-    // Error Messages
-    invalidCredentials: 'Credenziali incorrette',
-    registrationError: 'Errore nella registrazione. Riprova.',
-    connectionError: 'Errore di connessione. Verifica la tua internet.',
-
-    // Legal Pages
-    privacyPolicy: 'Politica sulla Privacy',
-    privacyPolicySubtitle: 'Informazioni su come proteggiamo e utilizziamo i tuoi dati',
-    privacyPolicyPlaceholder: 'Il contenuto della politica sulla privacy sarà aggiunto a breve. Nel frattempo, stai certo che rispettiamo la tua privacy e proteggiamo i tuoi dati personali.',
-    termsAndConditions: 'Termini e Condizioni',
-    termsAndConditionsSubtitle: 'Condizioni d\'uso della piattaforma dialectio.xyz',
-    termsAndConditionsPlaceholder: 'I termini e condizioni completi saranno aggiunti a breve. Usando dialectio.xyz, accetti le nostre politiche di uso responsabile e rispetto reciproco.',
-
-    // Contact Page
-    contactTitle: 'Contattaci',
-    contactSubtitle: 'Siamo qui per aiutarti nel tuo viaggio di apprendimento',
-    contactInfoTitle: 'Informazioni di contatto',
-    contactFormTitle: 'Inviaci un messaggio',
-    contactPlaceholder: 'Le informazioni di contatto saranno aggiornate a breve. Nel frattempo, puoi usare il modulo per inviarci le tue domande.',
-    nameLabel: 'Nome',
-    namePlaceholder: 'Il tuo nome',
-    subjectLabel: 'Oggetto',
-    subjectPlaceholder: 'Oggetto del messaggio',
-    messageLabel: 'Messaggio',
-    messagePlaceholder: 'Scrivi il tuo messaggio qui...',
-    phoneLabel: 'Telefono',
-    addressLabel: 'Indirizzo',
-    sendMessage: 'Invia messaggio',
-    sendingMessage: 'Invio...',
-    contactSuccess: 'Messaggio inviato con successo! Ti risponderemo presto.',
-    contactError: 'Errore nell\'invio del messaggio. Riprova.',
-
-    // Terms Acceptance
-    acceptTerms: 'Accetto i termini e condizioni',
-    acceptTermsDescription: 'Registrandoti, accetti i nostri',
-    mustAcceptTerms: 'Devi accettare i termini e condizioni',
-
-    // Demo Page
-    demoTitle: 'Demo di dialectio.xyz',
-    demoSubtitle: 'Scopri come funziona la nostra piattaforma di apprendimento',
-    demoVideoTitle: 'Video dimostrativo',
-    demoVideoPlaceholder: 'Demo interattivo',
-    demoVideoDescription: 'Prossimamente: esperienza completa di apprendimento',
-    comingSoon: 'Prossimamente',
-    demoNotifyTitle: 'Notifiche di lancio',
-    demoNotifyDescription: 'Vuoi essere il primo a sapere quando dialectio.xyz sarà disponibile?',
-    demoNotifyBenefits: 'Ricevi accesso anticipato, sconti speciali e contenuto esclusivo.',
-    demoNotifyPlaceholder: 'tuo@email.com',
-    demoNotifyButton: 'Notificami',
-    demoNotifyProcessing: 'Elaborazione...',
-    demoNotifySuccess: 'Perfetto! Ti notificheremo quando saremo pronti.',
-    demoNotifyError: 'Errore nell\'iscrizione. Riprova.',
-    demoNotifyPrivacy: 'Rispettiamo la tua privacy. Ti contatteremo solo per il lancio.',
-    demoFeaturesTitle: 'Caratteristiche principali',
-    demoFeaturesDescription: 'Cosa potrai fare quando dialectio.xyz sarà disponibile',
-    demoFeature1Title: 'Apprendimento Intelligente',
-    demoFeature1Description: 'Sfrutta le tue conoscenze precedenti per imparare più velocemente',
-    demoFeature2Title: 'Pratica Interattiva',
-    demoFeature2Description: 'Conversazioni reali con tutor virtuali avanzati',
-    demoFeature3Title: 'Progresso Personalizzato',
-    demoFeature3Description: 'Percorsi di apprendimento adattati al tuo livello e obiettivi',
-
-    // Settings Page
-    settingsTitle: 'Impostazioni',
-    settingsSubtitle: 'Personalizza la tua esperienza di apprendimento',
-    settingsNavigation: 'Impostazioni',
-    settingsProfileSection: 'Profilo',
-    settingsPasswordSection: 'Password',
-    settingsEmailSection: 'Email',
-    settingsPreferencesSection: 'Preferenze',
-    settingsCurrentInfo: 'Informazioni attuali',
-    settingsCurrentPassword: 'Password attuale',
-    settingsNewPassword: 'Nuova password',
-    settingsCurrentEmail: 'Email attuale',
-    settingsNewEmail: 'Nuova email',
-    settingsConfirmPassword: 'Conferma con password',
-    settingsChangePassword: 'Cambia password',
-    settingsChangeEmail: 'Cambia email',
-    settingsSaveChanges: 'Salva modifiche',
-    settingsSaving: 'Salvando...',
-    settingsSending: 'Inviando...',
-    settingsLanguagePreference: 'Lingua dell\'interfaccia',
-    settingsLanguageDescription: 'Seleziona la lingua per l\'interfaccia dell\'applicazione',
-    settingsThemePreference: 'Tema visivo',
-    settingsThemeDescription: 'Scegli tra tema chiaro o scuro',
-    settingsMorePreferences: 'Più opzioni di personalizzazione saranno disponibili a breve.',
-    settingsProfileSuccess: 'Profilo aggiornato con successo!',
-    settingsProfileError: 'Errore nell\'aggiornamento del profilo. Riprova.',
-    settingsPasswordSuccess: 'Password aggiornata con successo!',
-    settingsPasswordError: 'Errore nell\'aggiornamento della password. Verifica la tua password attuale.',
-    settingsEmailSuccess: 'Email aggiornata con successo!',
-    settingsEmailError: 'Errore nell\'aggiornamento dell\'email. Verifica la tua password.',
-    settingsRegistrationDate: 'Data di registrazione',
-    settingsPasswordResetTitle: 'Reimposta password',
-    settingsPasswordResetDescription: 'Ti invieremo un link per reimpostare la tua password in sicurezza.',
-    settingsPasswordResetEmailNote: 'Riceverai un\'email con istruzioni per creare una nuova password.',
-
-    // Password Reset
-    forgotPassword: 'Hai dimenticato la password?',
-    resetPassword: 'Reimposta password',
-    resetPasswordDescription: 'Ti invieremo un link per reimpostare la tua password in sicurezza.',
-    sendResetEmail: 'Invia link',
-    resetPasswordSuccess: 'Link inviato! Controlla la tua email per reimpostare la password.',
-    resetPasswordError: 'Errore nell\'invio del link. Verifica la tua email e riprova.',
-  },
-
+  
   en: {
-    // Navigation
-    languages: 'Languages',
-    method: 'Method',
-    about: 'About',
-    faq: 'FAQ',
-    start: 'Start',
+    // Basic translations for English
+    title: 'dialectio.xyz',
+    subtitle: 'Languages don\'t end, they continue',
+    heroTitle: 'Languages don\'t end, they continue',
+    heroSubtitle: 'Learn Spanish, French, Portuguese and Italian leveraging your previous knowledge',
+    startLearning: 'Start Learning',
+    login: 'Sign In',
+    register: 'Sign Up',
     
-    // Hero Section
-    heroTitle: 'Languages',
-    heroSubtitle: 'don\'t end',
-    heroTitle2: ', they continue',
-    heroDescription: 'Discover how your knowledge of a Romance language can accelerate your learning of Spanish, French, Portuguese, and Italian.',
-    startJourney: 'Start my journey',
-    viewDemo: 'View demo',
-    
-    // Language Section
-    languagesSectionTitle: 'Four languages, one family',
-    languagesSectionSubtitle: 'Explore the deep connections between Romance languages and accelerate your learning',
-    
-    // Language Descriptions
-    spanishDescription: 'Mother tongue of 500 million people',
-    frenchDescription: 'The language of diplomacy and culture',
-    portugueseDescription: 'Language of 260 million speakers',
-    italianDescription: 'The language of beauty and art',
-    
-    // About Section
-    aboutTitle: 'Our story begins with you',
-    aboutSubtitle: 'Every language you know is a door that opens new worlds to you',
-    aboutDescription1: 'At dialectio.xyz, we understand that learning a new language doesn\'t mean starting from scratch. Your mind already possesses a linguistic treasure that can be the key to unlocking new languages naturally and efficiently.',
-    aboutDescription2: 'We were born with the intention of creating a way to learn that takes into account the connection of languages and makes you leverage your previous knowledge. When you speak Spanish, you already have the foundations to understand French. If you know Italian, Portuguese will seem familiar.',
-    aboutDescription3: 'With dialectio.xyz you won\'t just do fill-in-the-blank exercises and word ordering. We won\'t bore you with grammar. We believe that learning a language means using it. Our system is based on creating real situations where the student has the opportunity to use the language they are learning as well as its culture.',
-    ourStoryTitle: 'Our story',
-    ourStoryDescription: 'It all started with a simple observation: learning Italian is much faster for those who already speak other Romance languages. This finding led to deep research on the connections between Romance languages, and over time, to the creation of a method that takes advantage of their natural similarities to facilitate learning.',
-    ourMissionTitle: 'Our mission',
-    ourMissionDescription: 'Accelerate language learning by making it faster, more natural and accessible to everyone. We believe that being able to understand multiple languages from the same family as those you already know should be the norm, not the exception. We want to make this a possibility for anyone with curiosity and determination.',
-    ourVisionTitle: 'Our vision',
-    ourVisionDescription: 'We imagine a world where understanding your nearby languages is simpler and more satisfying than using the translator, where each person can communicate fluently in multiple languages, and where cultural diversity is celebrated through the mutual understanding that only multilingualism can offer.',
-    
-    // Features Section
-    methodTitle: 'Our unique method',
-    methodSubtitle: 'Leverage linguistic similarities for more efficient and natural learning',
-    
-    // Feature Items
-    acceleratedLearningTitle: 'Accelerated Learning',
-    acceleratedLearningDescription: 'Use your previous knowledge to learn faster. Romance languages share Latin roots.',
-    contrastiveMethodTitle: 'Contrastive Method',
-    contrastiveMethodDescription: 'Compare and contrast similarities between languages for deeper and more lasting understanding.',
-    
-    // Stats Section
-    fasterStat: 'Faster',
-    fasterDescription: 'Accelerated learning leveraging previous knowledge',
-    languagesStat: 'Languages',
-    languagesDescription: 'Main Romance languages on a single platform',
-    
-    // FAQ Section
-    faqTitle: 'Frequently asked questions',
-    faqSubtitle: 'We resolve the most common doubts about dialectio.xyz',
-    faqQuestion1: 'What is Dialectio.xyz and how does it work?',
-    faqAnswer1: 'Dialectio.xyz is an online platform designed to accelerate learning from similar languages. It starts from a simple principle: if you already master a language like Spanish, Italian, French or Portuguese, you possess a large part of the path traveled towards the others. The system identifies these correspondences —lexical, grammatical and phonetic— and converts them into practical shortcuts and priorities. Learning is articulated on two complementary fronts. On one hand, guided conversations with virtual tutors that simulate real situations and with whom you will speak; on the other, traditional exercises prior to the conversation phase, where you will learn the basic rudiments to manage in a real situation. The combination of immediate use and conscious reflection allows you to advance quickly and retain durably.',
-    faqQuestion2: 'What languages can I learn on Dialectio.xyz?',
-    faqAnswer2: 'In the current version, Spanish, French, Italian and Portuguese are offered. The catalog will grow gradually, first with other languages from the same family —Catalan, Galician, Romanian— and then with other languages, always keeping this focus on familiarity between languages.',
-    faqQuestion3: 'Do I need to have previous knowledge of any of the current languages to use Dialectio.xyz?',
-    faqAnswer3: 'It\'s not essential. The system admits English as a support language for basic explanations and hints. However, its design gets maximum performance when the user already masters, even partially, at least one Romance language: each recognized similarity then becomes an impulse of understanding and a saving of effort.',
-    faqQuestion4: 'What is the difference between Dialectio.xyz and other language learning platforms?',
-    faqAnswer4: 'Most programs teach each language in isolation, as if you were starting from scratch. Dialectio.xyz starts from what you already know. It explores common roots, shared morphological patterns and characteristic false friends between related languages. This way it avoids redundancies and centers attention on the true points of divergence. Furthermore, practice is not reduced to grammatical gymnastics: conversations, stories and functional tasks generate authentic exposure and reinforce communicative confidence.',
-    faqQuestion5: 'How is learning structured in Dialectio.xyz?',
-    faqAnswer5: 'Each session is organized around a communicative micro-objective: greeting a neighbor, ordering coffee, describing an itinerary, answering in an interview and together they build a story in the country of the language, your story. The first step is traditional exercises that give you the basic rudiments to manage, the second launches you into real situations in which to practice the language in its cultural context.',
-    faqQuestion6: 'Who is behind Dialectio.xyz?',
-    faqAnswer6: 'A mixed team of developers, linguists and self-learning enthusiasts. They share the conviction that the boundaries between Romance languages are more porous than traditional teaching suggests and that conversational technology can energize this linguistic proximity for any audience.',
-    faqQuestion7: 'What do I need to start?',
-    faqAnswer7: 'Just create an account and have an internet connection. Everything happens in the browser: there are no downloads or installations. From the first access you will get a diagnosis of your level and a personalized learning path that you can follow on computer, tablet or mobile.',
-    faqQuestion8: 'What role does motivation play in learning in Dialectio.xyz?',
-    faqAnswer8: 'In Dialectio.xyz motivation may not accompany the user from the first minute, but it is considered essential for the process to continue. That\'s why the didactic design is oriented to generate it instead of presupposing it. Each activity places the learner in a meaningful context where results appear early and are tangible: understanding a cultural wink in a song, closing an accommodation reservation, or responding with poise in a call. This utility provokes curiosity, feeds the desire to continue and transforms motivation into a natural consequence, never into an initial barrier.',
-    
-    // CTA Section
-    ctaTitle: 'Ready to continue your linguistic journey?',
-    ctaDescription: 'Join thousands of students who are already leveraging their knowledge to master multiple Romance languages.',
-    createAccount: 'Create free account',
-    learnMore: 'Learn more',
-    
-    // Footer
-    footerDescription: 'Languages don\'t end, they continue. Learn Spanish, French, Portuguese and Italian intelligently and efficiently.',
-    resources: 'Resources',
-    blog: 'Blog',
-    help: 'Help',
-    contact: 'Contact',
-    copyright: '© 2025 dialectio.xyz. All rights reserved.',
-
-    // Auth
-    login: 'Log in',
-    register: 'Sign up',
-    email: 'Email',
-    password: 'Password',
-    confirmPassword: 'Confirm password',
-    username: 'Username',
-    fullName: 'Full name',
-    initialLanguage: 'Initial language',
-    selectInitialLanguage: 'Select your initial language',
-    emailOrUsername: 'Email or username',
-    loginButton: 'Enter',
-    registerButton: 'Create account',
-    alreadyHaveAccount: 'Already have an account?',
-    dontHaveAccount: 'Don\'t have an account?',
-    createNewAccount: 'Create new account',
-    backToLogin: 'Back to login',
-    
-    // Registration Page
-    registrationTitle: 'Join dialectio.xyz',
-    registrationSubtitle: 'Create your account and start your multilingual journey',
-    personalInfoTitle: 'Personal information',
-    personalInfoDescription: 'Basic data to create your account',
-    languageInfoTitle: 'Linguistic information',
-    languageInfoDescription: 'Select your starting language to personalize your experience',
-    fullNameLabel: 'Full name',
-    fullNamePlaceholder: 'Your full name',
-    usernameLabel: 'Username',
-    usernamePlaceholder: 'user123',
-    usernameDescription: 'Only letters, numbers and underscores. Minimum 3 characters.',
-    emailLabel: 'Email address',
-    emailPlaceholder: 'your@email.com',
-    passwordLabel: 'Password',
-    passwordPlaceholder: 'Minimum 6 characters',
-    confirmPasswordLabel: 'Confirm password',
-    confirmPasswordPlaceholder: 'Repeat your password',
-    initialLanguageLabel: 'Your main language',
-    initialLanguageDescription: 'Select the language you master best to personalize your learning experience',
-    completeRegistration: 'Complete registration',
-    backToHome: 'Back to home',
-    
-    // Language Options
+    // Languages
     spanish: 'Spanish',
     french: 'French',
     portuguese: 'Portuguese',
     italian: 'Italian',
     english: 'English',
     
-    // Validation Messages
-    fieldRequired: 'This field is required',
-    emailInvalid: 'The email is not valid',
-    passwordTooShort: 'Password must be at least 6 characters',
-    passwordMustContainLetter: 'Password must contain at least one letter',
-    passwordMustContainNumberOrSpecial: 'Password must contain at least one number or symbol',
-    passwordsDoNotMatch: 'Passwords do not match',
-    usernameTooShort: 'Username must be at least 3 characters',
-    usernameInvalidChars: 'Username can only contain letters, numbers and underscores',
-    usernameAlreadyExists: 'This username is already in use',
-    emailAlreadyExists: 'This email is already registered',
+    // Navigation
+    home: 'Home',
+    about: 'About',
+    features: 'Features',
+    contact: 'Contact',
+    blog: 'Blog',
     
-    // Success Messages
-    registrationSuccess: 'Registration successful! Welcome to dialectio.xyz',
-    welcomeBack: 'Welcome back!',
+    // About section
+    aboutTitle: 'Accelerate your learning',
+    aboutDescription: 'Dialectio leverages similarities between Romance languages to accelerate your learning process. If you already speak Spanish, French, Italian or Portuguese, you can learn the other languages up to 3 times faster.',
     
-    // Error Messages
-    invalidCredentials: 'Invalid credentials',
-    registrationError: 'Registration error. Try again.',
-    connectionError: 'Connection error. Check your internet.',
-
-    // Legal Pages
+    // Features
+    featuresTitle: 'Key Features',
+    feature1Title: 'Accelerated Learning',
+    feature1Description: 'Leverage your previous knowledge to learn faster',
+    feature2Title: 'Conversational AI',
+    feature2Description: 'Practice with AI tutors that adapt to your level',
+    feature3Title: 'Scientific Method',
+    feature3Description: 'Based on cognitive linguistics research',
+    
+    // FAQ
+    faqTitle: 'Frequently Asked Questions',
+    faq1Question: 'How does Dialectio\'s method work?',
+    faq1Answer: 'Our method leverages similarities between Romance languages. If you already speak Spanish, for example, you can learn Italian or French more quickly because you share vocabulary, grammar and similar structures.',
+    faq2Question: 'What languages can I learn?',
+    faq2Answer: 'We currently offer courses in Spanish, French, Italian and Portuguese. You can learn any of these languages if you already speak one of the others.',
+    faq3Question: 'Do I need previous knowledge?',
+    faq3Answer: 'Yes, you need to speak at least one Romance language (Spanish, French, Italian or Portuguese) to make the most of our method.',
+    
+    // CTA
+    ctaTitle: 'Ready to accelerate your learning?',
+    ctaDescription: 'Join thousands of students who are already learning languages 3 times faster',
+    ctaButton: 'Start Free',
+    
+    // Footer
+    footerDescription: 'Accelerate your Romance language learning',
+    footerLinks: 'Links',
+    footerLegal: 'Legal',
     privacyPolicy: 'Privacy Policy',
-    privacyPolicySubtitle: 'Information about how we protect and use your data',
-    privacyPolicyPlaceholder: 'The privacy policy content will be added soon. Meanwhile, rest assured that we respect your privacy and protect your personal data.',
     termsAndConditions: 'Terms and Conditions',
-    termsAndConditionsSubtitle: 'Terms of use of the dialectio.xyz platform',
-    termsAndConditionsPlaceholder: 'The complete terms and conditions will be added soon. By using dialectio.xyz, you accept our policies of responsible use and mutual respect.',
-
-    // Contact Page
-    contactTitle: 'Contact us',
-    contactSubtitle: 'We\'re here to help you on your learning journey',
-    contactInfoTitle: 'Contact information',
-    contactFormTitle: 'Send us a message',
-    contactPlaceholder: 'Contact information will be updated soon. Meanwhile, you can use the form to send us your inquiries.',
-    nameLabel: 'Name',
-    namePlaceholder: 'Your name',
-    subjectLabel: 'Subject',
-    subjectPlaceholder: 'Message subject',
-    messageLabel: 'Message',
-    messagePlaceholder: 'Write your message here...',
-    phoneLabel: 'Phone',
-    addressLabel: 'Address',
-    sendMessage: 'Send message',
-    sendingMessage: 'Sending...',
-    contactSuccess: 'Message sent successfully! We\'ll respond soon.',
-    contactError: 'Error sending message. Try again.',
-
-    // Terms Acceptance
+    
+    // Auth
+    emailLabel: 'Email',
+    passwordLabel: 'Password',
+    loginButton: 'Sign In',
+    registerButton: 'Sign Up',
+    forgotPassword: 'Forgot password',
+    
+    // Registration
+    registrationTitle: 'Create Account',
+    registrationSubtitle: 'Join the Dialectio community',
+    usernameLabel: 'Username',
+    fullNameLabel: 'Full name',
+    confirmPasswordLabel: 'Confirm password',
+    initialLanguageLabel: 'Your main language',
     acceptTerms: 'I accept the terms and conditions',
-    acceptTermsDescription: 'By registering, you accept our',
-    mustAcceptTerms: 'You must accept the terms and conditions',
-
-    // Demo Page
-    demoTitle: 'dialectio.xyz Demo',
-    demoSubtitle: 'Discover how our learning platform works',
-    demoVideoTitle: 'Demo video',
-    demoVideoPlaceholder: 'Interactive demo',
-    demoVideoDescription: 'Coming soon: complete learning experience',
-    comingSoon: 'Coming soon',
-    demoNotifyTitle: 'Launch notifications',
-    demoNotifyDescription: 'Want to be the first to know when dialectio.xyz is available?',
-    demoNotifyBenefits: 'Get early access, special discounts and exclusive content.',
-    demoNotifyPlaceholder: 'your@email.com',
-    demoNotifyButton: 'Notify me',
-    demoNotifyProcessing: 'Processing...',
-    demoNotifySuccess: 'Perfect! We\'ll notify you when we\'re ready.',
-    demoNotifyError: 'Error subscribing. Try again.',
-    demoNotifyPrivacy: 'We respect your privacy. We\'ll only contact you about the launch.',
-    demoFeaturesTitle: 'Main features',
-    demoFeaturesDescription: 'What you\'ll be able to do when dialectio.xyz is available',
-    demoFeature1Title: 'Smart Learning',
-    demoFeature1Description: 'Leverage your previous knowledge to learn faster',
-    demoFeature2Title: 'Interactive Practice',
-    demoFeature2Description: 'Real conversations with advanced virtual tutors',
-    demoFeature3Title: 'Personalized Progress',
-    demoFeature3Description: 'Learning paths adapted to your level and goals',
-
-    // Settings Page
+    completeRegistration: 'Complete Registration',
+    
+    // Validation messages
+    fieldRequired: 'This field is required',
+    emailInvalid: 'Invalid email',
+    passwordTooShort: 'Password must be at least 6 characters',
+    passwordsDoNotMatch: 'Passwords do not match',
+    usernameAlreadyExists: 'Username already exists',
+    emailAlreadyExists: 'Email is already registered',
+    
+    // Placeholders
+    emailPlaceholder: 'your@email.com',
+    passwordPlaceholder: '••••••••',
+    usernamePlaceholder: 'username123',
+    fullNamePlaceholder: 'Your full name',
+    confirmPasswordPlaceholder: '••••••••',
+    
+    // Success/Error messages
+    registrationSuccess: 'Account created successfully!',
+    registrationError: 'Error creating account',
+    loginError: 'Error signing in',
+    connectionError: 'Connection error',
+    
+    // Demo/Hackathon specific
+    technicalDemo: 'Technical Demo',
+    hackathonDemo: 'Hackathon Demonstration',
+    registrationDisabled: 'Registration Disabled',
+    demoNotice: 'This is a technical demonstration developed for the hackathon',
+    judgeAccess: 'Are you a hackathon judge?',
+    judgeAccessDescription: 'If you have access credentials to evaluate this demo, you can sign in from the main page.',
+    goToLogin: 'Go to Sign In',
+    aboutThisDemo: 'About this Demo',
+    demoFeatures: [
+      'Romance language learning application',
+      'Uses conversational AI for interactive practice',
+      'Built with React, TypeScript and Supabase',
+      'Integrates OpenAI and ElevenLabs for immersive experiences'
+    ],
+    backToHome: '← Back to home',
+    
+    // Privacy Policy
+    privacyPolicySubtitle: 'Information about how we handle your data in this demonstration',
+    privacyPolicyPlaceholder: 'This is a technical demonstration for the hackathon. Complete terms would be developed for a production version.',
+    
+    // Terms and Conditions
+    termsAndConditionsSubtitle: 'Terms of use for this technical demonstration',
+    termsAndConditionsPlaceholder: 'This is a technical demonstration for the hackathon. Complete terms would be developed for a production version.',
+    
+    // Settings
     settingsTitle: 'Settings',
     settingsSubtitle: 'Customize your learning experience',
-    settingsNavigation: 'Settings',
+    settingsNavigation: 'Navigation',
     settingsProfileSection: 'Profile',
     settingsPasswordSection: 'Password',
     settingsEmailSection: 'Email',
     settingsPreferencesSection: 'Preferences',
-    settingsCurrentInfo: 'Current information',
-    settingsCurrentPassword: 'Current password',
-    settingsNewPassword: 'New password',
-    settingsCurrentEmail: 'Current email',
-    settingsNewEmail: 'New email',
-    settingsConfirmPassword: 'Confirm with password',
-    settingsChangePassword: 'Change password',
-    settingsChangeEmail: 'Change email',
-    settingsSaveChanges: 'Save changes',
+    settingsCurrentInfo: 'Current Information',
+    settingsCurrentPassword: 'Current Password',
+    settingsNewPassword: 'New Password',
+    settingsCurrentEmail: 'Current Email',
+    settingsNewEmail: 'New Email',
+    settingsConfirmPassword: 'Confirm with Password',
+    settingsLanguagePreference: 'Interface Language',
+    settingsLanguageDescription: 'Change the application language',
+    settingsThemePreference: 'Visual Theme',
+    settingsThemeDescription: 'Toggle between light and dark mode',
+    settingsMorePreferences: 'More customization options coming soon...',
+    settingsSaveChanges: 'Save Changes',
     settingsSaving: 'Saving...',
-    settingsSending: 'Sending...',
-    settingsLanguagePreference: 'Interface language',
-    settingsLanguageDescription: 'Select the language for the application interface',
-    settingsThemePreference: 'Visual theme',
-    settingsThemeDescription: 'Choose between light or dark theme',
-    settingsMorePreferences: 'More customization options will be available soon.',
-    settingsProfileSuccess: 'Profile updated successfully!',
-    settingsProfileError: 'Error updating profile. Try again.',
-    settingsPasswordSuccess: 'Password updated successfully!',
-    settingsPasswordError: 'Error updating password. Check your current password.',
-    settingsEmailSuccess: 'Email updated successfully!',
-    settingsEmailError: 'Error updating email. Check your password.',
-    settingsRegistrationDate: 'Registration date',
-    settingsPasswordResetTitle: 'Reset password',
-    settingsPasswordResetDescription: 'We\'ll send you a link to reset your password securely.',
-    settingsPasswordResetEmailNote: 'You\'ll receive an email with instructions to create a new password.',
-
-    // Password Reset
-    forgotPassword: 'Forgot your password?',
-    resetPassword: 'Reset password',
-    resetPasswordDescription: 'We\'ll send you a link to reset your password securely.',
-    sendResetEmail: 'Send link',
-    resetPasswordSuccess: 'Link sent! Check your email to reset your password.',
-    resetPasswordError: 'Error sending link. Check your email and try again.',
+    settingsChangePassword: 'Change Password',
+    settingsChangeEmail: 'Change Email',
+    settingsProfileSuccess: 'Profile updated successfully',
+    settingsProfileError: 'Error updating profile',
+    settingsPasswordSuccess: 'Password updated successfully',
+    settingsPasswordError: 'Error updating password',
+    settingsEmailSuccess: 'Email updated successfully',
+    settingsEmailError: 'Error updating email',
+    
+    // Reset Password
+    resetPassword: 'Reset Password',
+    resetPasswordDescription: 'Enter your new password',
+    
+    // Additional validation
+    usernameTooShort: 'Username must be at least 3 characters',
+    usernameInvalidChars: 'Username can only contain letters, numbers and underscores',
+    passwordMustContainLetter: 'Password must contain at least one letter',
+    passwordMustContainNumberOrSpecial: 'Password must contain at least one number or symbol',
+    mustAcceptTerms: 'You must accept the terms and conditions',
+    
+    // Registration form sections
+    personalInfoTitle: 'Personal Information',
+    personalInfoDescription: 'Basic data for your account',
+    languageInfoTitle: 'Language Information',
+    languageInfoDescription: 'Select your main language to customize your experience',
+    usernameDescription: 'Minimum 3 characters, only letters, numbers and underscores',
+    initialLanguageDescription: 'This will be the language from which you learn other languages',
+    acceptTermsDescription: 'By registering, you accept our',
+    alreadyHaveAccount: 'Already have an account?',
+    backToLogin: 'Back to sign in'
+  },
+  
+  fr: {
+    // Basic translations for French
+    title: 'dialectio.xyz',
+    subtitle: 'Les langues ne finissent pas, elles continuent',
+    heroTitle: 'Les langues ne finissent pas, elles continuent',
+    heroSubtitle: 'Apprenez l\'espagnol, le français, le portugais et l\'italien en tirant parti de vos connaissances antérieures',
+    startLearning: 'Commencer à Apprendre',
+    login: 'Se Connecter',
+    register: 'S\'inscrire',
+    
+    // Languages
+    spanish: 'Espagnol',
+    french: 'Français',
+    portuguese: 'Portugais',
+    italian: 'Italien',
+    english: 'Anglais',
+    
+    // Demo/Hackathon specific
+    technicalDemo: 'Démo Technique',
+    hackathonDemo: 'Démonstration pour Hackathon',
+    registrationDisabled: 'Inscription Désactivée',
+    demoNotice: 'Ceci est une démonstration technique développée pour le hackathon',
+    judgeAccess: 'Êtes-vous juge du hackathon ?',
+    judgeAccessDescription: 'Si vous avez des identifiants d\'accès pour évaluer cette démo, vous pouvez vous connecter depuis la page principale.',
+    goToLogin: 'Aller à la Connexion',
+    aboutThisDemo: 'À propos de cette Démo',
+    demoFeatures: [
+      'Application d\'apprentissage des langues romanes',
+      'Utilise l\'IA conversationnelle pour la pratique interactive',
+      'Conçue avec React, TypeScript et Supabase',
+      'Intègre OpenAI et ElevenLabs pour des expériences immersives'
+    ],
+    backToHome: '← Retour à l\'accueil',
+    
+    // Privacy Policy
+    privacyPolicy: 'Politique de Confidentialité',
+    privacyPolicySubtitle: 'Informations sur la façon dont nous traitons vos données dans cette démonstration',
+    privacyPolicyPlaceholder: 'Ceci est une démonstration technique pour le hackathon. Les conditions complètes seraient développées pour une version de production.',
+    
+    // Terms and Conditions
+    termsAndConditions: 'Conditions Générales',
+    termsAndConditionsSubtitle: 'Conditions d\'utilisation pour cette démonstration technique',
+    termsAndConditionsPlaceholder: 'Ceci est une démonstration technique pour le hackathon. Les conditions complètes seraient développées pour une version de production.',
+    
+    // Basic required fields
+    fieldRequired: 'Ce champ est obligatoire',
+    emailInvalid: 'Email invalide',
+    passwordTooShort: 'Le mot de passe doit contenir au moins 6 caractères',
+    passwordsDoNotMatch: 'Les mots de passe ne correspondent pas',
+    emailLabel: 'Email',
+    passwordLabel: 'Mot de passe'
+  },
+  
+  it: {
+    // Basic translations for Italian
+    title: 'dialectio.xyz',
+    subtitle: 'Le lingue non finiscono, continuano',
+    heroTitle: 'Le lingue non finiscono, continuano',
+    heroSubtitle: 'Impara spagnolo, francese, portoghese e italiano sfruttando le tue conoscenze precedenti',
+    startLearning: 'Inizia ad Imparare',
+    login: 'Accedi',
+    register: 'Registrati',
+    
+    // Languages
+    spanish: 'Spagnolo',
+    french: 'Francese',
+    portuguese: 'Portoghese',
+    italian: 'Italiano',
+    english: 'Inglese',
+    
+    // Demo/Hackathon specific
+    technicalDemo: 'Demo Tecnica',
+    hackathonDemo: 'Dimostrazione per Hackathon',
+    registrationDisabled: 'Registrazione Disabilitata',
+    demoNotice: 'Questa è una dimostrazione tecnica sviluppata per l\'hackathon',
+    judgeAccess: 'Sei un giudice dell\'hackathon?',
+    judgeAccessDescription: 'Se hai credenziali di accesso per valutare questa demo, puoi accedere dalla pagina principale.',
+    goToLogin: 'Vai al Login',
+    aboutThisDemo: 'Informazioni su questa Demo',
+    demoFeatures: [
+      'Applicazione per l\'apprendimento delle lingue romanze',
+      'Utilizza IA conversazionale per la pratica interattiva',
+      'Progettata con React, TypeScript e Supabase',
+      'Integra OpenAI e ElevenLabs per esperienze immersive'
+    ],
+    backToHome: '← Torna alla home',
+    
+    // Privacy Policy
+    privacyPolicy: 'Informativa sulla Privacy',
+    privacyPolicySubtitle: 'Informazioni su come gestiamo i tuoi dati in questa dimostrazione',
+    privacyPolicyPlaceholder: 'Questa è una dimostrazione tecnica per l\'hackathon. I termini completi sarebbero sviluppati per una versione di produzione.',
+    
+    // Terms and Conditions
+    termsAndConditions: 'Termini e Condizioni',
+    termsAndConditionsSubtitle: 'Termini di utilizzo per questa dimostrazione tecnica',
+    termsAndConditionsPlaceholder: 'Questa è una dimostrazione tecnica per l\'hackathon. I termini completi sarebbero sviluppati per una versione di produzione.',
+    
+    // Basic required fields
+    fieldRequired: 'Questo campo è obbligatorio',
+    emailInvalid: 'Email non valida',
+    passwordTooShort: 'La password deve contenere almeno 6 caratteri',
+    passwordsDoNotMatch: 'Le password non corrispondono',
+    emailLabel: 'Email',
+    passwordLabel: 'Password'
+  },
+  
+  pt: {
+    // Basic translations for Portuguese
+    title: 'dialectio.xyz',
+    subtitle: 'As línguas não acabam, continuam',
+    heroTitle: 'As línguas não acabam, continuam',
+    heroSubtitle: 'Aprenda espanhol, francês, português e italiano aproveitando seus conhecimentos anteriores',
+    startLearning: 'Começar a Aprender',
+    login: 'Entrar',
+    register: 'Registrar',
+    
+    // Languages
+    spanish: 'Espanhol',
+    french: 'Francês',
+    portuguese: 'Português',
+    italian: 'Italiano',
+    english: 'Inglês',
+    
+    // Demo/Hackathon specific
+    technicalDemo: 'Demo Técnica',
+    hackathonDemo: 'Demonstração para Hackathon',
+    registrationDisabled: 'Registro Desabilitado',
+    demoNotice: 'Esta é uma demonstração técnica desenvolvida para o hackathon',
+    judgeAccess: 'Você é juiz do hackathon?',
+    judgeAccessDescription: 'Se você tem credenciais de acesso para avaliar esta demo, pode fazer login na página principal.',
+    goToLogin: 'Ir para Login',
+    aboutThisDemo: 'Sobre esta Demo',
+    demoFeatures: [
+      'Aplicação de aprendizado de línguas românicas',
+      'Usa IA conversacional para prática interativa',
+      'Projetada com React, TypeScript e Supabase',
+      'Integra OpenAI e ElevenLabs para experiências imersivas'
+    ],
+    backToHome: '← Voltar ao início',
+    
+    // Privacy Policy
+    privacyPolicy: 'Política de Privacidade',
+    privacyPolicySubtitle: 'Informações sobre como lidamos com seus dados nesta demonstração',
+    privacyPolicyPlaceholder: 'Esta é uma demonstração técnica para o hackathon. Os termos completos seriam desenvolvidos para uma versão de produção.',
+    
+    // Terms and Conditions
+    termsAndConditions: 'Termos e Condições',
+    termsAndConditionsSubtitle: 'Termos de uso para esta demonstração técnica',
+    termsAndConditionsPlaceholder: 'Esta é uma demonstração técnica para o hackathon. Os termos completos seriam desenvolvidos para uma versão de produção.',
+    
+    // Basic required fields
+    fieldRequired: 'Este campo é obrigatório',
+    emailInvalid: 'Email inválido',
+    passwordTooShort: 'A senha deve ter pelo menos 6 caracteres',
+    passwordsDoNotMatch: 'As senhas não coincidem',
+    emailLabel: 'Email',
+    passwordLabel: 'Senha'
   }
 };
