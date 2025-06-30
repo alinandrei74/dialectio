@@ -180,17 +180,7 @@ function DemoPage() {
                style={{ clipPath: 'polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)' }}>
             
             {/* Notification Header */}
-            <div className="p-6 border-b-3 border-black dark:border-gray-300 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 text-white mx-2 mt-2"
-                 style={{ clipPath: 'polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)' }}>
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-white/20 flex items-center justify-center transform rotate-45 border-2 border-white shadow-lg">
-                  <Bell className="w-5 h-5 text-white transform -rotate-45" />
-                </div>
-                <h2 className="text-xl font-black">
-                  {t.demoNotifyTitle}
-                </h2>
-              </div>
-            </div>
+           
 
             {/* Notification Form */}
             <div className="p-8">
