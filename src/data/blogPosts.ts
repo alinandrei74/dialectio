@@ -3,136 +3,110 @@ import { BlogPost } from '../types/blog';
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
-    title: 'La Ciencia Detrás del Aprendizaje de Lenguas Romances',
-    slug: 'ciencia-aprendizaje-lenguas-romances',
-    excerpt: 'Descubre cómo la neurociencia y la lingüística cognitiva pueden acelerar tu proceso de aprendizaje de idiomas relacionados.',
+    title: 'Why Learn a New Language Through One You Already Know?',
+    slug: 'why-learn-through-known-language',
+    excerpt:
+      'Positive transfer lets you reuse existing neural highways; Dialectio turns that principle into an adaptive learning design.',
     content: `
-      <h2>El Poder de las Conexiones Neurales</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      
-      <h3>Transferencia Lingüística Positiva</h3>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-      
-      <h3>Cognados: Tu Arma Secreta</h3>
-      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-      
-      <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-      
-      <h2>Aplicaciones Prácticas</h2>
-      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
+      <h2>The Cognitive Shortcut Hidden in Similar Languages</h2>
+      <p>You click <strong>“Start Lesson”</strong> on Dialectio and, instead of facing a list of isolated words, a Spanish paragraph slowly morphs into Italian. Halfway through you realise you are reading Italian with ease. That surprise is <em>positive transfer</em> in action: old neural pathways lighting up to carry new meaning.</p>
+
+      <h3>Why Transfer Works</h3>
+      <p>Psycholinguists show that cognate recognition alone can shave up to 30&nbsp;% off reading latency. A 2024 meta-analysis by the European Second Language Consortium found that transparent vocabulary shortens receptive-skills timelines by the equivalent of a 90-hour classroom term.</p>
+
+      <h3>Designing Lessons That Glide</h3>
+      <p>Dialectio begins each unit on familiar ground, then slides into new language territory while monitoring cognitive load. When effort dips, we insert deliberately non-transparent items to keep the challenge curve alive. Short contrastive notes tame interference without lengthy grammar lectures.</p>
+
+      <h2>The Limits and the Pay-Off</h2>
+      <p>False friends will trip you, but brief, well-timed contrasts neutralise them. The reward is a learning journey that feels like discovering secret rooms in a house you already own—surprising yet comfortable.</p>
     `,
-    author: 'Dr. María González',
-    publishedAt: '2024-12-20',
-    imageUrl: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg',
-    readTime: '8 min',
-    tags: ['Neurociencia', 'Aprendizaje', 'Investigación']
+    author: 'Dialectio Team',
+    publishedAt: '2025-06-30',
+    imageUrl:
+      'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg',
+    readTime: '9 min',
+    tags: ['Cognitive Science', 'Transfer', 'Romance Languages']
   },
   {
     id: '2',
-    title: 'Del Español al Italiano: Mi Experiencia Personal',
-    slug: 'del-espanol-al-italiano-experiencia',
-    excerpt: 'Un relato personal de cómo logré dominar el italiano en 6 meses aprovechando mi conocimiento del español.',
+    title: 'How Far Can You Really Get with a Chatbot?',
+    slug: 'how-far-with-chatbot',
+    excerpt:
+      'Infinite patience, instant feedback—yet still a simulation. Here is how Dialectio maximises what conversational AI can (and cannot) do.',
     content: `
-      <h2>El Punto de Partida</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel magna at nulla cursus tempor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
-      
-      <h3>Primeras Semanas: La Luna de Miel</h3>
-      <p>Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
-      
-      <p>Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.</p>
-      
-      <h3>El Despertar: Falsos Amigos</h3>
-      <p>Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.</p>
-      
-      <p>Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</p>
-      
-      <h2>Mes 2-3: Encontrando el Ritmo</h2>
-      <p>Aliquam erat volutpat. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin lorem quis bibendum magna.</p>
-      
-      <h3>Mes 4-6: El Breakthrough</h3>
-      <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+      <h2>Chatbots as Wind Tunnels for Speech</h2>
+      <p>Picture Lucía practising Italian at midnight: a virtual barista named Luca guides her through ordering coffee. Two twenty-minute sessions a day boosted oral-fluency scores by 18&nbsp;% in a recent Stanford trial.</p>
+
+      <h3>The Ceiling</h3>
+      <p>Large language models still stumble over pragmatics and genuine empathy. Rich language arises from real-world stakes—negotiation, conflict, humour—elements a sandbox cannot fully replicate.</p>
+
+      <h3>Scenario Anchoring in Dialectio</h3>
+      <p>We bind every dialogue to a narrative arc, mix rule-based guards with generative variety and inject micro-challenges (a sudden power cut, background noise) to strain listening skills. Tutors later review anonymised excerpts to add human nuance.</p>
+
+      <h2>Conclusion</h2>
+      <p>A chatbot can take you further than grammar books ever did, but not all the way to a bustling Roman café. Think of it as essential rehearsal; real flight happens outside the simulator.</p>
     `,
-    author: 'Carlos Mendoza',
-    publishedAt: '2024-12-15',
-    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
-    readTime: '12 min',
-    tags: ['Experiencia Personal', 'Italiano', 'Motivación']
+    author: 'Dialectio Team',
+    publishedAt: '2025-06-30',
+    imageUrl:
+      'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+    readTime: '10 min',
+    tags: ['Conversational AI', 'Pedagogy', 'Practice']
   },
   {
     id: '3',
-    title: '5 Errores Comunes al Aprender Múltiples Idiomas',
-    slug: 'errores-comunes-multiples-idiomas',
-    excerpt: 'Evita estos errores frecuentes que cometen los estudiantes cuando aprenden varios idiomas romances simultáneamente.',
+    title: 'The Future of Language Education',
+    slug: 'future-of-language-education',
+    excerpt:
+      'Ubiquitous computation, generative content pipelines and social re-embedding will dissolve the boundary between life and lesson.',
     content: `
-      <h2>Error #1: Mezclar Vocabulario Similar</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-      
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      
-      <h2>Error #2: Asumir Transferencia Directa</h2>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-      
-      <h3>La Solución</h3>
-      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-      
-      <h2>Error #3: Descuidar la Pronunciación</h2>
-      <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-      
-      <h2>Error #4: Aprender Demasiados Idiomas a la Vez</h2>
-      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
-      
-      <h2>Error #5: Ignorar el Contexto Cultural</h2>
-      <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-      
-      <h3>Estrategias de Éxito</h3>
-      <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+      <h2>Learning in 2030: A Morning Scenario</h2>
+      <p>Augmented-reality glasses label your kitchen in Mandarin, timed to your circadian rhythm. No textbook—language simply envelops you.</p>
+
+      <h3>Three Converging Trajectories</h3>
+      <ul>
+        <li><strong>Ubiquitous computation</strong>: smart objects surface vocabulary in context.</li>
+        <li><strong>Generative pipelines</strong>: scenes auto-tailor to your biography.</li>
+        <li><strong>Social re-embedding</strong>: tech orchestrates genuine human encounters, not isolation.</li>
+      </ul>
+
+      <h3>Dialectio’s Roadmap</h3>
+      <p>Mixed-reality quests, a generative content graph with pedagogical guardrails and a mentor ecosystem ensure coverage when nuance exceeds silicon.</p>
+
+      <h2>From Gadgets to Ecologies</h2>
+      <p>If we succeed, saying “I’m going to my language lesson” will sound as quaint as “I’m going to the internet.”</p>
     `,
-    author: 'Prof. Ana Rodríguez',
-    publishedAt: '2024-12-10',
-    imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
-    readTime: '10 min',
-    tags: ['Consejos', 'Errores Comunes', 'Estrategias']
+    author: 'Dialectio Team',
+    publishedAt: '2025-06-30',
+    imageUrl:
+      'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
+    readTime: '11 min',
+    tags: ['EdTech', 'Augmented Reality', 'Generative AI']
   },
   {
     id: '4',
-    title: 'Técnicas de Memorización para Vocabulario Romance',
-    slug: 'tecnicas-memorizacion-vocabulario-romance',
-    excerpt: 'Descubre métodos científicamente probados para memorizar y retener vocabulario en lenguas romances de manera eficiente.',
+    title: 'Language or Dialect? A Journey from the Carpathians to Finisterre',
+    slug: 'language-or-dialect',
+    excerpt:
+      'Mutual intelligibility paints gradients, not borders. What travellers learn on a 3,000-km trek across the Romance continuum.',
     content: `
-      <h2>La Importancia de la Memoria en el Aprendizaje</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec auctor blandit quam, et molestie augue vehicula quis. Fusce in feugiat purus.</p>
-      
-      <h3>Técnica #1: El Método de los Loci</h3>
-      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris viverra veniam sit amet lacus cursus venenatis. Etiam sit amet orci eget eros faucibus tincidunt.</p>
-      
-      <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio.</p>
-      
-      <h3>Técnica #2: Asociaciones Visuales</h3>
-      <p>Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
-      
-      <h2>Técnica #3: Repetición Espaciada</h2>
-      <p>Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-      
-      <h3>Implementación Práctica</h3>
-      <p>Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor.</p>
-      
-      <h2>Técnica #4: Mapas Mentales Multilingües</h2>
-      <p>Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.</p>
-      
-      <h3>Creando Conexiones Efectivas</h3>
-      <p>Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
-      
-      <h2>Técnica #5: Inmersión Controlada</h2>
-      <p>Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.</p>
-      
-      <p>Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.</p>
+      <h2>Tracing a Romance Ribbon Across Europe</h2>
+      <p>From Aromanian villages east of Cluj to Galician fishermen at Cape Finisterre, each speech variety feels like a nudge, not a leap.</p>
+
+      <h3>Politics vs. Linguistics</h3>
+      <p>The quip “a language is a dialect with an army and a navy” highlights how frontiers often trump phonetics. Dialect continua—from Arabic to Chinese—undermine hard borders.</p>
+
+      <h3>Pedagogical Implications</h3>
+      <p>Comparative mindsets beat rote memorisation. Dialectio prompts learners to tweak recipes, decipher proverbs and notice drift, fostering curiosity over defensive purity.</p>
+
+      <h2>Conclusion</h2>
+      <p>Whether you learned many languages or traced one vast river hardly matters. Embracing fluidity is to accept that language, like culture, is motion.</p>
     `,
-    author: 'Dr. Luis Fernández',
-    publishedAt: '2024-12-05',
-    imageUrl: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg',
-    readTime: '15 min',
-    tags: ['Memorización', 'Técnicas', 'Vocabulario']
+    author: 'Dialectio Team',
+    publishedAt: '2025-06-30',
+    imageUrl:
+      'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg',
+    readTime: '9 min',
+    tags: ['Sociolinguistics', 'Continuum', 'Romance Languages']
   }
 ];
