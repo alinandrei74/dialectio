@@ -53,40 +53,28 @@ export const blogPosts: BlogPost[] = [
 }
 ,
   {
-    id: '3',
-    title: '5 Errores Comunes al Aprender Múltiples Idiomas',
-    slug: 'errores-comunes-multiples-idiomas',
-    excerpt: 'Evita estos errores frecuentes que cometen los estudiantes cuando aprenden varios idiomas romances simultáneamente.',
-    content: `
-      <h2>Error #1: Mezclar Vocabulario Similar</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-      
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      
-      <h2>Error #2: Asumir Transferencia Directa</h2>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-      
-      <h3>La Solución</h3>
-      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-      
-      <h2>Error #3: Descuidar la Pronunciación</h2>
-      <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-      
-      <h2>Error #4: Aprender Demasiados Idiomas a la Vez</h2>
-      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
-      
-      <h2>Error #5: Ignorar el Contexto Cultural</h2>
-      <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-      
-      <h3>Estrategias de Éxito</h3>
-      <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
-    `,
-    author: 'Prof. Ana Rodríguez',
-    publishedAt: '2024-12-10',
-    imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
-    readTime: '10 min',
-    tags: ['Consejos', 'Errores Comunes', 'Estrategias']
-  },
+  id: '3',
+  title: 'How Far Can You Really Get with a Chatbot?',
+  slug: 'how-far-can-you-get-with-chatbot',
+  excerpt: 'Chatbots deliver limitless practice and instant feedback, but their pragmatic ceiling still matters. Discover how Dialectio balances synthetic dialogue with real-world stakes.',
+  content: `
+    <p>Picture Lucía, a motivated but shy learner logging in at midnight. Her friends are asleep, language exchanges have closed and her tutor is unavailable until next week. She opens Dialectio’s chat window and types a hesitant “Hi, I’d like to practise ordering coffee in Italian.” Within seconds, a barista named Luca appears, asking “Buonasera, cosa desidera?” The conversation enfolds naturally: mispronunciations are met with gentle phonetic hints, vocabulary slips trigger subtle contextual reminders, and every correct utterance earns an unobtrusive nod of encouragement. After fifteen minutes Lucía closes the tab and thinks, “That felt almost real.” But was it real learning?</p>
+
+    <p>Chatbots excel at what machines do best: infinite patience, tireless repetition and immediate feedback. They are immune to boredom, never judge and can pivot topics at a click. From a neuroscientific angle, such traits tick most boxes for deliberate practice: clear goals, focused effort and rapid error correction. A 2025 Stanford study reports that students who engaged in two twenty-minute chatbot sessions per day improved oral fluency scores by 18 % over a control group relying solely on weekly human tutoring.</p>
+
+    <p>Yet enthusiasm should not blind us to the ceiling. Current large language models still struggle with pragmatics—the art of reading between the lines. They can misinterpret sarcasm, wander off amid ambiguous references and occasionally hallucinate cultural facts. Emotional attunement remains skin-deep; a model may echo empathy scripts, but it does not feel your frustration. Moreover, linguistic richness arises from communicative stakes: winning trust, resolving conflict, flirting, negotiating. A sandbox lacks the messy unpredictability that gives real speech its flavour.</p>
+
+    <p>Dialectio confronts these limits through scenario anchoring: every dialogue is bound to a narrative arc with defined objectives and constraints, minimising drift. We blend rule-based guards with statistical generation, so Luca the barista always stays a barista. We log user bottlenecks and inject micro-challenges—for instance, a sudden power cut forces you to shout over grinding machines, pushing your listening comprehension. Periodically the system flags segments for human review: tutors can listen to anonymised excerpts and layer personalised feedback. The aim is not to beat the Turing Test but to craft a pedagogy where synthetic and human intelligence play to their strengths.</p>
+
+    <p>So how far can you get with a chatbot? Farther than grammar books ever took you, but not all the way to the café in Rome where the staff converse in overlapping voices and regional slang. Think of the chatbot as a wind tunnel: perfect for rehearsing manoeuvres, indispensable for sharpening reflexes, yet ultimately a simulation. The true flight happens when you step outside. Dialectio’s role is to hand you a mind prepared, not replace the world where language breathes.</p>
+  `,
+  author: 'Dialectio Team',
+  publishedAt: '2025-06-30',
+  imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
+  readTime: '8 min',
+  tags: ['Chatbots', 'Practice', 'AI Tutoring']
+}
+,
   {
     id: '4',
     title: 'Técnicas de Memorización para Vocabulario Romance',
