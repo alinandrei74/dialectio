@@ -44,11 +44,6 @@ function HomePage() {
     rel="noopener noreferrer"
     className="block transition-transform hover:scale-110 duration-300"
   >
-    <img 
-      src="/white_circle_360x360.svg" 
-      alt="Made with Bolt" 
-      className="w-20 h-20 md:w-24 md:h-24"
-    />
   </a>
 </div>
       
